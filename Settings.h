@@ -9,7 +9,7 @@
 
 // Application settings
 const char APP_NAME[] = "RSA PA Compression Test";
-const char APP_VERSION[] = "0.9.0"; //http://semver.org/
+const char APP_VERSION[] = "0.9.1"; //http://semver.org/
 const char APP_FOLDER[] = "RSA PA Compression Test";
 
 #ifdef LOCAL_LOG

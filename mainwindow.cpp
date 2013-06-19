@@ -9,7 +9,10 @@
 using namespace RsaToolbox;
 
 // Qt
+#include <QFileInfo>
+#include <QDir>
 #include <QMessageBox>
+#include <QFileDialog>
 #include <QVariant>
 #include <QIntValidator>
 #include <QDoubleValidator>
@@ -539,6 +542,7 @@ void MainWindow::on_measure_push_button_clicked()
                   stop_freq * ToDouble(stop_freq_prefix),
                   number_frequency_points);
 
+    vna->Channel().DisableContinuousSweep();
     run_sweeps.reset(new RunSweeps(*vna.data(), frequency_points_Hz, sweep_data_dBm));
     QObject::connect(run_sweeps.data(), SIGNAL(finished()),
                      this, SLOT(Finished()));
@@ -555,6 +559,7 @@ void MainWindow::Progress(int percent) {
 
 void MainWindow::Finished() {
     run_sweeps->disconnect();
+    vna->Channel().EnableContinuousSweep();
     ToggleConnect(true);
     CalculateGain();
     FindNominalGain();
@@ -573,6 +578,7 @@ void MainWindow::Finished() {
 
 void MainWindow::TogglePlots(bool enabled) {
     ui->plot_type_combo_box->setEnabled(enabled);
+    ui->print_plot_push_button->setEnabled(enabled);
     if (enabled == false) {
         ui->frequency_slider->setEnabled(false);
         ui->frequency_slider_label->setVisible(false);
@@ -726,14 +732,18 @@ void MainWindow::PlotGainVsPin() {
     ui->custom_plot->setTitleFont(QFont("Helvetica", 12));
     ui->custom_plot->setTitle("Gain vs Pin");
 
-    ui->custom_plot->legend->setVisible(false);
+    ui->custom_plot->legend->setVisible(true);
+    ui->custom_plot->legend->setFont(QFont("Helvetica", 9));
+    ui->custom_plot->legend->setPositionStyle(QCPLegend::psRight);
 
     // Nominal gain
     ui->custom_plot->addGraph();
+    ui->custom_plot->graph(0)->setName("Gain vs Pin");
     ui->custom_plot->graph(0)->setPen(QPen(Qt::blue));
     ui->custom_plot->graph(0)->setData(power_points_dBm, gain_data_dB[freq_index]);
 
     ui->custom_plot->addGraph();
+    ui->custom_plot->graph(1)->setName("Compression Point");
     ui->custom_plot->graph(1)->setPen(QPen(Qt::red));
     QRowVector compression_points;
     compression_points.fill(nominal_gain_dB[freq_index] - compression_point_dB, number_power_points);
@@ -801,7 +811,7 @@ void MainWindow::on_plot_type_combo_box_currentIndexChanged(const QString &arg1)
         ui->frequency_slider_label->setVisible(false);
         PlotGainVsFreq();
     }
-    else if (arg1 == "Gain vs Power") {
+    else if (arg1 == "Gain vs Pin") {
         ui->frequency_slider->setEnabled(true);
         ui->frequency_slider_label->setVisible(true);
         QObject::connect(ui->frequency_slider, SIGNAL(valueChanged(int)),
@@ -818,4 +828,22 @@ void MainWindow::on_plot_type_combo_box_currentIndexChanged(const QString &arg1)
 void MainWindow::on_frequency_slider_valueChanged(int value)
 {
     ui->frequency_slider_label->setText(FormatValue(frequency_points_Hz[value], 4, HERTZ_UNITS));
+}
+
+void MainWindow::on_print_plot_push_button_clicked()
+{
+    QString save_file_name = QFileDialog::getSaveFileName(this,
+                                                          "Save As",
+                                                          QDir::homePath(),
+                                                          "PDF (*.pdf);;JPEG (*.jpg);;PNG (*.png);;Bitmap (*.bmp)");
+    QFileInfo save_file(save_file_name);
+    QString suffix = save_file.suffix();
+    if (suffix.toLower() == "pdf")
+        ui->custom_plot->savePdf(save_file_name);
+    else if (suffix.toLower() == "jpg" || suffix.toLower() == "jpeg")
+        ui->custom_plot->saveJpg(save_file_name);
+    else if (suffix.toLower() == "png")
+        ui->custom_plot->savePng(save_file_name);
+    else if (suffix.toLower() == "bmp")
+        ui->custom_plot->saveBmp(save_file_name);
 }

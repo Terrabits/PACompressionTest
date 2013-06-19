@@ -64,6 +64,8 @@ private slots:
 
     void on_frequency_slider_valueChanged(int value);
 
+    void on_print_plot_push_button_clicked();
+
 private:
     Ui::MainWindow *ui;
     QScopedPointer<RunSweeps> run_sweeps;

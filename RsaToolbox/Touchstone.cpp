@@ -305,8 +305,8 @@ void Touchstone::CreateFile(QFile &file, QString filename, NetworkData &network)
     QRegularExpression TOUCHSTONE_REGEX(TOUCHSTONE_FILE_REGEX, QRegularExpression::CaseInsensitiveOption);
     if (TOUCHSTONE_REGEX.match(filename).hasMatch()) {
         // Chop off file extension
-        int dotPosition = filename.indexOf(".");
-        filename.chop(filename.length() - dotPosition);
+        int dotPosition = filename.lastIndexOf(".");
+        filename.resize(dotPosition+1);
     }
     filename = filename + ".s" + QString::number(network.ports) + "p";
     file.setFileName(filename);
@@ -412,9 +412,13 @@ void Touchstone::WriteRow(NetworkData &network, QTextStream &snpFile, ComplexRow
     for (; column_iter != row.end(); column_iter++) {
         (*WriteDatum)(snpFile, *column_iter);
         // add delimiter
-        if (columnsWritten == network.ports)
+        if (columnsWritten == network.ports) {
+            snpFile.setFieldWidth(0);
             snpFile << endl;
+            snpFile.setFieldWidth(COLUMNWIDTH);
+        }
         else if (columnsWritten % COLUMNSPERLINE == 0) {
+            snpFile.setFieldWidth(0);
             snpFile << endl;
             snpFile.setFieldAlignment(QTextStream::AlignLeft);
             snpFile.setFieldWidth(COLUMNWIDTH);

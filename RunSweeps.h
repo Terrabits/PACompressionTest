@@ -3,7 +3,6 @@
 
 // Rsa
 #include "Definitions.h"
-#include "TraceData.h"
 #include "Vna.h"
 
 // Qt
@@ -14,7 +13,11 @@ class RunSweeps : public QThread {
 
 public:
     RunSweeps(RsaToolbox::Vna &vna,
-              RsaToolbox::QRowVector &frequency_points, RsaToolbox::QMatrix2D &data,
+              QVector<uint> ports,
+              RsaToolbox::QRowVector &frequency_points_Hz,
+              RsaToolbox::QRowVector &power_points_dBm,
+              RsaToolbox::QMatrix2D &power_sweeps_dBm,
+              QVector<RsaToolbox::NetworkData> &s_parameter_data,
               QObject *parent = 0);
     //~RunSweeps();
 
@@ -23,11 +26,15 @@ signals:
 
 private slots:
     void run();
+    void FlipPorts();
 
 private:
     RsaToolbox::Vna &vna;
-    RsaToolbox::QRowVector &frequency_points;
-    RsaToolbox::QMatrix2D &data;
+    QVector<uint> ports;
+    RsaToolbox::QRowVector &frequency_points_Hz;
+    RsaToolbox::QRowVector &power_points_dBm;
+    RsaToolbox::QMatrix2D &power_sweeps_dBm;
+    QVector<RsaToolbox::NetworkData> &s_parameter_data;
 };
 
 

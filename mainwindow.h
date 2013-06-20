@@ -53,18 +53,24 @@ private slots:
     void PlotGainVsFreq();
     void PlotGainVsPin();
     void CompressionPointVsFreq();
+    void ExportTouchstone(QString path);
+    void ExportPowerSweeps(QString path);
+    void ExportPowerSweep(QString filename, int freq_index);
+
+    void ExportGainSweeps(QString path);
+    void ExportGainSweep(QString filename, int freq_index);
+    void ExportNominalGain(QString filename);
+    void ExportCompressionPoints(QString filename);
 
     void on_vna_connect_push_button_clicked();
     void on_start_freq_units_combo_box_currentIndexChanged(const QString &arg1);
     void on_stop_freq_units_combo_box_currentIndexChanged(const QString &arg1);
     void on_if_units_combo_box_currentIndexChanged(const QString &arg1);
     void on_measure_push_button_clicked();
-
     void on_plot_type_combo_box_currentIndexChanged(const QString &arg1);
-
     void on_frequency_slider_valueChanged(int value);
-
     void on_print_plot_push_button_clicked();
+    void on_export_push_button_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -89,7 +95,8 @@ private:
     int number_power_points;
     RsaToolbox::QRowVector frequency_points_Hz;
     RsaToolbox::QRowVector power_points_dBm;
-    RsaToolbox::QMatrix2D sweep_data_dBm;
+    RsaToolbox::QMatrix2D power_sweeps_dBm;
+    QVector<RsaToolbox::NetworkData> s_parameter_data;
     RsaToolbox::QMatrix2D gain_data_dB;
     RsaToolbox::QRowVector nominal_gain_dB;
     RsaToolbox::QRowVector compression_points_dBm;

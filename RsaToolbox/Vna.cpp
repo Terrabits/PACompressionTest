@@ -1229,6 +1229,8 @@ void Vna::_Channel::CreateSParameterGroup(QVector<uint> ports) {
     uint number_of_ports = ports.size();
     if (number_of_ports <= 0)
         return;
+
+    qSort(ports);
     const uint BUFFER_SIZE = 400;
     char buffer[BUFFER_SIZE];
     QString ports_list = QVariant(ports[0]).toString();
@@ -1389,7 +1391,7 @@ void Vna::_Channel::ParseNetworkData(NetworkData &network, QString readback) {
     QStringList data_list = readback.split(',');
     network.data.resize(network.points);
     for (uint freq = 0; freq < network.points; freq++) {
-        network.data[freq].resize(network.points);
+        network[freq].resize(network.ports);
         for (uint row = 0; row < network.ports; row++) {
             network.data[freq][row].resize(network.ports);
             for (uint column = 0; column < network.ports; column++) {

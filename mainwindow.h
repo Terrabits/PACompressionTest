@@ -4,10 +4,10 @@
 
 // Project
 #include "RunSweeps.h"
+#include "Settings.h"
 
 // Rsa
 #include "Definitions.h"
-#include "General.h"
 #include "Key.h"
 #include "Vna.h"
 
@@ -19,6 +19,7 @@
 #include <QScopedPointer>
 #include <QString>
 #include <QStringList>
+#include <QDataStream>
 
 
 namespace Ui {
@@ -30,47 +31,80 @@ class MainWindow : public QMainWindow
     Q_OBJECT
     
 public:
-    explicit MainWindow(RsaToolbox::Key &key, QWidget *parent = 0);
+    explicit MainWindow(RsaToolbox::Key *key, QWidget *parent = 0);
     ~MainWindow();
     
 private slots:
+
+    // Initialize
+    void ConnectMenuSignals();
+    void LoadSettings();
+    void SaveSettings();
+
+    // Update GUI
     void UpdateStatus();
     void UpdateInstrumentInfo();
     void UpdateValidators();
     void UpdateFreqValidators();
     void UpdateIfBwValues();
+
+    // Toggle inputs
+    void ToggleConnect(bool enabled);
     void ToggleInputs(bool enabled);
+    void TogglePlots(bool enabled);
+    void ToggleSlider(bool enabled);
+
+    // Run sweep
     bool isValidInput();
+    void GetInput();
     void Progress(int percent);
     void Finished();
-    void TogglePlots(bool enabled);
-    void ToggleConnect(bool enabled);
+
+    // Calculate
+    void CalculateReflectionMags();
     void CalculateGain();
     void FindNominalGain();
     void FindCompressionPoints();
-    double LinearInterpolate(double x1, double y1, double x2, double y2, double y_desired);
+
+    // Plot
+    void PlotReflection();
     void PlotPinVsPout();
     void PlotGainVsFreq();
     void PlotGainVsPin();
-    void CompressionPointVsFreq();
+    void PlotCompressionPoint();
+
+    // Export Data
+    void Export();
     void ExportTouchstone(QString path);
     void ExportPowerSweeps(QString path);
     void ExportPowerSweep(QString filename, int freq_index);
-
     void ExportGainSweeps(QString path);
     void ExportGainSweep(QString filename, int freq_index);
     void ExportNominalGain(QString filename);
     void ExportCompressionPoints(QString filename);
 
+    // Open, Save
+    void Open();
+    bool Open(QDataStream &input);\
+    void Save();
+    bool Save(QDataStream &output);
+
+
+    //////////// GUI CONTROLS ///////////////////
+
+    // Connection controls
     void on_vna_connect_push_button_clicked();
+
+    // Settings, Measure
     void on_start_freq_units_combo_box_currentIndexChanged(const QString &arg1);
     void on_stop_freq_units_combo_box_currentIndexChanged(const QString &arg1);
     void on_if_units_combo_box_currentIndexChanged(const QString &arg1);
     void on_measure_push_button_clicked();
+
+    // Plot, data
     void on_plot_type_combo_box_currentIndexChanged(const QString &arg1);
     void on_frequency_slider_valueChanged(int value);
     void on_print_plot_push_button_clicked();
-    void on_export_push_button_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -78,7 +112,7 @@ private:
     QScopedPointer<RsaToolbox::Vna> vna;
     RsaToolbox::Key *key;
 
-    // Vna properties:
+    // Current Vna properties:
     int ports;
     double max_freq_Hz, min_freq_Hz;
     int max_points;
@@ -89,17 +123,44 @@ private:
     QStringList receiver_attenuations;
     QStringList source_attenuations;
 
-    // Measured data
-    double compression_point_dB;
-    int number_frequency_points;
+    // Vna Properties (last measurement)
+    QString make;
+    QString model;
+    QString serial_no;
+    QString firmware_version;
+
+    // Paths
+    QString open_path;
+    QString save_path;
+    QString export_path;
+    QString print_path;
+
+    // Settings (last measurement)
+    QString time_stamp;
+    int input_port;
+    int output_port;
+    double start_power_dBm;
+    double stop_power_dBm;
     int number_power_points;
+    double start_freq_Hz;
+    double stop_freq_Hz;
+    int number_frequency_points;
+    double if_bw_Hz;
+    double compression_point_dB;
+    int source_attenuation;
+    int receiver_attenuation;
     RsaToolbox::QRowVector frequency_points_Hz;
     RsaToolbox::QRowVector power_points_dBm;
+
+    // Measured, calculated data
+    RsaToolbox::QRowVector s11_dB;
+    RsaToolbox::QRowVector s22_dB;
     RsaToolbox::QMatrix2D power_sweeps_dBm;
-    QVector<RsaToolbox::NetworkData> s_parameter_data;
     RsaToolbox::QMatrix2D gain_data_dB;
     RsaToolbox::QRowVector nominal_gain_dB;
-    RsaToolbox::QRowVector compression_points_dBm;
+    RsaToolbox::QRowVector compression_points_in_dBm;
+    RsaToolbox::QRowVector compression_points_out_dBm;
+    QVector<RsaToolbox::NetworkData> s_parameter_data;
 };
 
 

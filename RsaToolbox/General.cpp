@@ -137,7 +137,7 @@ QString RsaToolbox::ToString(Units units) {
         return("Deg");
         break;
     case OHMS_UNITS:
-        return("Î©");
+        return("Ω");
         break;
     case SIEMENS_UNITS:
         return("S");
@@ -174,6 +174,8 @@ QString RsaToolbox::ToString(VnaModel model) {
         return(QString("ZVA"));
     case ZVB_MODEL:
         return(QString("ZVB"));
+    case ZNP_MODEL:
+        return(QString("ZNP"));
     case ZVH_MODEL:
         return(QString("ZVH"));
     case ZVL_MODEL:
@@ -204,6 +206,8 @@ QString RsaToolbox::ToSetFileExtension(VnaModel model) {
     case ZNB_MODEL:
         return(QString(".znx"));
     case ZNC_MODEL:
+        return(QString(".znx"));
+    case ZNP_MODEL:
         return(QString(".znx"));
     default:
         // UNKNOWN_MODEL
@@ -272,7 +276,7 @@ QString RsaToolbox::FormatValue(double value, int decimalPlaces, Units units, Si
     QTextStream text_stream(&formatted_value);
     text_stream.setRealNumberPrecision(decimalPlaces);
     text_stream.setRealNumberNotation(QTextStream::FixedNotation);
-    
+
     const int count = 10;
     SiPrefix prefixes[count] =
     { FEMTO_PREFIX,
@@ -285,7 +289,7 @@ QString RsaToolbox::FormatValue(double value, int decimalPlaces, Units units, Si
       MEGA_PREFIX,
       GIGA_PREFIX,
       TERA_PREFIX };
-    
+
     double magnitude = abs(value * ToDouble(prefix));
     for (int i = 0; i < count; i++) {
         double bound = (1 - 0.5 * pow(10.0, (double)(-3 - decimalPlaces))) * ToDouble(prefixes[i + 1]);
@@ -296,7 +300,7 @@ QString RsaToolbox::FormatValue(double value, int decimalPlaces, Units units, Si
             return(formatted_value);
         }
     }
-    
+
     // else Tera or bigger
     text_stream << (value / (double)prefixes[count]);
     text_stream << (QString)prefixes[count] << (QString)units;
@@ -326,4 +330,12 @@ void RsaToolbox::LinearSpacing(RowVector &result, double start, double stop, int
     for (int i = 0; i < points; i++) {
         result[i] = start + spacing * i;
     }
+}
+double RsaToolbox::LinearInterpolateX(double x1, double y1, double x2, double y2, double y_desired) {
+    double slope = (y2 - y1)/(x2 - x1);
+    return((y_desired - y1)/slope + x1);
+}
+double RsaToolbox::LinearInterpolateY(double x1, double y1, double x2, double y2, double x_desired) {
+    double slope = (y2 - y1)/(x2 - x1);
+    return(y1 + slope*(x_desired - x1));
 }

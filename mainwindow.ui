@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>820</width>
-    <height>506</height>
+    <height>526</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,7 +32,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="results_tab">
      <attribute name="title">
@@ -50,11 +50,11 @@
      </widget>
      <widget class="QComboBox" name="plot_type_combo_box">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="geometry">
        <rect>
-        <x>430</x>
+        <x>510</x>
         <y>400</y>
         <width>141</width>
         <height>22</height>
@@ -63,6 +63,11 @@
       <property name="currentIndex">
        <number>0</number>
       </property>
+      <item>
+       <property name="text">
+        <string>Reflection</string>
+       </property>
+      </item>
       <item>
        <property name="text">
         <string>Pin vs Pout</string>
@@ -90,7 +95,7 @@
       </property>
       <property name="geometry">
        <rect>
-        <x>320</x>
+        <x>390</x>
         <y>402</y>
         <width>111</width>
         <height>16</height>
@@ -109,13 +114,13 @@
      </widget>
      <widget class="QSlider" name="frequency_slider">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="geometry">
        <rect>
         <x>30</x>
         <y>403</y>
-        <width>281</width>
+        <width>351</width>
         <height>19</height>
        </rect>
       </property>
@@ -125,11 +130,11 @@
      </widget>
      <widget class="QPushButton" name="print_plot_push_button">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="geometry">
        <rect>
-        <x>580</x>
+        <x>660</x>
         <y>400</y>
         <width>71</width>
         <height>28</height>
@@ -137,22 +142,6 @@
       </property>
       <property name="text">
        <string>Print</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="export_push_button">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>662</x>
-        <y>400</y>
-        <width>71</width>
-        <height>28</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Export</string>
       </property>
      </widget>
     </widget>
@@ -180,9 +169,6 @@
          <width>131</width>
          <height>22</height>
         </rect>
-       </property>
-       <property name="text">
-        <string>9</string>
        </property>
        <property name="maxLength">
         <number>7</number>
@@ -229,9 +215,6 @@
          <height>22</height>
         </rect>
        </property>
-       <property name="text">
-        <string>8</string>
-       </property>
        <property name="maxLength">
         <number>7</number>
        </property>
@@ -250,9 +233,6 @@
          <width>211</width>
          <height>22</height>
         </rect>
-       </property>
-       <property name="text">
-        <string>101</string>
        </property>
        <property name="maxLength">
         <number>6</number>
@@ -444,9 +424,6 @@
          <height>22</height>
         </rect>
        </property>
-       <property name="text">
-        <string>-25</string>
-       </property>
        <property name="maxLength">
         <number>6</number>
        </property>
@@ -492,9 +469,6 @@
          <height>22</height>
         </rect>
        </property>
-       <property name="text">
-        <string>0</string>
-       </property>
        <property name="maxLength">
         <number>6</number>
        </property>
@@ -513,9 +487,6 @@
          <width>211</width>
          <height>22</height>
         </rect>
-       </property>
-       <property name="text">
-        <string>101</string>
        </property>
        <property name="maxLength">
         <number>6</number>
@@ -756,9 +727,6 @@
          <height>22</height>
         </rect>
        </property>
-       <property name="text">
-        <string>1</string>
-       </property>
        <property name="maxLength">
         <number>5</number>
        </property>
@@ -843,6 +811,9 @@
       </widget>
      </widget>
      <widget class="QPushButton" name="measure_push_button">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>650</x>
@@ -920,9 +891,6 @@
          <height>22</height>
         </rect>
        </property>
-       <property name="text">
-        <string>127.0.0.1</string>
-       </property>
       </widget>
      </widget>
      <widget class="QGroupBox" name="instrument_info_group_box">
@@ -947,7 +915,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>Rohde &amp; Schwarz</string>
+        <string/>
        </property>
        <property name="readOnly">
         <bool>true</bool>
@@ -989,7 +957,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>ZNB</string>
+        <string/>
        </property>
        <property name="readOnly">
         <bool>true</bool>
@@ -1003,9 +971,6 @@
          <width>211</width>
          <height>22</height>
         </rect>
-       </property>
-       <property name="text">
-        <string>123456789012345</string>
        </property>
        <property name="readOnly">
         <bool>true</bool>
@@ -1033,9 +998,6 @@
          <height>22</height>
         </rect>
        </property>
-       <property name="text">
-        <string>1.80.1 Beta</string>
-       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -1061,9 +1023,6 @@
          <width>211</width>
          <height>22</height>
         </rect>
-       </property>
-       <property name="text">
-        <string>10 KHz to 8 GHz</string>
        </property>
        <property name="readOnly">
         <bool>true</bool>
@@ -1104,9 +1063,6 @@
          <height>22</height>
         </rect>
        </property>
-       <property name="text">
-        <string>-150 dBm to 100 dBm</string>
-       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -1119,9 +1075,6 @@
          <width>211</width>
          <height>22</height>
         </rect>
-       </property>
-       <property name="text">
-        <string>No</string>
        </property>
        <property name="readOnly">
         <bool>true</bool>
@@ -1162,9 +1115,6 @@
          <height>22</height>
         </rect>
        </property>
-       <property name="text">
-        <string>30 dB in 0.01 dB increments</string>
-       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -1174,6 +1124,65 @@
    </widget>
   </widget>
   <widget class="QStatusBar" name="status_bar"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>820</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionOpen"/>
+    <addaction name="actionSave"/>
+    <addaction name="separator"/>
+    <addaction name="actionExport"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Open</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionExport">
+   <property name="text">
+    <string>Export</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Save</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -1207,10 +1216,16 @@
   <tabstop>start_power_line_edit</tabstop>
   <tabstop>stop_power_line_edit</tabstop>
   <tabstop>power_points_line_edit</tabstop>
+  <tabstop>receiver_attenuation_combo_box</tabstop>
+  <tabstop>source_attenuation_combo_box</tabstop>
   <tabstop>input_port_combo_box</tabstop>
   <tabstop>output_port_combo_box</tabstop>
   <tabstop>compression_point_line_edit</tabstop>
   <tabstop>post_condition_combo_box</tabstop>
+  <tabstop>measure_push_button</tabstop>
+  <tabstop>frequency_slider</tabstop>
+  <tabstop>plot_type_combo_box</tabstop>
+  <tabstop>print_plot_push_button</tabstop>
  </tabstops>
  <resources>
   <include location="Resources.qrc"/>

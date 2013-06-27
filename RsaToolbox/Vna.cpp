@@ -106,6 +106,9 @@ void Vna::Preset() {
 void Vna::ClearStatus() {
     bus->Write("*CLS\n");
 }
+void Vna::ClearErrors() {
+    isError();
+}
 void Vna::InitiateSweeps() {
     bus->Write(":INIT:ALL\n");
 }
@@ -119,6 +122,21 @@ void Vna::PauseUntilCommandQueueIsFinished() {
 }
 
 // VNA:Status
+bool Vna::isError() {
+    const uint BUFFER_SIZE = 2000;
+    char buffer[BUFFER_SIZE];
+    bus->Query(":SYST:ERR:ALL?\n", buffer, BUFFER_SIZE);
+    return(QString(buffer).split(",")[0].toInt() != 0);
+}
+bool Vna::isErrorDisplayEnabled() {
+    const uint BUFFER_SIZE = 30;
+    char buffer[BUFFER_SIZE];
+    bus->Query(":SYST:ERR:DISP?\n", buffer, BUFFER_SIZE);
+    return(QString(buffer) == "1");
+}
+bool Vna::isErrorDisplayDisabled() {
+    return(!isErrorDisplayEnabled());
+}
 bool Vna::isUserPresetEnabled() {
     const uint BUFFER_SIZE = 30;
     char buffer[BUFFER_SIZE];
@@ -412,6 +430,15 @@ void Vna::SetUserCalPreset(QString cal_name) {
 }
 
 // VNA:Enable
+void Vna::EnableErrorDisplay(bool isEnabled) {
+    if (isEnabled) {
+        const uint BUFFER_SIZE = 30;
+        char buffer[BUFFER_SIZE];
+        bus->Query(":SYST:ERR:DISP 1\n", buffer, BUFFER_SIZE);
+    }
+    else
+        DisableErrorDisplay();
+}
 void Vna::EnableUserPreset(bool isEnabled) {
     if (isEnabled)
         bus->Write(":SYST:PRES:USER 1\n");
@@ -457,6 +484,15 @@ void Vna::EnableLowPowerAutoCal(bool isEnabled) {
 }
 
 // VNA:Disable
+void Vna::DisableErrorDisplay(bool isDisabled) {
+    if (isDisabled) {
+        const uint BUFFER_SIZE = 30;
+        char buffer[BUFFER_SIZE];
+        bus->Query(":SYST:ERR:DISP 0\n", buffer, BUFFER_SIZE);
+    }
+    else
+        EnableErrorDisplay();
+}
 void Vna::DisableCustomIdString(bool isDisabled) {
     if (isDisabled) {
         if (model == ZNB_MODEL || model == ZNC_MODEL)
@@ -511,17 +547,18 @@ void Vna::CreateSet(QString set_name) {
     sprintf(buffer, ":MEM:DEF \'%s\'\n", c_string.constData());
     bus->Write(QString(buffer));
 }
+
 void Vna::CreateChannel(uint channel) {
     const uint BUFFER_SIZE = 30;
     char buffer[BUFFER_SIZE];
-    sprintf(buffer, ":CONF:CHAN%d:MEAS 1\n", channel);
+    sprintf(buffer, ":CONF:CHAN%d 1\n", channel);
     bus->Write(QString(buffer));
 }
-void Vna::CreateTrace(QString trace_name, uint channel, NetworkParameter parameter, uint port1, uint port2) {
+void Vna::CreateTrace(QString trace_name, uint channel, NetworkParameter parameter, uint output_port, uint input_port) {
     const uint BUFFER_SIZE = 550;
     char buffer[BUFFER_SIZE];
     QByteArray c_name = trace_name.toLocal8Bit();
-    QByteArray c_parameters = _Trace::Parameters_to_Scpi(parameter, port1, port2).toLocal8Bit();
+    QByteArray c_parameters = _Trace::Parameters_to_Scpi(parameter, output_port, input_port).toLocal8Bit();
     sprintf(buffer, ":CALC%d:PAR:SDEF \'%s\', \'%s\'\n", channel, c_name.constData(), c_parameters.constData());
     bus->Write(QString(buffer));
 }
@@ -540,8 +577,8 @@ void Vna::DeleteSet(QString filename) {
     QFileInfo file_info(filename);
     if (file_info.path() == QString(".")) {
         filename = default_directory.path()
-                 + "/RecallSets/"
-                 + filename;
+                + "/RecallSets/"
+                + filename;
         file_info.setFile(filename);
     }
     if (file_info.suffix().isEmpty())
@@ -592,8 +629,8 @@ void Vna::OpenSet(QString filename) {
     QFileInfo file_info(filename);
     if (file_info.path() == QString(".")) {
         filename = default_directory.path()
-                 + "/RecallSets/"
-                 + filename;
+                + "/RecallSets/"
+                + filename;
         file_info.setFile(filename);
     }
     if (file_info.suffix() != ToSetFileExtension(model).remove('.'))
@@ -611,8 +648,8 @@ void Vna::SaveSet(QString filename) {
     QFileInfo file_info(filename);
     if (file_info.path() == QString(".")) {
         filename = default_directory.path()
-                 + "/RecallSets/"
-                 + filename;
+                + "/RecallSets/"
+                + filename;
         file_info.setFile(filename);
     }
     if (file_info.suffix() != ToSetFileExtension(model).remove('.'))
@@ -851,15 +888,15 @@ void Vna::_Channel::InitiateSweep() {
 bool Vna::_Channel::isEnabled() {
     const uint BUFFER_SIZE = 30;
     char buffer[BUFFER_SIZE];
-    sprintf(buffer, ":CONF:CHAN%d:STAT?\n", channel);
+    sprintf(buffer, ":CONF:CHAN%d:MEAS?\n", channel);
     vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
     return(QString(buffer) == "1");
 }
-bool Vna::_Channel::isDisabled() {
+bool Vna::_Channel::isSweepDisabled() {
     return(!isEnabled());
 }
 bool Vna::_Channel::isCalibrationEnabled() {
-    const uint BUFFER_SIZE = 5;
+    const uint BUFFER_SIZE = 10;
     char buffer[BUFFER_SIZE];
     vna->bus->Query(":CORR?\n", buffer, BUFFER_SIZE);
     return(QString(buffer) == "1");
@@ -876,6 +913,13 @@ bool Vna::_Channel::isContinuousSweepEnabled() {
 }
 bool Vna::_Channel::isSingleSweepEnabled() {
     return(!isContinuousSweepEnabled());
+}
+bool Vna::_Channel::isCompressionCalculated() {
+    const uint BUFFER_SIZE = 30;
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, ":CALC%d:STAT:NLIN:COMP?", channel);
+    vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
+    return(QString(buffer) == "1");
 }
 
 // CHANNEL:Get
@@ -926,6 +970,11 @@ void Vna::_Channel::GetStimulusValues(RowVector &stimulus_data) {
     sprintf(buffer.data(), ":CALC%d:DATA:STIM?\n", channel);
     vna->bus->Query(QString(buffer.data()), buffer.data(), buffer_size);
     ParseStimulus(stimulus_data, buffer.data());
+}
+void Vna::_Channel::GetStimulusValues(QRowVector &stimulus_data) {
+    RowVector std_stimulus_data;
+    GetStimulusValues(std_stimulus_data);
+    stimulus_data = QRowVector::fromStdVector(std_stimulus_data);
 }
 QVector<uint> Vna::_Channel::GetDiagrams() {
     QStringList traces = GetTraces();
@@ -1039,6 +1088,60 @@ uint Vna::_Channel::GetPoints() {
     vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
     return(QString(buffer).toInt());
 }
+double Vna::_Channel::GetCompressionLevel_dBm() {
+    const uint BUFFER_SIZE = 40;
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, ":CALC%dSTAT:NLIN:COMP:LEV?\n", channel);
+    vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
+    return(QString(buffer).toDouble());
+}
+void Vna::_Channel::GetCompressionPoints(double &input_dBm, double &output_dBm) {
+    const uint BUFFER_SIZE = 50;
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, ":CALC%d:STAT:NLIN:COMP:RES?\n", channel);
+    vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
+    QStringList result = QString(buffer).split(",");
+    if (result.size() == 2) {
+        input_dBm = result[0].toDouble();
+        output_dBm = result[1].toDouble();
+    }
+}
+QVector<uint> Vna::_Channel::GetSParameterGroupPorts() {
+    const uint BUFFER_SIZE = 400;
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, ":CALC%d:PAR:DEF:SGR?\n", channel);
+    vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
+    QStringList result = QString(buffer).split(',');
+    const int number_of_ports = result.size();
+    QVector<uint> ports;
+    for (int i = 0; i < number_of_ports; i++) {
+        ports << result[i].toUInt();
+    }
+    return(ports);
+}
+void Vna::_Channel::GetSParameterGroupData(NetworkData &network) {
+    // (Temporary?) Sanity check
+    SweepType sweep_type = GetSweepType();
+    if (sweep_type == POWER_SWEEP || sweep_type == CW_MODE_SWEEP || sweep_type == TIME_SWEEP)
+        return;
+
+    // info
+    QVector<uint> ports = GetSParameterGroupPorts();
+    network.date_time = QDateTime::currentDateTime();
+    network.ports = ports.size();
+    network.points = GetPoints();
+    uint buffer_size = NetworkBufferSize(network.points, network.ports);
+
+    // Query
+    QScopedArrayPointer<char> buffer(new char[buffer_size]);
+    sprintf(buffer.data(), ":CALC%d:DATA:SGR? MDAT\n", channel);
+    vna->bus->Query(QString(buffer.data()), buffer.data(), buffer_size);
+
+    // Parse
+    ParseNetworkData(network, buffer.data());
+    network.frequency_prefix = NO_PREFIX;
+    GetStimulusValues(network.frequency);
+}
 
 // CHANNEL:Set
 void Vna::_Channel::SetCalGroup(QString cal_file) {
@@ -1050,37 +1153,37 @@ void Vna::_Channel::SetCalGroup(QString cal_file) {
     sprintf(buffer, ":MMEM:LOAD:CORR %d,\'%s\'\n", channel, c_string.constData());
     vna->bus->Write(QString(buffer));
 }
-void Vna::_Channel::SetSourceAttenuation_dB(uint port, double attenuation_dB) {
+void Vna::_Channel::SetSourceAttenuation(uint port, double attenuation_dB) {
     const uint BUFFER_SIZE = 50;
     char buffer[BUFFER_SIZE];
     sprintf(buffer, ":SOUR%d:POW%d:ATT %f\n", channel, port, attenuation_dB);
     vna->bus->Write(QString(buffer));
 }
-void Vna::_Channel::SetSourceAttenuations_dB(double attenuation_dB) {
+void Vna::_Channel::SetSourceAttenuations(double attenuation_dB) {
     for (uint i = 1; i <= vna->ports; i++)
-        SetSourceAttenuation_dB(i, attenuation_dB);
+        SetSourceAttenuation(i, attenuation_dB);
 }
-void Vna::_Channel::SetSourceAttenuations_dB(QVector<double> attenuations_dB) {
+void Vna::_Channel::SetSourceAttenuations(QVector<double> attenuations_dB) {
     if (attenuations_dB.size() != vna->ports)
         return;
     for (uint i = 1; i <= vna->ports; i++)
-        SetSourceAttenuation_dB(i, attenuations_dB[i-1]);
+        SetSourceAttenuation(i, attenuations_dB[i-1]);
 }
-void Vna::_Channel::SetReceiverAttenuation_dB(uint port, double attenuation_dB) {
+void Vna::_Channel::SetReceiverAttenuation(uint port, double attenuation_dB) {
     const uint BUFFER_SIZE = 50;
     char buffer[BUFFER_SIZE];
     sprintf(buffer, ":SENS%d:POW:ATT %d, %f\n", channel, port, attenuation_dB);
     vna->bus->Write(QString(buffer));
 }
-void Vna::_Channel::SetReceiverAttenuations_dB(double attenuation_dB) {
+void Vna::_Channel::SetReceiverAttenuations(double attenuation_dB) {
     for (uint i = 1; i <= vna->ports; i++)
-        SetReceiverAttenuation_dB(i, attenuation_dB);
+        SetReceiverAttenuation(i, attenuation_dB);
 }
-void Vna::_Channel::SetReceiverAttenuations_dB(QVector<double> attenuations_dB) {
+void Vna::_Channel::SetReceiverAttenuations(QVector<double> attenuations_dB) {
     if (attenuations_dB.size() != vna->ports)
         return;
     for (uint i = 1; i <= vna->ports; i++)
-        SetReceiverAttenuation_dB(i, attenuations_dB[i-1]);
+        SetReceiverAttenuation(i, attenuations_dB[i-1]);
 }
 void Vna::_Channel::SetSweepType(SweepType sweep_type) {
     const uint BUFFER_SIZE = 40;
@@ -1179,6 +1282,12 @@ void Vna::_Channel::SetPoints(uint points) {
     sprintf(buffer, ":SENS%d:SWE:POIN %d\n", channel, points);
     vna->bus->Write(QString(buffer));
 }
+void Vna::_Channel::SetCompressionLevel(double level_dB) {
+    const uint BUFFER_SIZE = 50;
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, ":CALC%dSTAT:NLIN:COMP:LEV %f\n", channel, level_dB);
+    vna->bus->Write(QString(buffer));
+}
 
 // CHANNEL:Enable
 void Vna::_Channel::EnableCorrection(bool isEnabled) {
@@ -1188,6 +1297,16 @@ void Vna::_Channel::EnableCorrection(bool isEnabled) {
         sprintf(buffer, ":SENS%d:CORR 1\n", channel);
     else
         sprintf(buffer, ":SENS%d:CORR 0\n", channel);
+    vna->bus->Write(QString(buffer));
+}
+void Vna::_Channel::EnableSweep(bool isEnabled) {
+    const uint BUFFER_SIZE = 20;
+    char buffer[BUFFER_SIZE];
+    if (isEnabled)
+        sprintf(buffer, ":CONF:CHAN%d:MEAS 1\n", channel);
+    else
+        sprintf(buffer, ":CONF:CHAN%d:MEAS 0\n", channel);
+
     vna->bus->Write(QString(buffer));
 }
 void Vna::_Channel::EnableContinuousSweep(bool isEnabled) {
@@ -1202,6 +1321,15 @@ void Vna::_Channel::EnableContinuousSweep(bool isEnabled) {
         vna->bus->Write(QString(buffer));
     }
 }
+void Vna::_Channel::EnableCompressionCalc(bool isEnabled) {
+    const uint BUFFER_SIZE = 30;
+    char buffer[BUFFER_SIZE];
+    if (isEnabled)
+        sprintf(buffer, ":CALC%dSTAT:NLIN:COMP 1", channel);
+    else
+        sprintf(buffer, ":CALC%dSTAT:NLIN:COMP 0", channel);
+    vna->bus->Write(QString(buffer));
+}
 
 // CHANNEL:Disable
 void Vna::_Channel::DisableCorrection(bool isDisabled) {
@@ -1213,6 +1341,9 @@ void Vna::_Channel::DisableCalGroup() {
     sprintf(buffer, ":MMEM:LOAD:CORR:RES %d\n", channel);
     vna->bus->Write(QString(buffer));
 }
+void Vna::_Channel::DisableSweep(bool isDisabled) {
+    EnableSweep(!isDisabled);
+}
 void Vna::_Channel::DisableContinuousSweep(bool isDisabled) {
     EnableContinuousSweep(!isDisabled);
 }
@@ -1222,6 +1353,9 @@ void Vna::_Channel::DisableDelay(uint port) {
 void Vna::_Channel::DisableDelays() {
     QVector<double> zero_delays(vna->ports, 0);
     SetDelays(zero_delays);
+}
+void Vna::_Channel::DisableCompressionCalc(bool isDisabled) {
+    EnableCompressionCalc(!isDisabled);
 }
 
 // CHANNEL:Create
@@ -1439,6 +1573,12 @@ void Vna::_Trace::GetStimulusValues(RowVector &stimulus_data) {
     vna->bus->Query(QString(buffer.data()), buffer.data(), buffer_size);
     ParseStimulus(stimulus_data, buffer.data());
 }
+void Vna::_Trace::GetStimulusValues(QRowVector &stimulus_data) {
+    RowVector std_stimulus_data;
+    GetStimulusValues(std_stimulus_data);
+    stimulus_data = QRowVector::fromStdVector(std_stimulus_data);
+}
+
 uint Vna::_Trace::GetChannel() {
     QByteArray c_string = trace_name.toLocal8Bit();
     const uint BUFFER_SIZE = 500;
@@ -1447,7 +1587,7 @@ uint Vna::_Trace::GetChannel() {
     vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
     return(QString(buffer).toUInt());
 }
-void Vna::_Trace::GetParameters(NetworkParameter &parameter, uint &port1, uint &port2) {
+void Vna::_Trace::GetParameters(NetworkParameter &parameter, uint &output_port, uint &input_port) {
     QByteArray trace_byte_array = trace_name.toLocal8Bit();
     char * trace_name_c = trace_byte_array.data();
     uint channel = GetChannel();
@@ -1455,7 +1595,7 @@ void Vna::_Trace::GetParameters(NetworkParameter &parameter, uint &port1, uint &
     char buffer[BUFFER_SIZE];
     sprintf(buffer, ":CALC%d:PAR:MEAS? \'%s\'\n", channel, trace_name_c);
     vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
-    ParseParameters(QString(buffer), parameter, port1, port2);
+    ParseParameters(QString(buffer), parameter, output_port, input_port);
 }
 TraceFormat Vna::_Trace::GetFormat() {
     uint channel = GetChannel();
@@ -1480,9 +1620,9 @@ uint Vna::_Trace::GetDiagram() {
 }
 
 // TRACE:Set
-void Vna::_Trace::SetParameters(NetworkParameter parameter, uint port1, uint port2) {
+void Vna::_Trace::SetParameters(NetworkParameter parameter, uint output_port, uint input_port) {
     QByteArray c_name = trace_name.toLocal8Bit();
-    QByteArray c_parameters = Parameters_to_Scpi(parameter, port1, port2).toLocal8Bit();
+    QByteArray c_parameters = Parameters_to_Scpi(parameter, output_port, input_port).toLocal8Bit();
     uint channel = GetChannel();
     const uint BUFFER_SIZE = 550;
     char buffer[BUFFER_SIZE];
@@ -1537,7 +1677,7 @@ void Vna::_Trace::MeasureTrace(TraceData &trace) {
     }
 
     // Parse data
-    GetParameters(trace.network_parameter, trace.port1, trace.port2);
+    GetParameters(trace.network_parameter, trace.output_port, trace.input_port);
     trace.points = points;
     trace.sweep_type = channel.GetSweepType();
     trace.format = format;
@@ -1627,37 +1767,37 @@ NetworkParameter Vna::_Trace::Scpi_To_NetworkParameter(QString scpi) {
     // Default
     return(S_PARAMETER);
 }
-void Vna::_Trace::ParseParameters(QString readback, NetworkParameter &parameter, uint &port1, uint &port2) {
+void Vna::_Trace::ParseParameters(QString readback, NetworkParameter &parameter, uint &output_port, uint &input_port) {
     readback.remove('\'');
     parameter = Scpi_To_NetworkParameter(readback.mid(0, 1));
     if (readback.length() == 3) {
         // "%c%1d%1d" format
-        port1 = readback.mid(1,1).toUInt();
-        port2 = readback.mid(2,1).toUInt();
+        output_port = readback.mid(1,1).toUInt();
+        input_port = readback.mid(2,1).toUInt();
     }
     else if (readback.length() == 5) {
         // "%c%2d%2d" format
-        port1 = readback.mid(1,2).toUInt();
-        port2 = readback.mid(3,2).toUInt();
+        output_port = readback.mid(1,2).toUInt();
+        input_port = readback.mid(3,2).toUInt();
     }
     else {  //readback.length() is 7?!!
         // "%c%3d%3d" format
-        port1 = readback.mid(1,3).toUInt();
-        port2 = readback.mid(4,3).toUInt();
+        output_port = readback.mid(1,3).toUInt();
+        input_port = readback.mid(4,3).toUInt();
     }
 }
-QString Vna::_Trace::Parameters_to_Scpi(NetworkParameter parameter, uint port1, uint port2) {
-    QString port1_string = QVariant(port1).toString();
-    QString port2_string = QVariant(port2).toString();
-    if (port1_string.length() == port2_string.length())
-        return(ToString(parameter) + port1_string + port2_string);
+QString Vna::_Trace::Parameters_to_Scpi(NetworkParameter parameter, uint output_port, uint input_port) {
+    QString output_string = QVariant(output_port).toString();
+    QString input_string = QVariant(input_port).toString();
+    if (output_string.length() == output_string.length())
+        return(ToString(parameter) + output_string + input_string);
 
     // Fix length mismatch
-    if (port1_string.length() < port2_string.length())
-        port1_string =  "0" + port1_string;
+    if (output_string.length() < input_string.length())
+        output_string =  "0" + output_string;
     else
-        port2_string = "0" + port2_string;
-    return(ToString(parameter) + port1_string + port2_string);
+        input_string = "0" + input_string;
+    return(ToString(parameter) + output_string + input_string);
 }
 
 // TRACE:Private:Read Trace

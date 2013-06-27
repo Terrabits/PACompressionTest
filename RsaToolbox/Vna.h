@@ -52,11 +52,15 @@ public:
     // VNA:Actions
     void Preset();
     void ClearStatus();
+    void ClearErrors();
     void InitiateSweeps();
     void FinishPreviousCommandsFirst();
     void PauseUntilCommandQueueIsFinished();
 
     // VNA:Status
+    bool isError();
+    bool isErrorDisplayEnabled();
+    bool isErrorDisplayDisabled();
     bool isChannelEnabled(uint channel);
     bool isChannelDisabled(uint channel);
     bool isUserPresetEnabled();
@@ -113,6 +117,7 @@ public:
     void SetUserCalPreset(QString cal_name);
 
     // VNA:Enable
+    void EnableErrorDisplay(bool isEnabled = true);
     void EnableUserPreset(bool isEnabled = true);
     void EnableUserPresetMapToRst(bool isEnabled = true);
     void EnablePortPowerLimit(uint port, bool isEnabled = true);
@@ -122,6 +127,7 @@ public:
     void EnableLowPowerAutoCal(bool isEnabled = true);
 
     // VNA:Disable
+    void DisableErrorDisplay(bool isDisabled = true);
     void DisableCustomIdString(bool isDisabled = true);
     void DisableCustomOptionsString(bool isDisabled = true);
     void DisableEmulation();
@@ -138,7 +144,7 @@ public:
     // VNA:Create
     void CreateSet(QString set_name);
     void CreateChannel(uint channel);
-    void CreateTrace(QString trace_name, uint channel, NetworkParameter parameter, uint port1, uint port2);
+    void CreateTrace(QString trace_name, uint channel, NetworkParameter parameter, uint output_port, uint input_port);
     void CreateDiagram(uint diagram);
 
     // VNA:Delete
@@ -214,11 +220,12 @@ private:
 
         // CHANNEL:Status
         bool isEnabled();
-        bool isDisabled();
+        bool isSweepDisabled();
         bool isCalibrationEnabled();
         bool isCalibrationDisabled();
         bool isContinuousSweepEnabled();
         bool isSingleSweepEnabled();
+        bool isCompressionCalculated();
 
         // CHANNEL:Get
         double GetSourceAttenuation_dB(uint port);
@@ -227,6 +234,7 @@ private:
         CorrectionState GetCorrectionState();
         SweepType GetSweepType();
         void GetStimulusValues(RowVector &stimulus_data);
+        void GetStimulusValues(QRowVector &stimulus_data);
         QVector<uint> GetDiagrams();
         QStringList GetTraces();
         QString GetSelectedTrace();
@@ -241,15 +249,19 @@ private:
         double GetStopPower_dBm();
         double GetIfBandwidth();
         uint GetPoints();
+        double GetCompressionLevel_dBm();
+        void GetCompressionPoints(double &input_dBm, double &output_dBm);
+        QVector<uint> GetSParameterGroupPorts();
+        void GetSParameterGroupData(NetworkData &network_data);
 
         // CHANNEL:Set
         void SetCalGroup(QString cal_file);
-        void SetSourceAttenuation_dB(uint port, double attenuation_dB);
-        void SetSourceAttenuations_dB(double attenuation_dB);
-        void SetSourceAttenuations_dB(QVector<double> attenuations_dB);
-        void SetReceiverAttenuation_dB(uint port, double attenuation_dB);
-        void SetReceiverAttenuations_dB(double attenuation_dB);
-        void SetReceiverAttenuations_dB(QVector<double> attenuations_dB);
+        void SetSourceAttenuation(uint port, double attenuation_dB);
+        void SetSourceAttenuations(double attenuation_dB);
+        void SetSourceAttenuations(QVector<double> attenuations_dB);
+        void SetReceiverAttenuation(uint port, double attenuation_dB);
+        void SetReceiverAttenuations(double attenuation_dB);
+        void SetReceiverAttenuations(QVector<double> attenuations_dB);
         void SetSweepType(SweepType sweep_type);
         void SetDelay(uint port, double delay_s, SiPrefix prefix = NO_PREFIX);
         void SetDelays(double delay_s, SiPrefix prefix = NO_PREFIX);
@@ -265,17 +277,22 @@ private:
         void SetStopPower(double power_dBm);
         void SetIfBandwidth(double if_bandwidth_Hz, SiPrefix prefix = NO_PREFIX);
         void SetPoints(uint points);
+        void SetCompressionLevel(double level_dBm);
 
         // CHANNEL:Enable
         void EnableCorrection(bool isEnabled = true);
+        void EnableSweep(bool isEnabled = true);
         void EnableContinuousSweep(bool isEnabled = true);
+        void EnableCompressionCalc(bool isEnabled = true);
 
         // CHANNEL:Disable
-        void DisableCorrection(bool isDisabled = true);
+        void DisableCorrection(bool isSweepDisabled = true);
         void DisableCalGroup();
-        void DisableContinuousSweep(bool isDisabled = true);
+        void DisableSweep(bool isDisabled = true);
+        void DisableContinuousSweep(bool isSweepDisabled = true);
         void DisableDelay(uint port);
         void DisableDelays();
+        void DisableCompressionCalc(bool isSweepDisabled = true);
 
         // CHANNEL:Create
         void CreateSParameterGroup(QVector<uint> ports);
@@ -332,13 +349,14 @@ private:
 
         // TRACE:Get
         void GetStimulusValues(RowVector &stimulus_data);
+        void GetStimulusValues(QRowVector &stimulus_data);
         uint GetChannel();
-        void GetParameters(NetworkParameter &parameter, uint &port1, uint &port2);
+        void GetParameters(NetworkParameter &parameter, uint &output_port, uint &input_port);
         TraceFormat GetFormat();
         uint GetDiagram();
 
         // TRACE:Set
-        void SetParameters(NetworkParameter parameter, uint port1, uint port2);
+        void SetParameters(NetworkParameter parameter, uint output_port, uint input_port);
         void SetFormat(TraceFormat format);
 
         // TRACE:Measure
@@ -353,8 +371,8 @@ private:
         static const char* ToScpi(TraceFormat format);
         static TraceFormat Scpi_To_TraceFormat(QString scpi);
         static NetworkParameter Scpi_To_NetworkParameter(QString scpi);
-        static void ParseParameters(QString readback, NetworkParameter &parameter, uint &port1, uint &port2);
-        static QString Parameters_to_Scpi(NetworkParameter parameter, uint port1, uint port2);
+        static void ParseParameters(QString readback, NetworkParameter &parameter, uint &output_port, uint &input_port);
+        static QString Parameters_to_Scpi(NetworkParameter parameter, uint output_port, uint input_port);
 
         // TRACE:Private:Read Trace
         static uint TraceBufferSize(TraceFormat format, uint points);

@@ -57,4 +57,3 @@ void Log::Print(QString formatted_text) {
     stream << formatted_text;
     stream.flush();
 }
-

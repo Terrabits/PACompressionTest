@@ -19,12 +19,12 @@ using namespace RsaToolbox;
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    
+
     // Get key instance
     Key key(APP_FOLDER);
     
     // Create, display window
-    MainWindow w(key);
+    MainWindow w(&key);
     w.show();
     return a.exec();
 }

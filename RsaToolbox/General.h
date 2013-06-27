@@ -41,9 +41,9 @@ double ToDb(std::complex<double> value);
 double ToMagnitude(double decibels);
 void LinearSpacing(QRowVector &result, double start, double stop, int points);
 void LinearSpacing(RowVector &result, double start, double stop, int points);
-
+double LinearInterpolateX(double x1, double y1, double x2, double y2, double y_desired);
+double LinearInterpolateY(double x1, double y1, double x2, double y2, double x_desired);
 }
 
 
 #endif // GENERAL_H
-

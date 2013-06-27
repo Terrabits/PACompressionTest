@@ -8,7 +8,7 @@
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   
   <!-- Definition of my application -->
-	<Product Id="68d72ead-a01d-4de5-b1d6-edfea214eee9" Name="R&amp;S RSA PA Compression Test" Language="1033" Version="0.9.2.0" Manufacturer="Rohde &amp; Schwarz America" UpgradeCode="699b0972-99de-4286-9686-b8cea86158b9">  
+	<Product Id="7012d55d-db9e-45b2-bd0a-165fbe3cfd64" Name="R&amp;S RSA PA Compression Test" Language="1033" Version="0.9.4.0" Manufacturer="Rohde &amp; Schwarz America" UpgradeCode="699b0972-99de-4286-9686-b8cea86158b9">  
 		
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />

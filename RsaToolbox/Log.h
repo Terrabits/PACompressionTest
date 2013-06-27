@@ -16,47 +16,46 @@
 
 
 namespace RsaToolbox {
+	
+    class Log : public QObject {
+    private: Q_OBJECT
 
-class Log : public QObject {
-private: Q_OBJECT
-    
-public:
-    // Constructor / Destructor
-    Log(void);
-    Log(QDir path, QString filename, QString program_name, QString program_version);
-    ~Log();
-    
-    // Status
-    bool isOpen(void);
-    bool isClosed(void);
-    
-    // Actions
-    void Open();
-    void Close();
-    void PrintProgramHeader();
-    void Rename(QString filename);
-    
-    // Operators
-    template <class T>
-    QTextStream& operator<<(T item) {
-        stream << item;
-        return(stream);
-    }
-    
-public slots:
-    void Print(QString formatted_text);
-    
-    
-private:
-    QString program_name;
-    QString program_version;
-    QDir path;
-    QFile file;
-    QTextStream stream;
-    
-};
+	public:
+		// Constructor / Destructor
+        Log(void);
+        Log(QDir path, QString filename, QString program_name, QString program_version);
+        ~Log();
+
+        // Status
+        bool isOpen(void);
+        bool isClosed(void);
+
+		// Actions
+        void Open();
+        void Close();
+        void PrintProgramHeader();
+        void Rename(QString filename);
+
+        // Operators
+        template <class T>
+        QTextStream& operator<<(T item) {
+            stream << item;
+            return(stream);
+        }
+
+    public slots:
+        void Print(QString formatted_text);
+
+
+    private:
+        QString program_name;
+        QString program_version;
+        QDir path;
+        QFile file;
+        QTextStream stream;
+
+	};
 }
 
 
 #endif
-

@@ -93,8 +93,13 @@ namespace RsaToolbox {
 	enum ConnectionType {
 		TCPIP_CONNECTION,
 		GPIB_CONNECTION,
-        // USB_CONNECTION,
+        USB_CONNECTION,
         NO_CONNECTION };
+
+    enum VnaDirectory {
+        DEFAULT_DIRECTORY,
+        CAL_GROUP_DIRECTORY
+    };
 
     enum VnaModel {
         ZVA_MODEL,
@@ -114,6 +119,7 @@ namespace RsaToolbox {
 
     typedef std::vector<double> RowVector;
     typedef std::vector<RowVector> Matrix2D;
+    typedef std::vector<Matrix2D> Matrix3D;
 
     // Qt data types
     typedef QVector<double> QRowVector;

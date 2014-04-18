@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/new/icon_resource">
         <file>RS.ico</file>
+        <file>refresh.png</file>
     </qresource>
 </RCC>
-

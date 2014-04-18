@@ -1,4 +1,4 @@
-
+#include "QDebug"
 
 // RSToolbox includes
 #include "Definitions.h"

@@ -102,9 +102,9 @@
       <File Id="libGLESv2.dll" Name="libGLESv2.dll" Source="%QT_CPP_RUNTIME%\libGLESv2.dll" />
       <File Id="libEGL.dll" Name="libEGL.dll" Source="%QT_CPP_RUNTIME%\libEGL.dll" />
       <File Id="D3DCompiler_43.dll" Name="D3DCompiler_43.dll" Source="%QT_CPP_RUNTIME%\D3DCompiler_43.dll" />
-      <File Id="icudt49.dll" Name="icudt49.dll" Source="%QT_CPP_RUNTIME%\icudt49.dll" />
-      <File Id="icuin49.dll" Name="icuin49.dll" Source="%QT_CPP_RUNTIME%\icuin49.dll" />
-      <File Id="icuuc49.dll" Name="icuuc49.dll" Source="%QT_CPP_RUNTIME%\icuuc49.dll" />
+      <File Id="icudt51.dll" Name="icudt51.dll" Source="%QT_CPP_RUNTIME%\icudt51.dll" />
+      <File Id="icuin51.dll" Name="icuin51.dll" Source="%QT_CPP_RUNTIME%\icuin51.dll" />
+      <File Id="icuuc51.dll" Name="icuuc51.dll" Source="%QT_CPP_RUNTIME%\icuuc51.dll" />
       <File Id="Qt5PrintSupport.dll" Name="Qt5PrintSupport.dll" Source="%QT_CPP_RUNTIME%\Qt5PrintSupport.dll" />
     </Component>
     <Component Id="QtPlatformPlugin" Guid="5c5c2060-8e30-4d04-8d46-17f80ad3ce3f" Directory="PlatformsFolder">

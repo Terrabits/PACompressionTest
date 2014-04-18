@@ -31,7 +31,10 @@ SOURCES +=  main.cpp \
             ./RsaToolbox/NetworkData.cpp \
             ./RsaToolbox/Touchstone.cpp \
             ./RsaToolbox/Vna.cpp \
-    RunSweeps.cpp
+            RunSweeps.cpp \
+            gettracename.cpp \
+            axis_settings.cpp \
+    getcalibration.cpp
 
 HEADERS  += Settings.h \
             mainwindow.h \
@@ -48,11 +51,18 @@ HEADERS  += Settings.h \
             ./RsaToolbox/NetworkData.h \
             ./RsaToolbox/Touchstone.h \
             ./RsaToolbox/Vna.h \
-            RunSweeps.h
+            RunSweeps.h \
+            gettracename.h \
+            axis_settings.h \
+    getcalibration.h
 
-INCLUDEPATH += ./RsaToolbox/ ./QCustomPlot/
+INCLUDEPATH += ./RsaToolbox/\
+               ./QCustomPlot/
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+            gettracename.ui \
+            axis_settings.ui \
+    				getcalibration.ui
 
 RESOURCES += Resources.qrc
 
@@ -77,4 +87,3 @@ CONFIG(debug, release|debug) {
 LIBS += -lQCustomPlot/$$QCPLIB
 
 win32: QMAKE_CXXFLAGS += /D_CRT_SECURE_NO_WARNINGS
-

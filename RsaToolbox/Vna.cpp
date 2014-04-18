@@ -41,7 +41,7 @@ Vna::Vna()
     maximum_frequency_Hz = 0;
     options = QStringList();
 }
-Vna::Vna(ConnectionType connection_type, QString instrument_address, uint timeout_ms, QString log_path, QString log_filename, QString program_name, QString program_version)
+Vna::Vna(ConnectionType connection_type, QString instrument_address, uint timeout_ms, QDir log_path, QString log_filename, QString program_name, QString program_version)
     : QObject()
 {
     Reset(connection_type, instrument_address, timeout_ms, log_path, log_filename, program_name, program_version);
@@ -120,13 +120,147 @@ void Vna::PauseUntilCommandQueueIsFinished() {
     char buffer[BUFFER_SIZE];
     bus->Query("*OPC?\n", buffer, BUFFER_SIZE);
 }
+void Vna::AutoscaleDiagrams() {
+    QVector<uint> diagrams = GetDiagrams();
+    uint number_of_diagrams = diagrams.size();
+    for (uint i = 0; i < number_of_diagrams; i++) {
+        Diagram(diagrams[i]).Autoscale();
+    }
+}
+
+// VNA::Directory Handling
+QString Vna::Dir() {
+    const unsigned int BUFFER_SIZE = 4000;
+    char buffer[BUFFER_SIZE];
+    bus->Query(":MMEM:CAT?\n", buffer, BUFFER_SIZE);
+    return(QString(buffer));
+}
+QString Vna::GetDirectory() {
+    const unsigned int BUFFER_SIZE = 500;
+    char buffer[BUFFER_SIZE];
+    bus->Query(":MMEM:CDIR?\n", buffer, BUFFER_SIZE);
+    QString directory(buffer);
+    directory.remove('\'');
+    return(directory);
+}
+int Vna::GetFreeSpace_B() {
+    QString readback = Dir();
+    int size_of_files_B, free_space_B;
+    QStringList files, directories;
+    QVector<int> file_sizes_B;
+    ParseDir(readback,
+             size_of_files_B, free_space_B,
+             files, file_sizes_B,
+             directories);
+    return(free_space_B);
+}
+QString Vna::GetDefaultDirectory() {
+    QString current_dir = GetDirectory();
+    SetDefaultDirectory();
+    QString default_dir = GetDirectory();
+    SetDirectory(current_dir);
+    return(default_dir);
+}
+void Vna::GetDirectoryContents(QStringList &files, QStringList &directories) {
+    QString readback = Dir();
+    int size_of_files_B, free_space_B;
+    QVector<int> file_sizes_B;
+    ParseDir(readback,
+             size_of_files_B, free_space_B,
+             files, file_sizes_B,
+             directories);
+}
+void Vna::GetDirectoryContents(QStringList &files, QVector<int> &file_sizes_B,
+                               QStringList &directories) {
+    QString readback = Dir();
+    int size_of_files_B, free_space_B;
+    ParseDir(readback,
+             size_of_files_B, free_space_B,
+             files, file_sizes_B,
+             directories);
+}
+QStringList Vna::GetFileList() {
+    QString readback = Dir();
+    int size_of_files_B, free_space_B;
+    QStringList files, directories;
+    QVector<int> file_sizes_B;
+    ParseDir(readback,
+             size_of_files_B, free_space_B,
+             files, file_sizes_B,
+             directories);
+    return(files);
+}
+void Vna::GetFileList(QStringList &files, QVector<int> &file_sizes_B) {
+    QString readback = Dir();
+    int size_of_files_B, free_space_B;
+    QStringList directories;
+    ParseDir(readback,
+             size_of_files_B, free_space_B,
+             files, file_sizes_B,
+             directories);
+}
+void Vna::GetFileList(QStringList &files, QVector<int> &file_sizes_B, int &size_of_files_B) {
+    QString readback = Dir();
+    int free_space_B;
+    QStringList directories;
+    ParseDir(readback,
+             size_of_files_B, free_space_B,
+             files, file_sizes_B,
+             directories);
+}
+QStringList Vna::GetDirectoryList() {
+    QString readback = Dir();
+    int size_of_files_B, free_space_B;
+    QStringList files, directories;
+    QVector<int> file_sizes_B;
+    ParseDir(readback,
+             size_of_files_B, free_space_B,
+             files, file_sizes_B,
+             directories);
+    return(directories);
+}
+QString Vna::GetCalGroupDirectory() {
+    return(GetDefaultDirectory() + "\\Calibration\\Data\\");
+}
+void Vna::SetDefaultDirectory() {
+    bus->Write(":MMEM:CDIR DEF\n");
+}
+void Vna::SetDirectory(QString directory) {
+    QByteArray c_string = directory.toUtf8();
+    const uint BUFFER_SIZE = 500;
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, ":MMEM:CDIR \'%s\'\n", c_string.constData());
+    bus->Write(QString(buffer));
+}
+void Vna::SetDirectory(VnaDirectory directory) {
+    switch(directory) {
+    case DEFAULT_DIRECTORY:
+        SetDefaultDirectory();
+        break;
+    case CAL_GROUP_DIRECTORY:
+        SetDirectory(GetCalGroupDirectory());
+        break;
+    default:
+        break;
+    }
+}
 
 // VNA:Status
+bool Vna::isDisplayEnabled() {
+    const uint BUFFER_SIZE = 40;
+    char buffer[BUFFER_SIZE];
+    bus->Query(":SYST:DISP:UPD?\n", buffer, BUFFER_SIZE);
+    return(QString(buffer).toInt() != 1);
+}
+bool Vna::isDisplayDisabled() {
+    return(!isDisplayEnabled());
+}
 bool Vna::isError() {
     const uint BUFFER_SIZE = 2000;
     char buffer[BUFFER_SIZE];
     bus->Query(":SYST:ERR:ALL?\n", buffer, BUFFER_SIZE);
-    return(QString(buffer).split(",")[0].toInt() != 0);
+    QString first_result = QString(buffer).split(",").first();
+    return(first_result.toInt() != 0);
 }
 bool Vna::isErrorDisplayEnabled() {
     const uint BUFFER_SIZE = 30;
@@ -212,7 +346,7 @@ bool Vna::isLowPowerAutoCalDisabled() {
 void Vna::SelectSet(QString set_name) {
     const uint BUFFER_SIZE = 500;
     char buffer[BUFFER_SIZE];
-    QByteArray c_string = set_name.toLocal8Bit();
+    QByteArray c_string = set_name.toUtf8();
     sprintf(buffer, ":MEM:SEL \'%s\'\n", c_string.constData());
     bus->Write(QString(buffer));
 }
@@ -248,20 +382,266 @@ double Vna::GetMaximumFrequency_Hz() {
     bus->Query(":SYST:FREQ? MAX\n", buffer, BUFFER_SIZE);
     return(QString(buffer).toDouble());
 }
-QString Vna::GetDirectory() {
-    const unsigned int BUFFER_SIZE = 500;
-    char buffer[BUFFER_SIZE];
-    bus->Query(":MMEM:CDIR?\n", buffer, BUFFER_SIZE);
-    QString directory(buffer);
-    directory.remove('\'');
-    return(directory);
+double Vna::GetMinimumPower_dBm() {
+    VnaModel model = GetModel();
+    switch(model) {
+    case ZVA_MODEL:
+    case ZVT_MODEL:
+    case ZVH_MODEL:
+    case ZVL_MODEL:
+        return(-150);
+    case ZNB_MODEL:
+    case ZNC_MODEL:
+    case ZNP_MODEL:
+        return(-40);
+    default:
+        return(-40);
+    }
 }
-QString Vna::GetDefaultDirectory() {
-    QString current_dir = GetDirectory();
-    SetDefaultDirectory();
-    QString default_dir = GetDirectory();
-    SetDirectory(current_dir);
-    return(default_dir);
+double Vna::GetMaximumPower_dBm() {
+    VnaModel model = GetModel();
+    switch(model) {
+    case ZVA_MODEL:
+    case ZVT_MODEL:
+    case ZVH_MODEL:
+    case ZVL_MODEL:
+        return(100);
+    case ZNB_MODEL:
+    case ZNC_MODEL:
+    case ZNP_MODEL:
+        return(10);
+    default:
+        return(10);
+    }
+}
+QVector<double> Vna::GetSourceAttenuationStates() {
+    const uint port1 = 1;
+    QVector<double> attenuations;
+    attenuations << 0;
+    QVector<uint> channels = GetChannels();
+    uint new_channel = Max(channels) + 1;
+    CreateChannel(new_channel);
+
+    ClearStatus();
+    DisableErrorDisplay();
+    Channel(new_channel).SetSourceAttenuation(port1, 0);
+    if (isError()) {
+        ClearStatus();
+    }
+    else {
+        for (double i = 1; i <= 100; i++) {
+            Channel(new_channel).SetSourceAttenuation(port1, i);
+            double attenuation = Channel(new_channel).GetSourceAttenuation_dB(port1);
+            if (attenuation == i)
+                attenuations << attenuation;
+        }
+    }
+
+    EnableErrorDisplay();
+    DeleteChannel(new_channel);
+    return(attenuations);
+}
+QVector<double> Vna::GetReceiverAttenuationStates() {
+    const uint port1 = 1;
+    QVector<double> attenuations;
+    attenuations << 0;
+    QVector<uint> channels = GetChannels();
+    uint new_channel = Max(channels) + 1;
+    CreateChannel(new_channel);
+
+
+    ClearStatus();
+    DisableErrorDisplay();
+    Channel(new_channel).SetReceiverAttenuation(port1, 0);
+    if (isError()) {
+        ClearStatus();
+    }
+    else {
+        for (double i = 1; i <= 100; i++) {
+            Channel(new_channel).SetReceiverAttenuation(port1, i);
+            double attenuation = Channel(new_channel).GetReceiverAttenuation_dB(port1);
+            if (attenuation == i)
+                attenuations << attenuation;
+        }
+    }
+
+    EnableErrorDisplay();
+    DeleteChannel(new_channel);
+    return(attenuations);
+}
+QVector<double> Vna::GetIfBandwidthStates_Hz() {
+    QVector<double> states;
+    if (model == ZNB_MODEL || ZNC_MODEL || ZNP_MODEL) {
+        // Hz
+        states << 1
+               << 2
+               << 5
+               << 10
+               << 20
+               << 50
+               << 100
+               << 200
+               << 500;
+        // KHz
+        states << 1E3
+               << 2E3
+               << 5E3
+               << 10E3
+               << 20E3
+               << 50E3
+               << 100E3
+               << 200E3
+               << 500E3;
+        // MHz
+        states << 1E6
+               << 2E6
+               << 5E6
+               << 10E6
+               << 20E6
+               << 30E6;
+    }
+    else {
+        // Hz
+        states << 1
+               << 2
+               << 3
+               << 4
+               << 5
+               << 7
+               << 10
+               << 15
+               << 20
+               << 30
+               << 50
+               << 70
+               << 100
+               << 150
+               << 200
+               << 300
+               << 500
+               << 700;
+        // KHz
+        states << 1E3
+               << 1.5E3
+               << 2E3
+               << 3E3
+               << 5E3
+               << 7E3
+               << 10E3
+               << 15E3
+               << 20E3
+               << 30E3
+               << 50E3
+               << 70E3
+               << 100E3
+               << 150E3
+               << 200E3
+               << 300E3
+               << 500E3
+               << 700E3;
+        // MHz
+        states << 1E6
+               << 1.5E6
+               << 2E6
+               << 3E6
+               << 5E6
+               << 7E6
+               << 10E6;
+    }
+    return(states);
+}
+void Vna::GetIfBandwidthStates(QVector<QStringList> &values, QStringList &units) {
+    values.clear();
+    units.clear();
+    if (model == ZNB_MODEL || ZNC_MODEL || ZNP_MODEL) {
+        QStringList if_mantissa_Hz;
+        if_mantissa_Hz << "1"
+                       << "2"
+                       << "5"
+                       << "10"
+                       << "20"
+                       << "50"
+                       << "100"
+                       << "200"
+                       << "500";
+        QStringList if_mantissa_KHz;
+        if_mantissa_KHz << "1"
+                        << "2"
+                        << "5"
+                        << "10"
+                        << "20"
+                        << "50"
+                        << "100"
+                        << "200"
+                        << "500";
+        QStringList if_mantissa_MHz;
+        if_mantissa_MHz << "1"
+                        << "2"
+                        << "5"
+                        << "10"
+                        << "20"
+                        << "30";
+        values << if_mantissa_Hz
+               << if_mantissa_KHz
+               << if_mantissa_MHz;
+        units  << "Hz"
+               << "KHz"
+               << "MHz";
+    }
+    else if (model != UNKNOWN_MODEL){
+        QStringList if_mantissa_Hz;
+        if_mantissa_Hz << "1"
+                       << "2"
+                       << "3"
+                       << "4"
+                       << "5"
+                       << "7"
+                       << "10"
+                       << "15"
+                       << "20"
+                       << "30"
+                       << "50"
+                       << "70"
+                       << "100"
+                       << "150"
+                       << "200"
+                       << "300"
+                       << "500"
+                       << "700";
+        QStringList if_mantissa_KHz;
+        if_mantissa_KHz << "1"
+                        << "1.5"
+                        << "2"
+                        << "3"
+                        << "5"
+                        << "7"
+                        << "10"
+                        << "15"
+                        << "20"
+                        << "30"
+                        << "50"
+                        << "70"
+                        << "100"
+                        << "150"
+                        << "200"
+                        << "300"
+                        << "500"
+                        << "700";
+        QStringList if_mantissa_MHz;
+        if_mantissa_MHz << "1"
+                        << "1.5"
+                        << "2"
+                        << "3"
+                        << "5"
+                        << "7"
+                        << "10";
+        values << if_mantissa_Hz
+               << if_mantissa_KHz
+               << if_mantissa_MHz;
+        units  << "Hz"
+               << "KHz"
+               << "MHz";
+    }
 }
 QStringList Vna::GetOpenSets() {
     const unsigned int BUFFER_SIZE = 1000;
@@ -314,6 +694,32 @@ QString Vna::GetUserCalPreset() {
     else
         return("");
 }
+QStringList Vna::GetCalGroups() {
+    QString directory = GetDirectory();
+    SetDirectory(CAL_GROUP_DIRECTORY);
+    QStringList files = GetFileList();
+    SetDirectory(directory);
+
+    int number_of_files = files.size();
+    for (int i = 0; i < number_of_files; i++) {
+        if (files[i].contains(".cal", Qt::CaseInsensitive) == false) {
+            files.removeAt(i);
+            number_of_files--;
+        }
+    }
+    return(files);
+}
+QVector<uint> Vna::GetCalibratedChannels() {
+    // NEED TO FINISH THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    QVector<uint> channels = GetChannels();
+    int number_of_channels = channels.size();
+    for (int i = 0; i < number_of_channels; i++) {
+        if (Channel(i).isCalibrationPresent() == false
+                && Channel(i).isPowerCalPresent() == false)
+            channels.remove(i);
+    }
+    return(channels);
+}
 
 QVector<uint> Vna::GetChannels() {
     const uint BUFFER_SIZE = 1000;
@@ -344,7 +750,7 @@ QVector<uint> Vna::GetDiagrams() {
 void Vna::SetIdentificationString(QString id_string)  {
     if (!(model == ZNB_MODEL || model == ZNC_MODEL))
         return;
-    QByteArray c_string = id_string.toLocal8Bit();
+    QByteArray c_string = id_string.toUtf8();
     const uint BUFFER_SIZE = 500;
     char buffer[BUFFER_SIZE];
     sprintf(buffer, ":SYST:IDEN \'%s\'\n", c_string.constData());
@@ -353,20 +759,10 @@ void Vna::SetIdentificationString(QString id_string)  {
 void Vna::SetOptionsString(QString options_string)  {
     if (!(model == ZNB_MODEL || model == ZNC_MODEL))
         return;
-    QByteArray c_string = options_string.toLocal8Bit();
+    QByteArray c_string = options_string.toUtf8();
     const uint BUFFER_SIZE = 500;
     char buffer[BUFFER_SIZE];
     sprintf(buffer, ":SYST:OPT \'%s\'\n", c_string.constData());
-    bus->Write(QString(buffer));
-}
-void Vna::SetDefaultDirectory() {
-    bus->Write(":MMEM:CDIR DEF\n");
-}
-void Vna::SetDirectory(QString directory) {
-    QByteArray c_string = directory.toLocal8Bit();
-    const uint BUFFER_SIZE = 500;
-    char buffer[BUFFER_SIZE];
-    sprintf(buffer, ":MMEM:CDIR \'%s\'\n", c_string.constData());
     bus->Write(QString(buffer));
 }
 void Vna::SetPortPowerLimit(uint port, double power_limit) {
@@ -400,7 +796,7 @@ void Vna::SetFontSize_percent(uint size_percent)  {
 void Vna::SetUserPreset(QString filename)  {
     if (!filename.contains(ToSetFileExtension(model)))
         filename = filename + ToSetFileExtension(model);
-    QByteArray c_string = filename.toLocal8Bit();
+    QByteArray c_string = filename.toUtf8();
     const uint BUFFER_SIZE = 500;
     char buffer[BUFFER_SIZE];
     sprintf(buffer, ":SYST:PRES:USER:NAME \'%s\'\n", c_string.constData());
@@ -413,7 +809,7 @@ void Vna::SetUserPreset(QDir path, QString filename)  {
         filename = filename + ToSetFileExtension(model);
     filename = AppendPath(path, filename);
     filename = QDir::toNativeSeparators(filename);
-    QByteArray c_string = filename.toLocal8Bit();
+    QByteArray c_string = filename.toUtf8();
     sprintf(buffer, ":SYST:PRES:USER:NAME \'%s\'\n", c_string.constData());
     bus->Write(QString(buffer));
 }
@@ -421,7 +817,7 @@ void Vna::SetUserCalPreset(QString cal_name) {
     if (model == ZNB_MODEL || model == ZNC_MODEL) {
         const unsigned int BUFFER_SIZE = 500;
         char buffer[BUFFER_SIZE];
-        QByteArray c_string = cal_name.toLocal8Bit();
+        QByteArray c_string = cal_name.toUtf8();
         sprintf(buffer, ":SYST:PRES:USER:CAL \'%s\'\n", c_string.constData());
         bus->Write(QString(buffer));
     }
@@ -430,14 +826,17 @@ void Vna::SetUserCalPreset(QString cal_name) {
 }
 
 // VNA:Enable
-void Vna::EnableErrorDisplay(bool isEnabled) {
-    if (isEnabled) {
-        const uint BUFFER_SIZE = 30;
-        char buffer[BUFFER_SIZE];
-        bus->Query(":SYST:ERR:DISP 1\n", buffer, BUFFER_SIZE);
-    }
+void Vna::EnableDisplay(bool isEnabled) {
+    if (isEnabled)
+        bus->Write(":SYST:DISP:UPD 1\n");
     else
-        DisableErrorDisplay();
+        bus->Write(":SYST:DISP:UPD 0\n");
+}
+void Vna::EnableErrorDisplay(bool isEnabled) {
+    if (isEnabled)
+        bus->Write(":SYST:ERR:DISP 1\n");
+    else
+        bus->Write(":SYST:ERR:DISP 0\n");
 }
 void Vna::EnableUserPreset(bool isEnabled) {
     if (isEnabled)
@@ -484,14 +883,11 @@ void Vna::EnableLowPowerAutoCal(bool isEnabled) {
 }
 
 // VNA:Disable
+void Vna::DisableDisplay(bool isDisabled) {
+    EnableDisplay(!isDisabled);
+}
 void Vna::DisableErrorDisplay(bool isDisabled) {
-    if (isDisabled) {
-        const uint BUFFER_SIZE = 30;
-        char buffer[BUFFER_SIZE];
-        bus->Query(":SYST:ERR:DISP 0\n", buffer, BUFFER_SIZE);
-    }
-    else
-        EnableErrorDisplay();
+    EnableErrorDisplay(!isDisabled);
 }
 void Vna::DisableCustomIdString(bool isDisabled) {
     if (isDisabled) {
@@ -543,7 +939,7 @@ void Vna::DisableUserCalPreset(void) {
 void Vna::CreateSet(QString set_name) {
     const uint BUFFER_SIZE = 500;
     char buffer[BUFFER_SIZE];
-    QByteArray c_string = set_name.toLocal8Bit();
+    QByteArray c_string = set_name.toUtf8();
     sprintf(buffer, ":MEM:DEF \'%s\'\n", c_string.constData());
     bus->Write(QString(buffer));
 }
@@ -557,8 +953,8 @@ void Vna::CreateChannel(uint channel) {
 void Vna::CreateTrace(QString trace_name, uint channel, NetworkParameter parameter, uint output_port, uint input_port) {
     const uint BUFFER_SIZE = 550;
     char buffer[BUFFER_SIZE];
-    QByteArray c_name = trace_name.toLocal8Bit();
-    QByteArray c_parameters = _Trace::Parameters_to_Scpi(parameter, output_port, input_port).toLocal8Bit();
+    QByteArray c_name = trace_name.toUtf8();
+    QByteArray c_parameters = _Trace::Parameters_to_Scpi(parameter, output_port, input_port).toUtf8();
     sprintf(buffer, ":CALC%d:PAR:SDEF \'%s\', \'%s\'\n", channel, c_name.constData(), c_parameters.constData());
     bus->Write(QString(buffer));
 }
@@ -583,7 +979,7 @@ void Vna::DeleteSet(QString filename) {
     }
     if (file_info.suffix().isEmpty())
         filename = filename + ToSetFileExtension(model);
-    QByteArray c_string = QDir::toNativeSeparators(filename).toLocal8Bit();
+    QByteArray c_string = QDir::toNativeSeparators(filename).toUtf8();
     sprintf(buffer, ":MMEM:DEL \'%s\'\n", c_string.constData());
     bus->Write(QString(buffer));
 }
@@ -593,7 +989,7 @@ void Vna::DeleteUserPreset() {
 void Vna::DeleteCalGroup(QString cal_group) {
     const unsigned int BUFFER_SIZE = 500;
     char buffer[BUFFER_SIZE];
-    QByteArray c_string = cal_group.toLocal8Bit();
+    QByteArray c_string = cal_group.toUtf8();
     sprintf(buffer, ":MMEM:DEL:CORR \'%s\'\n", c_string.constData());
     bus->Write(QString(buffer));
 }
@@ -611,7 +1007,7 @@ void Vna::DeleteTrace(QString trace_name) {
     const uint BUFFER_SIZE = 500;
     char buffer[BUFFER_SIZE];
     uint channel = _Trace(this, trace_name).GetChannel();
-    QByteArray c_string = trace_name.toLocal8Bit();
+    QByteArray c_string = trace_name.toUtf8();
     sprintf(buffer, ":CALC%d:PAR:DEL \'%s\'\n", channel, c_string.constData());
     bus->Write(QString(buffer));
 }
@@ -635,7 +1031,7 @@ void Vna::OpenSet(QString filename) {
     }
     if (file_info.suffix() != ToSetFileExtension(model).remove('.'))
         filename = filename + ToSetFileExtension(model);
-    QByteArray c_string = QDir::toNativeSeparators(filename).toLocal8Bit();
+    QByteArray c_string = QDir::toNativeSeparators(filename).toUtf8();
     sprintf(buffer, ":MMEM:LOAD:STAT 1,\'%s\'\n", c_string.constData());
     bus->Write(QString(buffer));
 }
@@ -654,7 +1050,7 @@ void Vna::SaveSet(QString filename) {
     }
     if (file_info.suffix() != ToSetFileExtension(model).remove('.'))
         filename = filename + ToSetFileExtension(model);
-    QByteArray c_string = QDir::toNativeSeparators(filename).toLocal8Bit();
+    QByteArray c_string = QDir::toNativeSeparators(filename).toUtf8();
     sprintf(buffer, ":MMEM:STOR:STAT 1,\'%s\'\n", c_string.constData());
     bus->Write(QString(buffer));
 }
@@ -663,7 +1059,7 @@ void Vna::SaveSet(QString filename) {
 void Vna::CloseSet(QString set_name) {
     const uint BUFFER_SIZE = 500;
     char buffer[BUFFER_SIZE];
-    QByteArray c_string = set_name.toLocal8Bit();
+    QByteArray c_string = set_name.toUtf8();
     sprintf(buffer, ":MEM:DEL \'%s\'\n", c_string.constData());
     bus->Write(QString(buffer));
 }
@@ -685,13 +1081,13 @@ void Vna::Reset() {
     options = QStringList();
     default_directory.setPath("");
 }
-void Vna::Reset(ConnectionType connection_type, QString instrument_address, uint timeout_ms, QString log_path, QString log_filename, QString program_name, QString program_version) {
+void Vna::Reset(ConnectionType connection_type, QString instrument_address, uint timeout_ms, QDir log_path, QString log_filename, QString program_name, QString program_version) {
     log.reset(new Log(log_path, log_filename, program_name, program_version));
     if (connection_type == TCPIP_CONNECTION) {
         bus.reset(new RsibBus(connection_type, instrument_address, timeout_ms));
         // bus.reset(new VisaBus(connection_type, instrument_address, timeout_ms));
     }
-    else if (connection_type == GPIB_CONNECTION) {
+    else if (connection_type == GPIB_CONNECTION || connection_type == USB_CONNECTION) {
         bus.reset(new VisaBus(connection_type, instrument_address, timeout_ms));
     }
 
@@ -809,7 +1205,7 @@ void Vna::PrintInstrumentInfo() {
 }
 
 // VNA:Private:Readback
-// format: "\'Int1,Name_1,Int2,Name_2,...\'"
+//     format: "\'Int1,Name_1,Int2,Name_2,...\'"
 void Vna::ParseIndicesFromRead(QString readback, QVector<uint> &indices) {
     // Assumes readback format: '1,Name_1,2,Name_2,...'
     indices.clear();
@@ -830,8 +1226,7 @@ void Vna::ParseNamesFromRead(QString readback, QStringList &names) {
     }
 }
 
-// VNA:Private:Readback
-// format: "Value,Qualifier_String"
+//     format: "Value,Qualifier_String"
 void Vna::ParseValueFromRead(QString readback, uint &value, QString &qualifier) {
     QStringList list = readback.split(',');
     value = list[0].toUInt();
@@ -860,7 +1255,34 @@ QString Vna::ValueQualifier_to_Scpi(double value, QString qualifier) {
     return(value_variant.toString() + "," + qualifier);
 }
 
+// VNA:Private:Directory Readback
+void Vna::ParseDir(QString readback,
+                   int &size_of_files_B,
+                   int &free_space_B,
+                   QStringList &files,
+                   QVector<int> &file_sizes_B,
+                   QStringList &directories) {
+    QStringList list = readback.split(",");
+    int list_size = list.size();
+    if (list_size < 2)
+        return;
 
+    files.clear();
+    file_sizes_B.clear();
+    directories.clear();
+
+    size_of_files_B = list[0].trimmed().toInt();
+    free_space_B = list[1].trimmed().toInt();
+    for (int i = 2; i+3 < list_size; i += 3) {
+        if (list[i+1].contains("<Dir>", Qt::CaseInsensitive)) {
+            directories << list[i].trimmed();
+        }
+        else {
+            files << list[i].trimmed();
+            file_sizes_B << list[i+2].trimmed().toInt();
+        }
+    }
+}
 
 //**********************
 //** CHANNEL ***********
@@ -895,14 +1317,114 @@ bool Vna::_Channel::isEnabled() {
 bool Vna::_Channel::isSweepDisabled() {
     return(!isEnabled());
 }
+
 bool Vna::_Channel::isCalibrationEnabled() {
-    const uint BUFFER_SIZE = 10;
+    const uint BUFFER_SIZE = 30;
     char buffer[BUFFER_SIZE];
-    vna->bus->Query(":CORR?\n", buffer, BUFFER_SIZE);
-    return(QString(buffer) == "1");
+    sprintf(buffer, ":SENS%d:CORR?\n", channel);
+    vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
+    return(QString(buffer) == "1" && isCalibrationPresent());
 }
 bool Vna::_Channel::isCalibrationDisabled() {
     return(!isCalibrationEnabled());
+}
+bool Vna::_Channel::isCalibrationPresent() {
+    const uint BUFFER_SIZE = 50;
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, ":SENS%d:CORR:DATA:PAR:COUN?\n", channel);
+    vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
+    return(QString(buffer).toInt() > 0);
+}
+bool Vna::_Channel::isReceiverPowerCalEnabled_aWave(uint port) {
+    const uint BUFFER_SIZE = 40;
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, ":SENS%d:CORR:POW%d:AWAV?\n", channel, port);
+    vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
+    return(QString(buffer) == "1");
+}
+bool Vna::_Channel::isReceiverPowerCalEnabled_aWave() {
+    uint ports = vna->GetPorts();
+    for (uint i = 1; i <= ports; i++) {
+        if (isReceiverPowerCalEnabled_aWave(i))
+            return(true);
+    }
+    // else
+    return(false);
+}
+bool Vna::_Channel::isReceiverPowerCalDisabled_aWave(uint port) {
+    return(!isReceiverPowerCalEnabled_aWave(port));
+}
+bool Vna::_Channel::isReceiverPowerCalDisabled_aWave() {
+    return(!isReceiverPowerCalEnabled_aWave());
+}
+bool Vna::_Channel::isReceiverPowerCalEnabled_bWave(uint port) {
+    const uint BUFFER_SIZE = 40;
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, ":SENS%d:CORR:POW%d?\n", channel, port);
+    vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
+    return(QString(buffer) == "1");
+}
+bool Vna::_Channel::isReceiverPowerCalEnabled_bWave() {
+    uint ports = vna->GetPorts();
+    for (uint i = 1; i <= ports; i++) {
+        if (isReceiverPowerCalEnabled_bWave(i))
+            return(true);
+    }
+    // else
+    return(false);
+}
+bool Vna::_Channel::isReceiverPowerCalDisabled_bWave(uint port) {
+    return(!isReceiverPowerCalEnabled_bWave(port));
+}
+bool Vna::_Channel::isReceiverPowerCalDisabled_bWave() {
+    return(!isReceiverPowerCalEnabled_bWave());
+}
+bool Vna::_Channel::isSourcePowerCalEnabled(uint port) {
+    const uint BUFFER_SIZE = 40;
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, ":SOUR%d:POW%d:CORR:STAT?\n", channel, port);
+    vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
+    return(QString(buffer) == "1");
+}
+bool Vna::_Channel::isSourcePowerCalEnabled() {
+    uint ports = vna->GetPorts();
+    for (uint i = 1; i <= ports; i++) {
+        if (isSourcePowerCalEnabled(i))
+            return(true);
+    }
+    // else
+    return(false);
+}
+bool Vna::_Channel::isSourcePowerCalDisabled(uint port) {
+    return(!isSourcePowerCalEnabled(port));
+}
+bool Vna::_Channel::isSourcePowerCalDisabled() {
+    return(!isSourcePowerCalEnabled());
+}
+bool Vna::_Channel::isPowerCalEnabled() {
+    return(isReceiverPowerCalEnabled_aWave()
+           || isReceiverPowerCalEnabled_bWave()
+           || isSourcePowerCalEnabled());
+}
+bool Vna::_Channel::isPowerCalDisabled() {
+    return(!isPowerCalEnabled());
+}
+bool Vna::_Channel::isPowerCalPresent() {
+    const uint BUFFER_SIZE = 50;
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, ":SOUR%d:POW:CORR:DATA:PAR:COUN?\n", channel);
+    vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
+    return(QString(buffer).toInt() > 0);
+}
+bool Vna::_Channel::isUserDefinedPortEnabled(uint port) {
+    const uint BUFFER_SIZE = 40;
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, ":SENS%d:UDSP%d:ACT?\n", channel, port);
+    vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
+    return(QString(buffer) == "1");
+}
+bool Vna::_Channel::isUserDefinedPortDisabled(uint port) {
+    return(!isUserDefinedPortEnabled(port));
 }
 bool Vna::_Channel::isContinuousSweepEnabled() {
     const uint BUFFER_SIZE = 20;
@@ -921,6 +1443,24 @@ bool Vna::_Channel::isCompressionCalculated() {
     vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
     return(QString(buffer) == "1");
 }
+bool Vna::_Channel::isLinearFrequencySweep() {
+    return(GetSweepType() == LINEAR_FREQUENCY_SWEEP);
+}
+bool Vna::_Channel::isLogFrequencySweep() {
+    return(GetSweepType() == LOG_FREQUENCY_SWEEP);
+}
+bool Vna::_Channel::isSegmentedSweep() {
+    return(GetSweepType() == SEGMENTED_SWEEP);
+}
+bool Vna::_Channel::isPowerSweep() {
+    return(GetSweepType() == POWER_SWEEP);
+}
+bool Vna::_Channel::isCwMode() {
+    return(GetSweepType() == CW_MODE_SWEEP);
+}
+bool Vna::_Channel::isTimeSweep() {
+    return(GetSweepType() == TIME_SWEEP);
+}
 
 // CHANNEL:Get
 double Vna::_Channel::GetSourceAttenuation_dB(uint port) {
@@ -932,12 +1472,39 @@ double Vna::_Channel::GetSourceAttenuation_dB(uint port) {
     vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
     return(QString(buffer).toDouble());
 }
+QVector<double> Vna::_Channel::GetSourceAttenuations_dB() {
+    QVector<double> attenuations;
+    for (uint i = 1; i <= vna->ports; i++)
+        attenuations << GetSourceAttenuation_dB(i);
+    return(attenuations);
+}
 double Vna::_Channel::GetReceiverAttenuation_dB(uint port) {
     const uint BUFFER_SIZE = 30;
     char buffer[BUFFER_SIZE];
     sprintf(buffer, ":SENS%d:POW:ATT? %d\n", channel, port);
     vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
     return(QString(buffer).toDouble());
+}
+QVector<double> Vna::_Channel::GetReceiverAttenuations_dB() {
+    QVector<double> attenuations;
+    for (uint i = 1; i <= vna->ports; i++)
+        attenuations << GetReceiverAttenuation_dB(i);
+    return(attenuations);
+}
+void Vna::_Channel::GetUserDefinedPort(uint physical_port,
+                                       uint &source_port,
+                                       QChar &numerator_wave, uint &numerator_port,
+                                       QChar &denominator_wave, uint &denominator_port) {
+    const uint BUFFER_SIZE = 50;
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, ":SENS%d:UDSP%d:PAR?\n", channel, physical_port);
+    vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
+    QStringList parameters = QString(buffer).remove('\'').split(":");
+    source_port = parameters[0].toUInt();
+    numerator_wave = parameters[1].at(0);
+    numerator_port = parameters[1].remove(0, 1).toUInt();
+    denominator_wave = parameters[2].at(0);
+    denominator_port = parameters[2].remove(0, 1).toUInt();
 }
 QString Vna::_Channel::GetCalGroup() {
     const uint BUFFER_SIZE = 400;
@@ -1086,12 +1653,31 @@ uint Vna::_Channel::GetPoints() {
     char buffer[BUFFER_SIZE];
     sprintf(buffer, ":SENS%d:SWE:POIN?\n", channel);
     vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
-    return(QString(buffer).toInt());
+    return(QString(buffer).toUInt());
 }
+QVector<uint> Vna::_Channel::GetSweepSegments() {
+    QVector<uint> segments;
+    uint number_of_segments = GetNumberOfSweepSegments();
+    if (number_of_segments == 0)
+        return(segments);
+    //else
+    segments.resize((int)number_of_segments);
+    for (int i = 0; i < (int)number_of_segments; i++)
+        segments[i] = i+1;
+    return(segments);
+}
+uint Vna::_Channel::GetNumberOfSweepSegments() {
+    const uint BUFFER_SIZE = 50;
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, ":SENS%d:SEGM:COUN?\n", channel);
+    vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
+    return(QString(buffer).toUInt());
+}
+
 double Vna::_Channel::GetCompressionLevel_dBm() {
     const uint BUFFER_SIZE = 40;
     char buffer[BUFFER_SIZE];
-    sprintf(buffer, ":CALC%dSTAT:NLIN:COMP:LEV?\n", channel);
+    sprintf(buffer, ":CALC%d:STAT:NLIN:COMP:LEV?\n", channel);
     vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
     return(QString(buffer).toDouble());
 }
@@ -1139,8 +1725,8 @@ void Vna::_Channel::GetSParameterGroupData(NetworkData &network) {
 
     // Parse
     ParseNetworkData(network, buffer.data());
-    network.frequency_prefix = NO_PREFIX;
-    GetStimulusValues(network.frequency);
+    network.stimulus_prefix = NO_PREFIX;
+    GetStimulusValues(network.stimulus);
 }
 
 // CHANNEL:Set
@@ -1149,7 +1735,7 @@ void Vna::_Channel::SetCalGroup(QString cal_file) {
     char buffer[BUFFER_SIZE];
     if (!cal_file.contains(".cal", Qt::CaseInsensitive))
         cal_file = cal_file + QString(".cal");
-    QByteArray c_string = cal_file.toLocal8Bit();
+    QByteArray c_string = cal_file.toUtf8();
     sprintf(buffer, ":MMEM:LOAD:CORR %d,\'%s\'\n", channel, c_string.constData());
     vna->bus->Write(QString(buffer));
 }
@@ -1185,6 +1771,20 @@ void Vna::_Channel::SetReceiverAttenuations(QVector<double> attenuations_dB) {
     for (uint i = 1; i <= vna->ports; i++)
         SetReceiverAttenuation(i, attenuations_dB[i-1]);
 }
+void Vna::_Channel::SetUserDefinedPort(uint physical_port,
+                                       uint source_port,
+                                       QChar numerator_wave, uint numerator_port,
+                                       QChar denominator_wave, uint denominator_port) {
+    const uint BUFFER_SIZE = 50;
+    char buffer[BUFFER_SIZE];
+    QString parameters = QVariant(source_port).toString() + ":"
+            + numerator_wave + QVariant(numerator_port).toString() + ":"
+            + denominator_wave + QVariant(denominator_port).toString();
+    QByteArray c_string = parameters.toUtf8();
+    sprintf(buffer, ":SENS%d:UDSP%d:PAR \'%s\'\n", channel, physical_port, c_string.constData());
+    vna->bus->Write(QString(buffer));
+}
+
 void Vna::_Channel::SetSweepType(SweepType sweep_type) {
     const uint BUFFER_SIZE = 40;
     char buffer[BUFFER_SIZE];
@@ -1194,7 +1794,7 @@ void Vna::_Channel::SetSweepType(SweepType sweep_type) {
 void Vna::_Channel::SetDelay(uint port, double delay_s, SiPrefix prefix) {
     const uint BUFFER_SIZE = 50;
     char buffer[BUFFER_SIZE];
-    QByteArray c_string = (ToString(prefix) + ToString(SECONDS_UNITS)).toLocal8Bit();
+    QByteArray c_string = (ToString(prefix) + ToString(SECONDS_UNITS)).toUtf8();
     sprintf(buffer, ":SENS%d:CORR:EDEL%d:TIME %f%s\n", channel, port, delay_s, c_string.constData());
     vna->bus->Write(QString(buffer));
 }
@@ -1218,7 +1818,7 @@ void Vna::_Channel::SetPortPower(uint port, double power_dBm, ReferenceLevel pow
     const uint BUFFER_SIZE = 50;
     char buffer[BUFFER_SIZE];
     QString power_scpi = ValueQualifier_to_Scpi(power_dBm, ToScpi(power_reference));
-    QByteArray c_string = power_scpi.toLocal8Bit();
+    QByteArray c_string = power_scpi.toUtf8();
     sprintf(buffer, ":SOUR%d:POW%d:OFFS %s\n", channel, port, c_string.constData());
     vna->bus->Write(QString(buffer));
 }
@@ -1236,7 +1836,7 @@ void Vna::_Channel::SetStartFrequency(double start_frequency_Hz, SiPrefix prefix
     const uint BUFFER_SIZE = 50;
     char buffer[BUFFER_SIZE];
     QString units_string = ToString(prefix) + ToString(HERTZ_UNITS);
-    QByteArray c_string = units_string.toLocal8Bit();
+    QByteArray c_string = units_string.toUtf8();
     sprintf(buffer, ":SENS%d:FREQ:STAR %f%s\n", channel, start_frequency_Hz, c_string.constData());
     vna->bus->Write(QString(buffer));
 }
@@ -1244,17 +1844,25 @@ void Vna::_Channel::SetStopFrequency(double stop_frequency_Hz, SiPrefix prefix) 
     const uint BUFFER_SIZE = 50;
     char buffer[BUFFER_SIZE];
     QString units_string = ToString(prefix) + ToString(HERTZ_UNITS);
-    QByteArray c_string = units_string.toLocal8Bit();
+    QByteArray c_string = units_string.toUtf8();
     sprintf(buffer, ":SENS%d:FREQ:STOP %f%s\n", channel, stop_frequency_Hz, c_string.constData());
     vna->bus->Write(QString(buffer));
 }
 void Vna::_Channel::SetCwFrequency(double cw_frequency_Hz, SiPrefix prefix) {
     const uint BUFFER_SIZE = 50;
     char buffer[BUFFER_SIZE];
-    QString units_string = ToString(prefix) + ToString(HERTZ_UNITS);
-    QByteArray c_string = units_string.toLocal8Bit();
-    sprintf(buffer, ":SOUR%d:FREQ %f%s\n", channel, cw_frequency_Hz, c_string.constData());
+    sprintf(buffer, ":SOUR%d:FREQ %f\n", channel, cw_frequency_Hz * ToDouble(prefix));
     vna->bus->Write(QString(buffer));
+}
+void Vna::_Channel::SetCustomFrequencySweep(QRowVector frequencies, SiPrefix prefix) {
+    DeleteSweepSegments();
+    int number_of_freq = frequencies.size();
+    for (int i = 0; i < number_of_freq; i++) {
+        uint segment = CreateSweepSegment();
+        SweepSegment(segment).SetPoints(1);
+        SweepSegment(segment).SetStopFrequency(frequencies[i], prefix);
+    }
+    SetSweepType(SEGMENTED_SWEEP);
 }
 void Vna::_Channel::SetStartPower(double power_dBm) {
     const uint BUFFER_SIZE = 50;
@@ -1272,7 +1880,7 @@ void Vna::_Channel::SetIfBandwidth(double if_bandwidth_Hz, SiPrefix prefix) {
     const uint BUFFER_SIZE = 50;
     char buffer[BUFFER_SIZE];
     QString units_string = ToString(prefix) + ToString(HERTZ_UNITS);
-    QByteArray c_string = units_string.toLocal8Bit();
+    QByteArray c_string = units_string.toUtf8();
     sprintf(buffer, "SENS%d:BAND %f%s\n", channel, if_bandwidth_Hz, c_string.constData());
     vna->bus->Write(QString(buffer));
 }
@@ -1285,7 +1893,7 @@ void Vna::_Channel::SetPoints(uint points) {
 void Vna::_Channel::SetCompressionLevel(double level_dB) {
     const uint BUFFER_SIZE = 50;
     char buffer[BUFFER_SIZE];
-    sprintf(buffer, ":CALC%dSTAT:NLIN:COMP:LEV %f\n", channel, level_dB);
+    sprintf(buffer, ":CALC%d:STAT:NLIN:COMP:LEV %f\n", channel, level_dB);
     vna->bus->Write(QString(buffer));
 }
 
@@ -1299,6 +1907,16 @@ void Vna::_Channel::EnableCorrection(bool isEnabled) {
         sprintf(buffer, ":SENS%d:CORR 0\n", channel);
     vna->bus->Write(QString(buffer));
 }
+void Vna::_Channel::EnableUserDefinedPort(uint port, bool isEnabled) {
+    const uint BUFFER_SIZE = 40;
+    char buffer[BUFFER_SIZE];
+    if (isEnabled)
+        sprintf(buffer, ":SENS%d:UDSP%d:ACT 1\n", channel, port);
+    else
+        sprintf(buffer, ":SENS%d:UDSP%d:ACT 0\n", channel, port);
+    vna->bus->Write(QString(buffer));
+}
+
 void Vna::_Channel::EnableSweep(bool isEnabled) {
     const uint BUFFER_SIZE = 20;
     char buffer[BUFFER_SIZE];
@@ -1325,9 +1943,9 @@ void Vna::_Channel::EnableCompressionCalc(bool isEnabled) {
     const uint BUFFER_SIZE = 30;
     char buffer[BUFFER_SIZE];
     if (isEnabled)
-        sprintf(buffer, ":CALC%dSTAT:NLIN:COMP 1", channel);
+        sprintf(buffer, ":CALC%d:STAT:NLIN:COMP 1", channel);
     else
-        sprintf(buffer, ":CALC%dSTAT:NLIN:COMP 0", channel);
+        sprintf(buffer, ":CALC%d:STAT:NLIN:COMP 0", channel);
     vna->bus->Write(QString(buffer));
 }
 
@@ -1341,6 +1959,10 @@ void Vna::_Channel::DisableCalGroup() {
     sprintf(buffer, ":MMEM:LOAD:CORR:RES %d\n", channel);
     vna->bus->Write(QString(buffer));
 }
+void Vna::_Channel::DisableUserDefinedPort(uint port, bool isDisabled) {
+    EnableUserDefinedPort(port, !isDisabled);
+}
+
 void Vna::_Channel::DisableSweep(bool isDisabled) {
     EnableSweep(!isDisabled);
 }
@@ -1371,9 +1993,17 @@ void Vna::_Channel::CreateSParameterGroup(QVector<uint> ports) {
     for (uint i = 1; i < number_of_ports; i++) {
         ports_list = ports_list + "," + QVariant(ports[i]).toString();
     }
-    QByteArray c_ports_list = ports_list.toLocal8Bit();
+    QByteArray c_ports_list = ports_list.toUtf8();
     sprintf(buffer, ":CALC%d:PAR:DEF:SGR %s\n", channel, c_ports_list.constData());
     vna->bus->Write(QString(buffer));
+}
+uint Vna::_Channel::CreateSweepSegment() {
+    const uint BUFFER_SIZE = 30;
+    char buffer[BUFFER_SIZE];
+    uint next_segment = GetNumberOfSweepSegments() + 1;
+    sprintf(buffer, ":SENS%d:SEGM%d:ADD\n", channel, next_segment);
+    vna->bus->Write(QString(buffer));
+    return(next_segment);
 }
 
 // CHANNEL:Delete
@@ -1389,15 +2019,28 @@ void Vna::_Channel::DeleteSParameterGroup() {
     sprintf(buffer, ":CALC%d:PAR:DEL:SGR\n", channel);
     vna->bus->Write(QString(buffer));
 }
+void Vna::_Channel::DeleteSweepSegment(uint segment) {
+    const uint BUFFER_SIZE = 30;
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, ":SENS%d:SEGM%d:DEL\n", channel, segment);
+    vna->bus->Write(QString(buffer));
+}
+void Vna::_Channel::DeleteSweepSegments() {
+    const uint BUFFER_SIZE = 30;
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, ":SENS%d:SEGM:DEL:ALL\n", channel);
+    vna->bus->Write(QString(buffer));
+}
 
 // CHANNEL:Measure
 void Vna::_Channel::MeasureNetwork(NetworkData &network, QVector<uint> ports) {
     // (Temporary?) Sanity check
     SweepType sweep_type = GetSweepType();
-    if (sweep_type == POWER_SWEEP || sweep_type == CW_MODE_SWEEP || sweep_type == TIME_SWEEP)
+    if (sweep_type == CW_MODE_SWEEP || sweep_type == TIME_SWEEP)
         return;
 
     // info, buffer
+    network.sweep_type = sweep_type;
     CreateSParameterGroup(ports);
     network.date_time = QDateTime::currentDateTime();
     network.ports = ports.size();
@@ -1422,11 +2065,11 @@ void Vna::_Channel::MeasureNetwork(NetworkData &network, QVector<uint> ports) {
 
     // Parse
     ParseNetworkData(network, buffer.data());
-    network.frequency_prefix = NO_PREFIX;
-    GetStimulusValues(network.frequency);
+    network.stimulus_prefix = NO_PREFIX;
+    GetStimulusValues(network.stimulus);
 
     // Clean up
-    DeleteSParameterGroup();
+    // DeleteSParameterGroup();
 }
 
 // CHANNEL:Save
@@ -1435,7 +2078,7 @@ void Vna::_Channel::SaveCalGroup(QString cal_file) {
     char buffer[BUFFER_SIZE];
     if (cal_file.contains(".cal", Qt::CaseInsensitive) == false)
         cal_file = cal_file + ".cal";
-    QByteArray c_string = cal_file.toLocal8Bit();
+    QByteArray c_string = cal_file.toUtf8();
     sprintf(buffer, ":MMEM:STOR:CORR %d,\'%s\'\n", channel, c_string.constData());
     vna->bus->Write(QString(buffer));
 }
@@ -1537,6 +2180,94 @@ void Vna::_Channel::ParseNetworkData(NetworkData &network, QString readback) {
     }
 }
 
+// channel:SWEEP_SEGMENT
+Vna::_Channel::_SweepSegment& Vna::_Channel::SweepSegment(uint segment) {
+    sweep_segment = _SweepSegment(vna, this, segment);
+    return(sweep_segment);
+}
+
+Vna::_Channel::_SweepSegment::_SweepSegment(Vna *vna, _Channel *channel, uint segment) {
+    this->vna = vna;
+    this->channel = channel;
+    this->segment = segment;
+}
+
+// channel:SWEEP_SEGMENT:Status
+bool Vna::_Channel::_SweepSegment::isPoint() {
+    return(GetPoints() == 1 &&
+           GetStartFrequency_Hz() == GetStopFrequency_Hz());
+}
+bool Vna::_Channel::_SweepSegment::isEnabled() {
+    const uint BUFFER_SIZE = 30;
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, ":SENS%d:SEGM%d?\n", channel->channel, segment);
+    vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
+    return(QString(buffer).toInt() == 1);
+}
+bool Vna::_Channel::_SweepSegment::isDisabled() {
+    return(!isEnabled());
+}
+
+// channel:SWEEP_SEGMENT:Get
+uint Vna::_Channel::_SweepSegment::GetPoints() {
+    const uint BUFFER_SIZE = 35;
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, ":SENS%d:SEGM%d:SWE:POIN?\n", channel->channel, segment);
+    vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
+    return(QString(buffer).toUInt());
+}
+double Vna::_Channel::_SweepSegment::GetStartFrequency_Hz() {
+    const uint BUFFER_SIZE = 50;
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, ":SENS%d:SEGM%d:FREQ:STAR?\n", channel->channel, segment);
+    vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
+    return(QString(buffer).toDouble());
+}
+double Vna::_Channel::_SweepSegment::GetStopFrequency_Hz() {
+    const uint BUFFER_SIZE = 50;
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, ":SENS%d:SEGM%d:FREQ:STOP?\n", channel->channel, segment);
+    vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
+    return(QString(buffer).toDouble());
+}
+
+// channel:SWEEP_SEGMENT:Set
+void Vna::_Channel::_SweepSegment::SetPoints(uint points) {
+    const uint BUFFER_SIZE = 40;
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, ":SENS%d:SEGM%d:SWE:POIN %d\n", channel->channel, segment, points);
+    vna->bus->Write(QString(buffer));
+}
+void Vna::_Channel::_SweepSegment::SetStartFrequency(double frequency, SiPrefix prefix) {
+    const uint BUFFER_SIZE = 50;
+    char buffer[BUFFER_SIZE];
+    QByteArray units = ToString(prefix).toUtf8() + "HZ";
+    sprintf(buffer, ":SENS%d:SEGM%d:FREQ:STAR %f%s\n", channel->channel, segment, frequency, units.constData());
+    vna->bus->Write(QString(buffer));
+}
+void Vna::_Channel::_SweepSegment::SetStopFrequency(double frequency, SiPrefix prefix) {
+    const uint BUFFER_SIZE = 50;
+    char buffer[BUFFER_SIZE];
+    QByteArray units = ToString(prefix).toUtf8() + "HZ";
+    sprintf(buffer, ":SENS%d:SEGM%d:FREQ:STOP %f%s\n", channel->channel, segment, frequency, units.constData());
+    vna->bus->Write(QString(buffer));
+}
+
+// channel:SWEEP_SEGMENT:Enable
+void Vna::_Channel::_SweepSegment::Enable(bool isEnabled) {
+    const uint BUFFER_SIZE = 50;
+    char buffer[BUFFER_SIZE];
+    if (isEnabled == true)
+        sprintf(buffer, ":SENS%d:SEGM%d 1\n", channel->channel, segment);
+    else
+        sprintf(buffer, ":SENS%d:SEGM%d 0\n", channel->channel, segment);
+    vna->bus->Write(QString(buffer));
+}
+
+// channel:SWEEP_SEGMENT:Disable
+void Vna::_Channel::_SweepSegment::Disable(bool isDisabled) {
+    Enable(!isDisabled);
+}
 
 
 //**********************
@@ -1555,12 +2286,25 @@ Vna::_Trace::_Trace(Vna *vna, QString trace_name) {
 
 // TRACE:Select
 void Vna::_Trace::Select() {
-    QByteArray c_string = trace_name.toLocal8Bit();
+    QByteArray c_string = trace_name.toUtf8();
     const uint BUFFER_SIZE = 500;
     char buffer[BUFFER_SIZE];
     uint channel = GetChannel();
     sprintf(buffer, ":CALC%d:PAR:SEL \'%s\'\n", channel, c_string.constData());
     vna->bus->Write(QString(buffer));
+}
+
+// TRACE:Status
+bool Vna::_Trace::isShown() {
+    QByteArray c_string = trace_name.toUtf8();
+    const uint BUFFER_SIZE = 300;
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, ":DISP:TRAC:SHOW? \'%s\'\n", c_string.constData());
+    vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
+    return(QString(buffer).toInt() == 1);
+}
+bool Vna::_Trace::isHidden() {
+    return(!isShown());
 }
 
 // TRACE:Get
@@ -1578,9 +2322,8 @@ void Vna::_Trace::GetStimulusValues(QRowVector &stimulus_data) {
     GetStimulusValues(std_stimulus_data);
     stimulus_data = QRowVector::fromStdVector(std_stimulus_data);
 }
-
 uint Vna::_Trace::GetChannel() {
-    QByteArray c_string = trace_name.toLocal8Bit();
+    QByteArray c_string = trace_name.toUtf8();
     const uint BUFFER_SIZE = 500;
     char buffer[BUFFER_SIZE];
     sprintf(buffer, ":CONF:TRAC:CHAN:NAME:ID? \'%s\'\n", c_string.constData());
@@ -1588,7 +2331,7 @@ uint Vna::_Trace::GetChannel() {
     return(QString(buffer).toUInt());
 }
 void Vna::_Trace::GetParameters(NetworkParameter &parameter, uint &output_port, uint &input_port) {
-    QByteArray trace_byte_array = trace_name.toLocal8Bit();
+    QByteArray trace_byte_array = trace_name.toUtf8();
     char * trace_name_c = trace_byte_array.data();
     uint channel = GetChannel();
     const uint BUFFER_SIZE = 550;
@@ -1612,7 +2355,7 @@ TraceFormat Vna::_Trace::GetFormat() {
 uint Vna::_Trace::GetDiagram() {
     const uint BUFFER_SIZE = 500;
     char buffer[BUFFER_SIZE];
-    QByteArray byte_array = trace_name.toLocal8Bit();
+    QByteArray byte_array = trace_name.toUtf8();
     char *trace_c_string = byte_array.data();
     sprintf(buffer, ":CONF:TRAC:WIND:TRAC? \'%s\'\n", trace_c_string);
     vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
@@ -1621,8 +2364,8 @@ uint Vna::_Trace::GetDiagram() {
 
 // TRACE:Set
 void Vna::_Trace::SetParameters(NetworkParameter parameter, uint output_port, uint input_port) {
-    QByteArray c_name = trace_name.toLocal8Bit();
-    QByteArray c_parameters = Parameters_to_Scpi(parameter, output_port, input_port).toLocal8Bit();
+    QByteArray c_name = trace_name.toUtf8();
+    QByteArray c_parameters = Parameters_to_Scpi(parameter, output_port, input_port).toUtf8();
     uint channel = GetChannel();
     const uint BUFFER_SIZE = 550;
     char buffer[BUFFER_SIZE];
@@ -1640,6 +2383,48 @@ void Vna::_Trace::SetFormat(TraceFormat format) {
     if (trace_name != selected_trace)
         vna->Trace(selected_trace).Select();
 }
+void Vna::_Trace::SetDiagram(uint diagram) {
+    QVector<uint> numbers = vna->Diagram(diagram).GetTraceNumbers();
+    uint new_number;
+    if (numbers.size() > 0)
+        new_number = numbers.last() + 1;
+    else
+        new_number = 1;
+
+    QByteArray c_name = trace_name.toUtf8();
+    const uint BUFFER_SIZE = 300;
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, ":DISP:WIND%d:TRAC%d:FEED \'%s\'\n", diagram, new_number, c_name.constData());
+    vna->bus->Write(QString(buffer));
+}
+
+// TRACE:Show
+void Vna::_Trace::Show(bool isShown) {
+    QByteArray c_string = trace_name.toUtf8();
+    const uint BUFFER_SIZE = 300;
+    char buffer[BUFFER_SIZE];
+    if (isShown)
+        sprintf(buffer, ":DISP:TRAC:SHOW \'%s\', 1\n", c_string.constData());
+    else
+        sprintf(buffer, ":DISP:TRAC:SHOW \'%s\', 0\n", c_string.constData());
+    vna->bus->Write(QString(buffer));
+}
+
+// TRACE:Hide
+void Vna::_Trace::Hide(bool isHidden) {
+    Show(!isHidden);
+}
+
+// TRACE:Copy
+void Vna::_Trace::CopyToMemory(QString memory_trace_name) {
+    QByteArray c_data = trace_name.toUtf8();
+    QByteArray c_mem = memory_trace_name.toUtf8();
+
+    const uint BUFFER_SIZE = 300;
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, ":TRAC:COPY \'%s\',\'%s\'\n", c_mem.constData(), c_data.constData());
+    vna->bus->Write(QString(buffer));
+}
 
 // TRACE:Measure
 void Vna::_Trace::MeasureTrace(TraceData &trace) {
@@ -1650,7 +2435,7 @@ void Vna::_Trace::MeasureTrace(TraceData &trace) {
     TraceFormat format = GetFormat();
     uint buffer_size = TraceBufferSize(format, points);
     QScopedArrayPointer<char> buffer(new char[buffer_size]);
-    QByteArray c_trace_name = trace_name.toLocal8Bit();
+    QByteArray c_trace_name = trace_name.toUtf8();
 
     // Handle analyzer discrepancy
     if (vna->model == ZNB_MODEL || vna->model == ZNC_MODEL) {
@@ -1659,7 +2444,7 @@ void Vna::_Trace::MeasureTrace(TraceData &trace) {
     else {
         // ZVA doesn't have "CALC:DATA:TRAC?" command. Use a different method.
         Select();
-        sprintf(buffer.data(), ":CALC%d:DATA? FDAT", channel_index);
+        sprintf(buffer.data(), ":CALC%d:DATA? FDAT\n", channel_index);
     }
 
     // Read data
@@ -1671,8 +2456,8 @@ void Vna::_Trace::MeasureTrace(TraceData &trace) {
         channel.EnableContinuousSweep();
     }
     else {
-        channel.InitiateSweep();
-        vna->FinishPreviousCommandsFirst();
+        // channel.InitiateSweep();
+        // vna->FinishPreviousCommandsFirst();
         vna->bus->Query(QString(buffer.data()), buffer.data(), buffer_size);
     }
 
@@ -1685,6 +2470,22 @@ void Vna::_Trace::MeasureTrace(TraceData &trace) {
     GetUnits(trace);
     ParseData(trace, buffer.data());
     GetStimulusValues(trace.stimulus_points);
+}
+
+void Vna::_Trace::WriteData(QRowVector &data) {
+    uint channel = GetChannel();
+    ComplexRowVector complex;
+    int size = data.size();
+    if (size > 0)
+        complex.resize(size);
+    for (int i = 0; i < size; i++)
+        complex[i] = std::complex<double>(data[i], 0);
+
+    QString command;
+    QByteArray c_data = ToString(complex, ",").toUtf8();
+    command.sprintf(":CALC%d:DATA SDAT, %s\n", channel, c_data.constData());
+    Select();
+    vna->Write(command);
 }
 
 // TRACE:Private:General
@@ -1868,7 +2669,6 @@ void Vna::_Trace::GetUnits(TraceData &trace) {
 }
 
 
-
 //**********************
 //** DIAGRAM ***********
 //*********************/
@@ -1883,9 +2683,26 @@ Vna::_Diagram::_Diagram(Vna *vna, uint diagram) {
     this->diagram = diagram;
 }
 
+// DIAGRAM:Actions
+void Vna::_Diagram::Autoscale() {
+    const uint BUFFER_SIZE = 50;
+    char buffer[BUFFER_SIZE];
+    QStringList traces = GetTraces();
+    int number_of_traces = traces.size();
+    if (number_of_traces == 0)
+        return;
+
+    int i = 0;
+    while (i < number_of_traces && vna->Trace(traces[i]).isHidden())
+        i++;
+    QByteArray c_string = traces[i].toUtf8();
+    sprintf(buffer, ":DISP:WIND:TRAC:Y:AUTO ONCE, \'%s\'\n", c_string.constData());
+    vna->bus->Write(QString(buffer));
+}
+
 // DIAGRAM:Get
 QStringList Vna::_Diagram::GetTraces() {
-    const uint BUFFER_SIZE = 300;
+    const uint BUFFER_SIZE = 4000;
     char buffer[BUFFER_SIZE];
     QStringList traces;
     sprintf(buffer, ":DISP:WIND%d:TRAC:CAT?\n", diagram);
@@ -1919,7 +2736,18 @@ QString Vna::_Diagram::GetTitle() {
 void Vna::_Diagram::SetTitle(QString title) {
     const uint BUFFER_SIZE = 500;
     char buffer[BUFFER_SIZE];
-    QByteArray c_string = title.toLocal8Bit();
+    QByteArray c_string = title.toUtf8();
     sprintf(buffer, ":DISP:WIND%d:TITL:DATA \'%s\'\n", diagram, c_string.constData());
     vna->bus->Write(QString(buffer));
+}
+
+// DIAGRAM:Private:Trace Info
+QVector<uint> Vna::_Diagram::GetTraceNumbers() {
+    const uint BUFFER_SIZE = 4000;
+    char buffer[BUFFER_SIZE];
+    QVector<uint> numbers;
+    sprintf(buffer, ":DISP:WIND%d:TRAC:CAT?\n", diagram);
+    vna->bus->Query(QString(buffer), buffer, BUFFER_SIZE);
+    Vna::ParseIndicesFromRead(buffer, numbers);
+    return(numbers);
 }

@@ -9,7 +9,7 @@
 
 // Application settings
 const char APP_NAME[] = "RSA PA Compression Test";
-const char APP_VERSION[] = "0.9.4"; //http://semver.org/
+const char APP_VERSION[] = "1.1.0"; //http://semver.org/
 const char APP_FOLDER[] = "RSA PA Compression Test";
 
 #ifdef LOCAL_LOG
@@ -42,6 +42,7 @@ const char INPUT_PORT[] = "INPUT_PORT";
 const char OUTPUT_PORT[] = "OUTPUT_PORT";
 const char COMPRESSION_POINT[] = "COMPRESSION_POINT";
 const char POST_CONDITION[] = "POST_CONDITION";
+const char SWEEP_MODE[] = "SWEEP_MODE";
 const char OPEN_PATH[] = "OPEN_PATH";
 const char SAVE_PATH[] = "SAVE_PATH";
 const char EXPORT_PATH[] = "EXPORT_PATH";

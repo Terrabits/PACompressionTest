@@ -8,7 +8,7 @@
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   
   <!-- Definition of my application -->
-	<Product Id="7012d55d-db9e-45b2-bd0a-165fbe3cfd64" Name="R&amp;S RSA PA Compression Test" Language="1033" Version="0.9.4.0" Manufacturer="Rohde &amp; Schwarz America" UpgradeCode="699b0972-99de-4286-9686-b8cea86158b9">  
+	<Product Id="8a200242-525e-4aa8-ab03-686c9f522c97" Name="R&amp;S RSA PA Compression Test" Language="1033" Version="1.1.0.0" Manufacturer="Rohde &amp; Schwarz America" UpgradeCode="699b0972-99de-4286-9686-b8cea86158b9">  
 		
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
@@ -69,7 +69,7 @@
     <Component Id="AppComponent" Guid="ed770836-894d-46f7-bc7e-76b6d8d55291" Directory="INSTALLFOLDER">
       <CreateFolder Directory="SettingsFolder" />
       <CreateFolder Directory="PlatformsFolder" />
-      <File Id="AppExecutable" Name="RSA PA Compression Test.exe" Source="C:\Users\lalic\Documents\Qt\build-RsaPaCompressionTest-Desktop_Qt_5_0_2_MSVC2010_32bit-Release\release\RsaPaCompressionTest.exe" KeyPath="yes">
+      <File Id="AppExecutable" Name="RSA PA Compression Test.exe" Source="C:\Users\lalic\Documents\Qt\build-RsaPaCompressionTest-Desktop_Qt_5_1_1_MSVC2010_32bit-Release\release\RsaPaCompressionTest.exe" KeyPath="yes">
         <Shortcut Id="AppShortcut" Name="R&amp;S RSA PA Compression Test" Directory="ApplicationStartMenuFolder" Description="Power Amplifier Compression Test Utility" Advertise="yes" Icon="RS.ico"/>
         <Shortcut Id="ZNBShortcut" Name="RSA PA Compression Test" Directory="ZNBExternalToolsFolder" Advertise="yes" Icon="RS.ico"/>
         <Shortcut Id="ZVAShortcut" Name="RSA PA Compression Test" Directory="ZVAExternalToolsFolder" Advertise="yes" Icon="RS.ico"/>
@@ -96,19 +96,19 @@
       <File Id="msvcp100.dll" Name="msvcp100.dll" Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\redist\x86\Microsoft.VC100.CRT\msvcp100.dll" />
     </Component>
     <Component Id="QtRuntime" Guid="0358895b-bbc4-4f89-9f5c-2f26262bed0d" Directory="INSTALLFOLDER">
-      <File Id="Qt5Core.dll" Name="Qt5Core.dll" Source="C:\Qt\Qt5.0.2\5.0.2\msvc2010\bin\Qt5Core.dll" KeyPath="yes" />
-      <File Id="Qt5Gui.dll" Name="Qt5Gui.dll" Source="C:\Qt\Qt5.0.2\5.0.2\msvc2010\bin\Qt5Gui.dll" />
-      <File Id="Qt5Widgets.dll" Name="Qt5Widgets.dll" Source="C:\Qt\Qt5.0.2\5.0.2\msvc2010\bin\Qt5Widgets.dll" />
-      <File Id="libGLESv2.dll" Name="libGLESv2.dll" Source="C:\Qt\Qt5.0.2\5.0.2\msvc2010\bin\libGLESv2.dll" />
-      <File Id="libEGL.dll" Name="libEGL.dll" Source="C:\Qt\Qt5.0.2\5.0.2\msvc2010\bin\libEGL.dll" />
-      <File Id="D3DCompiler_43.dll" Name="D3DCompiler_43.dll" Source="C:\Qt\Qt5.0.2\5.0.2\msvc2010\bin\D3DCompiler_43.dll" />
-      <File Id="icudt49.dll" Name="icudt49.dll" Source="C:\Qt\Qt5.0.2\5.0.2\msvc2010\bin\icudt49.dll" />
-      <File Id="icuin49.dll" Name="icuin49.dll" Source="C:\Qt\Qt5.0.2\5.0.2\msvc2010\bin\icuin49.dll" />
-      <File Id="icuuc49.dll" Name="icuuc49.dll" Source="C:\Qt\Qt5.0.2\5.0.2\msvc2010\bin\icuuc49.dll" />
-      <File Id="Qt5PrintSupport.dll" Name="Qt5PrintSupport.dll" Source="C:\Qt\Qt5.0.2\5.0.2\msvc2010\bin\Qt5PrintSupport.dll" />
+      <File Id="Qt5Core.dll" Name="Qt5Core.dll" Source="C:\Qt\Qt5.1.1\5.1.1\msvc2010\bin\Qt5Core.dll" KeyPath="yes" />
+      <File Id="Qt5Gui.dll" Name="Qt5Gui.dll" Source="C:\Qt\Qt5.1.1\5.1.1\msvc2010\bin\Qt5Gui.dll" />
+      <File Id="Qt5Widgets.dll" Name="Qt5Widgets.dll" Source="C:\Qt\Qt5.1.1\5.1.1\msvc2010\bin\Qt5Widgets.dll" />
+      <File Id="libGLESv2.dll" Name="libGLESv2.dll" Source="C:\Qt\Qt5.1.1\5.1.1\msvc2010\bin\libGLESv2.dll" />
+      <File Id="libEGL.dll" Name="libEGL.dll" Source="C:\Qt\Qt5.1.1\5.1.1\msvc2010\bin\libEGL.dll" />
+      <File Id="D3DCompiler_43.dll" Name="D3DCompiler_43.dll" Source="C:\Qt\Qt5.1.1\5.1.1\msvc2010\bin\D3DCompiler_43.dll" />
+      <File Id="icudt51.dll" Name="icudt51.dll" Source="C:\Qt\Qt5.1.1\5.1.1\msvc2010\bin\icudt51.dll" />
+      <File Id="icuin51.dll" Name="icuin51.dll" Source="C:\Qt\Qt5.1.1\5.1.1\msvc2010\bin\icuin51.dll" />
+      <File Id="icuuc51.dll" Name="icuuc51.dll" Source="C:\Qt\Qt5.1.1\5.1.1\msvc2010\bin\icuuc51.dll" />
+      <File Id="Qt5PrintSupport.dll" Name="Qt5PrintSupport.dll" Source="C:\Qt\Qt5.1.1\5.1.1\msvc2010\bin\Qt5PrintSupport.dll" />
     </Component>
     <Component Id="QtPlatformPlugin" Guid="5c5c2060-8e30-4d04-8d46-17f80ad3ce3f" Directory="PlatformsFolder">
-      <File Id="qwindows.dll" Name="qwindows.dll" Source="C:\Qt\Qt5.0.2\5.0.2\msvc2010\bin\..\plugins\platforms\qwindows.dll" KeyPath="yes" />
+      <File Id="qwindows.dll" Name="qwindows.dll" Source="C:\Qt\Qt5.1.1\5.1.1\msvc2010\bin\..\plugins\platforms\qwindows.dll" KeyPath="yes" />
     </Component>
     <Component Id="UninstallShortcutComponent" Guid="6de6ec85-6328-4991-afdd-ec2fe961db50" Directory="ApplicationStartMenuFolder">
       <RegistryKey Root="HKCU" Key="Software\Rohde-Schwarz\RSA PA Compression Test\Uninstall">

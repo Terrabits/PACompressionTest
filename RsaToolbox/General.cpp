@@ -8,6 +8,7 @@
 #include <QStandardPaths>
 #include <QTextStream>
 #include <QCoreApplication>
+#include <QLocale>
 
 // C++ std lib
 #include <complex>
@@ -50,7 +51,24 @@ double RsaToolbox::ToDouble(SiPrefix prefix) {
         break;
     }
 }
-
+QString RsaToolbox::ToString(SweepType sweep_type) {
+    switch(sweep_type) {
+    case LINEAR_FREQUENCY_SWEEP:
+        return("Linear Frequency Sweep");
+    case LOG_FREQUENCY_SWEEP:
+        return("Log Frequency Sweep");
+    case SEGMENTED_SWEEP:
+        return("Segmented Frequency Sweep");
+    case POWER_SWEEP:
+        return("Power Sweep");
+    case CW_MODE_SWEEP:
+        return("CW Mode");
+    case TIME_SWEEP:
+        return("Time Sweep");
+    default:
+        return("Unknown sweep type");
+    }
+}
 QString RsaToolbox::ToString(ComplexFormat format) {
     switch(format) {
     case DB_DEGREES_COMPLEX:
@@ -238,6 +256,22 @@ SiPrefix RsaToolbox::String_To_SiPrefix(QString prefix) {
     // Default
     return(NO_PREFIX);
 }
+SweepType RsaToolbox::String_To_SweepType(QString sweep_type) {
+    if (sweep_type == "Linear Frequency Sweep")
+        return(LINEAR_FREQUENCY_SWEEP);
+    if (sweep_type == "Log Frequency Sweep")
+        return(LOG_FREQUENCY_SWEEP);
+    if (sweep_type == "Segmented Frequency Sweep")
+        return(SEGMENTED_SWEEP);
+    if (sweep_type == "Power Sweep")
+        return(POWER_SWEEP);
+    if (sweep_type == "CW Mode")
+        return(CW_MODE_SWEEP);
+    if (sweep_type == "Time Sweep")
+        return(TIME_SWEEP);
+    // Default:
+    return(LINEAR_FREQUENCY_SWEEP);
+}
 
 // File system
 QString RsaToolbox::AppendPath(QDir path, QString filename) {
@@ -274,6 +308,7 @@ QString RsaToolbox::AppendAppDataPath(QString program_folder, QString filename) 
 QString RsaToolbox::FormatValue(double value, int decimalPlaces, Units units, SiPrefix prefix) {
     QString formatted_value;
     QTextStream text_stream(&formatted_value);
+    text_stream.setLocale(QLocale());
     text_stream.setRealNumberPrecision(decimalPlaces);
     text_stream.setRealNumberNotation(QTextStream::FixedNotation);
 
@@ -307,16 +342,74 @@ QString RsaToolbox::FormatValue(double value, int decimalPlaces, Units units, Si
     text_stream.flush();
     return(formatted_value);
 }
+QString RsaToolbox::ToString(ComplexRowVector vector, QString list_separator, const char *complex_format) {
+    int size = vector.size();
+    if (size == 0
+            || QString(complex_format).count("%") != 2
+            || QString(complex_format).count("%f") != 2)
+        return("");
+    // else
+    QString list;
+    list.sprintf(complex_format,
+                 vector[0].real(),
+            vector[0].imag());
+    for (int i = 1; i < size; i++) {
+        list.append(list_separator);
+        list +=
+                QString().sprintf(complex_format,
+                                  vector[i].real(),
+                                  vector[i].imag());
+    }
+    return(list);
+}
 
 // Math
 double RsaToolbox::ToDb(double value) {
     return(20 * log10(value));
+}
+QRowVector RsaToolbox::ToDb(QRowVector vector) {
+    int size = vector.size();
+    QRowVector dB;
+    for (int i = 0; i < size; i++)
+        dB << ToDb(vector[i]);
+    return(dB);
 }
 double RsaToolbox::ToDb(std::complex<double> value) {
     return(ToDb(abs(value)));
 }
 double RsaToolbox::ToMagnitude(double decibels) {
     return(pow(10.0, decibels / 20.0));
+}
+QRowVector RsaToolbox::ToMagnitude(QRowVector vector) {
+    int size = vector.size();
+    QRowVector magnitude;
+    for (int i = 0; i < size; i++)
+        magnitude << ToMagnitude(vector[i]);
+    return(magnitude);
+}
+QVector<int> RsaToolbox::Range(int start, int stop) {
+    QVector<int> range;
+    if (start == stop) {
+        range.append(start);
+        return(range);
+    }
+
+    if (start < stop) {
+        for (int i = start; i <= stop; i++)
+            range.append(i);
+
+        return(range);
+    }
+
+    if (start > stop) {
+        for (int i = start; i >= stop; i--)
+            range.append(i);
+
+        return(range);
+    }
+
+    // This will never happen
+    return(range);
 }
 void RsaToolbox::LinearSpacing(QRowVector &result, double start, double stop, int points) {
     RowVector std_result;
@@ -338,4 +431,40 @@ double RsaToolbox::LinearInterpolateX(double x1, double y1, double x2, double y2
 double RsaToolbox::LinearInterpolateY(double x1, double y1, double x2, double y2, double x_desired) {
     double slope = (y2 - y1)/(x2 - x1);
     return(y1 + slope*(x_desired - x1));
+}
+RowVector RsaToolbox::ScalarMultiply(RowVector vector, double scalar) {
+    const int size = vector.size();
+    for (int i = 0; i < size; i++)
+        vector[i] = vector[i] * scalar;
+    return(vector);
+}
+Matrix2D RsaToolbox::ScalarMultiply(Matrix2D matrix, double scalar) {
+    const int size = matrix.size();
+    for (int i = 0; i < size; i++)
+        ScalarMultiply(matrix[i], scalar);
+    return(matrix);
+}
+Matrix3D RsaToolbox::ScalarMultiply(Matrix3D matrix, double scalar) {
+    const int size = matrix.size();
+    for (int i = 0; i < size; i++)
+        ScalarMultiply(matrix[i], scalar);
+    return(matrix);
+}
+QRowVector RsaToolbox::ScalarMultiply(QRowVector vector, double scalar) {
+    const int size = vector.size();
+    for (int i = 0; i < size; i++)
+        vector[i] = vector[i] * scalar;
+    return(vector);
+}
+QMatrix2D RsaToolbox::ScalarMultiply(QMatrix2D matrix, double scalar) {
+    const int size = matrix.size();
+    for (int i = 0; i < size; i++)
+        ScalarMultiply(matrix[i], scalar);
+    return(matrix);
+}
+QMatrix3D RsaToolbox::ScalarMultiply(QMatrix3D matrix, double scalar) {
+    const int size = matrix.size();
+    for (int i = 0; i < size; i++)
+        ScalarMultiply(matrix[i], scalar);
+    return(matrix);
 }

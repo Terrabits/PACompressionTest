@@ -18,6 +18,7 @@ namespace RsaToolbox
 {
 class NetworkData {
 public:
+    SweepType sweep_type;
     NetworkParameter network_parameter;
     unsigned int ports;
     unsigned int points;
@@ -27,8 +28,8 @@ public:
     QDateTime date_time;
     
     // Data
-    SiPrefix frequency_prefix;
-    RowVector frequency;
+    SiPrefix stimulus_prefix;
+    RowVector stimulus;
     ComplexMatrix3D data;
     
     // Constructor
@@ -36,10 +37,11 @@ public:
     
     // Actions
     bool isValid(void);
-    void GetDb(int port1, int port2, RowVector &decibels);
-    void GetMagnitude(int port1, int port2, RowVector &magnitude);
-    void GetAngle(int port1, int port2, RowVector &angle_degrees);
-    void GetFrequency(RowVector &frequency, SiPrefix &frequency_prefix);
+    void GetDb(int output_port, int input_port, RowVector &decibels);
+    RowVector GetDb(int output_port, int input_port);
+    void GetMagnitude(int output_port, int input_port, RowVector &magnitude);
+    void GetAngle(int output_port, int input_port, RowVector &angle_degrees);
+    void GetStimulus(RowVector &stimulus, SiPrefix &stimulus_prefix);
     
     // Operators
     operator QString();

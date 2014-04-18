@@ -21,6 +21,7 @@
 #include <QStringList>
 #include <QDataStream>
 
+class RunSweeps;
 
 namespace Ui {
 class MainWindow;
@@ -33,6 +34,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(RsaToolbox::Key *key, QWidget *parent = 0);
     ~MainWindow();
+
+    friend class RunSweeps;
     
 private slots:
 
@@ -62,16 +65,16 @@ private slots:
 
     // Calculate
     void CalculateReflectionMags();
-    void CalculateGain();
+    void CalculatePower();
     void FindNominalGain();
-    void FindCompressionPoints();
 
     // Plot
     void PlotReflection();
     void PlotPinVsPout();
     void PlotGainVsFreq();
     void PlotGainVsPin();
-    void PlotCompressionPoint();
+    void PlotPinCompression();
+    void PlotPoutCompression();
 
     // Export Data
     void Export();
@@ -85,9 +88,11 @@ private slots:
 
     // Open, Save
     void Open();
-    bool Open(QDataStream &input);\
+    bool Open(QDataStream &input);
     void Save();
     bool Save(QDataStream &output);
+
+    void About();
 
 
     //////////// GUI CONTROLS ///////////////////
@@ -99,10 +104,13 @@ private slots:
     void on_start_freq_units_combo_box_currentIndexChanged(const QString &arg1);
     void on_stop_freq_units_combo_box_currentIndexChanged(const QString &arg1);
     void on_if_units_combo_box_currentIndexChanged(const QString &arg1);
+    void on_calibration_push_button_clicked();
+    void on_retrieve_settings_push_button_clicked();
     void on_measure_push_button_clicked();
 
     // Plot, data
     void on_plot_type_combo_box_currentIndexChanged(const QString &arg1);
+    void on_axis_push_button_clicked();
     void on_frequency_slider_valueChanged(int value);
     void on_print_plot_push_button_clicked();
 
@@ -117,9 +125,11 @@ private:
     double max_freq_Hz, min_freq_Hz;
     int max_points;
     double min_power_dBm, max_power_dBm;
-    QStringList if_mantissa_Hz;
-    QStringList if_mantissa_KHz;
-    QStringList if_mantissa_MHz;
+    QVector<QStringList> if_mantissa_values;
+    QStringList if_units;
+//    QStringList if_mantissa_Hz;
+//    QStringList if_mantissa_KHz;
+//    QStringList if_mantissa_MHz;
     QStringList receiver_attenuations;
     QStringList source_attenuations;
 
@@ -141,25 +151,26 @@ private:
     int output_port;
     double start_power_dBm;
     double stop_power_dBm;
-    int number_power_points;
+    int power_points;
     double start_freq_Hz;
     double stop_freq_Hz;
-    int number_frequency_points;
+    int frequency_points;
     double if_bw_Hz;
-    double compression_point_dB;
+    double compression_level_dB;
     int source_attenuation;
     int receiver_attenuation;
-    RsaToolbox::QRowVector frequency_points_Hz;
-    RsaToolbox::QRowVector power_points_dBm;
+    RsaToolbox::QRowVector frequencies_Hz;
+    RsaToolbox::QRowVector power_in_dBm;
 
     // Measured, calculated data
     RsaToolbox::QRowVector s11_dB;
     RsaToolbox::QRowVector s22_dB;
-    RsaToolbox::QMatrix2D power_sweeps_dBm;
-    RsaToolbox::QMatrix2D gain_data_dB;
+    RsaToolbox::QMatrix2D gain_dB;
+    RsaToolbox::QMatrix2D power_out_dBm;
     RsaToolbox::QRowVector nominal_gain_dB;
     RsaToolbox::QRowVector compression_points_in_dBm;
     RsaToolbox::QRowVector compression_points_out_dBm;
+    RsaToolbox::QRowVector compression_frequencies_Hz;
     QVector<RsaToolbox::NetworkData> s_parameter_data;
 };
 

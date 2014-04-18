@@ -1,4 +1,5 @@
 
+
 // RsaToolbox includes
 #include "Definitions.h"
 #include "VisaBus.h"
@@ -58,6 +59,7 @@ VisaBus::~VisaBus() {
         _viClose(instrument);
         _viClose(resource_manager);
     }
+    visa_library.unload();
 }
 
 // Status

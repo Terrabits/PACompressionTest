@@ -7,10 +7,12 @@
 // Qt
 #include <QApplication>
 #include <QMessageBox>
+#include <QLocale>
 
 // Rsa
 #include "Definitions.h"
 #include "General.h"
+#include "Log.h"
 #include "Vna.h"
 #include "Key.h"
 using namespace RsaToolbox;
@@ -18,7 +20,7 @@ using namespace RsaToolbox;
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    QApplication app(argc, argv);
 
     // Get key instance
     Key key(APP_FOLDER);
@@ -26,6 +28,6 @@ int main(int argc, char *argv[])
     // Create, display window
     MainWindow w(&key);
     w.show();
-    return a.exec();
+    return app.exec();
 }
 

@@ -158,7 +158,7 @@ bool Touchstone::ReadOptions(NetworkData &network, QTextStream &snpFile) {
 bool Touchstone::ReadFrequencyPrefix(NetworkData &network, QString units) {
     if (units.contains("Hz", Qt::CaseInsensitive)) {
         units.chop(2);
-        network.frequency_prefix = String_To_SiPrefix(units);
+        network.stimulus_prefix = String_To_SiPrefix(units);
         return(true);
     }
 
@@ -226,12 +226,12 @@ bool Touchstone::ReadData(NetworkData &network, QTextStream &snpFile) {
         ComplexMatrix2D dataRow;
         double frequencyPoint;
         if (ReadRow(network, snpFile, dataRow, frequencyPoint)) {
-            network.frequency.push_back(frequencyPoint);
+            network.stimulus.push_back(frequencyPoint);
             network.data.push_back(dataRow);
         }
     }
     
-    if (network.data.size() > 0 && network.data.size() == network.frequency.size()) {
+    if (network.data.size() > 0 && network.data.size() == network.stimulus.size()) {
         network.points = network.data.size();
         if (network.ports == 2)
             Flip2Ports(network);
@@ -317,7 +317,7 @@ void Touchstone::WriteOptions(NetworkData &network, QTextStream &snpFile) {
     snpFile << "R " << network.impedance << endl;
 }
 QString Touchstone::WriteUnits(NetworkData &network) {
-    return(ToString(network.frequency_prefix) + ToString(HERTZ_UNITS));
+    return(ToString(network.stimulus_prefix) + ToString(HERTZ_UNITS));
 }
 QString Touchstone::WriteDataType(NetworkData &network) {
     switch (network.network_parameter) {
@@ -361,7 +361,7 @@ void Touchstone::WriteData(NetworkData &network, QTextStream &snpFile) {
     for (unsigned int currentFreq = 0; currentFreq < network.points; currentFreq++) {
         snpFile.setFieldAlignment(QTextStream::AlignLeft);
         snpFile.setFieldWidth(COLUMNWIDTH);
-        snpFile << network.frequency[currentFreq];
+        snpFile << network.stimulus[currentFreq];
         ComplexMatrix2D::iterator row_iter = network.data[currentFreq].begin();
         WriteRow(network, snpFile, *row_iter);
         row_iter++;

@@ -20,49 +20,25 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 TARGET = RsaPaCompressionTest
 TEMPLATE = app
 
+include(RsaToolbox/rsatoolbox.pri)
 SOURCES +=  main.cpp \
             mainwindow.cpp \
-            ./RsaToolbox/General.cpp \
-            ./RsaToolbox/Log.cpp \
-            ./RsaToolbox/GenericBus.cpp \
-            ./RsaToolbox/RsibBus.cpp \
-            ./RsaToolbox/VisaBus.cpp \
-            ./RsaToolbox/TraceData.cpp \
-            ./RsaToolbox/NetworkData.cpp \
-            ./RsaToolbox/Touchstone.cpp \
-            ./RsaToolbox/Vna.cpp \
             RunSweeps.cpp \
             gettracename.cpp \
-            axis_settings.cpp \
-    getcalibration.cpp
+            axis_settings.cpp
 
 HEADERS  += Settings.h \
             mainwindow.h \
-            ./RsaToolbox/rsib.h \
-            ./RsaToolbox/visa.h \
-            ./RsaToolbox/Definitions.h \
-            ./RsaToolbox/General.h \
-            ./RsaToolbox/Key.h \
-            ./RsaToolbox/Log.h \
-            ./RsaToolbox/GenericBus.h \
-            ./RsaToolbox/RsibBus.h \
-            ./RsaToolbox/VisaBus.h \
-            ./RsaToolbox/TraceData.h \
-            ./RsaToolbox/NetworkData.h \
-            ./RsaToolbox/Touchstone.h \
-            ./RsaToolbox/Vna.h \
             RunSweeps.h \
             gettracename.h \
-            axis_settings.h \
-    getcalibration.h
+            axis_settings.h
 
 INCLUDEPATH += ./RsaToolbox/\
                ./QCustomPlot/
 
 FORMS    += mainwindow.ui \
             gettracename.ui \
-            axis_settings.ui \
-    				getcalibration.ui
+            axis_settings.ui
 
 RESOURCES += Resources.qrc
 

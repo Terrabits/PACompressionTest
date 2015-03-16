@@ -20,10 +20,16 @@ TEMPLATE     = app
 include(RsaToolbox/rsatoolbox.pri)
 #include(RsaToolbox/QuaZip/quazip.pri)
 HEADERS     += Settings.h \
-    LandingPage.h
+    LandingPage.h \
+    TestPlan.h \
+    TestPlanFile.h \
+    ResultsFile.h
 INCLUDEPATH += $$PWD
 SOURCES     += main.cpp \
-    LandingPage.cpp
+    LandingPage.cpp \
+    TestPlan.cpp \
+    TestPlanFile.cpp \
+    ResultsFile.cpp
 RESOURCES   += Resources.qrc
 OTHER_FILES += DEBUG_LOGFILE.txt
 

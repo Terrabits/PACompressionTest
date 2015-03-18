@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TestPlanPage</class>
+ <widget class="QWidget" name="TestPlanPage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>543</width>
+    <height>362</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QWidget" name="widget_2" native="true">
+     <layout class="QGridLayout" name="gridLayout">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item row="6" column="1">
+       <widget class="DoubleLineEdit" name="absoluteStopPower"/>
+      </item>
+      <item row="8" column="1">
+       <widget class="PositiveDoubleLineEdit" name="compression"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="stopFrequencyLabel">
+        <property name="text">
+         <string>Stop Frequency:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="pointsLabel">
+        <property name="text">
+         <string>Points:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>3</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="startPowerLabel">
+        <property name="text">
+         <string>Start Power:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="startFrequencyLabel">
+        <property name="text">
+         <string>Start Frequency:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="stepSizeLabel">
+        <property name="text">
+         <string>Power Step Size:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <spacer name="verticalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>3</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Absolute Stop Power:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="compressionLabel">
+        <property name="text">
+         <string>Compression:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="PointsLineEdit" name="points"/>
+      </item>
+      <item row="4" column="1">
+       <widget class="DoubleLineEdit" name="startPower"/>
+      </item>
+      <item row="5" column="1">
+       <widget class="PositiveDoubleLineEdit" name="stepSize"/>
+      </item>
+      <item row="0" column="1">
+       <widget class="FrequencyEdit" name="startFrequency" native="true">
+        <property name="focusPolicy">
+         <enum>Qt::StrongFocus</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="FrequencyEdit" name="stopFrequency" native="true">
+        <property name="focusPolicy">
+         <enum>Qt::StrongFocus</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="2">
+       <widget class="QLabel" name="startPowerUnitsLabel">
+        <property name="text">
+         <string>dBm</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2">
+       <widget class="QLabel" name="stepSizeUnitsLabel">
+        <property name="text">
+         <string>dBm</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="2">
+       <widget class="QLabel" name="absoluteStopPowerUnitsLabel">
+        <property name="text">
+         <string>dBm</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="2">
+       <widget class="QLabel" name="compressionUnitsLabel">
+        <property name="text">
+         <string>dB</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_4">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>3</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="RsaToolbox::ErrorLabel" name="error" native="true"/>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QPushButton" name="testButton">
+     <property name="text">
+      <string>PushButton</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>FrequencyEdit</class>
+   <extends>QWidget</extends>
+   <header>FrequencyEdit.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PointsLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>PointsLineEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>DoubleLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>DoubleLineEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>PositiveDoubleLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>PositiveDoubleLineEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>RsaToolbox::ErrorLabel</class>
+   <extends>QWidget</extends>
+   <header>ErrorLabel.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>startFrequency</tabstop>
+  <tabstop>stopFrequency</tabstop>
+  <tabstop>points</tabstop>
+  <tabstop>startPower</tabstop>
+  <tabstop>stepSize</tabstop>
+  <tabstop>absoluteStopPower</tabstop>
+  <tabstop>compression</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

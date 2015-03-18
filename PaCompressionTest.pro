@@ -23,13 +23,23 @@ HEADERS     += Settings.h \
     LandingPage.h \
     TestPlan.h \
     TestPlanFile.h \
-    ResultsFile.h
+    ResultsFile.h \
+    PointsLineEdit.h \
+    FrequencyEdit.h \
+    TestPlanPage.h \
+    DoubleLineEdit.h \
+    PositiveDoubleLineEdit.h
 INCLUDEPATH += $$PWD
 SOURCES     += main.cpp \
     LandingPage.cpp \
     TestPlan.cpp \
     TestPlanFile.cpp \
-    ResultsFile.cpp
+    ResultsFile.cpp \
+    PointsLineEdit.cpp \
+    FrequencyEdit.cpp \
+    TestPlanPage.cpp \
+    DoubleLineEdit.cpp \
+    PositiveDoubleLineEdit.cpp
 RESOURCES   += Resources.qrc
 OTHER_FILES += DEBUG_LOGFILE.txt
 
@@ -41,5 +51,7 @@ CONFIG(debug, debug|release):DEFINES += DEBUG_MODE
 CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
 
 FORMS += \
-    LandingPage.ui
+    LandingPage.ui \
+    FrequencyEdit.ui \
+    TestPlanPage.ui
 

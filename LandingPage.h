@@ -6,7 +6,6 @@
 #include "WizardPage.h"
 #include "LastPath.h"
 
-#include <QWidget>
 
 namespace Ui {
 class LandingPage;

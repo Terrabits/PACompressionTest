@@ -1,38 +1,5 @@
 R&S PA Compression Test Version 1.0
 (C) 2014 Rohde & Schwarz America
 
-Sun Mar 8 18:07:12 2015
-
-VNA INSTRUMENT INFO
-Connection:       TCPIP
-Address:          127.0.0.1
-Make:             Rohde & Schwarz
-Model:            ZNB
-Serial No:        1311601044100104
-Firmware Version: 2.40
-Min Frequency:    9.0 KHz
-Max Frequency:    8.5 GHz
-Number of Ports:  4
-Options:          ZNB-K2
-                  ZNB-K4
-                  ZNB-K14
-                  ZNB-K17
-                  ZNB-K19
-                  ZNB8-B24
-                  ZNB8-B31
-                  ZNB8-B32
-                  ZNB8-B33
-                  ZNB8-B34
-                  ZNB-B81
-                  ZNB-B2
-                  ZN-B15
-
-
-Write:    "*IDN?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "Rohde-Schwarz,ZNB8-4Port,1311601044100104,2.40"
-Bytes: 47
-Status: 0x0 Operation completed successfully.
+Tue Mar 17 21:12:41 2015
 

@@ -1,0 +1,6 @@
+TestPlan:
+- QDataWidgetMapper requires Model
+- Could map manually/directly by creating appropriate widgets
+- PointsLineEdit: integer, greater than zero
+- FrequencyEdit: double >= 0 line edit + prefix combo. Catch prefix keys ('g', 'm', 'k')
+- PowerLineEdit: double >= 0

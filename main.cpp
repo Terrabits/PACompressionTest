@@ -3,6 +3,7 @@
 // PaCompressionTest
 #include "Settings.h"
 #include "LandingPage.h"
+#include "TestPlanPage.h"
 
 // RsaToolbox
 #include "Log.h"
@@ -37,12 +38,15 @@ int main(int argc, char *argv[])
 //    if (isNoConnection(vna) || isUnknownModel(vna))
 //        return 0;
 
-    LandingPage *landingPage = new LandingPage();
-    landingPage->setName("Landing Page");
+//    LandingPage *landingPage = new LandingPage();
+//    landingPage->setName("Landing Page");
 
-    Wizard wizard;
-    wizard.addPage(landingPage);
-    wizard.show();
+    TestPlanPage testPlanPage;
+    testPlanPage.show();
+
+//    Wizard wizard;
+//    wizard.addPage(landingPage);
+//    wizard.show();
 
     return a.exec();
 }

@@ -15,36 +15,28 @@ class TestPlan : public QObject
 
 public:
     explicit TestPlan(QObject *parent = 0);
+    TestPlan(const TestPlan &other);
     ~TestPlan();
     
     // If Vna is provided,
     // error checking will occur
     bool isVna() const;
-    RsaToolbox::Vna vna() const;
+    RsaToolbox::Vna *vna() const;
     void setVna(RsaToolbox::Vna *vna);
     
-    bool isReady() const;
+    bool isValid();
 
     double startFrequency_Hz() const;
-    void setStartFrequency(double frequency, RsaToolbox::SiPrefix prefix = RsaToolbox::SiPrefix::None);
-
     double stopFrequency_Hz() const;
-    void setStopFrequency(double frequency, RsaToolbox::SiPrefix prefix = RsaToolbox::SiPrefix::None);
-
     uint frequencyPoints() const;
-    void setFrequencyPoints(uint points);
 
     double startPower_dBm() const;
-    void setStartPower(double power_dBm);
-
     double powerStepSize_dBm() const;
-    void setPowerStepSize(double stepSize_dBm);
-
     double absoluteStopPower_dBm() const;
-    void setAbsoluteStopPower(double power_dBm);
 
-    double compressionPoint_dB() const;
-    void setCompressionPoint(double value_dB = 1.0);
+    double compressionValue_dB() const;
+
+    void operator=(const TestPlan &other);
 
 signals:
     void vnaChanged(RsaToolbox::Vna *vna);
@@ -57,29 +49,44 @@ signals:
     void absoluteStopPowerChanged(double power_dBm);
     void powerStepSizeChanged(double stepSize_dBm);
 
-    void compressionPointChanged(double value_dB);
+    void compressionValueChanged(double value_dB);
 
     void reset();
-    
     void error(const QString &message);
 
 public slots:
+    bool setStartFrequency(double frequency, RsaToolbox::SiPrefix prefix = RsaToolbox::SiPrefix::None);
+    bool setStopFrequency(double frequency, RsaToolbox::SiPrefix prefix = RsaToolbox::SiPrefix::None);
+    bool setFrequencyPoints(uint points);
+
+    bool setStartPower(double power_dBm);
+    bool setPowerStepSize(double stepSize_dBm);
+    bool setAbsoluteStopPower(double power_dBm);
+
+    bool setCompressionValue(double value_dB);
 
 private:
     void initialize();
     RsaToolbox::Vna *_vna;
     
+    bool isFrequencyValid(double hz);
+    bool isPointsValid(uint points);
     double _startFrequency_Hz;
     double _stopFrequency_Hz;
     uint _frequencyPoints;
 
+    bool isPowerValid(double dBm);
+    bool isStepSizeValid(double dBm);
     double _startPower_dBm;
     double _powerStepSize_dBm;
     double _absoluteStopPower_dBm;
 
+    bool isCompressionValueValid(double dB);
     double _compression_dB;
 
 //    double _maximumOvershoot_dBm;
+
+    void setEqual(const TestPlan &other);
 
 };
 

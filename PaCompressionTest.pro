@@ -28,7 +28,8 @@ HEADERS     += Settings.h \
     FrequencyEdit.h \
     TestPlanPage.h \
     DoubleLineEdit.h \
-    PositiveDoubleLineEdit.h
+    PositiveDoubleLineEdit.h \
+    Results.h
 INCLUDEPATH += $$PWD
 SOURCES     += main.cpp \
     LandingPage.cpp \
@@ -39,7 +40,8 @@ SOURCES     += main.cpp \
     FrequencyEdit.cpp \
     TestPlanPage.cpp \
     DoubleLineEdit.cpp \
-    PositiveDoubleLineEdit.cpp
+    PositiveDoubleLineEdit.cpp \
+    Results.cpp
 RESOURCES   += Resources.qrc
 OTHER_FILES += DEBUG_LOGFILE.txt
 

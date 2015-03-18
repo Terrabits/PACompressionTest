@@ -47,6 +47,13 @@
       <item row="8" column="1">
        <widget class="PositiveDoubleLineEdit" name="compression"/>
       </item>
+      <item row="4" column="2">
+       <widget class="QLabel" name="startPowerUnitsLabel">
+        <property name="text">
+         <string>dBm</string>
+        </property>
+       </widget>
+      </item>
       <item row="1" column="0">
        <widget class="QLabel" name="stopFrequencyLabel">
         <property name="text">
@@ -91,6 +98,13 @@
         </property>
        </widget>
       </item>
+      <item row="6" column="2">
+       <widget class="QLabel" name="absoluteStopPowerUnitsLabel">
+        <property name="text">
+         <string>dBm</string>
+        </property>
+       </widget>
+      </item>
       <item row="5" column="0">
        <widget class="QLabel" name="stepSizeLabel">
         <property name="text">
@@ -114,6 +128,13 @@
         </property>
        </spacer>
       </item>
+      <item row="5" column="2">
+       <widget class="QLabel" name="stepSizeUnitsLabel">
+        <property name="text">
+         <string>dBm</string>
+        </property>
+       </widget>
+      </item>
       <item row="6" column="0">
        <widget class="QLabel" name="label">
         <property name="text">
@@ -125,6 +146,13 @@
        <widget class="QLabel" name="compressionLabel">
         <property name="text">
          <string>Compression:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="2">
+       <widget class="QLabel" name="compressionUnitsLabel">
+        <property name="text">
+         <string>dB</string>
         </property>
        </widget>
       </item>
@@ -151,31 +179,20 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="2">
-       <widget class="QLabel" name="startPowerUnitsLabel">
+      <item row="9" column="0">
+       <widget class="QLabel" name="gainExpansionLabel">
         <property name="text">
-         <string>dBm</string>
+         <string>Include Gain Expansion?</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="2">
-       <widget class="QLabel" name="stepSizeUnitsLabel">
+      <item row="9" column="1">
+       <widget class="QCheckBox" name="gainExpansion">
         <property name="text">
-         <string>dBm</string>
+         <string/>
         </property>
-       </widget>
-      </item>
-      <item row="6" column="2">
-       <widget class="QLabel" name="absoluteStopPowerUnitsLabel">
-        <property name="text">
-         <string>dBm</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="2">
-       <widget class="QLabel" name="compressionUnitsLabel">
-        <property name="text">
-         <string>dB</string>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </item>

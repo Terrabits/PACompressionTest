@@ -167,6 +167,19 @@ bool TestPlan::setAbsoluteStopPower(double power_dBm) {
     return true;
 }
 
+bool TestPlan::isGainExpansion() const {
+    return _isGainExpansion;
+}
+bool TestPlan::setGainExpansion(bool on) {
+    qDebug() << "Gain Expansion: " << on;
+    if (on == _isGainExpansion)
+        return true;
+
+    _isGainExpansion = on;
+    emit gainExpansionChanged(_isGainExpansion);
+    return true;
+}
+
 double TestPlan::compressionValue_dB() const {
     return _compression_dB;
 }
@@ -206,6 +219,8 @@ void TestPlan::initialize() {
     _startPower_dBm = 0;
     _powerStepSize_dBm = 0;
     _absoluteStopPower_dBm = 0;
+
+    _isGainExpansion = true;
 
     _compression_dB = 0;
 

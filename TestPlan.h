@@ -34,6 +34,8 @@ public:
     double powerStepSize_dBm() const;
     double absoluteStopPower_dBm() const;
 
+    bool isGainExpansion() const;
+
     double compressionValue_dB() const;
 
     void operator=(const TestPlan &other);
@@ -49,6 +51,8 @@ signals:
     void absoluteStopPowerChanged(double power_dBm);
     void powerStepSizeChanged(double stepSize_dBm);
 
+    void gainExpansionChanged(bool isOn);
+
     void compressionValueChanged(double value_dB);
 
     void reset();
@@ -62,6 +66,8 @@ public slots:
     bool setStartPower(double power_dBm);
     bool setPowerStepSize(double stepSize_dBm);
     bool setAbsoluteStopPower(double power_dBm);
+
+    bool setGainExpansion(bool on);
 
     bool setCompressionValue(double value_dB);
 
@@ -83,6 +89,8 @@ private:
 
     bool isCompressionValueValid(double dB);
     double _compression_dB;
+
+    bool _isGainExpansion;
 
 //    double _maximumOvershoot_dBm;
 

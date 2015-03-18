@@ -18,40 +18,22 @@ TestPlanPage::TestPlanPage(QWidget *parent) :
 
     _plan.setVna(&_vna);
 
-//    connect(ui->startFrequency, SIGNAL(frequencyChanged(double)),
-//            &_plan, SLOT(setStartFrequency(double)));
-//    connect(&_plan, SIGNAL(startFrequencyChanged(double)),
-//            ui->startFrequency, SLOT(setFrequency(double)));
-
-//    connect(ui->stopFrequency, SIGNAL(frequencyChanged(double)),
-//            &_plan, SLOT(setStopFrequency(double)));
-//    connect(&_plan, SIGNAL(stopFrequencyChanged(double)),
-//            ui->stopFrequency, SLOT(setFrequency(double)));
-
-//    connect(ui->points, SIGNAL(pointsChanged(uint)),
-//            &_plan, SLOT(setFrequencyPoints(uint)));
-//    connect(&_plan, SIGNAL(frequencyPointsChanged(uint)),
-//            ui->points, SLOT(setPoints(uint)));
-
-//    connect(ui->startPower, SIGNAL(valueChanged(double)),
-//            &_plan, SLOT(setStartPower(double)));
-//    connect(&_plan, SIGNAL(startPowerChanged(double)),
-//            ui->startPower, SLOT(setValue(double)));
-
-//    connect(ui->stepSize, SIGNAL(valueChanged(double)),
-//            &_plan, SLOT(setPowerStepSize(double)));
-//    connect(&_plan, SIGNAL(powerStepSizeChanged(double)),
-//            ui->stepSize, SLOT(setValue(double)));
-
-//    connect(ui->absoluteStopPower, SIGNAL(valueChanged(double)),
-//            &_plan, SLOT(setAbsoluteStopPower(double)));
-//    connect(&_plan, SIGNAL(absoluteStopPowerChanged(double)),
-//            ui->absoluteStopPower, SLOT(setValue(double)));
-
-//    connect(ui->compression, SIGNAL(valueChanged(double)),
-//            &_plan, SLOT(setCompressionValue(double)));
-//    connect(&_plan, SIGNAL(compressionValueChanged(double)),
-//            ui->compression, SLOT(setValue(double)));
+    connect(&_plan, SIGNAL(startFrequencyChanged(double)),
+            ui->startFrequency, SLOT(setFrequency(double)));
+    connect(&_plan, SIGNAL(stopFrequencyChanged(double)),
+            ui->stopFrequency, SLOT(setFrequency(double)));
+    connect(&_plan, SIGNAL(frequencyPointsChanged(uint)),
+            ui->points, SLOT(setPoints(uint)));
+    connect(&_plan, SIGNAL(startPowerChanged(double)),
+            ui->startPower, SLOT(setValue(double)));
+    connect(&_plan, SIGNAL(powerStepSizeChanged(double)),
+            ui->stepSize, SLOT(setValue(double)));
+    connect(&_plan, SIGNAL(absoluteStopPowerChanged(double)),
+            ui->absoluteStopPower, SLOT(setValue(double)));
+    connect(&_plan, SIGNAL(gainExpansionChanged(bool)),
+            ui->gainExpansion, SLOT(setChecked(bool)));
+    connect(&_plan, SIGNAL(compressionValueChanged(double)),
+            ui->compression, SLOT(setValue(double)));
 
     connect(&_plan, SIGNAL(error(QString)),
             ui->error, SLOT(showMessage(QString)));
@@ -141,6 +123,8 @@ bool TestPlanPage::isReadyForNext() {
         ui->absoluteStopPower->setFocus();
         return false;
     }
+
+    _plan.setGainExpansion(ui->gainExpansion->isChecked());
 
     if (!ui->compression->hasAcceptableInput()) {
         ui->error->showMessage("*Enter a compression value");

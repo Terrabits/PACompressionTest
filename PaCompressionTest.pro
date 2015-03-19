@@ -29,7 +29,9 @@ HEADERS     += Settings.h \
     TestPlanPage.h \
     DoubleLineEdit.h \
     PositiveDoubleLineEdit.h \
-    Results.h
+    Results.h \
+    PowerSweep.h \
+    PowerPoint.h
 INCLUDEPATH += $$PWD
 SOURCES     += main.cpp \
     LandingPage.cpp \
@@ -41,7 +43,9 @@ SOURCES     += main.cpp \
     TestPlanPage.cpp \
     DoubleLineEdit.cpp \
     PositiveDoubleLineEdit.cpp \
-    Results.cpp
+    Results.cpp \
+    PowerSweep.cpp \
+    PowerPoint.cpp
 RESOURCES   += Resources.qrc
 OTHER_FILES += DEBUG_LOGFILE.txt
 

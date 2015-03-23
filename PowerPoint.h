@@ -3,19 +3,23 @@
 
 
 // RsaToolbox
-#include "General.h"
+#include "Definitions.h"
 
 
 class PowerPoint
 {
 public:
     PowerPoint();
+    PowerPoint(const PowerPoint &other);
+    PowerPoint(double power_dBm, RsaToolbox::ComplexMatrix2D sParameters);
 
     double power_dBm;
     RsaToolbox::ComplexMatrix2D sParameters;
-    ComplexDouble sParameter(uint outputPort, uint inputPort);
+
+    void reset();
 
     RsaToolbox::ComplexRowVector &operator[](int index);
+    void operator=(const PowerPoint &other);
 };
 
 #endif // POWERPOINT_H

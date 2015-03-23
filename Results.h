@@ -22,6 +22,10 @@ public:
     explicit Results(QObject *parent = 0);
     ~Results();
 
+    bool isGainExpansionMode() const;
+    void setGainExpansionMode(bool on);
+
+    bool isCompressionValue() const;
     double compressionValue() const;
     void setCompressionValue(double value_dB);
 
@@ -29,7 +33,6 @@ public:
     void compressionPoint(uint frequencyIndex, double &powerIn, double &powerOut);
 
     uint frequencyPoints() const;
-    uint frequencyIndex(double frequency_Hz) const;
     RsaToolbox::QRowVector frequencies_Hz() const;
 
     RsaToolbox::ComplexRowVector sParameter(uint frequencyIndex, uint outputPort, uint inputPort);
@@ -37,14 +40,14 @@ public:
     PowerSweep &operator[](int index);
 
 signals:
-
-    void reset(); // ?
+    void dataReset();
 
 public slots:
-    void setFrequencies(RsaToolbox::QRowVector frequencies_Hz);
+    void reset();
 
 
 private:
+    bool _isGainExpansionMode;
     double _compressionValue;
     QVector<PowerSweep> _sweeps;
 

@@ -17,6 +17,8 @@ class PowerSweep
 public:
 
     PowerSweep();
+    PowerSweep(const PowerSweep &other);
+    PowerSweep(double frequency_Hz, RsaToolbox::QRowVector powers_dBm, RsaToolbox::ComplexMatrix3D sParameters);
 
     double frequency_Hz() const;
     void setFrequency(double frequency, RsaToolbox::SiPrefix prefix = RsaToolbox::SiPrefix::None);
@@ -25,10 +27,14 @@ public:
     RsaToolbox::QRowVector powers_dBm() const;
     RsaToolbox::ComplexRowVector sParameter(uint outputPort, uint inputPort) const;
 
-    void addPoint(const PowerPoint &point);
+    void addPoints(RsaToolbox::QRowVector powers_dBm, RsaToolbox::ComplexMatrix3D sParameters);
+
 
     PowerSweep &operator<<(const PowerPoint &point);
     PowerPoint &operator[](int index);
+    void operator=(const PowerSweep &other);
+
+    void reset();
 
 private:
     double _frequency_Hz;

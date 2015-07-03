@@ -8,7 +8,7 @@
 
 // Rsa
 #include "Definitions.h"
-#include "Key.h"
+#include "Keys.h"
 #include "Vna.h"
 
 // QCustomPlots
@@ -32,7 +32,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
     
 public:
-    explicit MainWindow(RsaToolbox::Key *key, QWidget *parent = 0);
+    explicit MainWindow(RsaToolbox::Keys *_keys, RsaToolbox::Log *log, QWidget *parent = 0);
     ~MainWindow();
 
     friend class RunSweeps;
@@ -118,7 +118,8 @@ private:
     Ui::MainWindow *ui;
     QScopedPointer<RunSweeps> run_sweeps;
     QScopedPointer<RsaToolbox::Vna> vna;
-    RsaToolbox::Key *key;
+    RsaToolbox::Log *_log;
+    RsaToolbox::Keys *_keys;
 
     // Current Vna properties:
     int ports;
@@ -172,6 +173,8 @@ private:
     RsaToolbox::QRowVector compression_points_out_dBm;
     RsaToolbox::QRowVector compression_frequencies_Hz;
     QVector<RsaToolbox::NetworkData> s_parameter_data;
+
+    QCPPlotTitle *_plotTitle;
 };
 
 

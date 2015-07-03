@@ -13,9 +13,7 @@
 #-------------------------------------------------
 
 
-QT      += core gui
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
+QT      += core gui widgets printsupport
 
 TARGET = RsaPaCompressionTest
 TEMPLATE = app
@@ -25,20 +23,23 @@ SOURCES +=  main.cpp \
             mainwindow.cpp \
             RunSweeps.cpp \
             gettracename.cpp \
-            axis_settings.cpp
+            axis_settings.cpp \
+            getCalibration.cpp
 
 HEADERS  += Settings.h \
             mainwindow.h \
             RunSweeps.h \
             gettracename.h \
-            axis_settings.h
+            axis_settings.h \
+            getCalibration.h
 
 INCLUDEPATH += ./RsaToolbox/\
                ./QCustomPlot/
 
 FORMS    += mainwindow.ui \
             gettracename.ui \
-            axis_settings.ui
+            axis_settings.ui \
+            getCalibration.ui
 
 RESOURCES += Resources.qrc
 
@@ -47,19 +48,6 @@ OTHER_FILES += VS2010Resources.rc \
 
 DEFINES += QCUSTOMPLOT_USE_LIBRARY
 DEFINES += SOURCE_DIR=\\\"$$PWD\\\"
-CONFIG(debug, debug|release):DEFINES += LOCAL_LOG
+CONFIG(debug, debug|release):DEFINES += DEBUG_MODE
 
 win32: RC_FILE = VS2010Resources.rc
-win32: LIBS += -L$$PWD/ -lRsaToolbox/rsib32
-
-# Link with debug version of qcustomplot if compiling in debug mode, else with release library:
-CONFIG(debug, release|debug) {
-  win32:QCPLIB = qcustomplotd1
-  else: QCPLIB = qcustomplotd
-} else {
-  win32:QCPLIB = qcustomplot1
-  else: QCPLIB = qcustomplot
-}
-LIBS += -lQCustomPlot/$$QCPLIB
-
-win32: QMAKE_CXXFLAGS += /D_CRT_SECURE_NO_WARNINGS

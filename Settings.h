@@ -8,16 +8,19 @@
 
 
 // Application settings
-const char APP_NAME[] = "RSA PA Compression Test";
-const char APP_VERSION[] = "1.1.0"; //http://semver.org/
-const char APP_FOLDER[] = "RSA PA Compression Test";
+const QString APP_NAME = "R&S PA Compression Test";
+const QString APP_VERSION = "1.2";
+const QString MANUFACTURER_FOLDER = "Rohde-Schwarz";
+const QString APP_FOLDER = "PA Compression Test";
 
-#ifdef LOCAL_LOG
-const char LOG_PATH[] = SOURCE_DIR;
-const char LOG_FILENAME[] = "DEBUG_LOGFILE.txt";
+#ifdef DEBUG_MODE
+const QDir dataDir(SOURCE_DIR);
+const QString LOG_FILENAME = dataDir.filePath("DEBUG_LOGFILE.txt");
+const QString KEY_PATH = dataDir.filePath("Keys");
 #else
-const QString LOG_PATH = RsaToolbox::GetAppDataPath(APP_FOLDER);
-const char LOG_FILENAME[] = "RSA PA Compression Test Log.txt";
+const QDir dataDir(RsaToolbox::GetAppDataPath(MANUFACTURER_FOLDER, APP_FOLDER));
+const QString LOG_FILENAME = dataDir.filePath("R&S PA Compression Test Log.txt");
+const QString KEY_PATH = dataDir.filePath("Settings");
 #endif
 
 // Connection settings

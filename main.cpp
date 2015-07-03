@@ -14,7 +14,7 @@
 #include "General.h"
 #include "Log.h"
 #include "Vna.h"
-#include "Key.h"
+#include "Keys.h"
 using namespace RsaToolbox;
 
 
@@ -23,10 +23,14 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     // Get key instance
-    Key key(APP_FOLDER);
+    Keys keys(KEY_PATH);
+
+    // Log
+    Log log(LOG_FILENAME, APP_NAME, APP_VERSION);
+    log.printHeader();
     
     // Create, display window
-    MainWindow w(&key);
+    MainWindow w(&keys, &log);
     w.show();
     return app.exec();
 }

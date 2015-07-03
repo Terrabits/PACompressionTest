@@ -1090,6 +1090,25 @@
         <normaloff>:/new/icon_resource/refresh.png</normaloff>:/new/icon_resource/refresh.png</iconset>
       </property>
      </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>522</x>
+        <y>316</y>
+        <width>181</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="text">
+       <string>Retrieve Trace Settings</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="results_tab">
      <attribute name="title">

@@ -1,3 +1,44 @@
+RSA Create Installer Version 1.2
+(C) 2014 Rohde & Schwarz America
+
+Thu Jul 2 17:20:46 2015
+
+Application Name:    R&S PA Compression Test
+Version:             1.2
+Manufacturer:        Rohde & Schwarz
+Author:              Nick Lalic
+Description:         Uses a Rohde & Schwarz VNA to measure the compression point of an amplifier
+Manufacturer Folder: Rohde-Schwarz
+Installation Folder: PA Compression Test
+Start Menu Folder:   R&S PA Compression Test
+Add About Link?      false
+Executable:          C:\Users\lalic\Documents\Qt\build-RsaPaCompressionTest-Desktop_Qt_5_2_1_MSVC2010_32bit-Release\release\RsaPaCompressionTest.exe
+Instrument Shortcut: Compression Test
+Msvc Runtime:        C:\Program Files (x86)\Rohde-Schwarz\RSA Create Installer\Msvc2010_32
+Qt Runtime:          C:\Qt\5.2.1\msvc2010\bin
+Create Installer:    C:\Program Files (x86)\Rohde-Schwarz\RSA Create Installer
+
+Upgrade Code:        699b0972-99de-4286-9686-b8cea86158b9
+Product Guid:        A8A5C453-190D-496B-8370-6130BF6D2EFF
+Executable Guid:     C9BE41C4-B4AD-42E0-89D3-0647375544B3
+Licenses Guid:       8C8150B5-041B-4272-A1D0-CCB639EB8879
+Msvc Runtime Guid:   2A7E1C07-D3DC-4355-AD7F-C9FFFEB95B44
+Qt Runtime Guid:     DE5658C0-CA40-4B00-AB2E-74225661D5D4
+Qt Platform Guid:    18C4999E-000D-44CF-B9BA-CDCD98402A41
+Logs/Settings Guid:  5B74839F-C354-4A87-849A-A2A3BD72C363
+Shortcuts Guid:      5003EB26-0B6D-448A-8902-8AD3122D7FBD
+RsVisa Guid:         16BEC6FE-82B4-4419-8F09-EF85CC009AFB
+QCustomPlots Guid:   D26CBE2E-A245-46B3-B769-6770E134D4F4
+QuaZIP Guid:         26618B7D-1584-4C10-A814-B08E12278324
+
+Wxs Template:        RsaToolbox DirectX 1.0
+Template exists?     true
+Wxs File:            Product.wxs
+Installer:           C:\Users\lalic\Documents\Qt\RsaPaCompressionTest\Installer\R&S PA Compression Test 1.2.msi
+Add Version?         true
+WiX Tools:           C:\Program Files (x86)\WiX Toolset v3.9\bin
+
+WXS FILE:            
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Rsa Create Installer Template                 -->
 <!-- Name: RsaToolbox DirectX                      -->
@@ -199,3 +240,18 @@
     </Component>
   </Fragment>
 </Wix>
+
+COMPILER:
+Generating C:\Users\lalic\Documents\Qt\RsaPaCompressionTest\Installer\__temp.wixobj
+Windows Installer XML Toolset Compiler version 3.9.1006.0
+Copyright (c) Outercurve Foundation. All rights reserved.
+
+Product.wxs
+
+LINKER:
+Generating C:\Users\lalic\Documents\Qt\RsaPaCompressionTest\Installer\R&S PA Compression Test 1.2.msi
+Windows Installer XML Toolset Linker version 3.9.1006.0
+Copyright (c) Outercurve Foundation. All rights reserved.
+
+
+Installer Created!

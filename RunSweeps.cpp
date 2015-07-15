@@ -53,10 +53,10 @@ void RunSweeps::run() {
     ports << input_port
           << output_port;
 
-    if (sweep_mode == "Frequency")
-        RunFrequencySweeps();
-    else
-        RunPowerSweeps();
+//    if (sweep_mode == "Frequency")
+    RunFrequencySweeps();
+//    else
+//        RunPowerSweeps();
 
     vna->channel().linearSweep().clearSParameterGroup();
     DisplayCompressionPoints();
@@ -126,7 +126,7 @@ void RunSweeps::RunPowerSweeps() {
         power_sweeps[i] = vna->channel().linearSweep().measure(ports);
 //        vna->Channel().MeasureNetwork(power_sweeps[i], ports);
 
-        vna->autoscaleDiagrams();
+//        vna->autoscaleDiagrams();
         vna->trace().measure(trace);
         gain_dB[i] = trace.y_dB();
 //        GetCompressionPoint(i); // This was like this already...
@@ -238,21 +238,29 @@ void RunSweeps::DisplayCompressionPoints() {
     // Set segmented sweep
     vna->channel(new_channel).setFrequencies(compression_frequencies_Hz);
 
+    // Y-Axis min/max
+    double min = std::min(RsaToolbox::min(compression_points_in_dBm), RsaToolbox::min(compression_points_out_dBm));
+    double max = std::max(RsaToolbox::max(compression_points_in_dBm), RsaToolbox::max(compression_points_out_dBm));
+    roundAxis(min, max, 5, min, max);
+
     // Create traces
     vna->createTrace("Trc2", new_channel);
     vna->trace("Trc2").setNetworkParameter(NetworkParameter::S, 2, 1);
     vna->trace("Trc2").setDiagram(new_diagram);
+    vna->trace("Trc2").setYAxis(min, max);
     vna->diagram(new_diagram).setTitle("Compression Point");
     vna->trace("Trc2").toMemory("Pin");
     vna->trace("Pin").setDiagram(new_diagram);
-    vna->trace("Pin").write(toMagnitude(compression_points_in_dBm));
+    vna->trace("Pin").write(compression_points_in_dBm);
+    vna->trace("Pin").setYAxis(min, max);
     vna->trace("Trc2").toMemory("Pout");
     vna->trace("Pout").setDiagram(new_diagram);
-    vna->trace("Pout").write(toMagnitude(compression_points_out_dBm));
+    vna->trace("Pout").write(compression_points_out_dBm);
+    vna->trace("Pout").setYAxis(min, max);
     vna->channel(2).startSweep();
     vna->wait();
     vna->settings().displayOn();
-    vna->diagram(2).autoscale();
+    vna->channel(2).manualSweepOn();
     vna->trace("Trc2").hide();
 }
 void RunSweeps::FlipPorts(QVector<NetworkData> &sweeps) {

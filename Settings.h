@@ -9,7 +9,7 @@
 
 // Application settings
 const QString APP_NAME = "R&S PA Compression Test";
-const QString APP_VERSION = "1.2";
+const QString APP_VERSION = "1.3";
 const QString MANUFACTURER_FOLDER = "Rohde-Schwarz";
 const QString APP_FOLDER = "PA Compression Test";
 

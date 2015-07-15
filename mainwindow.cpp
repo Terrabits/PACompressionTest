@@ -45,6 +45,7 @@ MainWindow::MainWindow(Keys *keys, Log *log, QWidget *parent) :
     ui->sweep_mode_combo_box->setCurrentIndex(1);
     ui->sweep_mode_label->hide();
     ui->sweep_mode_combo_box->hide();
+    qDebug() << ui->sweep_mode_combo_box->currentText();
 
     ConnectMenuSignals();
 
@@ -677,6 +678,12 @@ void MainWindow::Finished() {
         vna->channel().linearSweep().setPower(stop_power_dBm);
         vna->channel(2).linearSweep().setPower(stop_power_dBm);
     }
+    double min = RsaToolbox::min(nominal_gain_dB);
+    double max = RsaToolbox::max(nominal_gain_dB);
+    if (min > 0)
+        min = 0;
+    roundAxis(min, max, 5.0, min, max);
+    vna->trace("Trc1").setYAxis(min, max);
     vna->local();
 
     // Enable GUI options
@@ -693,6 +700,8 @@ void MainWindow::Finished() {
     ui->plot_type_combo_box->setCurrentText("Pin Compression");
 
     ui->tab_widget->setCurrentIndex(2);
+    vna->isError();
+    vna->clearStatus();
 }
 
 // Calculate
@@ -731,7 +740,7 @@ void MainWindow::PlotReflection() {
 
     ui->custom_plot->legend->setVisible(true);
     ui->custom_plot->legend->setFont(QFont("Helvetica", 9));
-//    ui->custom_plot->legend->setPositionStyle(QCPLegend::psRight);
+    ui->custom_plot->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignRight|Qt::AlignBottom);
 
     QRowVector scaled_freq = multiply(frequencies_Hz, 1E-9);
 
@@ -776,7 +785,7 @@ void MainWindow::PlotPinVsPout() {
 
     ui->custom_plot->legend->setVisible(true);
     ui->custom_plot->legend->setFont(QFont("Helvetica", 9));
-//    ui->custom_plot->legend->setPositionStyle(QCPLegend::psRight);
+    ui->custom_plot->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignLeft|Qt::AlignTop);
 
     // Pin vs Pout
     ui->custom_plot->addGraph();
@@ -857,7 +866,7 @@ void MainWindow::PlotGainVsPin() {
 
     ui->custom_plot->legend->setVisible(true);
     ui->custom_plot->legend->setFont(QFont("Helvetica", 9));
-//    ui->custom_plot->legend->setPositionStyle(QCPLegend::psRight);
+    ui->custom_plot->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignLeft|Qt::AlignBottom);
 
     // Nominal gain
     ui->custom_plot->addGraph();
@@ -982,7 +991,7 @@ void MainWindow::Export() {
     if (path.isEmpty())
         return;
 
-    QString touchstone_folder = "Touchstone Data";
+    QString touchstone_folder = "Touchstone Files";
     QString power_sweep_folder = "Power Sweep Data";
     QString gain_sweep_folder = "Gain Sweep Data";
     QString nominal_gain_filename = "Nominal Gain.csv";
@@ -997,16 +1006,16 @@ void MainWindow::Export() {
         ExportTouchstone(q_dir.absolutePath());
 
         // Power Sweeps
-        q_dir.cdUp();
-        q_dir.mkdir(power_sweep_folder);
-        q_dir.cd(power_sweep_folder);
-        ExportPowerSweeps(q_dir.absolutePath());
+//        q_dir.cdUp();
+//        q_dir.mkdir(power_sweep_folder);
+//        q_dir.cd(power_sweep_folder);
+//        ExportPowerSweeps(q_dir.absolutePath());
 
         // Gain Sweeps
-        q_dir.cdUp();
-        q_dir.mkdir(gain_sweep_folder);
-        q_dir.cd(gain_sweep_folder);
-        ExportGainSweeps(q_dir.absolutePath());
+//        q_dir.cdUp();
+//        q_dir.mkdir(gain_sweep_folder);
+//        q_dir.cd(gain_sweep_folder);
+//        ExportGainSweeps(q_dir.absolutePath());
 
         // Nominal Gain
         q_dir.cdUp();
@@ -1364,31 +1373,26 @@ void MainWindow::on_retrieve_settings_push_button_clicked()
         w.exec();
         trace_name = w.traceName();
     }
-    if (trace_name.isEmpty() == false) {
+    if (!trace_name.isEmpty()) {
         uint i = vna->trace(trace_name).channel();
         uint input_port;
         uint output_port;
         NetworkParameter parameter;
         vna->trace(trace_name).networkParameter(parameter, output_port, input_port);
-        qDebug() << "Ports: " << output_port << input_port;
         ui->input_port_combo_box->setCurrentText(QLocale().toString(input_port));
         ui->output_port_combo_box->setCurrentText(QLocale().toString(output_port));
         if (vna->properties().hasSourceAttenuators()) {
-            qDebug() << "Has source attenuators";
             ui->source_attenuation_combo_box->setCurrentText(
                         QLocale().toString(vna->channel(i).sourceAttenuation_dB(input_port)));
         }
         else {
-            qDebug() << "No source attenuators";
             ui->source_attenuation_combo_box->setCurrentText("0");
         }
         if (vna->properties().hasReceiverAttenuators()) {
-            qDebug() << "Has receiver attenuators";
             ui->receiver_attenuation_combo_box->setCurrentText(
                         QLocale().toString(vna->channel(i).receiverAttenuation_dB(output_port)));
         }
         else {
-            qDebug() << "No receiver attenuators";
             ui->receiver_attenuation_combo_box->setCurrentText("0");
         }
         QStringList list = formatValue(vna->channel(i).linearSweep().ifBandwidth_Hz(), 0, Units::Hertz).split(' ');
@@ -1418,6 +1422,18 @@ void MainWindow::on_retrieve_settings_push_button_clicked()
         QString cal_group = vna->channel(i).calGroup();
         if (!cal_group.isEmpty()) {
             ui->calibration_line_edit->setText(cal_group + ".cal");
+        }
+        else if (vna->channel(i).isCalibrated()) {
+            // Save calibration for use later?
+            QMessageBox::StandardButton reply;
+            reply = QMessageBox::question(this, "Save Calibration?",
+                                          QString("The calibration for trace \'%1\' is not saved\n"
+                                                  "Save calibration?").arg(trace_name),
+                                          QMessageBox::Yes | QMessageBox::No);
+            if (reply == QMessageBox::Yes) {
+                // save, use cal
+
+            }
         }
 //        else if(vna->channel(i).isCalibrationPresent()
 //                || vna->Channel(i).isPowerCalPresent()) {

@@ -1,0 +1,26 @@
+Greg's requests, summarized:
+- See last 2-3 sweeps
+- Continuous trace update (Pin, Pout), on VNA screen
+- Plot with both Phase vs Pin, Phase vs Pout at compression
+- Handle gain expansion (yes)
+- Stop power level at compression + 0.25 dBm (yes)
+- Measure pulsed RF (yes)
+
+
+Easy:
+- Plot with both Phase vs Pin, Phase vs Pout at compression
+- Handle gain expansion
+
+Medium:
+- See last 2-3 sweeps
+- Continuous trace update (Pin, Pout), on VNA screen
+
+Hard:
+- Stop at compression
+- Measure pulsed RF
+
+
+To do by next week:
+- Gain expansion
+- phase vs Pin, Pout (two traces)
+- Plot axis free select

@@ -5,6 +5,7 @@
 // Project
 #include "RunSweeps.h"
 #include "Settings.h"
+#include "MeasurementData.h"
 
 // Rsa
 #include "Definitions.h"
@@ -63,11 +64,6 @@ private slots:
     void Progress(int percent);
     void Finished();
 
-    // Calculate
-    void CalculateReflectionMags();
-    void CalculatePower();
-    void FindNominalGain();
-
     // Plot
     void PlotReflection();
     void PlotPinVsPout();
@@ -78,19 +74,10 @@ private slots:
 
     // Export Data
     void Export();
-    void ExportTouchstone(QString path);
-    void ExportPowerSweeps(QString path);
-    void ExportPowerSweep(QString filename, int freq_index);
-    void ExportGainSweeps(QString path);
-    void ExportGainSweep(QString filename, int freq_index);
-    void ExportNominalGain(QString filename);
-    void ExportCompressionPoints(QString filename);
 
     // Open, Save
     void Open();
-    bool Open(QDataStream &input);
     void Save();
-    bool Save(QDataStream &output);
 
     void About();
 
@@ -146,33 +133,8 @@ private:
     QString export_path;
     QString print_path;
 
-    // Settings (last measurement)
-    QString time_stamp;
-    int input_port;
-    int output_port;
-    double start_power_dBm;
-    double stop_power_dBm;
-    int power_points;
-    double start_freq_Hz;
-    double stop_freq_Hz;
-    int frequency_points;
-    double if_bw_Hz;
-    double compression_level_dB;
-    int source_attenuation;
-    int receiver_attenuation;
-    RsaToolbox::QRowVector frequencies_Hz;
-    RsaToolbox::QRowVector power_in_dBm;
-
-    // Measured, calculated data
-    RsaToolbox::QRowVector s11_dB;
-    RsaToolbox::QRowVector s22_dB;
-    RsaToolbox::QMatrix2D gain_dB;
-    RsaToolbox::QMatrix2D power_out_dBm;
-    RsaToolbox::QRowVector nominal_gain_dB;
-    RsaToolbox::QRowVector compression_points_in_dBm;
-    RsaToolbox::QRowVector compression_points_out_dBm;
-    RsaToolbox::QRowVector compression_frequencies_Hz;
-    QVector<RsaToolbox::NetworkData> s_parameter_data;
+    // Data
+    MeasurementData _data;
 
     QCPPlotTitle *_plotTitle;
 };

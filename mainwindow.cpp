@@ -58,9 +58,7 @@ MainWindow::MainWindow(Keys *keys, Log *log, QWidget *parent) :
     TogglePlots(false);
     ToggleSlider(false);
 
-    gain_dB.clear();
-    frequencies_Hz.clear();
-    power_in_dBm.clear();
+    _data.reset();
 
     _plotTitle = new QCPPlotTitle(ui->custom_plot, "");
     ui->custom_plot->plotLayout()->insertRow(0);
@@ -618,36 +616,37 @@ bool MainWindow::isValidInput() {
     return(true);
 }
 void MainWindow::GetInput() {
-    compression_level_dB = QLocale().toDouble(ui->compression_point_line_edit->text());
-    input_port = ui->input_port_combo_box->currentIndex() + 1;
-    output_port = ui->output_port_combo_box->currentIndex() + 1;
-    start_power_dBm = QLocale().toDouble(ui->start_power_line_edit->text());
-    stop_power_dBm = QLocale().toDouble(ui->stop_power_line_edit->text());
-    power_points = QLocale().toInt(ui->power_points_line_edit->text());
+    _data.compressionLevel_dB = QLocale().toDouble(ui->compression_point_line_edit->text());
+    _data.inputPort = ui->input_port_combo_box->currentIndex() + 1;
+    _data.outputPort = ui->output_port_combo_box->currentIndex() + 1;
+    _data.startPower_dBm = QLocale().toDouble(ui->start_power_line_edit->text());
+    _data.stopPower_dBm = QLocale().toDouble(ui->stop_power_line_edit->text());
+    _data.powerPoints = QLocale().toInt(ui->power_points_line_edit->text());
 
     const double start_freq = QLocale().toDouble(ui->start_frequency_line_edit->text());
     QString start_freq_prefix = ui->start_freq_units_combo_box->currentText();
     start_freq_prefix.chop(2);
     const SiPrefix start_freq_SiPrefix = toSiPrefix(start_freq_prefix);
-    start_freq_Hz = start_freq * toDouble(start_freq_SiPrefix);
+    _data.startFreq_Hz = start_freq * toDouble(start_freq_SiPrefix);
 
     const double stop_freq = QLocale().toDouble(ui->stop_frequency_line_edit->text());
     QString stop_freq_prefix = ui->stop_freq_units_combo_box->currentText();
     stop_freq_prefix.chop(2);
     const SiPrefix stop_freq_SiPrefix = toSiPrefix(stop_freq_prefix);
-    stop_freq_Hz = stop_freq * toDouble(stop_freq_SiPrefix);
+    _data.stopFreq_Hz = stop_freq * toDouble(stop_freq_SiPrefix);
 
-    frequency_points = QLocale().toInt(ui->frequency_points_line_edit->text());
+    _data.frequencyPoints = QLocale().toInt(ui->frequency_points_line_edit->text());
 
     const double if_bw = QLocale().toDouble(ui->if_value_combo_box->currentText());
     QString if_bw_prefix = ui->if_units_combo_box->currentText();
     if_bw_prefix.chop(2);
     SiPrefix if_bw_SiPrefix = toSiPrefix(if_bw_prefix);
-    if_bw_Hz = if_bw * toDouble(if_bw_SiPrefix);
+    _data.ifBw_Hz = if_bw * toDouble(if_bw_SiPrefix);
 
-    source_attenuation = QLocale().toInt(ui->source_attenuation_combo_box->currentText());
-    receiver_attenuation = QLocale().toInt(ui->receiver_attenuation_combo_box->currentText());
+    _data.sourceAttenuation_dB = QLocale().toInt(ui->source_attenuation_combo_box->currentText());
+    _data.receiverAttenuation_dB = QLocale().toInt(ui->receiver_attenuation_combo_box->currentText());
 
+    _data.processSettings();
 }
 void MainWindow::Progress(int percent) {
     if (percent < 100) {
@@ -661,25 +660,20 @@ void MainWindow::Progress(int percent) {
 void MainWindow::Finished() {
     run_sweeps->disconnect();
 
-    // Calculations
-    CalculateReflectionMags();
-    CalculatePower();
-    FindNominalGain();
-
     // Post-condition
     QString post_condition = ui->post_condition_combo_box->currentText();
     if (post_condition == "RF Off")
         vna->settings().rfOutputPowerOff();
     else if (post_condition == "Minimum Power") {
-        vna->channel().linearSweep().setPower(start_power_dBm);
-        vna->channel(2).linearSweep().setPower(start_power_dBm);
+        vna->channel().linearSweep().setPower(_data.startPower_dBm);
+        vna->channel(2).linearSweep().setPower(_data.startPower_dBm);
     }
     else if (post_condition == "Maximum Power") {
-        vna->channel().linearSweep().setPower(stop_power_dBm);
-        vna->channel(2).linearSweep().setPower(stop_power_dBm);
+        vna->channel().linearSweep().setPower(_data.stopPower_dBm);
+        vna->channel(2).linearSweep().setPower(_data.stopPower_dBm);
     }
-    double min = RsaToolbox::min(nominal_gain_dB);
-    double max = RsaToolbox::max(nominal_gain_dB);
+    double min = RsaToolbox::min(_data.referenceGain_dB);
+    double max = RsaToolbox::max(_data.referenceGain_dB);
     if (min > 0)
         min = 0;
     roundAxis(min, max, 5.0, min, max);
@@ -692,7 +686,7 @@ void MainWindow::Finished() {
     ui->actionOpen->setEnabled(true);
     TogglePlots(true);
     ToggleInputs(true);
-    ui->frequency_slider->setMaximum(frequency_points-1);
+    ui->frequency_slider->setMaximum(_data.frequencyPoints-1);
     ui->frequency_slider->setValue(1);
     ui->frequency_slider->setValue(0);
     ui->plot_type_combo_box->setEnabled(true);
@@ -702,29 +696,6 @@ void MainWindow::Finished() {
     ui->tab_widget->setCurrentIndex(2);
     vna->isError();
     vna->clearStatus();
-}
-
-// Calculate
-void MainWindow::CalculateReflectionMags() {
-    s11_dB = s_parameter_data[0].y_dB(1, 1);
-    s22_dB = s_parameter_data[0].y_dB(2, 2);
-}
-void MainWindow::CalculatePower() {
-    power_out_dBm.clear();
-    power_out_dBm.resize(frequency_points);
-    for (int freq_index = 0; freq_index < frequency_points; freq_index++) {
-        power_out_dBm[freq_index].resize(power_points);
-        for (int power_index = 0; power_index < power_points; power_index++) {
-            power_out_dBm[freq_index][power_index] = gain_dB[freq_index][power_index] + power_in_dBm[power_index];
-        }
-    }
-}
-void MainWindow::FindNominalGain() {
-    nominal_gain_dB.clear();
-    nominal_gain_dB.resize(frequency_points);
-    for (int i = 0; i < frequency_points; i++) {
-        nominal_gain_dB[i] = gain_dB[i][0];
-    }
 }
 
 // Plot
@@ -742,19 +713,19 @@ void MainWindow::PlotReflection() {
     ui->custom_plot->legend->setFont(QFont("Helvetica", 9));
     ui->custom_plot->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignRight|Qt::AlignBottom);
 
-    QRowVector scaled_freq = multiply(frequencies_Hz, 1E-9);
+    QRowVector scaled_freq = multiply(_data.frequencies_Hz, 1E-9);
 
     // S11
     ui->custom_plot->addGraph();
     ui->custom_plot->graph(0)->setName("Input");
     ui->custom_plot->graph(0)->setPen(QPen(Qt::red));
-    ui->custom_plot->graph(0)->setData(scaled_freq, s11_dB);
+    ui->custom_plot->graph(0)->setData(scaled_freq, _data.s11_dB);
 
     // S22
     ui->custom_plot->addGraph();
     ui->custom_plot->graph(1)->setName("Output");
     ui->custom_plot->graph(1)->setPen(QPen(Qt::blue));
-    ui->custom_plot->graph(1)->setData(scaled_freq, s22_dB);
+    ui->custom_plot->graph(1)->setData(scaled_freq, _data.s22_dB);
 
     ui->custom_plot->axisRect()->setupFullAxesBox();
     // ui->custom_plot->rescaleAxes();
@@ -763,8 +734,8 @@ void MainWindow::PlotReflection() {
     ui->custom_plot->xAxis->setRange(scaled_freq.first(), scaled_freq.last());
     ui->custom_plot->yAxis->setLabelFont(QFont("Helvetica",9));
     ui->custom_plot->yAxis->setLabel("Reflection Coefficient (dB)");
-    ui->custom_plot->yAxis->setRange(qMin(min(s11_dB), min(s22_dB)) - 0.1,
-                                     qMax(max(s11_dB), max(s22_dB)) + 0.1);
+    ui->custom_plot->yAxis->setRange(qMin(min(_data.s11_dB), min(_data.s22_dB)) - 0.1,
+                                     qMax(max(_data.s11_dB), max(_data.s22_dB)) + 0.1);
 
     ui->custom_plot->axisRect()->setRangeDrag(Qt::Horizontal | Qt::Vertical);
     ui->custom_plot->axisRect()->setRangeZoom(Qt::Horizontal | Qt::Vertical);
@@ -791,27 +762,27 @@ void MainWindow::PlotPinVsPout() {
     ui->custom_plot->addGraph();
     ui->custom_plot->graph(0)->setName("Measured");
     ui->custom_plot->graph(0)->setPen(QPen(Qt::blue));
-    ui->custom_plot->graph(0)->setData(power_in_dBm, power_out_dBm[frequency_index]);
+    ui->custom_plot->graph(0)->setData(_data.power_dBm, _data.powerOut_dBm[frequency_index]);
 
     // Ideal Pin vs Pout (no compression)
     QVector<double> ideal_Pout;
-    ideal_Pout.resize(power_points);
-    for (int i = 0; i < power_points; i++)
-        ideal_Pout[i] = power_in_dBm[i] + nominal_gain_dB[frequency_index];
+    ideal_Pout.resize(_data.powerPoints);
+    for (uint i = 0; i < _data.powerPoints; i++)
+        ideal_Pout[i] = _data.power_dBm[i] + _data.referenceGain_dB[frequency_index];
     ui->custom_plot->addGraph();
     ui->custom_plot->graph(1)->setName("Ideal");
     ui->custom_plot->graph(1)->setPen(QPen(Qt::red));
-    ui->custom_plot->graph(1)->setData(power_in_dBm, ideal_Pout);
+    ui->custom_plot->graph(1)->setData(_data.power_dBm, ideal_Pout);
 
     ui->custom_plot->axisRect()->setupFullAxesBox();
     // ui->custom_plot->rescaleAxes();
     ui->custom_plot->xAxis->setLabelFont(QFont("Helvetica",9));
     ui->custom_plot->xAxis->setLabel("Pin (dBm)");
-    ui->custom_plot->xAxis->setRange(power_in_dBm.first(), power_in_dBm.last());
+    ui->custom_plot->xAxis->setRange(_data.power_dBm.first(), _data.power_dBm.last());
     ui->custom_plot->yAxis->setLabelFont(QFont("Helvetica",9));
     ui->custom_plot->yAxis->setLabel("Pout (dBm)");
-    ui->custom_plot->yAxis->setRange(qMin(min(ideal_Pout), min(power_out_dBm[frequency_index])) - 0.1,
-                                     qMax(max(ideal_Pout), max(power_out_dBm[frequency_index])) + 0.1);
+    ui->custom_plot->yAxis->setRange(qMin(min(ideal_Pout), min(_data.powerOut_dBm[frequency_index])) - 0.1,
+                                     qMax(max(ideal_Pout), max(_data.powerOut_dBm[frequency_index])) + 0.1);
 
 
     ui->custom_plot->axisRect()->setRangeDrag(Qt::Horizontal | Qt::Vertical);
@@ -832,10 +803,10 @@ void MainWindow::PlotGainVsFreq() {
     ui->custom_plot->legend->setVisible(false);
 
     // Nominal gain
-    QRowVector scaled_freq = multiply(frequencies_Hz, 1E-9);
+    QRowVector scaled_freq = multiply(_data.frequencies_Hz, 1E-9);
     ui->custom_plot->addGraph();
     ui->custom_plot->graph(0)->setPen(QPen(Qt::blue));
-    ui->custom_plot->graph(0)->setData(scaled_freq, nominal_gain_dB);
+    ui->custom_plot->graph(0)->setData(scaled_freq, _data.referenceGain_dB);
 
     ui->custom_plot->axisRect()->setupFullAxesBox();
     // ui->custom_plot->rescaleAxes();
@@ -844,8 +815,8 @@ void MainWindow::PlotGainVsFreq() {
     ui->custom_plot->xAxis->setRange(scaled_freq.first(), scaled_freq.last());
     ui->custom_plot->yAxis->setLabelFont(QFont("Helvetica",9));
     ui->custom_plot->yAxis->setLabel("Nominal Gain (dB)");
-    ui->custom_plot->yAxis->setRange(min(nominal_gain_dB) - 0.1,
-                                     max(nominal_gain_dB) + 0.1);
+    ui->custom_plot->yAxis->setRange(min(_data.referenceGain_dB) - 0.1,
+                                     max(_data.referenceGain_dB) + 0.1);
 
     ui->custom_plot->axisRect()->setRangeDrag(Qt::Horizontal | Qt::Vertical);
     ui->custom_plot->axisRect()->setRangeZoom(Qt::Horizontal | Qt::Vertical);
@@ -872,24 +843,24 @@ void MainWindow::PlotGainVsPin() {
     ui->custom_plot->addGraph();
     ui->custom_plot->graph(0)->setName("Gain vs Pin");
     ui->custom_plot->graph(0)->setPen(QPen(Qt::blue));
-    ui->custom_plot->graph(0)->setData(power_in_dBm, gain_dB[freq_index]);
+    ui->custom_plot->graph(0)->setData(_data.power_dBm, _data.gain_dB[freq_index]);
 
     QRowVector compression_points;
-    compression_points.fill(nominal_gain_dB[freq_index] - compression_level_dB, power_points);
+    compression_points.fill(_data.referenceGain_dB[freq_index] - _data.compressionLevel_dB, _data.powerPoints);
     ui->custom_plot->addGraph();
     ui->custom_plot->graph(1)->setName("Compression Point");
     ui->custom_plot->graph(1)->setPen(QPen(Qt::red));
-    ui->custom_plot->graph(1)->setData(power_in_dBm, compression_points);
+    ui->custom_plot->graph(1)->setData(_data.power_dBm, compression_points);
 
     ui->custom_plot->axisRect()->setupFullAxesBox();
     // ui->custom_plot->rescaleAxes();
     ui->custom_plot->xAxis->setLabelFont(QFont("Helvetica",9));
     ui->custom_plot->xAxis->setLabel("Pin (dBm)");
-    ui->custom_plot->xAxis->setRange(power_in_dBm.first(), power_in_dBm.last());
+    ui->custom_plot->xAxis->setRange(_data.power_dBm.first(), _data.power_dBm.last());
     ui->custom_plot->yAxis->setLabelFont(QFont("Helvetica",9));
     ui->custom_plot->yAxis->setLabel("Gain (dB)");
-    ui->custom_plot->yAxis->setRange(qMin(compression_points[0], min(gain_dB[freq_index])) - 0.1,
-            qMax(compression_points[0], max(gain_dB[freq_index])) + 0.1);
+    ui->custom_plot->yAxis->setRange(qMin(compression_points[0], min(_data.gain_dB[freq_index])) - 0.1,
+            qMax(compression_points[0], max(_data.gain_dB[freq_index])) + 0.1);
 
     ui->custom_plot->axisRect()->setRangeDrag(Qt::Horizontal | Qt::Vertical);
     ui->custom_plot->axisRect()->setRangeZoom(Qt::Horizontal | Qt::Vertical);
@@ -903,7 +874,7 @@ void MainWindow::PlotPinCompression() {
     ui->custom_plot->legend->clearItems();
 
     _plotTitle->setFont(QFont("Helvetica", 12));
-    if (compression_points_in_dBm.size() == 0) {
+    if (_data.powerInAtCompression_dBm.size() == 0) {
         _plotTitle->setTextColor(QColor(Qt::red));
         _plotTitle->setText("Compression point not found.");
         ui->custom_plot->legend->setVisible(false);
@@ -912,17 +883,17 @@ void MainWindow::PlotPinCompression() {
     }
     else
         _plotTitle->setText(
-                    formatValue(compression_level_dB, 1, Units::NoUnits)
+                    formatValue(_data.compressionLevel_dB, 1, Units::NoUnits)
                     + " dB Input-Referred Compression Point");
 
     ui->custom_plot->legend->setVisible(false);
 
     // Pin compression points
-    QRowVector scaled_freq = multiply(compression_frequencies_Hz, 1.0E-9);
+    QRowVector scaled_freq = multiply(_data.compressionFrequencies_Hz, 1.0E-9);
     ui->custom_plot->addGraph();
     // ui->custom_plot->graph(0)->setName("Pin");
     ui->custom_plot->graph(0)->setPen(QPen(Qt::blue));
-    ui->custom_plot->graph(0)->setData(scaled_freq, compression_points_in_dBm);
+    ui->custom_plot->graph(0)->setData(scaled_freq, _data.powerInAtCompression_dBm);
 
     ui->custom_plot->axisRect()->setupFullAxesBox();
     // ui->custom_plot->rescaleAxes();
@@ -931,8 +902,8 @@ void MainWindow::PlotPinCompression() {
     ui->custom_plot->xAxis->setRange(scaled_freq.first(), scaled_freq.last());
     ui->custom_plot->yAxis->setLabelFont(QFont("Helvetica",9));
     ui->custom_plot->yAxis->setLabel("Compression Point (Pin, dBm)");
-    ui->custom_plot->yAxis->setRange(min(compression_points_in_dBm) - 0.1,
-                                     max(compression_points_in_dBm) + 0.1);
+    ui->custom_plot->yAxis->setRange(min(_data.powerInAtCompression_dBm) - 0.1,
+                                     max(_data.powerInAtCompression_dBm) + 0.1);
 
     ui->custom_plot->axisRect()->setRangeDrag(Qt::Horizontal | Qt::Vertical);
     ui->custom_plot->axisRect()->setRangeZoom(Qt::Horizontal | Qt::Vertical);
@@ -946,7 +917,7 @@ void MainWindow::PlotPoutCompression() {
     ui->custom_plot->legend->clearItems();
 
     _plotTitle->setFont(QFont("Helvetica", 12));
-    if (compression_points_out_dBm.size() == 0) {
+    if (_data.powerOutAtCompression_dBm.size() == 0) {
         _plotTitle->setTextColor(QColor(Qt::red));
         _plotTitle->setText("Compression point not found.");
         ui->custom_plot->legend->setVisible(false);
@@ -955,17 +926,17 @@ void MainWindow::PlotPoutCompression() {
     }
     else
         _plotTitle->setText(
-                    formatValue(compression_level_dB, 1, Units::NoUnits)
+                    formatValue(_data.compressionLevel_dB, 1, Units::NoUnits)
                     + " dB Output-Referred Compression Point");
 
     ui->custom_plot->legend->setVisible(false);
 
     // Pout
-    QRowVector scaled_freq = multiply(compression_frequencies_Hz, 1E-9);
+    QRowVector scaled_freq = multiply(_data.compressionFrequencies_Hz, 1E-9);
     ui->custom_plot->addGraph();
     // ui->custom_plot->graph(0)->setName("Pout");
     ui->custom_plot->graph(0)->setPen(QPen(Qt::red));
-    ui->custom_plot->graph(0)->setData(scaled_freq, compression_points_out_dBm);
+    ui->custom_plot->graph(0)->setData(scaled_freq, _data.powerOutAtCompression_dBm);
 
 
     ui->custom_plot->axisRect()->setupFullAxesBox();
@@ -975,8 +946,8 @@ void MainWindow::PlotPoutCompression() {
     ui->custom_plot->xAxis->setRange(scaled_freq.first(), scaled_freq.last());
     ui->custom_plot->yAxis->setLabelFont(QFont("Helvetica",9));
     ui->custom_plot->yAxis->setLabel("Compression Point (Pout, dBm)");
-    ui->custom_plot->yAxis->setRange(min(compression_points_out_dBm) - 0.1,
-                                     max(compression_points_out_dBm) + 0.1);
+    ui->custom_plot->yAxis->setRange(min(_data.powerOutAtCompression_dBm) - 0.1,
+                                     max(_data.powerOutAtCompression_dBm) + 0.1);
 
     ui->custom_plot->axisRect()->setRangeDrag(Qt::Horizontal | Qt::Vertical);
     ui->custom_plot->axisRect()->setRangeZoom(Qt::Horizontal | Qt::Vertical);
@@ -987,197 +958,40 @@ void MainWindow::PlotPoutCompression() {
 
 // Export Data
 void MainWindow::Export() {
-    QString path = QFileDialog::getSaveFileName(this, "Export folder", export_path, "Folder name (*)");
+    QString path = QFileDialog::getSaveFileName(this,
+                                                "Export as...",
+                                                export_path,
+                                                "Zip (*.zip)");
     if (path.isEmpty())
         return;
 
-    QString touchstone_folder = "Touchstone Files";
-    QString power_sweep_folder = "Power Sweep Data";
-    QString gain_sweep_folder = "Gain Sweep Data";
-    QString nominal_gain_filename = "Nominal Gain.csv";
-    QString compression_points_filename = "Compression points.csv";
-    QFileInfo file_info(path);
-    QDir q_dir(file_info.absolutePath());
-    if (q_dir.mkdir(file_info.fileName())) {
-        // Touchstone
-        q_dir.cd(file_info.fileName());
-        q_dir.mkdir(touchstone_folder);
-        q_dir.cd(touchstone_folder);
-        ExportTouchstone(q_dir.absolutePath());
-
-        // Power Sweeps
-//        q_dir.cdUp();
-//        q_dir.mkdir(power_sweep_folder);
-//        q_dir.cd(power_sweep_folder);
-//        ExportPowerSweeps(q_dir.absolutePath());
-
-        // Gain Sweeps
-//        q_dir.cdUp();
-//        q_dir.mkdir(gain_sweep_folder);
-//        q_dir.cd(gain_sweep_folder);
-//        ExportGainSweeps(q_dir.absolutePath());
-
-        // Nominal Gain
-        q_dir.cdUp();
-        nominal_gain_filename = q_dir.absolutePath()
-                + "/" + nominal_gain_filename;
-        ExportNominalGain(nominal_gain_filename);
-
-        // Compression Point
-        compression_points_filename = q_dir.absolutePath()
-                + "/" + compression_points_filename;
-        ExportCompressionPoints(compression_points_filename);
-
-        export_path = QFileInfo(path).path();
-    }
-    else {
+    if (!_data.exportToZip(path)) {
         QMessageBox::warning(this,
                              APP_NAME,
                              "Export failed: could not write to directory");
     }
-}
-void MainWindow::ExportTouchstone(QString path) {
-    for (int i = 0; i < power_points; i++) {
-        QString filename = path + "/"
-                + "Pin " + QLocale().toString(power_in_dBm[i]) + " dBm.s2p";
-        Touchstone::write(s_parameter_data[i], filename);
+    else {
+        export_path = QFileInfo(path).path();
     }
-}
-void MainWindow::ExportPowerSweeps(QString path) {
-    for (int i = 0; i < frequency_points; i++) {
-        QString filename = path + "/"
-                + formatValue(frequencies_Hz[i], 3, Units::Hertz)
-                + ".csv";
-        ExportPowerSweep(filename, i);
-    }
-}
-void MainWindow::ExportPowerSweep(QString filename, int freq_index) {
-    QFile file(filename);
-    file.open(QFile::WriteOnly);
-    QTextStream stream(&file);
-    stream << "! (Pin, Pout) in dBm" << endl;
-    stream << "! @ "
-           << formatValue(frequencies_Hz[freq_index], 3, Units::Hertz) << endl;
-    stream.setFieldAlignment(QTextStream::AlignLeft);
-    for (int i = 0; i < power_points; i++) {
-        stream.setFieldWidth(8);
-        stream.setRealNumberPrecision(4);
-        stream << power_in_dBm[i];
-        stream.setFieldWidth(0);
-        stream << ",  ";
-        stream.setRealNumberPrecision(14);
-        stream << power_out_dBm[freq_index][i]
-                  << endl;
-    }
-    stream.flush();
-    file.close();
-}
-void MainWindow::ExportGainSweeps(QString path) {
-    for (int i = 0; i < frequency_points; i++) {
-        QString filename = path + "/"
-                + formatValue(frequencies_Hz[i], 3, Units::Hertz)
-                + ".csv";
-        ExportPowerSweep(filename, i);
-    }
-}
-void MainWindow::ExportGainSweep(QString filename, int freq_index) {
-    QFile file(filename);
-    file.open(QFile::WriteOnly);
-    QTextStream stream(&file);
-    stream << "! (Pin, Gain) in dBm, dB" << endl;
-    stream << "! @ "
-           << formatValue(frequencies_Hz[freq_index], 3, Units::Hertz) << endl;
-    stream.setFieldAlignment(QTextStream::AlignLeft);
-    for (int i = 0; i < power_points; i++) {
-        stream.setFieldWidth(8);
-        stream.setRealNumberPrecision(4);
-        stream << power_in_dBm[i];
-        stream.setFieldWidth(0);
-        stream << ",  ";
-        stream.setRealNumberPrecision(14);
-        stream << gain_dB[freq_index][i]
-                  << endl;
-    }
-    stream.flush();
-    file.close();
-}
-void MainWindow::ExportNominalGain(QString filename) {
-    QFile file(filename);
-    file.open(QFile::WriteOnly);
-    QTextStream stream(&file);
-    stream << "! (frequency, Nominal Gain) in Hz, dB" << endl;
-    stream << "! @ Pin = "
-           << formatValue(power_in_dBm[0], 2, Units::dBm)
-            << " (minimum power)" << endl;
-    stream.setFieldAlignment(QTextStream::AlignLeft);
-    for (int i = 0; i < frequency_points; i++) {
-        stream.setFieldWidth(18);
-        stream.setRealNumberPrecision(18);
-        stream << frequencies_Hz[i];
-        stream.setFieldWidth(0);
-        stream << ",  ";
-        stream.setRealNumberPrecision(5);
-        stream << nominal_gain_dB[i]
-                  << endl;
-    }
-    stream.flush();
-    file.close();
-}
-void MainWindow::ExportCompressionPoints(QString filename) {
-    QFile file(filename);
-    file.open(QFile::WriteOnly);
-    QTextStream stream(&file);
-    stream << "! Compression points" << endl;
-    stream << "! (frequency, Pin, Pout) in Hz, dBm, dBm" << endl;
-    stream.setFieldAlignment(QTextStream::AlignLeft);
-    int points = compression_frequencies_Hz.size();
-    for (int i = 0; i < points; i++) {
-        stream.setFieldWidth(18);
-        stream.setRealNumberPrecision(18);
-        stream << compression_frequencies_Hz[i];
-        stream.setFieldWidth(0);
-        stream << ",  ";
-        stream.setFieldWidth(12);
-        stream.setRealNumberPrecision(6);
-        stream << compression_points_in_dBm[i];
-        stream.setFieldWidth(0);
-        stream << ",  ";
-        stream.setRealNumberPrecision(6);
-        stream << compression_points_out_dBm[i]
-                  << endl;
-    }
-    stream.flush();
-    file.close();
 }
 
 // Open, Save
 void MainWindow::Open() {
-    QString path = QFileDialog::getOpenFileName(this, "Open file", open_path, "PA Compression Test (*.amp)");
+    QString path = QFileDialog::getOpenFileName(this, "Open...", open_path, "PA Compression Test (*.amp)");
     if (path.isEmpty())
         return;
 
-    QFile input_file(path);
-    input_file.open(QFile::ReadOnly);
-    if (input_file.isReadable() == false) {
-        QFileInfo file_info(path);
-        QMessageBox::warning(this,
-                             "RSA PA Compression Test",
-                             QString() + "Could not open file " + file_info.fileName()
-                             + " in " + QDir::toNativeSeparators(file_info.absolutePath()));
-        return;
-    }
-    ui->status_bar->showMessage(QString("Loading data from ")
+    ui->status_bar->showMessage(QString("Opening ")
                                 + path
                                 + "... Please wait");
-
-    QDataStream input_stream(&input_file);
-    if (Open(input_stream) == false) {
+    if (!_data.open(path)) {
         TogglePlots(false);
         QFileInfo file_info(path);
         QMessageBox::warning(this,
                              "RSA PA Compression Test",
                              QString() + "Could not open file " + file_info.fileName()
                              + " in " + QDir::toNativeSeparators(file_info.absolutePath()));
+        UpdateStatus();
         return;
     }
 
@@ -1188,102 +1002,27 @@ void MainWindow::Open() {
     ui->tab_widget->setCurrentIndex(2);
     UpdateStatus();
 }
-bool MainWindow::Open(QDataStream &input) {
-    QString app_name, app_version;
-
-    try {
-        input >> app_name
-              >> app_version
-              >> time_stamp
-              >> make
-              >> model
-              >> serial_no
-              >> firmware_version
-              >> if_bw_Hz
-              >> frequency_points
-              >> power_points
-              >> frequencies_Hz
-              >> power_in_dBm
-              >> s11_dB
-              >> s22_dB
-              >> gain_dB
-              >> power_out_dBm
-              >> nominal_gain_dB
-              >> compression_level_dB
-              >> compression_points_in_dBm
-              >> compression_points_out_dBm
-              >> compression_frequencies_Hz;
-        s_parameter_data.resize(power_points);
-        for (int i = 0; i < power_points; i++) {
-            input >> s_parameter_data[i];
-        }
-    }
-    catch(void *) {
-        return(false);
-    }
-
-    // else
-    return(true);
-}
 void MainWindow::Save() {
     QString path = QFileDialog::getSaveFileName(this, "Save as", save_path, "PA Compression Test (*.amp)");
     if (path.isEmpty())
         return;
-
     if (path.endsWith(".amp", Qt::CaseInsensitive) == false)
         path.append(".amp");
-    QFile output_file(path);
-    output_file.open(QFile::WriteOnly);
-    if (output_file.isWritable() == false) {
+
+    ui->status_bar->showMessage(QString("Saving data to ")
+                                + path
+                                + "... Please wait");
+    if (!_data.save(path)) {
         QFileInfo file_info(path);
         QMessageBox::warning(this,
                              "RSA PA Compression Test",
                              QString() + "Could not create file " + file_info.fileName()
                              + " in " + file_info.absolutePath());
+        UpdateStatus();
         return;
     }
-    ui->status_bar->showMessage(QString("Saving data to ")
-                                + path
-                                + "... Please wait");
 
-    QDataStream output_stream(&output_file);
-    Save(output_stream);
-    save_path = QFileInfo(path).path();
     UpdateStatus();
-}
-bool MainWindow::Save(QDataStream &output) {
-    try {
-        output << QString(APP_NAME)
-               << QString(APP_VERSION)
-               << time_stamp
-               << make
-               << model
-               << serial_no
-               << firmware_version
-               << if_bw_Hz
-               << frequency_points
-               << power_points
-               << frequencies_Hz
-               << power_in_dBm
-               << s11_dB
-               << s22_dB
-               << gain_dB
-               << power_out_dBm
-               << nominal_gain_dB
-               << compression_level_dB
-               << compression_points_in_dBm
-               << compression_points_out_dBm
-               << compression_frequencies_Hz;
-        for (int i = 0; i < power_points; i++) {
-            output << s_parameter_data[i];
-        }
-    }
-    catch(void *) {
-        return(false);
-    }
-
-    // else
-    return(true);
 }
 
 void MainWindow::About() {
@@ -1539,18 +1278,19 @@ void MainWindow::on_measure_push_button_clicked() {
         calibration.chop(4);
         vna->channel().setCalGroup(calibration);
     }
-    vna->channel().linearSweep().setIfbandwidth(if_bw_Hz);
+    vna->channel().linearSweep().setIfbandwidth(_data.ifBw_Hz);
     if (vna->properties().hasSourceAttenuators() && source_attenuations.size() != 1)
-        vna->channel().setSourceAttenuations(source_attenuation);
+        vna->channel().setSourceAttenuations(_data.sourceAttenuation_dB);
     if (vna->properties().hasReceiverAttenuators() && receiver_attenuations.size() != 1)
-        vna->channel().setReceiverAttenuations(receiver_attenuation);
+        vna->channel().setReceiverAttenuations(_data.receiverAttenuation_dB);
 
     // Start measurement
+    qDebug() << "measure -> Start Measurment...";
     ui->status_bar->showMessage("Initializing...");
-    run_sweeps.reset(new RunSweeps(this));
+    run_sweeps.reset(new RunSweeps(vna.data(), &_data));
     QObject::connect(run_sweeps.data(), SIGNAL(finished()),
                      this, SLOT(Finished()));
-    QObject::connect(run_sweeps.data(), SIGNAL(Progress(int)),
+    QObject::connect(run_sweeps.data(), SIGNAL(progress(int)),
                      this, SLOT(Progress(int)));
     vna->moveToThread(run_sweeps.data());
     run_sweeps->start();
@@ -1602,7 +1342,7 @@ void MainWindow::on_axis_push_button_clicked() {
 }
 void MainWindow::on_frequency_slider_valueChanged(int value)
 {
-    ui->frequency_slider_label->setText(formatValue(frequencies_Hz[value], 3, Units::Hertz));
+    ui->frequency_slider_label->setText(formatValue(_data.frequencies_Hz[value], 3, Units::Hertz));
 }
 void MainWindow::on_print_plot_push_button_clicked()
 {

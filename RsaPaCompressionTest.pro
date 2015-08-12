@@ -19,19 +19,22 @@ TARGET = RsaPaCompressionTest
 TEMPLATE = app
 
 include(RsaToolbox/rsatoolbox.pri)
+include(RsaToolbox/QuaZip/quazip.pri)
 SOURCES +=  main.cpp \
             mainwindow.cpp \
             RunSweeps.cpp \
             gettracename.cpp \
             axis_settings.cpp \
-            getCalibration.cpp
+            getCalibration.cpp \
+    MeasurementData.cpp
 
 HEADERS  += Settings.h \
             mainwindow.h \
             RunSweeps.h \
             gettracename.h \
             axis_settings.h \
-            getCalibration.h
+            getCalibration.h \
+    MeasurementData.h
 
 INCLUDEPATH += ./RsaToolbox/\
                ./QCustomPlot/

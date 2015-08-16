@@ -17,7 +17,7 @@ class RunSweeps : public QThread {
     Q_OBJECT
 
 public:
-    RunSweeps(RsaToolbox::Vna *_vna, MeasurementData *data,
+    RunSweeps(RsaToolbox::Vna *vna, MeasurementData *data,
               QObject *parent = 0);
     ~RunSweeps();
 

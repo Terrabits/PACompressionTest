@@ -181,19 +181,27 @@ void MeasurementData::processPowerOut() {
     }
 }
 void MeasurementData::findMaximumGain() {
+    referenceGainIndexes.resize(frequencyPoints);
     referenceGain_dB.resize(frequencyPoints);
+    s_referenceGain.resize(frequencyPoints);
     for (uint i = 0; i < frequencyPoints; i++) {
         // Edit to accomodate gain expansion:
         //
-        // maximumGain_dB[i] = max(gain_dB[i]);
+        // int j;
+        // referenceGain_dB[i] = max(gain_dB[i], referenceGain_dB[i], j);
         //
 
+        // Low power as reference:
+        int j = 0;
+
+        referenceGainIndexes[i] = j;
         referenceGain_dB[i] = gain_dB[i][0];
+        s_referenceGain[i] = data[j].y()[i];
     }
 }
 void MeasurementData::findCompressionPoints() {
     for (uint iFreq = 0; iFreq < frequencyPoints; iFreq++) {
-        uint iPower = 0;
+        uint iPower = referenceGainIndexes[iFreq];
         const double maxGain_dB = referenceGain_dB[iFreq];
         const double compressedGain_dB = maxGain_dB - compressionLevel_dB;
         double _gain_dB = gain_dB[iFreq][iPower];
@@ -202,11 +210,21 @@ void MeasurementData::findCompressionPoints() {
             _gain_dB = gain_dB[iFreq][iPower];
         }
 
+        qDebug() << iFreq << " ----------";
+        qDebug() << "Max gain: " << maxGain_dB << " dB";
+        qDebug() << "Compressed gain: " << compressedGain_dB << " dB";
+        qDebug() << "iPower: " << iPower;
+        qDebug() << "Pin: " << power_dBm[iPower] << " dBm";
+        qDebug() << "Gain: " << _gain_dB << " dB";
+        qDebug() << "Pin (prev): " << power_dBm[iPower-1] << " dBm";
+        qDebug() << "Gain (prev): " << gain_dB[iFreq][iPower-1] << " dB";
+
         if (_gain_dB == compressedGain_dB) {
             // Exact match
             powerInAtCompression_dBm << power_dBm[iPower];
             powerOutAtCompression_dBm << power_dBm[iPower] + _gain_dB;
             compressionFrequencies_Hz << frequencies_Hz[iFreq];
+            s_compression.push_back(data[iPower].y()[iFreq]);
         }
         else if (_gain_dB < compressedGain_dB){
             // Apply linear interpolation
@@ -215,16 +233,35 @@ void MeasurementData::findCompressionPoints() {
                                                             power_dBm[iPower],
                                                             _gain_dB,
                                                             compressedGain_dB);
+            qDebug() << "Pin (compression): " << powerInAtCompression_dBm.last() << " dBm";
             powerOutAtCompression_dBm << linearInterpolateY(
                     power_dBm[iPower-1],
                     power_dBm[iPower-1] + gain_dB[iFreq][iPower-1], //Pout[index-1]
                     power_dBm[iPower],
                     power_dBm[iPower] + _gain_dB, //Pout[index]
                     powerInAtCompression_dBm.last());
+            qDebug() << "Pout (compression): " << powerOutAtCompression_dBm.last() << " dBm";
             compressionFrequencies_Hz << frequencies_Hz[iFreq];
+
+            const double p_compressed = powerInAtCompression_dBm.last();
+            ComplexMatrix2D s(2);
+            for (int i = 0; i < 2; i++) {
+                s[i].resize(2);
+                for (int j = 0; j < 2; j++) {
+                    s[i][j]
+                            = linearInterpolateYMagPhase(
+                                toMagnitude(power_dBm[iPower-1]),
+                                data[iPower-1].y()[iFreq][i][j],
+                                toMagnitude(power_dBm[iPower]),
+                                data[iPower].y()[iFreq][i][j],
+                                toMagnitude(p_compressed));
+                }
+            }
+            s_compression.push_back(s);
         }
-        // else no match
-        qDebug() << "Missing compression point for frequency " << formatValue(frequencies_Hz[iFreq], 3, Units::Hertz);
+        else {
+            qDebug() << "Missing compression point for frequency " << formatValue(frequencies_Hz[iFreq], 3, Units::Hertz);
+        }
     }
 }
 

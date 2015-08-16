@@ -42,18 +42,23 @@ public:
 
     // Measure
     void resizeToPoints();
-    QVector<RsaToolbox::NetworkData> data; // [power]
+    QVector<RsaToolbox::NetworkData> data; // data[power]->S[freq][output][input])
 
     // Calculate
     void calculateMetrics();
-    RsaToolbox::QRowVector s11_dB;
-    RsaToolbox::QRowVector s22_dB;
+    RsaToolbox::QRowVector s11_dB; // at Reference (Max) gain
+    RsaToolbox::QRowVector s22_dB; // at Reference (Max) gain
     RsaToolbox::QMatrix2D gain_dB; // [freq][power]
     RsaToolbox::QMatrix2D powerOut_dBm; // [freq][power]
-    RsaToolbox::QRowVector referenceGain_dB;
-    RsaToolbox::QRowVector powerInAtCompression_dBm;
-    RsaToolbox::QRowVector powerOutAtCompression_dBm;
+
+    QVector<int> referenceGainIndexes; // [Freq]
+    RsaToolbox::QRowVector referenceGain_dB; // [Freq]
+    RsaToolbox::ComplexMatrix3D s_referenceGain; // S[Freq] @ Max gain
+
+    RsaToolbox::QRowVector powerInAtCompression_dBm; // [Freq]
+    RsaToolbox::QRowVector powerOutAtCompression_dBm; // [Freq]
     RsaToolbox::QRowVector compressionFrequencies_Hz; // ?
+    RsaToolbox::ComplexMatrix3D s_compression; // S[Freq] @ Compression
 
     // File
     bool open(QString filename);

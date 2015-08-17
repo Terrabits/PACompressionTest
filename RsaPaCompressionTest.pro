@@ -21,6 +21,7 @@ TEMPLATE = app
 include(RsaToolbox/rsatoolbox.pri)
 include(RsaToolbox/QuaZip/quazip.pri)
 include(TracesWidget/traceswidget.pri)
+include(PlotWidget/plotwidget.pri)
 SOURCES +=  main.cpp \
             mainwindow.cpp \
             RunSweeps.cpp \
@@ -28,10 +29,8 @@ SOURCES +=  main.cpp \
             axis_settings.cpp \
             getCalibration.cpp \
             MeasurementData.cpp \
-            ProcessTrace.cpp \
-            PlotWidget/PlotWidget.cpp
-INCLUDEPATH += $$PWD \
-               $$PWD/PlotWidget
+            ProcessTrace.cpp
+INCLUDEPATH += $$PWD
 HEADERS  += Settings.h \
             mainwindow.h \
             RunSweeps.h \
@@ -39,13 +38,11 @@ HEADERS  += Settings.h \
             axis_settings.h \
             getCalibration.h \
             MeasurementData.h \
-            ProcessTrace.h \
-            PlotWidget/PlotWidget.h
+            ProcessTrace.h
 FORMS    += mainwindow.ui \
             gettracename.ui \
             axis_settings.ui \
-            getCalibration.ui \
-            PlotWidget/PlotWidget.ui
+            getCalibration.ui
 
 RESOURCES += Resources.qrc
 
@@ -56,3 +53,6 @@ DEFINES += SOURCE_DIR=\\\"$$PWD\\\"
 CONFIG(debug, debug|release):DEFINES += DEBUG_MODE
 
 win32: RC_FILE = VS2010Resources.rc
+
+DISTFILES += \
+    PlotWidget/plotwidget.pri

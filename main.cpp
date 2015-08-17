@@ -101,6 +101,7 @@ int main(int argc, char *argv[])
     plotWidget.setData(&data);
     plotWidget.setModel(&model);
     plotWidget.show();
+    plotWidget.replot();
 
     // Create, display window
     // MainWindow w(&keys, &log);

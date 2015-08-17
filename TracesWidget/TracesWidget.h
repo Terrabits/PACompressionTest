@@ -24,6 +24,9 @@ public:
     explicit TracesWidget(QWidget *parent = 0);
     ~TracesWidget();
 
+    TraceSettingsModel *model() const;
+    void setModel(TraceSettingsModel *model);
+
     QVector<TraceSettings> traces() const;
 
 signals:
@@ -31,13 +34,12 @@ signals:
 
 private slots:
     void on_add_clicked();
-
     void on_remove_clicked();
 
 private:
     Ui::TracesWidget *ui;
 
-    TraceSettingsModel _model;
+    TraceSettingsModel *_model;
     TraceSettingsDelegate _delegate;
 };
 

@@ -115,15 +115,17 @@ bool TraceSettings::isValidYFormat() const {
 }
 QStringList TraceSettings::possibleYFormats() const {
     QStringList list;
-    if (!isValidYParameter())
+    if (!isValidYParameter()) {
         return list;
+    }
     if (!isYPower()) {
         list << "dB"
              << "mag"
              << "deg"
              << "rad";
-        if (isYReflection())
+        if (isYReflection()) {
             list << "VSWR";
+        }
     }
     else {
         list << "dBm";

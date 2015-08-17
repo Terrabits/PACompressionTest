@@ -210,15 +210,6 @@ void MeasurementData::findCompressionPoints() {
             _gain_dB = gain_dB[iFreq][iPower];
         }
 
-        qDebug() << iFreq << " ----------";
-        qDebug() << "Max gain: " << maxGain_dB << " dB";
-        qDebug() << "Compressed gain: " << compressedGain_dB << " dB";
-        qDebug() << "iPower: " << iPower;
-        qDebug() << "Pin: " << power_dBm[iPower] << " dBm";
-        qDebug() << "Gain: " << _gain_dB << " dB";
-        qDebug() << "Pin (prev): " << power_dBm[iPower-1] << " dBm";
-        qDebug() << "Gain (prev): " << gain_dB[iFreq][iPower-1] << " dB";
-
         if (_gain_dB == compressedGain_dB) {
             // Exact match
             powerInAtCompression_dBm << power_dBm[iPower];
@@ -233,14 +224,12 @@ void MeasurementData::findCompressionPoints() {
                                                             power_dBm[iPower],
                                                             _gain_dB,
                                                             compressedGain_dB);
-            qDebug() << "Pin (compression): " << powerInAtCompression_dBm.last() << " dBm";
             powerOutAtCompression_dBm << linearInterpolateY(
                     power_dBm[iPower-1],
                     power_dBm[iPower-1] + gain_dB[iFreq][iPower-1], //Pout[index-1]
                     power_dBm[iPower],
                     power_dBm[iPower] + _gain_dB, //Pout[index]
                     powerInAtCompression_dBm.last());
-            qDebug() << "Pout (compression): " << powerOutAtCompression_dBm.last() << " dBm";
             compressionFrequencies_Hz << frequencies_Hz[iFreq];
 
             const double p_compressed = powerInAtCompression_dBm.last();
@@ -260,7 +249,7 @@ void MeasurementData::findCompressionPoints() {
             s_compression.push_back(s);
         }
         else {
-            qDebug() << "Missing compression point for frequency " << formatValue(frequencies_Hz[iFreq], 3, Units::Hertz);
+            qDebug() << iFreq << ": Missing compression point for frequency " << formatValue(frequencies_Hz[iFreq], 3, Units::Hertz);
         }
     }
 }

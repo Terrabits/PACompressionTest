@@ -28,8 +28,10 @@ SOURCES +=  main.cpp \
             axis_settings.cpp \
             getCalibration.cpp \
             MeasurementData.cpp \
-    ProcessTrace.cpp
-
+            ProcessTrace.cpp \
+            PlotWidget/PlotWidget.cpp
+INCLUDEPATH += $$PWD \
+               $$PWD/PlotWidget
 HEADERS  += Settings.h \
             mainwindow.h \
             RunSweeps.h \
@@ -37,15 +39,13 @@ HEADERS  += Settings.h \
             axis_settings.h \
             getCalibration.h \
             MeasurementData.h \
-    ProcessTrace.h
-
-INCLUDEPATH += ./RsaToolbox/\
-               ./QCustomPlot/
-
+            ProcessTrace.h \
+            PlotWidget/PlotWidget.h
 FORMS    += mainwindow.ui \
             gettracename.ui \
             axis_settings.ui \
-            getCalibration.ui
+            getCalibration.ui \
+            PlotWidget/PlotWidget.ui
 
 RESOURCES += Resources.qrc
 

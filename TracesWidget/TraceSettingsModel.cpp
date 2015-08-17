@@ -275,7 +275,7 @@ void TraceSettingsModel::fixTraceSettings(int row) {
         t.yParameter = "Gain";
     }
     if (!t.isValidYFormat()) {
-        t.yParameter = t.possibleYParameters().first();
+        t.yFormat = t.possibleYFormats().first();
     }
     if (!t.isValidXParameter()) {
         t.xParameter = t.possibleXParameters().first();

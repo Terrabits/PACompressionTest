@@ -104,8 +104,8 @@ int main(int argc, char *argv[])
     plotWidget.replot();
 
     // Create, display window
-    // MainWindow w(&keys, &log);
-    // w.show();
+    MainWindow w(&keys, &log);
+    w.show();
 
     return app.exec();
 }

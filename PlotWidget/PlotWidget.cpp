@@ -16,7 +16,8 @@ using namespace RsaToolbox;
 PlotWidget::PlotWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PlotWidget),
-    _model(0)
+    _model(0),
+    _title(0)
 {
     ui->setupUi(this);
 }
@@ -99,6 +100,7 @@ void PlotWidget::replot() {
         else {
             graph = ui->plot->addGraph(ui->plot->xAxis, ui->plot->yAxis2);
             ui->plot->yAxis2->setVisible(true);
+            graph->setPen(QPen(Qt::red));
             const double newYMin = min(p.y());
             if (newYMin < y2Min)
                 y2Min = newYMin;
@@ -113,7 +115,7 @@ void PlotWidget::replot() {
                 xMax = newXMax;
         }
         graph->setName(p.name());
-        graph->setData(p.x(), p.y());
+        graph->setData(multiply(p.x(), 1E-9), p.y()); // FIX
     }
 
     if (y1Min < y1Max) {
@@ -137,7 +139,18 @@ void PlotWidget::replot() {
         ui->plot->yAxis2->rescale();
     }
     roundAxis(xMin, xMax, 5, xMin, xMax);
-    ui->plot->xAxis->setRange(xMin, xMax);
+    ui->plot->xAxis->setRange(1.0, 6.0);
+
+    // Remove!
+    if (!_title) {
+        _title  = new QCPPlotTitle(ui->plot, "");
+        ui->plot->plotLayout()->insertRow(0);
+        ui->plot->plotLayout()->addElement(0, 0, _title);
+    }
+    _title->setText("Gain vs Frequency");
+    ui->plot->xAxis->setLabel("GHz");
+    ui->plot->yAxis->setLabel("dB");
+    ui->plot->yAxis2->setLabel("deg");
 
     ui->plot->axisRect()->setRangeDrag(Qt::Horizontal | Qt::Vertical);
     ui->plot->axisRect()->setRangeZoom(Qt::Horizontal | Qt::Vertical);

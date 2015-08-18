@@ -587,7 +587,7 @@
         <x>40</x>
         <y>190</y>
         <width>341</width>
-        <height>161</height>
+        <height>131</height>
        </rect>
       </property>
       <property name="title">
@@ -655,7 +655,7 @@
        <property name="geometry">
         <rect>
          <x>120</x>
-         <y>120</y>
+         <y>90</y>
          <width>131</width>
          <height>22</height>
         </rect>
@@ -671,7 +671,7 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>122</y>
+         <y>92</y>
          <width>81</width>
          <height>16</height>
         </rect>
@@ -704,48 +704,6 @@
        </property>
        <property name="text">
         <string>dBm</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="compression_point_units_label">
-       <property name="geometry">
-        <rect>
-         <x>260</x>
-         <y>90</y>
-         <width>51</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>dB</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="compression_point_line_edit">
-       <property name="geometry">
-        <rect>
-         <x>120</x>
-         <y>90</y>
-         <width>131</width>
-         <height>22</height>
-        </rect>
-       </property>
-       <property name="maxLength">
-        <number>5</number>
-       </property>
-       <property name="readOnly">
-        <bool>false</bool>
-       </property>
-      </widget>
-      <widget class="QLabel" name="compression_point_label">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>90</y>
-         <width>111</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Compression Pt:</string>
        </property>
       </widget>
      </widget>
@@ -1109,6 +1067,74 @@
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
      </widget>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>330</y>
+        <width>341</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Compression</string>
+      </property>
+      <widget class="QLabel" name="compression_point_units_label">
+       <property name="geometry">
+        <rect>
+         <x>260</x>
+         <y>20</y>
+         <width>51</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>dB</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="compression_point_line_edit">
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>20</y>
+         <width>131</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="maxLength">
+        <number>5</number>
+       </property>
+       <property name="readOnly">
+        <bool>false</bool>
+       </property>
+      </widget>
+      <widget class="QLabel" name="compression_point_label">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>20</y>
+         <width>91</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Level:</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="gainExpansion">
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>52</y>
+         <width>171</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Include Gain Expansion</string>
+       </property>
+      </widget>
+     </widget>
     </widget>
     <widget class="QWidget" name="results_tab">
      <attribute name="title">
@@ -1251,7 +1277,7 @@
      <x>0</x>
      <y>0</y>
      <width>820</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">

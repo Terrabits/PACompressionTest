@@ -6,6 +6,9 @@
 #include "TraceSettingsModel.h"
 #include "MeasurementData.h"
 
+// QCustomPlot
+#include <qcustomplot.h>
+
 // Qt
 #include <QWidget>
 
@@ -31,6 +34,7 @@ public slots:
 
 private:
     Ui::PlotWidget *ui;
+    QCPPlotTitle *_title;
 
     TraceSettingsModel *_model;
     MeasurementData *_data;

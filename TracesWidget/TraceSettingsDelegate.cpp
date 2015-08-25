@@ -28,6 +28,7 @@ QWidget *TraceSettingsDelegate::createEditor(QWidget *parent, const QStyleOption
     if (!model)
         return 0;
 
+    QPixmap pixmap(10, 5);
     QStringList items;
     QComboBox *combo;
     QLineEdit *edit;
@@ -36,6 +37,24 @@ QWidget *TraceSettingsDelegate::createEditor(QWidget *parent, const QStyleOption
         combo = new QComboBox(parent);
         items << model->traces()[row].possibleYAxis();
         combo->addItems(items);
+        return combo;
+    case TraceSettingsModel::Column::color:
+        combo = new QComboBox(parent);
+        combo->setEditable(false);
+        pixmap.fill(Qt::black);
+        combo->addItem(QIcon(pixmap), "Black");
+        pixmap.fill(Qt::red);
+        combo->addItem(QIcon(pixmap), "Red");
+        pixmap.fill(Qt::green);
+        combo->addItem(QIcon(pixmap), "Green");
+        pixmap.fill(Qt::blue);
+        combo->addItem(QIcon(pixmap), "Blue");
+        pixmap.fill(Qt::cyan);
+        combo->addItem(QIcon(pixmap), "Cyan");
+        pixmap.fill(Qt::magenta);
+        combo->addItem(QIcon(pixmap), "Magenta");
+        pixmap.fill(Qt::gray);
+        combo->addItem(QIcon(pixmap), "Gray");
         return combo;
     case TraceSettingsModel::Column::yParameter:
         combo = new QComboBox(parent);
@@ -71,7 +90,7 @@ QWidget *TraceSettingsDelegate::createEditor(QWidget *parent, const QStyleOption
         }
         return edit;
     default:
-        return 0;
+        return QStyledItemDelegate::createEditor(parent, option, index);
     }
 }
 void TraceSettingsDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const {
@@ -86,6 +105,8 @@ void TraceSettingsDelegate::setEditorData(QWidget *editor, const QModelIndex &in
         edit->setText(index.data(Qt::EditRole).toString());
         return;
     }
+    // Default:
+    QStyledItemDelegate::setEditorData(editor, index);
 }
 void TraceSettingsDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const {
     if (!model)
@@ -103,6 +124,9 @@ void TraceSettingsDelegate::setModelData(QWidget *editor, QAbstractItemModel *mo
             model->setData(index, edit->text());
         return;
     }
+
+    // Default:
+    QStyledItemDelegate::setModelData(editor, model, index);
 }
 void TraceSettingsDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const {
     editor->setGeometry(option.rect);

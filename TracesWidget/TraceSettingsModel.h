@@ -18,13 +18,14 @@ public:
 
     enum Column {
         yAxis = 0,
-        yParameter = 1,
-        yFormat = 2,
-        xParameter = 3,
-        atParameter = 4,
-        atValue = 5
+        color = 1,
+        yParameter = 2,
+        yFormat = 3,
+        xParameter = 4,
+        atParameter = 5,
+        atValue = 6
     };
-    static const int COLUMNS = 6;
+    static const int COLUMNS = 7;
 
     virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
     virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;

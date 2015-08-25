@@ -17,6 +17,7 @@ public:
 
     bool isValid() const;
     QString yAxis; // Left, Right
+    Qt::GlobalColor color;
     QString yParameter; // Input Reflection, Gain, Reverse Gain, Output Reflection, Pin, Pout
     QString yFormat; // dB, mag, deg, rad, VSWR, dBm
     QString xParameter; // Frequency, Pin
@@ -28,6 +29,11 @@ public:
     bool isRightYAxis() const;
     bool isValidYAxis() const;
     QStringList possibleYAxis() const;
+
+    // Color
+    bool isColor(Qt::GlobalColor color) const;
+    QString colorString() const;
+    bool setColorFromString(QString colorString);
 
     // Y Parameter
     bool isYInputReflectionTrace() const;

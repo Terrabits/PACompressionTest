@@ -6,6 +6,7 @@
 
 // Qt
 #include <QDebug>
+#include <QPixmap>
 
 
 TraceSettingsModel::TraceSettingsModel(QObject *parent) :
@@ -30,6 +31,8 @@ QVariant TraceSettingsModel::headerData(int section, Qt::Orientation orientation
     switch (section) {
     case Column::yAxis:
         return "Y Axis";
+    case Column::color:
+        return "Color";
     case Column::yParameter:
         return "Y Parameter";
     case Column::yFormat:
@@ -69,6 +72,7 @@ Qt::ItemFlags TraceSettingsModel::flags(const QModelIndex &index) const {
     Qt::ItemFlags flags = QAbstractTableModel::flags(index);;
     switch (column) {
     case Column::yAxis:
+    case Column::color:
     case Column::yParameter:
         return flags | Qt::ItemIsEditable;
     case Column::yFormat:
@@ -113,9 +117,6 @@ QVariant TraceSettingsModel::data(const QModelIndex &index, int role) const {
     if (index.model() != this)
         return QVariant();
 
-    if (role != Qt::DisplayRole && role != Qt::EditRole)
-        return QVariant();
-
     const int row = index.row();
     const int column = index.column();
     if (row < 0 || row >= _traces.size())
@@ -123,9 +124,29 @@ QVariant TraceSettingsModel::data(const QModelIndex &index, int role) const {
     if (column < 0 || column >= COLUMNS)
         return QVariant();
 
+    if (role != Qt::DisplayRole
+            && role != Qt::EditRole
+            && role != Qt::DecorationRole)
+    {
+        return QVariant();
+    }
+    else if (role == Qt::DecorationRole && column != Column::color) {
+        return QVariant();
+    }
+
+
     switch (column) {
     case Column::yAxis:
         return _traces[row].yAxis;
+    case Column::color:
+        if (role == Qt::DecorationRole) {
+            QPixmap pixmap(10, 5);
+            pixmap.fill(QColor(_traces[row].color));
+            return pixmap;
+        }
+        else {
+            return _traces[row].colorString();
+        }
     case Column::yParameter:
         return _traces[row].yParameter;
     case Column::yFormat:
@@ -176,6 +197,7 @@ bool TraceSettingsModel::setData(const QModelIndex &index, const QVariant &value
     else if (!value.canConvert<QString>())
         return false;
 
+    Qt::GlobalColor originalColor;
     QModelIndex topLeft = createIndex(row, 0);
     QModelIndex bottomRight = createIndex(row, COLUMNS-1);
     switch (column) {
@@ -184,6 +206,13 @@ bool TraceSettingsModel::setData(const QModelIndex &index, const QVariant &value
             return true;
         _traces[row].yAxis = value.toString();
         emit dataChanged(topLeft, bottomRight);
+        return true;
+    case Column::color:
+        originalColor = _traces[row].color;
+        if (!_traces[row].setColorFromString(value.toString()))
+            return false;
+        if (originalColor != _traces[row].color)
+            emit dataChanged(topLeft, bottomRight);
         return true;
     case Column::yParameter:
         if (_traces[row].yParameter.compare(value.toString()) == 0)

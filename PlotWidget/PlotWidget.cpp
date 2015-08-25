@@ -84,6 +84,7 @@ void PlotWidget::replot() {
         if (t.isLeftYAxis()) {
             graph = ui->plot->addGraph();
             ui->plot->yAxis->setVisible(true);
+            graph->setPen(QPen(t.color));
             const double newYMin = min(p.y());
             if (newYMin < y1Min)
                 y1Min = newYMin;
@@ -100,7 +101,6 @@ void PlotWidget::replot() {
         else {
             graph = ui->plot->addGraph(ui->plot->xAxis, ui->plot->yAxis2);
             ui->plot->yAxis2->setVisible(true);
-            graph->setPen(QPen(Qt::red));
             const double newYMin = min(p.y());
             if (newYMin < y2Min)
                 y2Min = newYMin;
@@ -115,42 +115,59 @@ void PlotWidget::replot() {
                 xMax = newXMax;
         }
         graph->setName(p.name());
-        graph->setData(multiply(p.x(), 1E-9), p.y()); // FIX
+        graph->setPen(QPen(t.color));
+        graph->setData(p.x(), p.y());
     }
 
     if (y1Min < y1Max) {
-        roundAxis(y1Min, y1Max, 5, y1Min, y1Max);
+        double tickStep = 1.0;
+        int subTickCount = 4;
+        prettyAxis(y1Min, y1Max, tickStep, subTickCount);
+        qDebug() << "  y1Min: " << y1Min;
+        qDebug() << "  y1Max: " << y1Max;
+        qDebug() << "  y1 tick step: " << tickStep;
+        qDebug() << "  y1 sub tick count: " << subTickCount;
         ui->plot->yAxis->setRange(y1Min, y1Max);
-        qDebug() << "y1 tick step: " << ui->plot->yAxis->tickStep();
-        const double tickStep = ceiling(ui->plot->yAxis->tickStep(), 1);
-        qDebug() << "new y1 tick step: " << tickStep;
         ui->plot->yAxis->setAutoTickStep(false);
         ui->plot->yAxis->setTickStep(tickStep);
-        ui->plot->yAxis->setSubTickCount(5);
+        ui->plot->yAxis->setAutoSubTicks(false);
+        ui->plot->yAxis->setSubTickCount(subTickCount);
     }
     else {
+        qDebug() << "  YAxis autoscale";
         ui->plot->yAxis->rescale();
     }
     if (y2Min < y2Max) {
-        roundAxis(y2Min, y2Max, 5, y2Min, y2Max);
+        double tickStep = 1.0;
+        int subTickCount = 4;
+        prettyAxis(y2Min, y2Max, tickStep, subTickCount);
+        qDebug() << "  y2Min: " << y2Min;
+        qDebug() << "  y2Max: " << y2Max;
+        qDebug() << "  y2 tick step: " << tickStep;
+        qDebug() << "  y2 sub tick count: " << subTickCount;
         ui->plot->yAxis2->setRange(y2Min, y2Max);
+        ui->plot->yAxis2->setAutoTickStep(false);
+        ui->plot->yAxis2->setTickStep(tickStep);
+        ui->plot->yAxis2->setAutoSubTicks(false);
+        ui->plot->yAxis2->setSubTickCount(subTickCount);
     }
     else {
+        qDebug() << "  YAxis2 autoscale";
         ui->plot->yAxis2->rescale();
     }
-    roundAxis(xMin, xMax, 5, xMin, xMax);
-    ui->plot->xAxis->setRange(1.0, 6.0);
+//    roundAxis(xMin, xMax, 5, xMin, xMax);
+    ui->plot->xAxis->setRange(xMin, xMax);
 
     // Remove!
-    if (!_title) {
-        _title  = new QCPPlotTitle(ui->plot, "");
-        ui->plot->plotLayout()->insertRow(0);
-        ui->plot->plotLayout()->addElement(0, 0, _title);
-    }
-    _title->setText("Gain vs Frequency");
-    ui->plot->xAxis->setLabel("GHz");
-    ui->plot->yAxis->setLabel("dB");
-    ui->plot->yAxis2->setLabel("deg");
+//    if (!_title) {
+//        _title  = new QCPPlotTitle(ui->plot, "");
+//        ui->plot->plotLayout()->insertRow(0);
+//        ui->plot->plotLayout()->addElement(0, 0, _title);
+//    }
+//    _title->setText("Gain vs Frequency");
+//    ui->plot->xAxis->setLabel("GHz");
+//    ui->plot->yAxis->setLabel("dB");
+//    ui->plot->yAxis2->setLabel("deg");
 
     ui->plot->axisRect()->setRangeDrag(Qt::Horizontal | Qt::Vertical);
     ui->plot->axisRect()->setRangeZoom(Qt::Horizontal | Qt::Vertical);

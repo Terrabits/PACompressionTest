@@ -11,13 +11,15 @@ using namespace RsaToolbox;
 
 
 TraceSettings::TraceSettings() :
+    yAxis("Left"),
+    color(Qt::black),
+    yParameter("Gain"),
+    yFormat("dB"),
+    xParameter("Frequency"),
+    atParameter("Compression"),
     atValue(0)
 {
-    yAxis = "Left";
-    yParameter = "Gain";
-    yFormat = "dB";
-    xParameter = "Frequency";
-    atParameter = "Compression";
+
 }
 
 TraceSettings::~TraceSettings()
@@ -47,6 +49,143 @@ QStringList TraceSettings::possibleYAxis() const {
     QStringList list;
     list << "Left" << "Right";
     return list;
+}
+
+// Color
+bool TraceSettings::isColor(Qt::GlobalColor color) const {
+    return color == this->color;
+}
+QString TraceSettings::colorString() const {
+    switch (color) {
+    case Qt::white:
+        return "White";
+    case Qt::black:
+        return "Black";
+    case Qt::red:
+        return "Red";
+    case Qt::darkRed:
+        return "Dark Red";
+    case Qt::green:
+        return "Green";
+    case Qt::darkGreen:
+        return "Dark Green";
+    case Qt::blue:
+        return "Blue";
+    case Qt::darkBlue:
+        return "Dark Blue";
+    case Qt::cyan:
+        return "Cyan";
+    case Qt::darkCyan:
+        return "Dark Cyan";
+    case Qt::magenta:
+        return "Magenta";
+    case Qt::darkMagenta:
+        return "Dark Magenta";
+    case Qt::yellow:
+        return "Yellow";
+    case Qt::darkYellow:
+        return "Dark Yellow";
+    case Qt::gray:
+        return "Gray";
+    case Qt::darkGray:
+        return "Dark Gray";
+    case Qt::lightGray:
+        return "Light Gray";
+    case Qt::transparent:
+        return "Transparent";
+    case Qt::color0:
+        return "Color 0";
+    case Qt::color1:
+        return "Color 1";
+    default:
+        return "Unknown color";
+    }
+}
+bool TraceSettings::setColorFromString(QString colorString) {
+    colorString = colorString.toUpper();
+    if (colorString == "WHITE") {
+        color = Qt::white;
+        return true;
+    }
+    else if (colorString == "BLACK") {
+        color = Qt::black;
+        return true;
+    }
+    else if (colorString == "RED") {
+        color = Qt::red;
+        return true;
+    }
+    else if (colorString == "DARK RED") {
+        color = Qt::darkRed;
+        return true;
+    }
+    else if (colorString == "GREEN") {
+        color = Qt::green;
+        return true;
+    }
+    else if (colorString == "DARK GREEN") {
+        color = Qt::darkGreen;
+        return true;
+    }
+    else if (colorString == "BLUE") {
+        color = Qt::blue;
+        return true;
+    }
+    else if (colorString == "DARK BLUE") {
+        color = Qt::darkBlue;
+        return true;
+    }
+    else if (colorString == "CYAN") {
+        color = Qt::cyan;
+        return true;
+    }
+    else if (colorString == "DARK CYAN") {
+        color = Qt::darkCyan;
+        return true;
+    }
+    else if (colorString == "MAGENTA") {
+        color = Qt::magenta;
+        return true;
+    }
+    else if (colorString == "DARK MAGENTA") {
+        color = Qt::darkMagenta;
+        return true;
+    }
+    else if (colorString == "YELLOW") {
+        color = Qt::yellow;
+        return true;
+    }
+    else if (colorString == "DARK YELLOW") {
+        color = Qt::darkYellow;
+        return true;
+    }
+    else if (colorString == "GRAY") {
+        color = Qt::gray;
+        return true;
+    }
+    else if (colorString == "DARK GRAY") {
+        color = Qt::darkGray;
+        return true;
+    }
+    else if (colorString == "LIGHT GRAY") {
+        color = Qt::lightGray;
+        return true;
+    }
+    else if (colorString == "TRANSPARENT") {
+        color = Qt::transparent;
+        return true;
+    }
+    else if (colorString == "COLOR 0") {
+        color = Qt::color0;
+        return true;
+    }
+    else if (colorString == "COLOR 1") {
+        color = Qt::color1;
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 // Y Parameter

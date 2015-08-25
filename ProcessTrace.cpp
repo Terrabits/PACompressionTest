@@ -68,10 +68,14 @@ QString ProcessTrace::xUnits() {
 
 QRowVector ProcessTrace::x() {
     qDebug() << "ProcessTrace::x()";
-    if (_settings.isXPin())
+    if (_settings.isXPin()) {
+        qDebug() << "  Pin.size: " << _data.power_dBm.size();
         return _data.power_dBm;
-    if (_settings.isXFrequency())
+    }
+    if (_settings.isXFrequency()) {
+        qDebug() << "  frequencies.size: " << _data.frequencies_Hz.size();
         return _data.frequencies_Hz;
+    }
     // Else
     qDebug() << "No X value?";
     return QRowVector();
@@ -143,14 +147,21 @@ QRowVector ProcessTrace::y() {
                         const int index = _data.referenceGainIndexes[i];
                         v[i] = _data.powerOut_dBm[i][index];
                     }
+                    return v;
                 }
             }
         }
         else {
-            if (_settings.isAtCompression()) {
+            if (_settings.isAtFrequency()) {
                 // y: Pout
                 // x: Pin
                 // @: Frequency = atIndex
+                qDebug() << "  y: Pout";
+                qDebug() << "  x: Pin";
+                qDebug() << "  @: Frequency index: " << atIndex;
+                qDebug() << "  y.size: " << _data.powerOut_dBm[atIndex].size();
+                qDebug() << "  y[0]: " << _data.powerOut_dBm[atIndex].first();
+                qDebug() << "  y[-1]: " << _data.powerOut_dBm[atIndex].last();
                 return _data.powerOut_dBm[atIndex];
             }
         }

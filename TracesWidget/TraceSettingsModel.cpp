@@ -26,7 +26,7 @@ QVariant TraceSettingsModel::headerData(int section, Qt::Orientation orientation
     if (role != Qt::DisplayRole)
         return QVariant();
     if (orientation == Qt::Vertical)
-        return QVariant();
+        return QAbstractTableModel::headerData(section, orientation, role);
 
     switch (section) {
     case Column::yAxis:
@@ -290,6 +290,12 @@ bool TraceSettingsModel::removeRows(int row, int count, const QModelIndex &paren
 
 QVector<TraceSettings> TraceSettingsModel::traces() const {
     return _traces;
+}
+
+void TraceSettingsModel::reset() {
+    beginResetModel();
+    _traces.clear();
+    endResetModel();
 }
 
 void TraceSettingsModel::fixTraceSettings(int row) {

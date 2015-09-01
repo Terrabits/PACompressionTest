@@ -40,6 +40,24 @@ private:
     MeasurementData *_data;
     void clearPlot();
 
+    // Pretty Plot Helpers
+    bool isTitle() const;
+    QString generateTitle() const;
+    bool isHideLegend() const;
+
+    void generateXAxis(double &min, double &max, RsaToolbox::SiPrefix &prefix) const;
+    QString generateXLabel(RsaToolbox::SiPrefix prefix) const;
+
+    bool isLeftYAxisDegrees() const;
+    void generateLeftYAxis(double &min, double &max) const;
+    QString generateLeftYLabel() const;
+
+    bool isRightYAxisDegrees() const;
+    void generateRightYAxis(double &min, double &max) const;
+    QString generateRightYLabel() const;
+
+
+
 };
 
 #endif // PLOTWIDGET_H

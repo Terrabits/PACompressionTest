@@ -1,44 +1,3 @@
-RSA Create Installer Version 1.2
-(C) 2014 Rohde & Schwarz America
-
-Tue Sep 1 14:31:10 2015
-
-Application Name:    R&S PA Compression Test
-Version:             1.4
-Manufacturer:        Rohde & Schwarz
-Author:              Nick Lalic
-Description:         Uses a Rohde & Schwarz VNA to measure the compression point of an amplifier
-Manufacturer Folder: Rohde-Schwarz
-Installation Folder: PA Compression Test
-Start Menu Folder:   R&S PA Compression Test
-Add About Link?      false
-Executable:          C:\Users\lalic\Documents\Qt\build-PACompressionTest-Desktop_Qt_5_2_1_MSVC2010_32bit-Release\release\PACompressionTest.exe
-Instrument Shortcut: Compression Test
-Msvc Runtime:        C:\Program Files (x86)\Rohde-Schwarz\RSA Create Installer\Msvc2010_32
-Qt Runtime:          C:\Qt\5.2.1\msvc2010\bin
-Create Installer:    C:\Program Files (x86)\Rohde-Schwarz\RSA Create Installer
-
-Upgrade Code:        699b0972-99de-4286-9686-b8cea86158b9
-Product Guid:        3F26BF96-E515-42D7-BA7B-31B7ADCB6937
-Executable Guid:     623EF5E1-0975-4E27-B67D-C6E2240E83E8
-Licenses Guid:       9F58133C-5BEF-46AB-8445-6493A5EEEE1B
-Msvc Runtime Guid:   AAAB88D4-FCC5-47E4-B020-6D7B25FAC0A1
-Qt Runtime Guid:     E5FE140E-C688-4F54-97A2-34F7BEF4E596
-Qt Platform Guid:    CF7D7E6A-79F6-4161-9A34-52865CB2FBE0
-Logs/Settings Guid:  15E75666-2890-47FF-8290-D2E0E8929F60
-Shortcuts Guid:      1DBB9BA3-B4A5-4D25-ADCC-973E0BFAFCD0
-RsVisa Guid:         6AC55909-19DF-42E8-A334-1FF19BE93E5A
-QCustomPlots Guid:   BBB8103F-4D74-48AB-9767-02887C01E3EF
-QuaZIP Guid:         3FA61BEF-4A95-4AF4-A719-DE448A0C6E11
-
-Wxs Template:        RsaToolbox DirectX 1.0
-Template exists?     true
-Wxs File:            Product.wxs
-Installer:           C:\Users\lalic\Documents\Qt\PACompressionTest\Installer\R&S PA Compression Test 1.4.msi
-Add Version?         true
-WiX Tools:           C:\Program Files (x86)\WiX Toolset v3.9\bin
-
-WXS FILE:            
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Rsa Create Installer Template                 -->
 <!-- Name: RsaToolbox DirectX                      -->
@@ -48,8 +7,8 @@ WXS FILE:
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
-	<Product Id="3F26BF96-E515-42D7-BA7B-31B7ADCB6937" Name="R&amp;S PA Compression Test" Language="1033"
-    Version="1.4" Manufacturer="Rohde &amp; Schwarz"
+	<Product Id="07654A4A-CF20-4C7B-AAC7-61752EA90D1E" Name="R&amp;S PA Compression Test" Language="1033"
+    Version="1.3" Manufacturer="Rohde &amp; Schwarz"
     UpgradeCode="699b0972-99de-4286-9686-b8cea86158b9">
 		
 		<Package InstallerVersion="200"
@@ -121,17 +80,17 @@ WXS FILE:
   <Fragment>
     <!-- Application files -->
     <Icon Id="Rs.ico" SourceFile="C:\Program Files (x86)\Rohde-Schwarz\RSA Create Installer/Icons/Rs.ico" />
-    <Component Id="ExecutableComponent" Guid="623EF5E1-0975-4E27-B67D-C6E2240E83E8"
+    <Component Id="ExecutableComponent" Guid="8025B49C-F6FF-41AE-AFEB-164FACA3B23E"
       Directory="INSTALLFOLDER">
       <File Id="AppExecutable" Name="R&amp;S PA Compression Test.exe"
-        Source="C:\Users\lalic\Documents\Qt\build-PACompressionTest-Desktop_Qt_5_2_1_MSVC2010_32bit-Release\release\PACompressionTest.exe" KeyPath="yes">
+        Source="C:\Users\lalic\Documents\Qt\build-RsaPaCompressionTest-Desktop_Qt_5_2_1_MSVC2010_32bit-Release\release\RsaPaCompressionTest.exe" KeyPath="yes">
         <Shortcut Id="ZNBShortcut" Name="Compression Test"
           Directory="ZNBExternalToolsFolder" Advertise="yes" Icon="Rs.ico" />
         <Shortcut Id="ZVAShortcut" Name="Compression Test"
           Directory="ZVAExternalToolsFolder" Advertise="yes" Icon="Rs.ico" />
       </File>
     </Component>
-    <Component Id="Licenses" Guid="9F58133C-5BEF-46AB-8445-6493A5EEEE1B" Directory="LicensesFolder">
+    <Component Id="Licenses" Guid="75F547CF-CFAA-4C48-ABD6-FEF5F81DEF83" Directory="LicensesFolder">
       <File Id="RsaLicense"
         Name="R&amp;S Terms and Conditions for Royalty-Free Products.txt"
         Source="C:\Program Files (x86)\Rohde-Schwarz\RSA Create Installer\Licenses\R&amp;S Terms and Conditions for Royalty-Free Products.txt"
@@ -152,31 +111,31 @@ WXS FILE:
         Name="ZLib Copyright and Terms and Conditions.txt"
         Source="C:\Program Files (x86)\Rohde-Schwarz\RSA Create Installer\Licenses\ZLib Copyright and Terms and Conditions.txt" />
     </Component>
-    <Component Id="RsVisa" Guid="6AC55909-19DF-42E8-A334-1FF19BE93E5A"
+    <Component Id="RsVisa" Guid="7F0CA2F9-66CA-4D5E-8270-287640FB6A0B"
       Directory="INSTALLFOLDER">
       <File Id="RsVisa32.dll" Name="RsVisa32.dll"
         Source="..\RsaToolbox\Bus\Visa\RsVisa32.dll" KeyPath="yes" />
     </Component>
-    <Component Id="QCustomPlots" Guid="BBB8103F-4D74-48AB-9767-02887C01E3EF"
+    <Component Id="QCustomPlots" Guid="760E286C-D96F-483F-B3E4-53F11D151B2B"
       Directory="INSTALLFOLDER">
       <File Id="qcustomplot.dll" Name="qcustomplot.dll"
         Source="..\RsaToolbox\QCustomPlot\qcustomplot.dll" KeyPath="yes" />
     </Component>
-    <Component Id="QuaZip" Guid="3FA61BEF-4A95-4AF4-A719-DE448A0C6E11"
+    <Component Id="QuaZip" Guid="358A047A-44AD-45A1-9AE2-EE176D828C7B"
       Directory="INSTALLFOLDER">
       <File Id="quazip.dll" Name="quazip.dll"
         Source="..\RsaToolbox\QuaZIP\quazip.dll" KeyPath="yes" />
       <File Id="zlib1.dll" Name="zlib1.dll"
         Source="..\RsaToolbox\QuaZIP\ZLib\zlib1.dll" />
     </Component>
-    <Component Id="MsvcRuntime" Guid="AAAB88D4-FCC5-47E4-B020-6D7B25FAC0A1"
+    <Component Id="MsvcRuntime" Guid="8E490999-FAC5-481A-AEDD-2A29E9D67574"
       Directory="INSTALLFOLDER">
       <File Id="msvcr100.dll" Name="msvcr100.dll"
         Source="C:\Program Files (x86)\Rohde-Schwarz\RSA Create Installer\Msvc2010_32\msvcr100.dll" KeyPath="yes" />
       <File Id="msvcp100.dll" Name="msvcp100.dll"
         Source="C:\Program Files (x86)\Rohde-Schwarz\RSA Create Installer\Msvc2010_32\msvcp100.dll" />
     </Component>
-    <Component Id="QtRuntime" Guid="E5FE140E-C688-4F54-97A2-34F7BEF4E596"
+    <Component Id="QtRuntime" Guid="2FF53B29-0217-460A-A75B-E25A4940F834"
       Directory="INSTALLFOLDER">
       <File Id="Qt5Core.dll" Name="Qt5Core.dll"
         Source="C:\Qt\5.2.1\msvc2010\bin\Qt5Core.dll" KeyPath="yes" />
@@ -201,12 +160,12 @@ WXS FILE:
       <File Id="icuuc51.dll" Name="icuuc51.dll"
         Source="C:\Qt\5.2.1\msvc2010\bin\icuuc51.dll" />
     </Component>
-    <Component Id="QtPlatformPlugin" Guid="CF7D7E6A-79F6-4161-9A34-52865CB2FBE0"
+    <Component Id="QtPlatformPlugin" Guid="3CCF33C3-34A8-4421-B9E0-91DE3F1B7E2D"
       Directory="PlatformsFolder">
       <File Id="qwindows.dll" Name="qwindows.dll"
         Source="C:\Qt\5.2.1\msvc2010\bin\..\plugins\platforms\qwindows.dll" KeyPath="yes" />
     </Component>
-    <Component Id="LogsAndSettings" Guid="15E75666-2890-47FF-8290-D2E0E8929F60"
+    <Component Id="LogsAndSettings" Guid="186E0581-7B6E-4BF7-AC5B-5EFE11CD9850"
       Directory="MyAppDataFolder" KeyPath="yes">
       <CreateFolder Directory="SettingsFolder" />
       <RemoveFile Id="PurgeLogs"
@@ -217,7 +176,7 @@ WXS FILE:
       <RemoveFolder Id="RemoveSettingsFolder"
       Directory="SettingsFolder" On="uninstall" />
     </Component>
-    <Component Id="ShortcutsComponent" Guid="1DBB9BA3-B4A5-4D25-ADCC-973E0BFAFCD0"
+    <Component Id="ShortcutsComponent" Guid="B1755531-2F94-4B24-98A9-07046D938F8B"
       Directory="ApplicationStartMenuFolder">
       <RegistryKey Root="HKCU"
         Key="Software\Rohde-Schwarz\R&amp;S PA Compression Test\Uninstall">
@@ -240,18 +199,3 @@ WXS FILE:
     </Component>
   </Fragment>
 </Wix>
-
-COMPILER:
-Generating C:\Users\lalic\Documents\Qt\PACompressionTest\Installer\__temp.wixobj
-Windows Installer XML Toolset Compiler version 3.9.1006.0
-Copyright (c) Outercurve Foundation. All rights reserved.
-
-Product.wxs
-
-LINKER:
-Generating C:\Users\lalic\Documents\Qt\PACompressionTest\Installer\R&S PA Compression Test 1.4.msi
-Windows Installer XML Toolset Linker version 3.9.1006.0
-Copyright (c) Outercurve Foundation. All rights reserved.
-
-
-Installer Created!

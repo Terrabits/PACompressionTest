@@ -25,6 +25,7 @@ MeasurementData::MeasurementData(QObject *parent) :
     startFreq_Hz(0), stopFreq_Hz(0),
     frequencyPoints(0),
     ifBw_Hz(0),
+    isGainExpansion(false),
     compressionLevel_dB(0),
     sourceAttenuation_dB(0), receiverAttenuation_dB(0)
 {
@@ -185,18 +186,21 @@ void MeasurementData::findMaximumGain() {
     referenceGain_dB.resize(frequencyPoints);
     s_referenceGain.resize(frequencyPoints);
     for (uint i = 0; i < frequencyPoints; i++) {
-        // Edit to accomodate gain expansion:
-        //
-        // int j;
-        // referenceGain_dB[i] = max(gain_dB[i], referenceGain_dB[i], j);
-        //
-
-        // Low power as reference:
-        int j = 0;
-
-        referenceGainIndexes[i] = j;
-        referenceGain_dB[i] = gain_dB[i][0];
-        s_referenceGain[i] = data[j].y()[i];
+        if (isGainExpansion) {
+            int maxIndex;
+            double maxValue;
+            max(gain_dB[i], maxValue, maxIndex);
+            referenceGainIndexes[i] = maxIndex;
+            referenceGain_dB[i] = maxValue;
+            s_referenceGain[i] = data[maxIndex].y()[i];
+        }
+        else {
+            // Low power as reference:
+            const int lowPowerIndex = 0;
+            referenceGainIndexes[i] = lowPowerIndex;
+            referenceGain_dB[i] = gain_dB[i][0];
+            s_referenceGain[i] = data[lowPowerIndex].y()[i];
+        }
     }
 }
 void MeasurementData::findCompressionPoints() {

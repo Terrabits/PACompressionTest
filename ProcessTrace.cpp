@@ -23,6 +23,7 @@ ProcessTrace::~ProcessTrace()
 
 QString ProcessTrace::name() {
     QString s = _settings.yParameter;
+    s += " (" + _settings.yFormat + ")";
     s += " @ ";
     if (_settings.isAtValue()) {
         if (_settings.isAtFrequency())
@@ -73,32 +74,41 @@ QRowVector ProcessTrace::x() {
         return _data.power_dBm;
     }
     if (_settings.isXFrequency()) {
-        qDebug() << "  frequencies.size: " << _data.frequencies_Hz.size();
-        return _data.frequencies_Hz;
+        if (_settings.isAtCompression())
+            return _data.compressionFrequencies_Hz;
+        else
+            return _data.frequencies_Hz;
     }
     // Else
     qDebug() << "No X value?";
     return QRowVector();
 }
+QRowVector ProcessTrace::x(SiPrefix prefix) {
+    if (prefix == SiPrefix::None)
+        return x();
+    else
+        return multiply(x(), 1.0/toDouble(prefix));
+}
+
 QRowVector ProcessTrace::y() {
     qDebug() << "ProcessTrace::y()";
     // atValue, atIndex
     int atIndex = 0;
     if (_settings.isAtPin()) {
-        qDebug() << "Rounding at Pin value...";
+        qDebug() << "  Rounding at Pin value...";
         _settings.roundAtValue(_data.power_dBm);
-        qDebug() << "Retrieving indexOf...";
+        qDebug() << "  Retrieving indexOf...";
         atIndex = _data.power_dBm.indexOf(_settings.atValue);
     }
     else if (_settings.isAtFrequency()) {
-        qDebug() << "Rouding at Frequency value...";
+        qDebug() << "  Rounding at Frequency value...";
         _settings.roundAtValue(_data.frequencies_Hz);
         atIndex = _data.frequencies_Hz.indexOf(_settings.atValue);
     }
 
-    qDebug() << "at index: " << atIndex;
+    qDebug() << "  at index: " << atIndex;
     if (atIndex < 0)
-        return QRowVector(); // ?
+        return QRowVector();
 
     if (_settings.isYPower()) {
         if (_settings.isXFrequency()) {
@@ -107,12 +117,14 @@ QRowVector ProcessTrace::y() {
                     // y: Pin
                     // x: Frequency
                     // @: Compression
+                    qDebug() << "  Pin vs Freq @ Compression";
                     return _data.powerInAtCompression_dBm;
                 }
                 else if (_settings.isAtMaximumGain()) {
                     // y: Pin
                     // x: Frequency
                     // @: Maximum Gain
+                    qDebug() << "  Pin vs Freq @ Maximum Gain";
                     QRowVector v(_data.frequencyPoints);
                     for (int i = 0; i < v.size(); i++) {
                         const int index = _data.referenceGainIndexes[i];
@@ -126,6 +138,7 @@ QRowVector ProcessTrace::y() {
                     // y: Pout
                     // x: Frequency
                     // @: Pin = atIndex
+                    qDebug() << "  Pout vs Freq @ Pin";
                     QRowVector v(_data.frequencyPoints);
                     for (int i = 0; i < v.size(); i++) {
                         v[i] = _data.powerOut_dBm[i][atIndex];
@@ -136,12 +149,14 @@ QRowVector ProcessTrace::y() {
                     // y: Pout
                     // x: Frequency
                     // @: Compression
+                    qDebug() << "  Pout vs Freq @ Compression";
                     return _data.powerOutAtCompression_dBm;
                 }
                 else if (_settings.isAtMaximumGain()) {
                     // y: Pout
                     // x: Frequency
                     // @: Maximum Gain
+                    qDebug() << "  Pout vs Freq @ Maximum Gain";
                     QRowVector v(_data.frequencyPoints);
                     for (int i = 0; i < v.size(); i++) {
                         const int index = _data.referenceGainIndexes[i];
@@ -156,34 +171,32 @@ QRowVector ProcessTrace::y() {
                 // y: Pout
                 // x: Pin
                 // @: Frequency = atIndex
-                qDebug() << "  y: Pout";
-                qDebug() << "  x: Pin";
-                qDebug() << "  @: Frequency index: " << atIndex;
-                qDebug() << "  y.size: " << _data.powerOut_dBm[atIndex].size();
-                qDebug() << "  y[0]: " << _data.powerOut_dBm[atIndex].first();
-                qDebug() << "  y[-1]: " << _data.powerOut_dBm[atIndex].last();
+                qDebug() << "  Pout vs Pin @ Freq";
                 return _data.powerOut_dBm[atIndex];
             }
         }
     }
     else {
         // SParameters
+        qDebug() << "  SParameters";
 
         // Ports
         uint input, output;
         if (_settings.isYInputReflectionTrace()) {
-            qDebug() << "input reflection ports...";
+            qDebug() << "  input reflection ports...";
             input = output = 0;
         }
         else if (_settings.isYOutputReflectionTrace()) {
+            qDebug() << "  output refleciton ports...";
             input = output = 1;
         }
         else if (_settings.isYGainTrace()) {
+            qDebug() << "  gain";
             input = 0;
             output = 1;
         }
         else {
-            // Reverse Gain
+            qDebug() << "  reverse gain";
             input = 1;
             output = 0;
         }
@@ -194,14 +207,16 @@ QRowVector ProcessTrace::y() {
                 // y: Sxy
                 // x: Frequency
                 // @: Pin = atValue
-                qDebug() << "Returning Sxy vs Freq @ Pin...";
+                qDebug() << "  Sxy vs Freq @ Pin";
                 result = _data.data[atIndex].y(output+1, input+1);
             }
             else if (_settings.isAtCompression()) {
                 // y: Sxy
                 // x: Frequency
                 // @: Compression
-                result.resize(_data.frequencyPoints);
+                qDebug() << "  Sxy vs Freq @ Compression";
+                qDebug() << "  _data.s_compression.size: " << _data.s_compression.size();
+                result.resize(_data.s_compression.size());
                 for (uint i = 0; i < result.size(); i++) {
                     result[i] = _data.s_compression[i][output][input];
                 }
@@ -210,7 +225,8 @@ QRowVector ProcessTrace::y() {
                 // y: Sxy
                 // x: Frequency
                 // @: Maximum Gain
-                result.resize(_data.frequencyPoints);
+                qDebug() << "  Sxy vs Freq @ Maximum Gain";
+                result.resize(_data.s_referenceGain.size());
                 for (uint i = 0; i < result.size(); i++) {
                     result[i] = _data.s_referenceGain[i][output][input];
                 }
@@ -220,6 +236,7 @@ QRowVector ProcessTrace::y() {
             // y: SParameter
             // x: Pin
             // @: Frequency = atValue
+            qDebug() << "  Sxy vs Pin @ Freq";
             result.resize(_data.powerPoints);
             for (uint i = 0; i < result.size(); i++) {
                 result[i] = _data.data[i].y()[atIndex][output][input];

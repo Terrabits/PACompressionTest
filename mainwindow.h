@@ -6,6 +6,7 @@
 #include "RunSweeps.h"
 #include "Settings.h"
 #include "MeasurementData.h"
+#include "TraceSettingsModel.h"
 
 // Rsa
 #include "Definitions.h"
@@ -56,21 +57,12 @@ private slots:
     void ToggleConnect(bool enabled);
     void ToggleInputs(bool enabled);
     void TogglePlots(bool enabled);
-    void ToggleSlider(bool enabled);
 
     // Run sweep
     bool isValidInput();
     void GetInput();
     void Progress(int percent);
     void Finished();
-
-    // Plot
-    void PlotReflection();
-    void PlotPinVsPout();
-    void PlotGainVsFreq();
-    void PlotGainVsPin();
-    void PlotPinCompression();
-    void PlotPoutCompression();
 
     // Export Data
     void Export();
@@ -96,9 +88,6 @@ private slots:
     void on_measure_push_button_clicked();
 
     // Plot, data
-    void on_plot_type_combo_box_currentIndexChanged(const QString &arg1);
-    void on_axis_push_button_clicked();
-    void on_frequency_slider_valueChanged(int value);
     void on_print_plot_push_button_clicked();
 
 private:
@@ -135,8 +124,8 @@ private:
 
     // Data
     MeasurementData _data;
+    TraceSettingsModel _tracesModel;
 
-    QCPPlotTitle *_plotTitle;
 };
 
 

@@ -8,6 +8,7 @@
 #include <QComboBox>
 #include <QLineEdit>
 #include <QDoubleValidator>
+#include <QAbstractItemView>
 
 
 TraceSettingsDelegate::TraceSettingsDelegate(QObject *parent) :
@@ -35,12 +36,15 @@ QWidget *TraceSettingsDelegate::createEditor(QWidget *parent, const QStyleOption
     switch (column) {
     case TraceSettingsModel::Column::yAxis:
         combo = new QComboBox(parent);
+        combo->setEditable(false);
+        combo->view()->setTextElideMode(Qt::ElideRight);
         items << model->traces()[row].possibleYAxis();
         combo->addItems(items);
         return combo;
     case TraceSettingsModel::Column::color:
         combo = new QComboBox(parent);
         combo->setEditable(false);
+        combo->view()->setTextElideMode(Qt::ElideRight);
         pixmap.fill(Qt::black);
         combo->addItem(QIcon(pixmap), "Black");
         pixmap.fill(Qt::red);
@@ -59,24 +63,28 @@ QWidget *TraceSettingsDelegate::createEditor(QWidget *parent, const QStyleOption
     case TraceSettingsModel::Column::yParameter:
         combo = new QComboBox(parent);
         combo->setEditable(false);
+        combo->view()->setTextElideMode(Qt::ElideRight);
         items << model->traces()[row].possibleYParameters();
         combo->addItems(items);
         return combo;
     case TraceSettingsModel::Column::yFormat:
         combo = new QComboBox(parent);
         combo->setEditable(false);
+        combo->view()->setTextElideMode(Qt::ElideRight);
         items << model->traces()[row].possibleYFormats();
         combo->addItems(items);
         return combo;
     case TraceSettingsModel::Column::xParameter:
         combo = new QComboBox(parent);
         combo->setEditable(false);
+        combo->view()->setTextElideMode(Qt::ElideRight);
         items << model->traces()[row].possibleXParameters();
         combo->addItems(items);
         return combo;
     case TraceSettingsModel::Column::atParameter:
         combo = new QComboBox(parent);
         combo->setEditable(false);
+        combo->view()->setTextElideMode(Qt::ElideRight);
         items << model->traces()[row].possibleAtParameters();
         combo->addItems(items);
         return combo;

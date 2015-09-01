@@ -46,6 +46,7 @@ public:
 signals:
 
 public slots:
+    void reset();
 
 private:
     QVector<TraceSettings> _traces;

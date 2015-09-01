@@ -25,6 +25,7 @@ public:
     QString xUnits();
     RsaToolbox::QRowVector y();
     RsaToolbox::QRowVector x();
+    RsaToolbox::QRowVector x(RsaToolbox::SiPrefix prefix);
 
 private:
     TraceSettings &_settings;

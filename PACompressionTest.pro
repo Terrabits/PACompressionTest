@@ -54,5 +54,3 @@ CONFIG(debug, debug|release):DEFINES += DEBUG_MODE
 
 win32: RC_FILE = VS2010Resources.rc
 
-DISTFILES += \
-    PlotWidget/plotwidget.pri

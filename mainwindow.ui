@@ -32,7 +32,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="connection_tab">
      <attribute name="title">
@@ -1140,132 +1140,95 @@
      <attribute name="title">
       <string>Results</string>
      </attribute>
-     <widget class="QCustomPlot" name="custom_plot" native="true">
+     <widget class="QWidget" name="widget" native="true">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>30</y>
-        <width>741</width>
-        <height>350</height>
+        <x>0</x>
+        <y>0</y>
+        <width>784</width>
+        <height>422</height>
        </rect>
       </property>
-     </widget>
-     <widget class="QComboBox" name="plot_type_combo_box">
-      <property name="enabled">
-       <bool>true</bool>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
-      <property name="geometry">
-       <rect>
-        <x>530</x>
-        <y>390</y>
-        <width>141</width>
-        <height>22</height>
-       </rect>
+      <property name="minimumSize">
+       <size>
+        <width>784</width>
+        <height>422</height>
+       </size>
       </property>
-      <property name="currentIndex">
-       <number>0</number>
+      <property name="maximumSize">
+       <size>
+        <width>784</width>
+        <height>422</height>
+       </size>
       </property>
-      <item>
-       <property name="text">
-        <string>Reflection</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Pin vs Pout</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Nominal Gain</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Gain vs Pin</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Pin Compression</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Pout Compression</string>
-       </property>
-      </item>
-     </widget>
-     <widget class="QLabel" name="frequency_slider_label">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>410</x>
-        <y>392</y>
-        <width>111</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>12.3456 GHz</string>
-      </property>
-     </widget>
-     <widget class="QSlider" name="frequency_slider">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>110</x>
-        <y>393</y>
-        <width>291</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="print_plot_push_button">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>680</x>
-        <y>387</y>
-        <width>71</width>
-        <height>28</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Print</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="axis_push_button">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>28</x>
-        <y>387</y>
-        <width>71</width>
-        <height>28</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Axis</string>
-      </property>
+      <layout class="QGridLayout" name="gridLayout" rowstretch="1,0,0">
+       <item row="0" column="0">
+        <widget class="PlotWidget" name="plot" native="true"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="TracesWidget" name="traces" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>75</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>125</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QWidget" name="widget_2" native="true">
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>659</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="print_plot_push_button">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>Print</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
    </widget>
@@ -1277,7 +1240,7 @@
      <x>0</x>
      <y>0</y>
      <width>820</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">
@@ -1334,9 +1297,15 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>QCustomPlot</class>
+   <class>TracesWidget</class>
    <extends>QWidget</extends>
-   <header location="global">qcustomplot.h</header>
+   <header>TracesWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PlotWidget</class>
+   <extends>QWidget</extends>
+   <header>PlotWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
@@ -1372,9 +1341,6 @@
   <tabstop>sweep_mode_combo_box</tabstop>
   <tabstop>retrieve_settings_push_button</tabstop>
   <tabstop>measure_push_button</tabstop>
-  <tabstop>axis_push_button</tabstop>
-  <tabstop>frequency_slider</tabstop>
-  <tabstop>plot_type_combo_box</tabstop>
   <tabstop>print_plot_push_button</tabstop>
  </tabstops>
  <resources>

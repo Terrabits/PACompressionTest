@@ -32,6 +32,7 @@ public:
     double startFreq_Hz, stopFreq_Hz;
     uint frequencyPoints;
     double ifBw_Hz;
+    bool isGainExpansion;
     double compressionLevel_dB;
     double sourceAttenuation_dB, receiverAttenuation_dB;
 

@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/RS.ico</file>
+        <file>images/refresh.png</file>
+    </qresource>
+</RCC>

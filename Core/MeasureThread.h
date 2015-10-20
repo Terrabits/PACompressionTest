@@ -1,5 +1,5 @@
-#ifndef RUNSWEEPS_H
-#define RUNSWEEPS_H
+#ifndef MEASURETHREAD_H
+#define MEASURETHREAD_H
 
 
 // PA Compression Test
@@ -13,13 +13,13 @@
 #include <QThread>
 
 
-class RunSweeps : public QThread {
+class MeasureThread : public QThread {
     Q_OBJECT
 
 public:
-    RunSweeps(RsaToolbox::Vna *vna, MeasurementData *data,
+    MeasureThread(RsaToolbox::Vna *vna, MeasurementData *data,
               QObject *parent = 0);
-    ~RunSweeps();
+    ~MeasureThread();
 
 signals:
     void progress(int percent);
@@ -40,4 +40,4 @@ private:
 };
 
 
-#endif // RUNSWEEPS_H
+#endif // MEASURETHREAD_H

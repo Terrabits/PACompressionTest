@@ -7,14 +7,14 @@ DESTDIR = $$PWD
 TARGET = Core
 CONFIG(debug, debug|release): TARGET = $$join(TARGET,,,d)
 
-include(../RsaToolbox/rsatoolbox.pri)
-include(../RsaToolbox/QuaZip/quazip.pri)
+include($$PWD/../RsaToolbox/rsatoolbox.pri)
+include($$PWD/../RsaToolbox/QuaZip/quazip.pri)
 HEADERS     += Settings.h \
                MeasurementData.h \
-               RunSweeps.h
+    MeasureThread.h
 INCLUDEPATH += $$PWD
 SOURCES     += MeasurementData.cpp \
-               RunSweeps.cpp
+    MeasureThread.cpp
 #FORMS       += .ui
 #RESOURCES   += .qrc
 

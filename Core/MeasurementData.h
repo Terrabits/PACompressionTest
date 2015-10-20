@@ -35,7 +35,8 @@ public:
     bool isGainExpansion;
     double compressionLevel_dB;
     double sourceAttenuation_dB, receiverAttenuation_dB;
-
+    bool isValidSettings() const;
+    
     // Calculate
     void processSettings();
     RsaToolbox::QRowVector frequencies_Hz;

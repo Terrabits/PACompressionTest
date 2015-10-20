@@ -1,6 +1,6 @@
 #include <QDebug>
 
-#include "RunSweeps.h"
+#include "MeasureThread.h"
 
 // RsaToolbox
 #include <General.h>
@@ -17,7 +17,7 @@
 using namespace RsaToolbox;
 
 
-RunSweeps::RunSweeps(Vna *vna, MeasurementData *data,
+MeasureThread::MeasureThread(Vna *vna, MeasurementData *data,
                      QObject *parent)
     : QThread(parent),
       _vna(vna),
@@ -25,12 +25,12 @@ RunSweeps::RunSweeps(Vna *vna, MeasurementData *data,
 {
 
 }
-RunSweeps::~RunSweeps()
+MeasureThread::~MeasureThread()
 {
 
 }
 
-void RunSweeps::run() {
+void MeasureThread::run() {
     qDebug() << "RunSweeps::run";
     _data.processSettings();
     _data.resizeToPoints();
@@ -48,7 +48,7 @@ void RunSweeps::run() {
 }
 
 // Freq Sweep
-void RunSweeps::initialize() {
+void MeasureThread::initialize() {
     _vna->channel().setSweepType(VnaChannel::SweepType::Linear);
     _vna->trace().setNetworkParameter(NetworkParameter::S, _data.outputPort, _data.inputPort);
     _vna->trace().setFormat(TraceFormat::DecibelMagnitude);
@@ -59,7 +59,7 @@ void RunSweeps::initialize() {
 
     _data.frequencies_Hz = _vna->channel().linearSweep().frequencies_Hz();
 }
-void RunSweeps::runSweeps() {
+void MeasureThread::runSweeps() {
     qDebug() << "RunSweeps::runSweeps";
     qDebug() << "powerPoints: " << _data.powerPoints;
     qDebug() << "power_dBm.size: " << _data.power_dBm.size();
@@ -87,7 +87,7 @@ void RunSweeps::runSweeps() {
 }
 
 // Misc.
-void RunSweeps::displayResultOnVna() {
+void MeasureThread::displayResultOnVna() {
     if (_data.compressionFrequencies_Hz.size() == 0) {
         _vna->settings().displayOn();
         return;
@@ -125,7 +125,7 @@ void RunSweeps::displayResultOnVna() {
     _vna->channel(2).manualSweepOn();
     _vna->trace("Trc2").hide();
 }
-void RunSweeps::flipPorts(QVector<NetworkData> &sweeps) {
+void MeasureThread::flipPorts(QVector<NetworkData> &sweeps) {
     int iMax = sweeps.size();
     int jMax = int(sweeps[0].points());
     for (int i = 0; i < iMax; i++) {

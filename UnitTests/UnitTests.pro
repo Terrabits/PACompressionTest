@@ -8,6 +8,6 @@ CONFIG    += console \
              testcase
 
 include(../Core/core.pri)
-SOURCES   += Test1.cpp
+SOURCES   += main.cpp
 
 DEFINES   += SOURCE_DIR=\\\"$$PWD/\\\"

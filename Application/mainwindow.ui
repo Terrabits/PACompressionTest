@@ -19,13 +19,13 @@
     <normalon>:/new/icon_resource/RS.ico</normalon>:/new/icon_resource/RS.ico</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QGroupBox" name="groupBox">
+   <widget class="QGroupBox" name="frequencyGroup">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>120</y>
+      <x>20</x>
+      <y>20</y>
       <width>231</width>
-      <height>231</height>
+      <height>141</height>
      </rect>
     </property>
     <property name="font">
@@ -46,30 +46,9 @@
       </widget>
      </item>
      <item row="3" column="0">
-      <widget class="QLabel" name="spanFrequencyLabel">
+      <widget class="QLabel" name="ifBwLabel">
        <property name="text">
-        <string>Span:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="centerFrequencyLabel">
-       <property name="text">
-        <string>Center:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="pointsFrequencyLabel">
-       <property name="text">
-        <string>Points:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="stepSizeFrequencyLabel">
-       <property name="text">
-        <string>Step Size:</string>
+        <string>IF Bw:</string>
        </property>
       </widget>
      </item>
@@ -80,47 +59,305 @@
        </property>
       </widget>
      </item>
-     <item row="6" column="0">
-      <widget class="QLabel" name="ifBwLabel">
+     <item row="2" column="0">
+      <widget class="QLabel" name="frequencyPointsLabel">
        <property name="text">
-        <string>IF Bw:</string>
+        <string>Points:</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
-      <widget class="QLineEdit" name="pointsFrequency"/>
+     <item row="2" column="1">
+      <widget class="RsaToolbox::PointsEdit" name="frequencyPoints">
+       <property name="font">
+        <font>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
      </item>
      <item row="0" column="1">
-      <widget class="RsaToolbox::FrequencyEdit" name="startFrequency" native="true"/>
+      <widget class="RsaToolbox::FrequencyEdit" name="startFrequency">
+       <property name="font">
+        <font>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+      </widget>
      </item>
      <item row="1" column="1">
-      <widget class="RsaToolbox::FrequencyEdit" name="stopFrequency" native="true"/>
-     </item>
-     <item row="2" column="1">
-      <widget class="RsaToolbox::FrequencyEdit" name="centerFrequency" native="true"/>
+      <widget class="RsaToolbox::FrequencyEdit" name="stopFrequency">
+       <property name="font">
+        <font>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+      </widget>
      </item>
      <item row="3" column="1">
-      <widget class="RsaToolbox::FrequencyEdit" name="spanFrequency" native="true"/>
-     </item>
-     <item row="5" column="1">
-      <widget class="RsaToolbox::FrequencyEdit" name="stepSizeFrequency" native="true"/>
-     </item>
-     <item row="6" column="1">
-      <widget class="RsaToolbox::FrequencyEdit" name="ifBw" native="true"/>
+      <widget class="RsaToolbox::FrequencyEdit" name="ifBw">
+       <property name="font">
+        <font>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+      </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="RsaToolbox::ErrorLabel" name="error" native="true">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>470</y>
+      <width>761</width>
+      <height>80</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="powerGroup">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>180</y>
+      <width>231</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="title">
+     <string>Power</string>
+    </property>
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="0" column="1">
+      <widget class="RsaToolbox::PowerEdit" name="startPower">
+       <property name="font">
+        <font>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="stopPowerLabel">
+       <property name="text">
+        <string>Stop:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="RsaToolbox::PowerEdit" name="stopPower">
+       <property name="font">
+        <font>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="powerStepSizeLabel">
+       <property name="text">
+        <string>Step Size:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="startPowerLabel">
+       <property name="text">
+        <string>Start:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="RsaToolbox::PowerEdit" name="powerStepSize">
+       <property name="font">
+        <font>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QGroupBox" name="compressionGroup">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>310</y>
+      <width>212</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="title">
+     <string>Compression</string>
+    </property>
+    <layout class="QGridLayout" name="gridLayout_3">
+     <item row="0" column="0">
+      <widget class="QLabel" name="compressionLevelLabel">
+       <property name="text">
+        <string>Level:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="RsaToolbox::DecibelEdit" name="compressionLevel">
+       <property name="font">
+        <font>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QCheckBox" name="gainExpansion">
+       <property name="font">
+        <font>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Include Gain Expansion</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QGroupBox" name="portsGroup">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>30</y>
+      <width>241</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="title">
+     <string>Ports</string>
+    </property>
+    <widget class="QLabel" name="inputPortLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>50</y>
+       <width>47</width>
+       <height>13</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Input:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="outputPortLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>47</width>
+       <height>13</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Output:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="outputPort">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>20</y>
+       <width>113</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="inputPort">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>50</y>
+       <width>113</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+    </widget>
    </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
+   <class>RsaToolbox::PointsEdit</class>
+   <extends>QLineEdit</extends>
+   <header>PointsEdit.h</header>
+  </customwidget>
+  <customwidget>
    <class>RsaToolbox::FrequencyEdit</class>
-   <extends>QWidget</extends>
+   <extends>QLineEdit</extends>
    <header>FrequencyEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>RsaToolbox::ErrorLabel</class>
+   <extends>QWidget</extends>
+   <header>ErrorLabel.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>RsaToolbox::PowerEdit</class>
+   <extends>QLineEdit</extends>
+   <header>PowerEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>RsaToolbox::DecibelEdit</class>
+   <extends>QLineEdit</extends>
+   <header>DecibelEdit.h</header>
+  </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>startFrequency</tabstop>
+  <tabstop>stopFrequency</tabstop>
+  <tabstop>frequencyPoints</tabstop>
+  <tabstop>ifBw</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

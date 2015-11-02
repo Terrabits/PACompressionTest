@@ -17,9 +17,10 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
     QMainWindow(parent), ui(new ::Ui::MainWindow)
 {
     ui->setupUi(this);
-    QString title = APP_NAME + " " + APP_VERSION;
+    QString title = "Compression Test " + APP_VERSION;
     setWindowTitle(title);
 
+    // Frequency
     const double minimum_Hz = vna.properties().minimumFrequency_Hz();
     const double maximum_Hz = vna.properties().maximumFrequency_Hz();
 
@@ -46,6 +47,7 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
     connect(ui->ifBw, SIGNAL(outOfRange(QString)),
             ui->error, SLOT(showMessage(QString)));
 
+    // Power
     const double minimum_dBm = vna.properties().minimumPower_dBm();
     const double maximum_dBm = vna.properties().maximumPower_dBm();
 
@@ -61,22 +63,49 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
     ui->powerStepSize->setMinimum(0.01);
     ui->powerStepSize->setMaximum(maximum_dBm - minimum_dBm);
 
+    ui->compressionLevel->setParameterName("Compression level");
+    ui->compressionLevel->setMinimum(0.01);
+    ui->compressionLevel->setMaximum(6.0);
+
     connect(ui->startPower, SIGNAL(outOfRange(QString)),
             ui->error, SLOT(showMessage(QString)));
     connect(ui->stopPower, SIGNAL(outOfRange(QString)),
             ui->error, SLOT(showMessage(QString)));
     connect(ui->powerStepSize, SIGNAL(outOfRange(QString)),
             ui->error, SLOT(showMessage(QString)));
-
-    ui->compressionLevel->setParameterName("Compression level");
-    ui->compressionLevel->setMinimum(0.01);
-    ui->compressionLevel->setMaximum(6.0);
-
     connect(ui->compressionLevel, SIGNAL(outOfRange(QString)),
+            ui->error, SLOT(showMessage(QString)));
+
+    // Miscellaneous
+    QStringList channels = toStringList(vna.channels());
+    ui->channel->clear();
+    ui->channel->addItems(channels);
+
+    const uint testPorts = vna.testPorts();
+    ui->inputPort->setMinimum(1);
+    ui->inputPort->setMaximum(testPorts);
+
+    ui->outputPort->setMinimum(1);
+    ui->outputPort->setMaximum(testPorts);
+
+    connect(ui->inputPort, SIGNAL(outOfRange(QString)),
+            ui->error, SLOT(showMessage(QString)));
+    connect(ui->outputPort, SIGNAL(outOfRange(QString)),
             ui->error, SLOT(showMessage(QString)));
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow() {
     delete ui;
+}
+
+// Private slots:
+void MainWindow::on_cancel_clicked() {
+    close();
+}
+void MainWindow::on_measure_clicked() {
+    qDebug() << "Measure";
+}
+
+void MainWindow::on_exportData_clicked() {
+    qDebug() << "Export Data";
 }

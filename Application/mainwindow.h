@@ -22,6 +22,13 @@ public:
     explicit MainWindow(RsaToolbox::Vna &vna, RsaToolbox::Keys &keys, QWidget *parent = 0);
     ~MainWindow();
     
+private slots:
+    void on_cancel_clicked();
+
+    void on_measure_clicked();
+
+    void on_exportData_clicked();
+
 private:
     Ui::MainWindow *ui;
     RsaToolbox::Vna &vna;

@@ -9,16 +9,24 @@
 using namespace RsaToolbox;
 
 // Qt
+#include <QRect>
+#include <QPropertyAnimation>
 #include <QMessageBox>
+#include <QApplication>
 
 
 MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) : 
+    QMainWindow(parent),
+    ui(new ::Ui::MainWindow),
     vna(vna), keys(keys),
-    QMainWindow(parent), ui(new ::Ui::MainWindow)
+    _isMeasuring(false)
 {
     ui->setupUi(this);
     QString title = "Compression Test " + APP_VERSION;
     setWindowTitle(title);
+
+    // Show settings initially
+    ui->pages->setCurrentWidget(ui->settingsPage);
 
     // Frequency
     const double minimum_Hz = vna.properties().minimumFrequency_Hz();
@@ -39,13 +47,22 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
     ui->ifBw->setAcceptedValues(vna.properties().ifBandwidthValues_Hz());
     
     connect(ui->startFrequency, SIGNAL(outOfRange(QString)),
-            ui->error, SLOT(showMessage(QString)));
+            ui->error, SLOT(showMessage(QString)));    
     connect(ui->stopFrequency, SIGNAL(outOfRange(QString)),
             ui->error, SLOT(showMessage(QString)));
     connect(ui->frequencyPoints, SIGNAL(outOfRange(QString)),
             ui->error, SLOT(showMessage(QString)));
     connect(ui->ifBw, SIGNAL(outOfRange(QString)),
             ui->error, SLOT(showMessage(QString)));
+
+    connect(ui->startFrequency, SIGNAL(outOfRange(QString)),
+            this, SLOT(shake()));
+    connect(ui->stopFrequency, SIGNAL(outOfRange(QString)),
+            this, SLOT(shake()));
+    connect(ui->frequencyPoints, SIGNAL(outOfRange(QString)),
+            this, SLOT(shake()));
+    connect(ui->ifBw, SIGNAL(outOfRange(QString)),
+            this, SLOT(shake()));
 
     // Power
     const double minimum_dBm = vna.properties().minimumPower_dBm();
@@ -59,9 +76,8 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
     ui->stopPower->setMinimum(minimum_dBm);
     ui->stopPower->setMaximum(maximum_dBm);
 
-    ui->powerStepSize->setParameterName("Power step size");
-    ui->powerStepSize->setMinimum(0.01);
-    ui->powerStepSize->setMaximum(maximum_dBm - minimum_dBm);
+    ui->powerPoints->setParameterName("Power points");
+    ui->powerPoints->setMaximum(vna.properties().maximumPoints());
 
     ui->compressionLevel->setParameterName("Compression level");
     ui->compressionLevel->setMinimum(0.01);
@@ -71,10 +87,19 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
             ui->error, SLOT(showMessage(QString)));
     connect(ui->stopPower, SIGNAL(outOfRange(QString)),
             ui->error, SLOT(showMessage(QString)));
-    connect(ui->powerStepSize, SIGNAL(outOfRange(QString)),
+    connect(ui->powerPoints, SIGNAL(outOfRange(QString)),
             ui->error, SLOT(showMessage(QString)));
     connect(ui->compressionLevel, SIGNAL(outOfRange(QString)),
             ui->error, SLOT(showMessage(QString)));
+
+    connect(ui->startPower, SIGNAL(outOfRange(QString)),
+            this, SLOT(shake()));
+    connect(ui->stopPower, SIGNAL(outOfRange(QString)),
+            this, SLOT(shake()));
+    connect(ui->powerPoints, SIGNAL(outOfRange(QString)),
+            this, SLOT(shake()));
+    connect(ui->compressionLevel, SIGNAL(outOfRange(QString)),
+            this, SLOT(shake()));
 
     // Miscellaneous
     QStringList channels = toStringList(vna.channels());
@@ -82,9 +107,11 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
     ui->channel->addItems(channels);
 
     const uint testPorts = vna.testPorts();
+    ui->inputPort->setParameterName("Input port");
     ui->inputPort->setMinimum(1);
     ui->inputPort->setMaximum(testPorts);
 
+    ui->outputPort->setParameterName("Output port");
     ui->outputPort->setMinimum(1);
     ui->outputPort->setMaximum(testPorts);
 
@@ -92,6 +119,11 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
             ui->error, SLOT(showMessage(QString)));
     connect(ui->outputPort, SIGNAL(outOfRange(QString)),
             ui->error, SLOT(showMessage(QString)));
+
+    connect(ui->inputPort, SIGNAL(outOfRange(QString)),
+            this, SLOT(shake()));
+    connect(ui->outputPort, SIGNAL(outOfRange(QString)),
+            this, SLOT(shake()));
 }
 
 MainWindow::~MainWindow() {
@@ -103,9 +135,70 @@ void MainWindow::on_cancel_clicked() {
     close();
 }
 void MainWindow::on_measure_clicked() {
-    qDebug() << "Measure";
+    qDebug() << "Meausure";
+    if (!_isMeasuring) {
+        // Transition into measurement
+        _isMeasuring = true;
+        showProgressPage();
+    }
+    else {
+        // Transition back
+        _isMeasuring = false;
+        showSettingsPage();
+    }
 }
-
 void MainWindow::on_exportData_clicked() {
     qDebug() << "Export Data";
+    shake();
+}
+
+QRect MainWindow::progressGeometry() const {
+    const int i = QApplication::desktop()->primaryScreen();
+    QRect screen = QApplication::desktop()->screen(i)->geometry();
+
+    QPoint center = screen.center();
+
+    const int w = 600;
+    const int h = 450;
+
+    const int x = center.x() - w/2.0;
+    const int y = center.y() - h/2.0;
+    QRect rect = QRect(x, y, w, h);
+    return rect;
+}
+
+void MainWindow::shake() {
+    QPropertyAnimation *animation = new QPropertyAnimation(this, "geometry");
+    QRect _geometry = geometry();
+    _geometry.moveRight(_geometry.right() + 10);
+    animation->setStartValue(_geometry);
+    animation->setEndValue(geometry());
+    animation->setDuration(500);
+    QEasingCurve curve(QEasingCurve::OutElastic);
+    curve.setAmplitude(2);
+    curve.setPeriod(0.3);
+    animation->setEasingCurve(curve);
+    animation->start();
+}
+
+void MainWindow::showProgressPage() {
+    _settingsGeometry = geometry();
+    ui->pages->setCurrentWidget(ui->progressPage);
+
+    QPropertyAnimation *animation = new QPropertyAnimation(this, "geometry");
+    animation->setDuration(100);
+    animation->setEasingCurve(QEasingCurve::OutSine);
+    animation->setStartValue(_settingsGeometry);
+    animation->setEndValue(progressGeometry());
+    animation->start();
+}
+void MainWindow::showSettingsPage() {
+    QPropertyAnimation *animation = new QPropertyAnimation(this, "geometry");
+    animation->setDuration(100);
+    animation->setEasingCurve(QEasingCurve::OutSine);
+    animation->setStartValue(geometry());
+    animation->setEndValue(_settingsGeometry);
+    animation->start();
+
+    ui->pages->setCurrentWidget(ui->settingsPage);
 }

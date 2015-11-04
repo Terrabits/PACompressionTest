@@ -1,7 +1,7 @@
 R&S PA Compression Test Version 1.4
 (C) 2015 Rohde & Schwarz North America
 
-Mon Nov 2 14:16:13 2015
+Tue Nov 3 12:19:56 2015
 
 VNA INSTRUMENT INFO
 Connection:       TCPIP
@@ -69,6 +69,14 @@ Status: 0x0 Operation completed successfully.
 
 Read:     "8500000000"
 Bytes: 11
+Status: 0x0 Operation completed successfully.
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde-Schwarz,ZNBT8-24Port,1318700624100104,2.60.1.226"
+Bytes: 55
 Status: 0x0 Operation completed successfully.
 
 Write:    "*IDN?"

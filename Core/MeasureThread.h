@@ -17,25 +17,30 @@ class MeasureThread : public QThread {
     Q_OBJECT
 
 public:
-    MeasureThread(RsaToolbox::Vna *vna, MeasurementData *data,
-              QObject *parent = 0);
+    MeasureThread(QObject *parent = 0);
     ~MeasureThread();
+
+    void setVna(RsaToolbox::Vna &vna);
+    void setSettings(const MeasurementSettings &settings);
+
+    MeasurementData &results();
+    MeasurementData *takeResults();
 
 signals:
     void progress(int percent);
 
+protected:
+    MeasurementData &data();
+
 private slots:
     void run();
 
-    void initialize();
-    void runSweeps();
-
-    void displayResultOnVna();
     static void flipPorts(QVector<RsaToolbox::NetworkData> &sweeps);
 
 private:
     RsaToolbox::Vna *_vna;
-    MeasurementData &_data;
+    MeasurementSettings _settings;
+    QScopedPointer<MeasurementData> _data;
     QVector<uint> _ports;
 };
 

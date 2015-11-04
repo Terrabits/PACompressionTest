@@ -23,16 +23,23 @@ public:
     ~MainWindow();
     
 private slots:
+    // Buttons
     void on_cancel_clicked();
-
     void on_measure_clicked();
-
     void on_exportData_clicked();
+
+    void shake();
 
 private:
     Ui::MainWindow *ui;
     RsaToolbox::Vna &vna;
     RsaToolbox::Keys &keys;
+
+    bool _isMeasuring;
+    QRect _settingsGeometry;
+    QRect progressGeometry() const;
+    void showProgressPage();
+    void showSettingsPage();
 };
 
 

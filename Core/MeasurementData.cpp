@@ -18,16 +18,7 @@ using namespace RsaToolbox;
 
 
 MeasurementData::MeasurementData(QObject *parent) :
-    QObject(parent),
-    inputPort(0), outputPort(0),
-    startPower_dBm(0), stopPower_dBm(0),
-    powerPoints(0),
-    startFreq_Hz(0), stopFreq_Hz(0),
-    frequencyPoints(0),
-    ifBw_Hz(0),
-    isGainExpansion(false),
-    compressionLevel_dB(0),
-    sourceAttenuation_dB(0), receiverAttenuation_dB(0)
+    QObject(parent)
 {
 
 }
@@ -36,15 +27,36 @@ MeasurementData::~MeasurementData()
 
 }
 
+bool MeasurementData::isValidSettings(Vna &vna) const {
+    return _settings.isValid(vna);
+}
+bool MeasurementData::isValidSettings(Vna &vna, QString &errorMessage) const {
+    return _settings.isValid(vna, errorMessage);
+}
+MeasurementSettings MeasurementData::settings() const {
+    return _settings;
+}
+MeasurementSettings& MeasurementData::settings() {
+    return _settings;
+}
+void MeasurementData::setSettings(const MeasurementSettings &settings) {
+    _settings = settings;
+}
+
+
 void MeasurementData::processSettings() {
-    frequencies_Hz = linearSpacing(startFreq_Hz, stopFreq_Hz, frequencyPoints);
-    power_dBm = linearSpacing(startPower_dBm, stopPower_dBm, powerPoints);
-    data.resize(powerPoints);
+    frequencies_Hz = linearSpacing(_settings.startFrequency_Hz(),
+                                   _settings.stopFrequency_Hz(),
+                                   _settings.frequencyPoints());
+    power_dBm = linearSpacing(_settings.startPower_dBm(),
+                              _settings.stopPower_dBm(),
+                              _settings.powerPoints());
+    data.resize(_settings.powerPoints());
 }
 
 void MeasurementData::resizeToPoints() {
     resetData();
-    data.resize(powerPoints);
+    data.resize(_settings.powerPoints());
 }
 
 void MeasurementData::calculateMetrics() {
@@ -121,25 +133,13 @@ void MeasurementData::resetSettings() {
     applicationName.clear();
     applicationVersion.clear();
     timeStamp = QDateTime::currentDateTime();
+
     vnaMake.clear();
     vnaModel.clear();
     vnaSerialNo.clear();
     vnaFirmwareVersion.clear();
-    inputPort = 0;
-    outputPort = 0;
-    startPower_dBm = 0;
-    stopPower_dBm = 0;
-    powerPoints = 0;
-    startFreq_Hz = 0;
-    stopFreq_Hz = 0;
-    frequencyPoints = 0;
-    ifBw_Hz = 0;
-    compressionLevel_dB = 0;
-    sourceAttenuation_dB = 0;
-    receiverAttenuation_dB = 0;
 
-    frequencies_Hz.clear();
-    power_dBm.clear();
+    _settings.reset();
 }
 void MeasurementData::resetData() {
     data.clear();
@@ -159,19 +159,19 @@ void MeasurementData::processReflectionCoefficients() {
     s22_dB = data[0].y_dB(2, 2);
 }
 void MeasurementData::processGain() {
-    gain_dB.resize(frequencyPoints);
-    for (uint iFreq = 0; iFreq < frequencyPoints; iFreq++) {
-        gain_dB[iFreq].resize(powerPoints);
-        for (uint iPower = 0; iPower < powerPoints; iPower++) {
+    gain_dB.resize(_settings.frequencyPoints());
+    for (uint iFreq = 0; iFreq < _settings.frequencyPoints(); iFreq++) {
+        gain_dB[iFreq].resize(_settings.powerPoints());
+        for (uint iPower = 0; iPower < _settings.powerPoints(); iPower++) {
             gain_dB[iFreq][iPower] = toDb(data[iPower].y()[iFreq][1][0]);
         }
     }
 }
 void MeasurementData::processPowerOut() {
-    powerOut_dBm.resize(frequencyPoints);
-    for (uint iFreq = 0; iFreq < frequencyPoints; iFreq++) {
-        powerOut_dBm[iFreq].resize(powerPoints);
-        for (uint iPower = 0; iPower < powerPoints; iPower++) {
+    powerOut_dBm.resize(_settings.frequencyPoints());
+    for (uint iFreq = 0; iFreq < _settings.frequencyPoints(); iFreq++) {
+        powerOut_dBm[iFreq].resize(_settings.powerPoints());
+        for (uint iPower = 0; iPower < _settings.powerPoints(); iPower++) {
             const double _gain_dB
                     = gain_dB[iFreq][iPower];
             const double _powerIn_dBm
@@ -182,11 +182,11 @@ void MeasurementData::processPowerOut() {
     }
 }
 void MeasurementData::findMaximumGain() {
-    referenceGainIndexes.resize(frequencyPoints);
-    referenceGain_dB.resize(frequencyPoints);
-    s_referenceGain.resize(frequencyPoints);
-    for (uint i = 0; i < frequencyPoints; i++) {
-        if (isGainExpansion) {
+    referenceGainIndexes.resize(_settings.frequencyPoints());
+    referenceGain_dB.resize(_settings.frequencyPoints());
+    s_referenceGain.resize(_settings.frequencyPoints());
+    for (uint i = 0; i < _settings.frequencyPoints(); i++) {
+        if (_settings.isGainExpansion()) {
             int maxIndex;
             double maxValue;
             max(gain_dB[i], maxValue, maxIndex);
@@ -204,12 +204,12 @@ void MeasurementData::findMaximumGain() {
     }
 }
 void MeasurementData::findCompressionPoints() {
-    for (uint iFreq = 0; iFreq < frequencyPoints; iFreq++) {
+    for (uint iFreq = 0; iFreq < _settings.frequencyPoints(); iFreq++) {
         uint iPower = referenceGainIndexes[iFreq];
         const double maxGain_dB = referenceGain_dB[iFreq];
-        const double compressedGain_dB = maxGain_dB - compressionLevel_dB;
+        const double compressedGain_dB = maxGain_dB - _settings.compressionLevel_dB();
         double _gain_dB = gain_dB[iFreq][iPower];
-        while (iPower < powerPoints-1 && _gain_dB > compressedGain_dB) {
+        while (iPower < _settings.powerPoints()-1 && _gain_dB > compressedGain_dB) {
             iPower++;
             _gain_dB = gain_dB[iFreq][iPower];
         }
@@ -260,7 +260,7 @@ void MeasurementData::findCompressionPoints() {
 
 // Export
 void MeasurementData::exportTouchstone(QString path) {
-    for (uint i = 0; i < powerPoints; i++) {
+    for (uint i = 0; i < _settings.powerPoints(); i++) {
         QString filename = path + "/"
                 + "Pin " + QLocale().toString(power_dBm[i]) + " dBm.s2p";
         Touchstone::write(data[i], filename);
@@ -275,7 +275,7 @@ void MeasurementData::exportReferenceGain(QString filename) {
            << formatValue(power_dBm[0], 2, Units::dBm)
             << " (minimum power)" << endl;
     stream.setFieldAlignment(QTextStream::AlignLeft);
-    for (uint i = 0; i < frequencyPoints; i++) {
+    for (uint i = 0; i < _settings.frequencyPoints(); i++) {
         stream.setFieldWidth(18);
         stream.setRealNumberPrecision(18);
         stream << frequencies_Hz[i];
@@ -320,13 +320,14 @@ bool MeasurementData::open(QDataStream &stream) {
         stream >> applicationName
                >> applicationVersion
                >> timeStamp
+
                >> vnaMake
                >> vnaModel
                >> vnaSerialNo
                >> vnaFirmwareVersion
-               >> ifBw_Hz
-               >> frequencyPoints
-               >> powerPoints
+
+               >> _settings
+
                >> frequencies_Hz
                >> power_dBm
                >> s11_dB
@@ -334,12 +335,11 @@ bool MeasurementData::open(QDataStream &stream) {
                >> gain_dB
                >> powerOut_dBm
                >> referenceGain_dB
-               >> compressionLevel_dB
                >> powerInAtCompression_dBm
                >> powerOutAtCompression_dBm
                >> compressionFrequencies_Hz;
-        data.resize(powerPoints);
-        for (uint i = 0; i < powerPoints; i++) {
+        data.resize(_settings.powerPoints());
+        for (uint i = 0; i < _settings.powerPoints(); i++) {
             stream >> data[i];
         }
         return true;
@@ -353,13 +353,14 @@ bool MeasurementData::save(QDataStream &stream) {
         stream << applicationName
                << applicationVersion
                << timeStamp
+
                << vnaMake
                << vnaModel
                << vnaSerialNo
                << vnaFirmwareVersion
-               << ifBw_Hz
-               << frequencyPoints
-               << powerPoints
+
+               << _settings
+
                << frequencies_Hz
                << power_dBm
                << s11_dB
@@ -367,11 +368,10 @@ bool MeasurementData::save(QDataStream &stream) {
                << gain_dB
                << powerOut_dBm
                << referenceGain_dB
-               << compressionLevel_dB
                << powerInAtCompression_dBm
                << powerOutAtCompression_dBm
                << compressionFrequencies_Hz;
-        for (uint i = 0; i < powerPoints; i++) {
+        for (uint i = 0; i < _settings.powerPoints(); i++) {
             stream << data[i];
         }
         return true;

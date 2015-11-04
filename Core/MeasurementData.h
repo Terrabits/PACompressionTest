@@ -2,9 +2,13 @@
 #define MEASUREMENTDATA_H
 
 
+// Project
+#include "MeasurementSettings.h"
+
 // RsaToolbox
 #include <Definitions.h>
 #include <NetworkData.h>
+#include <Vna.h>
 
 // Qt
 #include <QObject>
@@ -19,25 +23,22 @@ public:
     explicit MeasurementData(QObject *parent = 0);
     ~MeasurementData();
 
-    // Settings
+    // General
     QString applicationName,
             applicationVersion;
 
     QDateTime timeStamp;
     QString vnaMake, vnaModel,
             vnaSerialNo, vnaFirmwareVersion;
-    uint inputPort, outputPort;
-    double startPower_dBm, stopPower_dBm;
-    uint powerPoints;
-    double startFreq_Hz, stopFreq_Hz;
-    uint frequencyPoints;
-    double ifBw_Hz;
-    bool isGainExpansion;
-    double compressionLevel_dB;
-    double sourceAttenuation_dB, receiverAttenuation_dB;
-    bool isValidSettings() const;
-    
-    // Calculate
+
+    // Settings
+    bool isValidSettings(RsaToolbox::Vna &vna) const;
+    bool isValidSettings(RsaToolbox::Vna &vna, QString &errorMessage) const;
+    MeasurementSettings settings() const;
+    MeasurementSettings &settings();
+    void setSettings(const MeasurementSettings &settings);
+
+    // Initialize
     void processSettings();
     RsaToolbox::QRowVector frequencies_Hz;
     RsaToolbox::QRowVector power_dBm;
@@ -75,6 +76,7 @@ public slots:
     void emitReset();
 
 private:
+    MeasurementSettings _settings;
     void resetSettings();
     void resetData();
 

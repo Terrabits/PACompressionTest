@@ -1,0 +1,18 @@
+- Power flatness cal at each frequency (cumbersome by hand)
+- (Our) ALC may not work with pulsed power
+- Zva: Cal -> Enhanced Wave Corrections
+
+Add at least power flatness to measurment!??
+
+Power level of DUT?
+- 
+
+Question: Correct bullet/cabling
+
+// Get power corrections:
+CORR:POW:DATA? 'BWAV2'
+
+If you have a 0.1 dB bullet, add this to each power correction and rewrite
+CORR:POW:DATA 'BWAV2',...
+
+!! Make into separate utility

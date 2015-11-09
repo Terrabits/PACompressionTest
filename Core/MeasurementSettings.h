@@ -7,6 +7,7 @@
 
 // Qt
 #include <Qt>
+#include <QTextStream>
 #include <QDataStream>
 
 
@@ -52,6 +53,10 @@ public:
     bool isValid(RsaToolbox::Vna &vna, QString &errorMessage) const;
 
     void reset();
+
+    bool printInfo(QString filename) const;
+    void printInfo(QTextStream &stream) const;
+    QString printInfo() const;
 
 private:
     double _startFreq_Hz;

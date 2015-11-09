@@ -27,16 +27,63 @@ MeasureThread::~MeasureThread()
 
 }
 
-void MeasureThread::flipPorts(QVector<NetworkData> &sweeps) {
-    int iMax = sweeps.size();
-    int jMax = int(sweeps[0].points());
-    for (int i = 0; i < iMax; i++) {
-        for (int j = 0; j < jMax; j++) {
-            ComplexMatrix2D current_sweep = sweeps[i].y()[j];
-            sweeps[i].y()[j][0][0] = current_sweep[1][1];
-            sweeps[i].y()[j][1][1] = current_sweep[0][0];
-            sweeps[i].y()[j][0][1] = current_sweep[1][0];
-            sweeps[i].y()[j][1][0] = current_sweep[0][1];
-        }
+void MeasureThread::setAppInfo(const QString &name, const QString &version) {
+    _appName = name;
+    _appVersion = version;
+}
+void MeasureThread::setVna(Vna *vna) {
+    _vna = vna;
+}
+void MeasureThread::setSettings(const MeasurementSettings &settings) {
+    _settings = settings;
+}
+void MeasureThread::setProgressPlot(QCustomPlot *plot) {
+    _plot = plot;
+}
+
+bool MeasureThread::isError() const {
+    return _isError;
+}
+QString MeasureThread::errorMessage() const {
+    return _error;
+}
+void MeasureThread::clearError() {
+    _isError = false;
+    _error.clear();
+}
+void MeasureThread::setError(QString message) {
+    _isError = true;
+    _error = message;
+}
+
+void MeasureThread::start(Priority priority) {
+    clearError();
+    _results.reset(new MeasurementData());
+    _results->setAppInfo(_appName, _appVersion);
+    _results->setTimeToNow();
+    _results->setVnaInfo(*_vna);
+    _results->setSettings(_settings);
+    QThread::start(priority);
+}
+MeasurementData *MeasureThread::takeResults() {
+    return _results.take();
+}
+
+void MeasureThread::flipPorts() {
+    flipPorts(_results->data());
+}
+void MeasureThread::flipPorts(NetworkData &data) {
+    const uint points = data.points();
+    for (uint i = 0; i < points; i++) {
+        const ComplexMatrix2D s = data.y()[i];
+        data.y()[i][0][0] = s[1][1];
+        data.y()[i][0][1] = s[1][0];
+        data.y()[i][1][0] = s[0][1];
+        data.y()[i][1][1] = s[0][0];
+    }
+}
+void MeasureThread::flipPorts(QVector<NetworkData> &data) {
+    for (int i = 0; i < data.size(); i++) {
+        flipPorts(data[i]);
     }
 }

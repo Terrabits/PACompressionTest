@@ -11,87 +11,63 @@
 #include <Vna.h>
 
 // Qt
-#include <QObject>
+#include <QVector>
 #include <QDateTime>
 #include <QDataStream>
 
 
-class MeasurementData : public QObject
+class MeasurementData
 {
-    Q_OBJECT
 public:
-    explicit MeasurementData(QObject *parent = 0);
+    explicit MeasurementData();
     ~MeasurementData();
 
-    // General
-    QString applicationName,
-            applicationVersion;
+    void setAppInfo(const QString &name, const QString &version);
+    void setTimeToNow();
+    void setVnaInfo(RsaToolbox::Vna &vna);
 
-    QDateTime timeStamp;
-    QString vnaMake, vnaModel,
-            vnaSerialNo, vnaFirmwareVersion;
-
-    // Settings
-    bool isValidSettings(RsaToolbox::Vna &vna) const;
-    bool isValidSettings(RsaToolbox::Vna &vna, QString &errorMessage) const;
     MeasurementSettings settings() const;
-    MeasurementSettings &settings();
     void setSettings(const MeasurementSettings &settings);
 
-    // Initialize
-    void processSettings();
-    RsaToolbox::QRowVector frequencies_Hz;
-    RsaToolbox::QRowVector power_dBm;
+    RsaToolbox::QRowVector &frequencies_Hz();
+    RsaToolbox::QRowVector &powers_dBm();
 
-    // Measure
-    void resizeToPoints();
-    QVector<RsaToolbox::NetworkData> data; // data[power]->S[freq][output][input])
+    RsaToolbox::QRowVector &powerInAtMaxGain_dBm();
+    RsaToolbox::QRowVector &maxGain_dB();
+    RsaToolbox::QRowVector &powerOutAtMaxGain_dBm();
+    RsaToolbox::QRowVector &powerInAtCompression_dBm();
+    RsaToolbox::QRowVector &gainAtCompression_dB();
+    RsaToolbox::QRowVector &powerOutAtCompression_dBm();
 
-    // Calculate
-    void calculateMetrics();
-    RsaToolbox::QRowVector s11_dB; // at Reference (Max) gain
-    RsaToolbox::QRowVector s22_dB; // at Reference (Max) gain
-    RsaToolbox::QMatrix2D gain_dB; // [freq][power]
-    RsaToolbox::QMatrix2D powerOut_dBm; // [freq][power]
+    // data[power]->y()[freq][outputPort-1][inputPort-1]
+    // where inputPort, outputPort => [1,2]
+    QVector<RsaToolbox::NetworkData> &data();
 
-    QVector<int> referenceGainIndexes; // [Freq]
-    RsaToolbox::QRowVector referenceGain_dB; // [Freq]
-    RsaToolbox::ComplexMatrix3D s_referenceGain; // S[Freq] @ Max gain
-
-    RsaToolbox::QRowVector powerInAtCompression_dBm; // [Freq]
-    RsaToolbox::QRowVector powerOutAtCompression_dBm; // [Freq]
-    RsaToolbox::QRowVector compressionFrequencies_Hz; // ?
-    RsaToolbox::ComplexMatrix3D s_compression; // S[Freq] @ Compression
-
-    // File
-    bool open(QString filename);
-    bool save(QString filename);
     bool exportToZip(QString filename);
 
-signals:
-    void dataReset();
-
-public slots:
-    void reset();
-    void emitReset();
-
 private:
+    QString _appName;
+    QString _appVersion;
+    QDateTime _timeStamp;
+    QString _vnaInfo;
     MeasurementSettings _settings;
-    void resetSettings();
-    void resetData();
 
-    void processReflectionCoefficients();
-    void processGain();
-    void processPowerOut();
-    void findMaximumGain();
-    void findCompressionPoints();
+    RsaToolbox::QRowVector _frequencies_Hz;
+    RsaToolbox::QRowVector _powers_dBm;
 
-    void exportTouchstone(QString path);
-    void exportReferenceGain(QString filename);
-    void exportCompressionPoints(QString filename);
+    RsaToolbox::QRowVector _powerInAtMaxGain_dBm;
+    RsaToolbox::QRowVector _maxGain_dB;
+    RsaToolbox::QRowVector _powerOutAtMaxGain_dBm;
+    RsaToolbox::QRowVector _powerInAtCompression_dBm;
+    RsaToolbox::QRowVector _gainAtCompression_dB;
+    RsaToolbox::QRowVector _powerOutAtCompression_dBm;
 
-    bool open(QDataStream &stream);
-    bool save(QDataStream &stream);
+    QVector<RsaToolbox::NetworkData> _data;
+
+    // Keep?
+    bool exportInfo(QString path);
+    bool exportCsv(QString path);
+    bool exportTouchstone(QString path);
 };
 
 #endif // MEASUREMENTDATA_H

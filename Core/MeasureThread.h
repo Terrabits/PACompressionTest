@@ -9,6 +9,9 @@
 #include "Definitions.h"
 #include "Vna.h"
 
+// QCustomPlot
+#include <qcustomplot.h>
+
 // Qt
 #include <QThread>
 
@@ -20,28 +23,40 @@ public:
     MeasureThread(QObject *parent = 0);
     ~MeasureThread();
 
-    void setVna(RsaToolbox::Vna &vna);
+    void setAppInfo(const QString &name, const QString &version);
+    void setVna(RsaToolbox::Vna *vna);
     void setSettings(const MeasurementSettings &settings);
+    void setProgressPlot(QCustomPlot *plot);
 
-    MeasurementData &results();
+    bool isError() const;
+    QString errorMessage() const;
+    void start(Priority priority = InheritPriority);
     MeasurementData *takeResults();
 
 signals:
     void progress(int percent);
+    void finished();
 
 protected:
-    MeasurementData &data();
-
-private slots:
-    void run();
-
-    static void flipPorts(QVector<RsaToolbox::NetworkData> &sweeps);
-
-private:
+    QString _appName;
+    QString _appVersion;
+    QCustomPlot *_plot;
     RsaToolbox::Vna *_vna;
     MeasurementSettings _settings;
-    QScopedPointer<MeasurementData> _data;
-    QVector<uint> _ports;
+
+    bool _isError;
+    QString _error;
+    QScopedPointer<MeasurementData> _results;
+
+    void clearError();
+    void setError(QString message = QString());
+
+    void flipPorts();
+    static void flipPorts(RsaToolbox::NetworkData &data);
+    static void flipPorts(QVector<RsaToolbox::NetworkData> &data);
+
+private:
+    //
 };
 
 

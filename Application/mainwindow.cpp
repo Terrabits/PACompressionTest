@@ -81,7 +81,7 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
 
     ui->compressionLevel->setParameterName("Compression level");
     ui->compressionLevel->setMinimum(0.01);
-    ui->compressionLevel->setMaximum(6.0);
+//    ui->compressionLevel->setMaximum(6.0); // ?
 
     connect(ui->startPower, SIGNAL(outOfRange(QString)),
             ui->error, SLOT(showMessage(QString)));

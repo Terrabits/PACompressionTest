@@ -5,6 +5,9 @@
 #include <General.h>
 using namespace RsaToolbox;
 
+// Qt
+#include <QFile>
+
 
 MeasurementSettings::MeasurementSettings() :
     _startFreq_Hz(0),
@@ -242,6 +245,66 @@ void MeasurementSettings::reset() {
     _channel = 1;
     _outputPort = 2;
     _inputPort = 1;
+}
+
+bool MeasurementSettings::printInfo(QString filename) const {
+    if (!filename.endsWith(".txt", Qt::CaseInsensitive))
+        filename += ".txt";
+
+    QFile file(filename);
+    if (!file.open(QFile::WriteOnly)) {
+        return false;
+    }
+    QTextStream s(&file);
+    printInfo(s);
+    file.close();
+    return true;
+}
+void MeasurementSettings::printInfo(QTextStream &s) const {
+    s << "SETTINGS\n";
+    s << "Start Frequency:     "
+      << formatValue(_startFreq_Hz, 3, Units::Hertz)
+      << "\n";
+    s << "Stop Frequency:      "
+      << formatValue(_stopFreq_Hz, 3, Units::Hertz)
+      << "\n";
+    s << "Points:              "
+      << _frequencyPoints
+      << "\n";
+    s << "IF BW:               "
+      << formatValue(_ifBw_Hz, 3, Units::Hertz)
+      << "\n";
+    s << "\n";
+
+    s << "Start Power:         "
+      << formatDouble(_startPower_dBm, 2) << " dBm"
+      << "\n";
+    s << "Stop Power:          "
+      << formatDouble(_stopPower_dBm, 2) << " dBm"
+      << "\n";
+    s << "Points:              "
+      << _powerPoints
+      << "\n";
+    s << "Compression Level:   "
+      << formatDouble(_compressionLevel_dB, 2) << " dB"
+      << "\n";
+    s << "Gain Expansion:      "
+      << (_isGainExpansion ? "Yes" : "No")
+      << "\n";
+    s << "Stop at Compression: "
+      << (_isStopAtCompression ? "Yes" : "No")
+      << "\n";
+    s << "Post Condition:      "
+      << (_isRfOffPostCondition ? "RF Off" : "None")
+      << "\n";
+    s << "\n";
+    s.flush();
+}
+QString MeasurementSettings::printInfo() const {
+    QString string;
+    QTextStream stream(&string);
+    printInfo(stream);
+    return string;
 }
 
 QDataStream &operator>>(QDataStream &stream, MeasurementSettings &settings) {

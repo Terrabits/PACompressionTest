@@ -76,6 +76,21 @@ QVector<NetworkData> &MeasurementData::data() {
     return _data;
 }
 
+void MeasurementData::clearAllData() {
+    _frequencies_Hz.clear();
+    _powers_dBm.clear();
+
+    _powerInAtMaxGain_dBm.clear();
+    _maxGain_dB.clear();
+    _powerOutAtMaxGain_dBm.clear();
+
+    _powerInAtCompression_dBm.clear();
+    _gainAtCompression_dB.clear();
+    _powerOutAtCompression_dBm.clear();
+
+    _data.clear();
+}
+
 bool MeasurementData::exportToZip(QString filename) {
     if (filename.endsWith(".zip", Qt::CaseInsensitive))
         filename.chop(4);

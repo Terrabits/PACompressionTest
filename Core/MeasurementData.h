@@ -43,6 +43,8 @@ public:
     // where inputPort, outputPort => [1,2]
     QVector<RsaToolbox::NetworkData> &data();
 
+    void clearAllData();
+
     bool exportToZip(QString filename);
 
 private:

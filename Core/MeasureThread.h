@@ -44,8 +44,13 @@ protected:
     RsaToolbox::Vna *_vna;
     MeasurementSettings _settings;
 
+    // Overwrite this:
+    // virtual void run();
+
     bool _isError;
     QString _error;
+
+    // Initialized in start();
     QScopedPointer<MeasurementData> _results;
 
     void clearError();

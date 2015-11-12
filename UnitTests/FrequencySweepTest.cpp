@@ -40,12 +40,12 @@ void FrequencySweepTest::sweep() {
     QVERIFY(vna.isConnected());
     QVERIFY(!vna.idString().isEmpty());
 
-    QThread logThread;
     QScopedPointer<Log> log(new Log(_sourceDir.filePath("FrequencySweepTest_Log.txt"),
             "PA Compression Test", "0"));
     QVERIFY(log->isOpen());
     log->printHeader();
 
+    QThread logThread;
     log->moveToThread(&logThread);
     logThread.start();
 
@@ -99,6 +99,7 @@ void FrequencySweepTest::sweep() {
 
     QScopedPointer<MeasurementData> results(sweep.takeResults());
 
+    // Delete log
     log->deleteLater();
     log.take();
     logThread.quit();

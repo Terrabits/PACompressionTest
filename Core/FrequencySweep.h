@@ -18,6 +18,7 @@ public:
 
 protected:
     virtual void run();
+
 };
 
 #endif // FREQUENCYSWEEP_H

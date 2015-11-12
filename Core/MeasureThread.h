@@ -35,7 +35,6 @@ public:
 
 signals:
     void progress(int percent);
-    void finished();
 
 protected:
     QString _appName;

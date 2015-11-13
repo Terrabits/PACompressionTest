@@ -155,3 +155,19 @@ void FrequencySweep::plot() {
     _plot->graph(1)->setData(_results->frequencies_Hz(), _results->powerInAtCompression_dBm());
     _plot->replot();
 }
+void FrequencySweep::freezeChannels() {
+    _channels = _vna->channels();
+    _isContinuous.resize(_channels.size());
+    for (int i = 0; i < _channels.size(); i++) {
+        const uint c = _channels[i];
+        _isContinuous[i] = _vna->channel(c).isContinuousSweep();
+        _vna->channel(c).manualSweepOn();
+    }
+}
+void FrequencySweep::unfreezeChannels() {
+    for (int i = 0; i < _channels.size(); i++) {
+        const uint c = _channels[i];
+        if (_isContinuous[i])
+            _vna->channel(c).continuousSweepOn();
+    }
+}

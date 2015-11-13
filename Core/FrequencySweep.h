@@ -6,6 +6,7 @@
 #include "MeasureThread.h"
 
 // Qt
+#include <QBitArray>
 #include <QObject>
 
 
@@ -22,6 +23,10 @@ protected:
 private:
     void plot();
 
+    QVector<uint> _channels;
+    QBitArray _isContinuous;
+    void freezeChannels();
+    void unfreezeChannels();
 };
 
 #endif // FREQUENCYSWEEP_H

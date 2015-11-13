@@ -128,8 +128,6 @@ bool MeasurementData::exportToZip(QString filename) {
         return false;
     }
 
-
-
     filename += ".zip";
     bool success = JlCompress::compressDir(filename, dir.path(), true);
     dir.removeRecursively();
@@ -138,7 +136,6 @@ bool MeasurementData::exportToZip(QString filename) {
 bool MeasurementData::exportInfo(QString path) {
     Log log(path, _appName, _appVersion);
     log.printHeader();
-    log.printLine("SETTING:\n");
     log.print(_settings.printInfo());
     log.print(_vnaInfo);
     return true;
@@ -151,7 +148,7 @@ bool MeasurementData::exportCsv(QString path) {
     if (!file.open(QFile::WriteOnly))
         return false;
 
-    const int FIELD_WIDTH = 16;
+    const int FIELD_WIDTH = 20;
     QTextStream s(&file);
     s.setFieldAlignment(QTextStream::AlignLeft);
     s.setFieldWidth(FIELD_WIDTH);
@@ -188,7 +185,7 @@ bool MeasurementData::exportCsv(QString path) {
 }
 bool MeasurementData::exportTouchstone(QString path) {
     QDir _path(path);
-    for (uint i = 0; i < _settings.powerPoints(); i++) {
+    for (int i = 0; i < _data.size(); i++) {
         QString filename = "Pin %1 dBm.s2p";
         filename = filename.arg(formatDouble(_powers_dBm[i], 2));
         filename = _path.filePath(filename);

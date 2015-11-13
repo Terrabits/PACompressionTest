@@ -2,6 +2,12 @@
 #define FREQUENCYSWEEPTEST_H
 
 
+// Project
+#include "MeasurementSettings.h"
+
+// RsaToolbox
+#include <qcustomplot.h>
+
 // Qt
 #include <QDir>
 #include <QObject>
@@ -30,6 +36,8 @@ private slots:
 
 private:
     QDir _sourceDir;
+
+    void setupPlot(QCustomPlot *plot, MeasurementSettings &settings);
 
 };
 

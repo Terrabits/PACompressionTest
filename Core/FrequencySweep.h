@@ -19,6 +19,9 @@ public:
 protected:
     virtual void run();
 
+private:
+    void plot();
+
 };
 
 #endif // FREQUENCYSWEEP_H

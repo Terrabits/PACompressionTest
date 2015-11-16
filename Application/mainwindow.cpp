@@ -167,6 +167,15 @@ QRect MainWindow::progressGeometry() const {
     return rect;
 }
 
+void MainWindow::plotMaxGain(const QRowVector &frequency_Hz, const QRowVector &gain_dB) {
+    ui->plot->graph(0)->setData(frequency_Hz, gain_dB);
+    ui->plot->replot();
+}
+void MainWindow::plotPinAtCompression(const QRowVector &frequency_Hz, const QRowVector &pin_dBm) {
+    ui->plot->graph(1)->setData(frequency_Hz, pin_dBm);
+    ui->plot->replot();
+}
+
 void MainWindow::shake() {
     QPropertyAnimation *animation = new QPropertyAnimation(this, "geometry");
     QRect _geometry = geometry();
@@ -201,4 +210,30 @@ void MainWindow::showSettingsPage() {
     animation->start();
 
     ui->pages->setCurrentWidget(ui->settingsPage);
+}
+
+void MainWindow::setupPlot() {
+    ui->plot->clearGraphs();
+
+    ui->plot->addGraph(ui->plot->xAxis, ui->plot->yAxis);
+    ui->plot->graph(0)->setName("Max Gain");
+    ui->plot->graph(0)->setPen(QPen(Qt::blue));
+    ui->plot->graph(0)->setVisible(true);
+
+    ui->plot->addGraph(ui->plot->xAxis, ui->plot->yAxis2);
+    ui->plot->graph(1)->setName("Pin[Compression]");
+    ui->plot->graph(0)->setPen(QPen(Qt::red));
+    ui->plot->graph(1)->setVisible(true);
+
+    ui->plot->yAxis2->setVisible(true);
+    ui->plot->legend->setVisible(true);
+
+    ui->plot->xAxis->setRange(_settings.startFrequency_Hz(), _settings.stopFrequency_Hz());
+    ui->plot->xAxis->setLabel("Frequency (Hz)");
+
+    ui->plot->yAxis->setRange(-20, 0);
+    ui->plot->yAxis->setLabel("Gain (dB)");
+
+    ui->plot->yAxis2->setRange(_settings.startPower_dBm(), _settings.stopPower_dBm());
+    ui->plot->yAxis2->setLabel("Power (dBm)");
 }

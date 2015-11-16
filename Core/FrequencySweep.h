@@ -21,8 +21,6 @@ protected:
     virtual void run();
 
 private:
-    void plot();
-
     QVector<uint> _channels;
     QBitArray _isContinuous;
     void freezeChannels();

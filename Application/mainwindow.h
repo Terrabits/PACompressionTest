@@ -2,12 +2,17 @@
 #define MAINWINDOW_H
 
 
+// Project
+#include "MeasurementSettings.h"
+#include "MeasurementData.h"
+
 // RsaToolbox
 #include "Keys.h"
 #include "Vna.h"
 
 // Qt
 #include <QMainWindow>
+#include <QScopedPointer>
 
 
 namespace Ui {
@@ -28,6 +33,9 @@ private slots:
     void on_measure_clicked();
     void on_exportData_clicked();
 
+    void plotMaxGain(const RsaToolbox::QRowVector &frequency_Hz, const RsaToolbox::QRowVector &gain_dB);
+    void plotPinAtCompression(const RsaToolbox::QRowVector &frequency_Hz, const RsaToolbox::QRowVector &pin_dBm);
+
     void shake();
 
 private:
@@ -35,11 +43,16 @@ private:
     RsaToolbox::Vna &vna;
     RsaToolbox::Keys &keys;
 
+    MeasurementSettings _settings;
+    QScopedPointer<MeasurementData> _results;
+
     bool _isMeasuring;
     QRect _settingsGeometry;
     QRect progressGeometry() const;
     void showProgressPage();
     void showSettingsPage();
+
+    void setupPlot();
 };
 
 

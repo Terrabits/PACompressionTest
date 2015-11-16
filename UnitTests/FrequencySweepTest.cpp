@@ -78,11 +78,9 @@ void FrequencySweepTest::sweep() {
     sweep.setSettings(settings);
     sweep.setVna(&vna);
 
-    QCustomPlot plot;
-    setupPlot(&plot, settings);
-    sweep.setProgressPlot(&plot);
-
     QSignalSpy started(&sweep, SIGNAL(started()));
+    QSignalSpy plotMaxGain(&sweep, SIGNAL(plotMaxGain(RsaToolbox::QRowVector,RsaToolbox::QRowVector)));
+    QSignalSpy plotPinAtCompression(&sweep, SIGNAL(plotPinAtCompression(RsaToolbox::QRowVector,RsaToolbox::QRowVector)));
     QSignalSpy progress(&sweep, SIGNAL(progress(int)));
     QSignalSpy finished(&sweep, SIGNAL(finished()));
     sweep.start();
@@ -95,6 +93,8 @@ void FrequencySweepTest::sweep() {
     QCOMPARE(sweep.errorMessage(), QString());
 
     QCOMPARE(started.count(), 1);
+    QCOMPARE(progress.count(), plotMaxGain.count());
+    QCOMPARE(progress.count(), plotPinAtCompression.count());
     QVERIFY(progress.count() >= 2);
     QCOMPARE(progress.first().first().toInt(), 0);
     QCOMPARE(progress.last().last().toInt(), 100);
@@ -110,7 +110,9 @@ void FrequencySweepTest::sweep() {
     QCOMPARE(uint(results->powerInAtCompression_dBm().size()), settings.frequencyPoints());
 
     QVERIFY(results->exportToZip(_sourceDir.filePath("Results.zip")));
-    QVERIFY(plot.savePng(_sourceDir.filePath("Plot.png")));
+    QVERIFY(_sourceDir.exists("Results.zip"));
+    QVERIFY(generatePlot(results.data(), _sourceDir.filePath("Plot.png")));
+    QVERIFY(_sourceDir.exists("Plot.png"));
 
     // Delete log
     log->deleteLater();
@@ -119,28 +121,35 @@ void FrequencySweepTest::sweep() {
     logThread.wait();
 }
 
-void FrequencySweepTest::setupPlot(QCustomPlot *plot, MeasurementSettings &settings) {
-    plot->clearGraphs();
+bool FrequencySweepTest::generatePlot(MeasurementData *results, const QString &filename) {
+    QCustomPlot plot;
 
-    plot->addGraph(plot->xAxis, plot->yAxis);
-    plot->graph(0)->setName("Max Gain");
-    plot->graph(0)->setPen(QPen(Qt::blue));
-    plot->graph(0)->setVisible(true);
+    plot.clearGraphs();
 
-    plot->addGraph(plot->xAxis, plot->yAxis2);
-    plot->graph(1)->setName("Pin[Compression]");
-    plot->graph(0)->setPen(QPen(Qt::red));
-    plot->graph(1)->setVisible(true);
+    plot.addGraph(plot.xAxis, plot.yAxis);
+    plot.graph(0)->setName("Max Gain");
+    plot.graph(0)->setPen(QPen(Qt::blue));
+    plot.graph(0)->setVisible(true);
 
-    plot->yAxis2->setVisible(true);
-    plot->legend->setVisible(true);
+    plot.addGraph(plot.xAxis, plot.yAxis2);
+    plot.graph(1)->setName("Pin[Compression]");
+    plot.graph(0)->setPen(QPen(Qt::red));
+    plot.graph(1)->setVisible(true);
 
-    plot->xAxis->setRange(settings.startFrequency_Hz(), settings.stopFrequency_Hz());
-    plot->xAxis->setLabel("Frequency (Hz)");
+    plot.yAxis2->setVisible(true);
+    plot.legend->setVisible(true);
 
-    plot->yAxis->setRange(-20, 0);
-    plot->yAxis->setLabel("Gain (dB)");
+    plot.xAxis->setRange(results->settings().startFrequency_Hz(), results->settings().stopFrequency_Hz());
+    plot.xAxis->setLabel("Frequency (Hz)");
 
-    plot->yAxis2->setRange(settings.startPower_dBm(), settings.stopPower_dBm());
-    plot->yAxis2->setLabel("Power (dBm)");
+    plot.yAxis->setRange(-20, 0);
+    plot.yAxis->setLabel("Gain (dB)");
+
+    plot.yAxis2->setRange(results->settings().startPower_dBm(), results->settings().stopPower_dBm());
+    plot.yAxis2->setLabel("Power (dBm)");
+
+    plot.graph(0)->setData(results->frequencies_Hz(), results->maxGain_dB());
+    plot.graph(1)->setData(results->frequencies_Hz(), results->powerInAtCompression_dBm());
+    plot.replot();
+    return plot.savePng(filename);
 }

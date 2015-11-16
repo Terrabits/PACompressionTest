@@ -37,9 +37,6 @@ void MeasureThread::setVna(Vna *vna) {
 void MeasureThread::setSettings(const MeasurementSettings &settings) {
     _settings = settings;
 }
-void MeasureThread::setProgressPlot(QCustomPlot *plot) {
-    _plot = plot;
-}
 
 bool MeasureThread::isError() const {
     return _isError;

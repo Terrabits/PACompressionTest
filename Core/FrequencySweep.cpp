@@ -82,7 +82,8 @@ void FrequencySweep::run() {
     _results->gainAtCompression_dB() = _results->maxGain_dB();
     _results->powerOutAtCompression_dBm() = _results->powerOutAtMaxGain_dBm();
 
-    plot();
+    emit plotMaxGain(_results->frequencies_Hz(), _results->maxGain_dB());
+    emit plotPinAtCompression(_results->frequencies_Hz(), _results->powerInAtCompression_dBm());
 
     for (iPower = 1; iPower < powerPoints; iPower++) {
         if (sweptFreq_Hz.isEmpty())
@@ -135,7 +136,8 @@ void FrequencySweep::run() {
                 iSweptFreq--;
             }
         }
-        plot();
+        emit plotMaxGain(_results->frequencies_Hz(), _results->maxGain_dB());
+        emit plotPinAtCompression(_results->frequencies_Hz(), _results->powerInAtCompression_dBm());
     }
 
     emit progress(100);
@@ -148,12 +150,6 @@ void FrequencySweep::run() {
         msg = msg.arg(formatValue(sweptFreq_Hz.first(), 3, Units::Hertz));
         setError(msg);
     }
-}
-
-void FrequencySweep::plot() {
-    _plot->graph(0)->setData(_results->frequencies_Hz(), _results->maxGain_dB());
-    _plot->graph(1)->setData(_results->frequencies_Hz(), _results->powerInAtCompression_dBm());
-    _plot->replot();
 }
 void FrequencySweep::freezeChannels() {
     _channels = _vna->channels();

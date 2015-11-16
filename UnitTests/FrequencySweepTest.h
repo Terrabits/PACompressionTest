@@ -3,7 +3,7 @@
 
 
 // Project
-#include "MeasurementSettings.h"
+#include "MeasurementData.h"
 
 // RsaToolbox
 #include <qcustomplot.h>
@@ -37,7 +37,7 @@ private slots:
 private:
     QDir _sourceDir;
 
-    void setupPlot(QCustomPlot *plot, MeasurementSettings &settings);
+    bool generatePlot(MeasurementData *results, const QString &filename);
 
 };
 

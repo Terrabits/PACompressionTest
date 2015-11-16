@@ -26,7 +26,6 @@ public:
     void setAppInfo(const QString &name, const QString &version);
     void setVna(RsaToolbox::Vna *vna);
     void setSettings(const MeasurementSettings &settings);
-    void setProgressPlot(QCustomPlot *plot);
 
     bool isError() const;
     QString errorMessage() const;
@@ -34,12 +33,13 @@ public:
     MeasurementData *takeResults();
 
 signals:
+    void plotMaxGain(const RsaToolbox::QRowVector &frequency_Hz, const RsaToolbox::QRowVector &gain_dB);
+    void plotPinAtCompression(const RsaToolbox::QRowVector &frequency_Hz, const RsaToolbox::QRowVector &pin_dB);
     void progress(int percent);
 
 protected:
     QString _appName;
     QString _appVersion;
-    QCustomPlot *_plot;
     RsaToolbox::Vna *_vna;
     MeasurementSettings _settings;
 

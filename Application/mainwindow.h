@@ -49,6 +49,8 @@ private:
     QScopedPointer<MeasurementData> _results;
     QScopedPointer<MeasureThread> _thread;
 
+    void loadKeys();
+    void saveKeys();
     bool processSettings();
 
     bool _isMeasuring;

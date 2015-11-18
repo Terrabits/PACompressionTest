@@ -363,8 +363,8 @@
               <string>Miscellaneous</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_5">
-              <item row="1" column="0">
-               <widget class="QLabel" name="outputPortLabel">
+              <item row="3" column="0">
+               <widget class="QLabel" name="sweepTypeLabel">
                 <property name="font">
                  <font>
                   <weight>50</weight>
@@ -372,17 +372,7 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string>Output Port:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="RsaToolbox::PointsEdit" name="outputPort">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
+                 <string>Sweep Type:</string>
                 </property>
                </widget>
               </item>
@@ -399,8 +389,21 @@
                 </property>
                </widget>
               </item>
-              <item row="2" column="1">
-               <widget class="RsaToolbox::PointsEdit" name="inputPort">
+              <item row="1" column="0">
+               <widget class="QLabel" name="outputPortLabel">
+                <property name="font">
+                 <font>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Output Port:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="RsaToolbox::PointsEdit" name="outputPort">
                 <property name="font">
                  <font>
                   <weight>50</weight>
@@ -430,6 +433,31 @@
                   <bold>false</bold>
                  </font>
                 </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="RsaToolbox::PointsEdit" name="inputPort">
+                <property name="font">
+                 <font>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QComboBox" name="sweepType">
+                <property name="font">
+                 <font>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>Frequency</string>
+                 </property>
+                </item>
                </widget>
               </item>
              </layout>

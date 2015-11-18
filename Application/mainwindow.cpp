@@ -178,6 +178,31 @@ void MainWindow::on_exportData_clicked() {
     shake();
 }
 
+void MainWindow::loadKeys() {
+    bool _bool;
+    quint32 _quint32;
+    double _double;
+
+    if (_keys.exists(START_FREQUENCY_KEY)) {
+        _keys.get(START_FREQUENCY_KEY, _double);
+        ui->startFrequency->setFrequency(_double);
+    }
+    if (_keys.exists(STOP_FREQUENCY_KEY)) {
+        _keys.get(STOP_FREQUENCY_KEY, _double);
+        ui->stopFrequency->setFrequency(_double);
+    }
+    if (_keys.exists(FREQUENCY_POINTS_KEY)) {
+        _keys.get(FREQUENCY_POINTS_KEY, _quint32);
+        ui->frequencyPoints->setPoints(_quint32);
+    }
+    if (_keys.exists(IF_BW_KEY)) {
+        _keys.get(IF_BW_KEY, _double);
+        ui->ifBw->setFrequency(_double);
+    }
+}
+void MainWindow::saveKeys() {
+
+}
 bool MainWindow::processSettings() {
     if (!ui->startFrequency->hasAcceptableInput()) {
         ui->error->showMessage("*Enter start frequency");

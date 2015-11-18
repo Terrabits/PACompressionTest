@@ -87,14 +87,25 @@ void FrequencySweepTest::sweep() {
     sweep.wait();
 
     QVERIFY(!vna.isError());
-    QCOMPARE(vna.channels().size(), 1);
+
+    QVERIFY(vna.isChannel("compression"));
+    QVERIFY(vna.isTrace("compression"));
+    QVERIFY(vna.trace("compression").diagram());
+    QCOMPARE(vna.channelId("compression"), vna.trace("compression").channel());
+
+    QVERIFY(vna.isChannel("max_gain"));
+    QVERIFY(vna.isTrace("max_gain"));
+    QVERIFY(vna.trace("max_gain").diagram());
+    QCOMPARE(vna.channelId("max_gain"), vna.trace("max_gain").channel());
+
+    QCOMPARE(vna.trace("compression").diagram(), vna.trace("max_gain").diagram());
 
     QVERIFY(!sweep.isError());
     QCOMPARE(sweep.errorMessage(), QString());
 
     QCOMPARE(started.count(), 1);
-    QCOMPARE(progress.count(), plotMaxGain.count());
-    QCOMPARE(progress.count(), plotPinAtCompression.count());
+    QCOMPARE(progress.count(), plotMaxGain.count()+1);
+    QCOMPARE(progress.count(), plotPinAtCompression.count()+1);
     QVERIFY(progress.count() >= 2);
     QCOMPARE(progress.first().first().toInt(), 0);
     QCOMPARE(progress.last().last().toInt(), 100);

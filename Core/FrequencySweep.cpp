@@ -150,6 +150,9 @@ void FrequencySweep::run() {
         msg = msg.arg(formatValue(sweptFreq_Hz.first(), 3, Units::Hertz));
         setError(msg);
     }
+    else {
+        displayResultsOnInstrument();
+    }
 }
 void FrequencySweep::freezeChannels() {
     _channels = _vna->channels();

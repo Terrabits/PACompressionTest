@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>300</width>
-    <height>517</height>
+    <width>322</width>
+    <height>593</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -508,6 +508,9 @@
        </property>
        <item>
         <widget class="QPushButton" name="exportData">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string>Export Data</string>
          </property>

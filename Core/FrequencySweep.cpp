@@ -23,6 +23,9 @@ void FrequencySweep::run() {
         return;
     }
 
+    _vna->isError();
+    _vna->clearStatus();
+
     emit progress(0);
 
     // Frequency
@@ -47,6 +50,8 @@ void FrequencySweep::run() {
     const uint inputPort = _settings.inputPort();
 
     const bool shouldFlipPorts = outputPort < inputPort;
+
+    freezeChannels();
 
     // Setup channel
     _vna->channel(channel).select();
@@ -89,7 +94,7 @@ void FrequencySweep::run() {
         if (sweptFreq_Hz.isEmpty())
             break;
 
-        emit progress(int(iPower/powerPoints));
+        emit progress(int((100.0 * iPower)/powerPoints));
 
         power_dBm = powers_dBm[iPower];
         _results->powers_dBm() << power_dBm;
@@ -141,8 +146,8 @@ void FrequencySweep::run() {
     }
 
     emit progress(100);
-
     _vna->deleteChannel(c);
+    unfreezeChannels();
 
     // Check if any compression points not found
     if (!sweptFreq_Hz.isEmpty()) {
@@ -154,19 +159,4 @@ void FrequencySweep::run() {
         displayResultsOnInstrument();
     }
 }
-void FrequencySweep::freezeChannels() {
-    _channels = _vna->channels();
-    _isContinuous.resize(_channels.size());
-    for (int i = 0; i < _channels.size(); i++) {
-        const uint c = _channels[i];
-        _isContinuous[i] = _vna->channel(c).isContinuousSweep();
-        _vna->channel(c).manualSweepOn();
-    }
-}
-void FrequencySweep::unfreezeChannels() {
-    for (int i = 0; i < _channels.size(); i++) {
-        const uint c = _channels[i];
-        if (_isContinuous[i])
-            _vna->channel(c).continuousSweepOn();
-    }
-}
+

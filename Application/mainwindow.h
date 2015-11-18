@@ -5,6 +5,7 @@
 // Project
 #include "MeasurementSettings.h"
 #include "MeasurementData.h"
+#include "MeasureThread.h"
 
 // RsaToolbox
 #include "Keys.h"
@@ -24,7 +25,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
     
 public:
-    explicit MainWindow(RsaToolbox::Vna &vna, RsaToolbox::Keys &keys, QWidget *parent = 0);
+    explicit MainWindow(RsaToolbox::Vna &_vna, RsaToolbox::Keys &_keys, QWidget *parent = 0);
     ~MainWindow();
     
 private slots:
@@ -35,16 +36,20 @@ private slots:
 
     void plotMaxGain(const RsaToolbox::QRowVector &frequency_Hz, const RsaToolbox::QRowVector &gain_dB);
     void plotPinAtCompression(const RsaToolbox::QRowVector &frequency_Hz, const RsaToolbox::QRowVector &pin_dBm);
+    void measurementFinished();
 
     void shake();
 
 private:
     Ui::MainWindow *ui;
-    RsaToolbox::Vna &vna;
-    RsaToolbox::Keys &keys;
+    RsaToolbox::Vna &_vna;
+    RsaToolbox::Keys &_keys;
 
     MeasurementSettings _settings;
     QScopedPointer<MeasurementData> _results;
+    QScopedPointer<MeasureThread> _thread;
+
+    bool processSettings();
 
     bool _isMeasuring;
     QRect _settingsGeometry;

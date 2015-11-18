@@ -85,6 +85,23 @@ void MeasureThread::flipPorts(QVector<NetworkData> &data) {
     }
 }
 
+void MeasureThread::freezeChannels() {
+    _channels = _vna->channels();
+    _isContinuous.resize(_channels.size());
+    for (int i = 0; i < _channels.size(); i++) {
+        const uint c = _channels[i];
+        _isContinuous[i] = _vna->channel(c).isContinuousSweep();
+        _vna->channel(c).manualSweepOn();
+    }
+}
+void MeasureThread::unfreezeChannels() {
+    for (int i = 0; i < _channels.size(); i++) {
+        const uint c = _channels[i];
+        if (_isContinuous[i])
+            _vna->channel(c).continuousSweepOn();
+    }
+}
+
 void MeasureThread::displayResultsOnInstrument() {
     const uint iChannel = _settings.channel();
     uint iMaxGain = 0;

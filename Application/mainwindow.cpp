@@ -1,9 +1,11 @@
 
 
-// %ProjectName%
-#include "Settings.h"
+// Project
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
+#include "Settings.h"
+#include "FrequencySweep.h"
 
 // RsaToolbox
 using namespace RsaToolbox;
@@ -18,7 +20,7 @@ using namespace RsaToolbox;
 MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) : 
     QMainWindow(parent),
     ui(new ::Ui::MainWindow),
-    vna(vna), keys(keys),
+    _vna(vna), _keys(keys),
     _isMeasuring(false)
 {
     ui->setupUi(this);
@@ -127,29 +129,180 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
 }
 
 MainWindow::~MainWindow() {
+    _vna.isError();
+    _vna.clearStatus();
+
     delete ui;
 }
 
 // Private slots:
 void MainWindow::on_cancel_clicked() {
-    close();
-}
-void MainWindow::on_measure_clicked() {
-    qDebug() << "Meausure";
     if (!_isMeasuring) {
-        // Transition into measurement
-        _isMeasuring = true;
-        showProgressPage();
+        close();
     }
     else {
-        // Transition back
-        _isMeasuring = false;
-        showSettingsPage();
+
     }
+}
+void MainWindow::on_measure_clicked() {
+    if (!processSettings()) {
+        return;
+    }
+
+    _isMeasuring = true;
+
+    ui->exportData->setDisabled(true);
+    _results.reset();
+
+    _thread.reset(new FrequencySweep);
+    _thread->setAppInfo(APP_NAME, APP_VERSION);
+    _thread->setVna(&_vna);
+    _thread->setSettings(_settings);
+
+    connect(_thread.data(), SIGNAL(progress(int)),
+            ui->progressBar, SLOT(setValue(int)));
+    connect(_thread.data(), SIGNAL(plotMaxGain(RsaToolbox::QRowVector,RsaToolbox::QRowVector)),
+            this, SLOT(plotMaxGain(RsaToolbox::QRowVector,RsaToolbox::QRowVector)));
+    connect(_thread.data(), SIGNAL(plotPinAtCompression(RsaToolbox::QRowVector,RsaToolbox::QRowVector)),
+            this, SLOT(plotPinAtCompression(RsaToolbox::QRowVector,RsaToolbox::QRowVector)));
+    connect(_thread.data(), SIGNAL(finished()),
+            this, SLOT(measurementFinished()));
+
+    setupPlot();
+    showProgressPage();
+    ui->measure->setDisabled(true);
+    _thread->start();
 }
 void MainWindow::on_exportData_clicked() {
     qDebug() << "Export Data";
     shake();
+}
+
+bool MainWindow::processSettings() {
+    if (!ui->startFrequency->hasAcceptableInput()) {
+        ui->error->showMessage("*Enter start frequency");
+        ui->startFrequency->selectAll();
+        ui->startFrequency->setFocus();
+        shake();
+        return false;
+    }
+    else {
+        _settings.setStartFrequency(ui->startFrequency->frequency_Hz());
+    }
+
+    if (!ui->stopFrequency->hasAcceptableInput()) {
+        ui->error->showMessage("*Enter stop frequency");
+        ui->stopFrequency->selectAll();
+        ui->stopFrequency->setFocus();
+        shake();
+        return false;
+    }
+    else {
+        _settings.setStopFrequency(ui->stopFrequency->frequency_Hz());
+    }
+
+    if (!ui->frequencyPoints->hasAcceptableInput()) {
+        ui->error->showMessage("*Enter frequency points");
+        ui->frequencyPoints->selectAll();
+        ui->frequencyPoints->setFocus();
+        shake();
+        return false;
+    }
+    else {
+        _settings.setFrequencyPoints(ui->frequencyPoints->points());
+    }
+
+    if (!ui->ifBw->hasAcceptableInput()) {
+        ui->error->showMessage("*Enter IF BW");
+        ui->ifBw->selectAll();
+        ui->ifBw->setFocus();
+        shake();
+        return false;
+    }
+    else {
+        _settings.setIfBw(ui->ifBw->frequency_Hz());
+    }
+
+    if (!ui->startPower->hasAcceptableInput()) {
+        ui->error->showMessage("*Enter start power");
+        ui->startPower->selectAll();
+        ui->startPower->setFocus();
+        shake();
+        return false;
+    }
+    else {
+        _settings.setStartPower(ui->startPower->power_dBm());
+    }
+
+    if (!ui->stopPower->hasAcceptableInput()) {
+        ui->error->showMessage("*Enter stop power");
+        ui->stopPower->selectAll();
+        ui->stopPower->setFocus();
+        shake();
+        return false;
+    }
+    else {
+        _settings.setStopPower(ui->stopPower->power_dBm());
+    }
+
+    if (!ui->powerPoints->hasAcceptableInput()) {
+        ui->error->showMessage("*Enter power points");
+        ui->powerPoints->selectAll();
+        ui->powerPoints->setFocus();
+        shake();
+        return false;
+    }
+    else {
+        _settings.setPowerPoints(ui->powerPoints->points());
+    }
+
+    if (!ui->compressionLevel->hasAcceptableInput()) {
+        ui->error->showMessage("*Enter compression level");
+        ui->compressionLevel->selectAll();
+        ui->compressionLevel->setFocus();
+        shake();
+        return false;
+    }
+    else {
+        _settings.setCompressionLevel(ui->compressionLevel->value_dB());
+    }
+
+    _settings.setGainExpansion(ui->gainExpansion->isChecked());
+    _settings.setStopAtCompression(ui->stopAtCompression->isChecked());
+    _settings.setRfOffPostCondition(ui->postCondition->currentText() == "RF Off");
+
+    _settings.setChannel(ui->channel->currentText().toUInt());
+
+    if (!ui->outputPort->hasAcceptableInput()) {
+        ui->error->showMessage("*Enter output port");
+        ui->outputPort->selectAll();
+        ui->outputPort->setFocus();
+        shake();
+        return false;
+    }
+    else {
+        _settings.setOutputPort(ui->outputPort->points());
+    }
+
+    if (!ui->inputPort->hasAcceptableInput()) {
+        ui->error->showMessage("*Enter input port");
+        ui->inputPort->selectAll();
+        ui->inputPort->setFocus();
+        shake();
+        return false;
+    }
+    else {
+        _settings.setInputPort(ui->inputPort->points());
+    }
+
+    QString message;
+    if (!_settings.isValid(_vna, message)) {
+        ui->error->showMessage(message);
+        shake();
+        return false;
+    }
+
+    return true;
 }
 
 QRect MainWindow::progressGeometry() const {
@@ -174,6 +327,28 @@ void MainWindow::plotMaxGain(const QRowVector &frequency_Hz, const QRowVector &g
 void MainWindow::plotPinAtCompression(const QRowVector &frequency_Hz, const QRowVector &pin_dBm) {
     ui->plot->graph(1)->setData(frequency_Hz, pin_dBm);
     ui->plot->replot();
+}
+void MainWindow::measurementFinished() {
+    _isMeasuring = false;
+
+    if (!_thread->isError()) {
+        _results.reset(_thread->takeResults());
+        ui->exportData->setEnabled(true);
+    }
+
+    disconnect(_thread.data(), SIGNAL(progress(int)),
+            ui->progressBar, SLOT(setValue(int)));
+    disconnect(_thread.data(), SIGNAL(plotMaxGain(RsaToolbox::QRowVector,RsaToolbox::QRowVector)),
+            this, SLOT(plotMaxGain(RsaToolbox::QRowVector,RsaToolbox::QRowVector)));
+    disconnect(_thread.data(), SIGNAL(plotPinAtCompression(RsaToolbox::QRowVector,RsaToolbox::QRowVector)),
+            this, SLOT(plotPinAtCompression(RsaToolbox::QRowVector,RsaToolbox::QRowVector)));
+    disconnect(_thread.data(), SIGNAL(finished()),
+            this, SLOT(measurementFinished()));
+    _thread.reset();
+
+
+    showSettingsPage();
+    ui->measure->setEnabled(true);
 }
 
 void MainWindow::shake() {

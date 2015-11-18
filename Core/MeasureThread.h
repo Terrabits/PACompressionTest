@@ -59,13 +59,17 @@ protected:
     static void flipPorts(RsaToolbox::NetworkData &data);
     static void flipPorts(QVector<RsaToolbox::NetworkData> &data);
 
+    void freezeChannels();
+    void unfreezeChannels();
+
     void displayResultsOnInstrument();
     void setupChannel(uint channelIndex, const RsaToolbox::QRowVector &frequencies_Hz, const RsaToolbox::QRowVector &powers_dBm);
     void resizeChannel(uint channelIndex, uint points);
     void removeEmptyDiagrams();
 
 private:
-    //
+    QVector<uint> _channels;
+    QBitArray _isContinuous;
 };
 
 

@@ -182,6 +182,7 @@ void MainWindow::on_measure_clicked() {
 
     _results.reset();
     ui->exportData->setDisabled(true);
+    ui->cancel->setText("Cancel");
 
     _thread.reset(new FrequencySweep);
     _thread->setAppInfo(APP_NAME, APP_VERSION);
@@ -491,6 +492,7 @@ void MainWindow::measurementFinished() {
     _thread.reset();
     showSettingsPage();
     ui->measure->setEnabled(true);
+    ui->cancel->setText("Close");
 }
 
 void MainWindow::shake() {

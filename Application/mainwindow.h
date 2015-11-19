@@ -8,8 +8,9 @@
 #include "MeasureThread.h"
 
 // RsaToolbox
-#include "Keys.h"
-#include "Vna.h"
+#include <Keys.h>
+#include <Vna.h>
+#include <LastPath.h>
 
 // Qt
 #include <QMainWindow>
@@ -27,10 +28,13 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(RsaToolbox::Vna &_vna, RsaToolbox::Keys &_keys, QWidget *parent = 0);
     ~MainWindow();
+
+protected:
+    virtual void closeEvent(QCloseEvent *event);
     
 private slots:
     // Buttons
-    void on_cancel_clicked();
+//    void on_cancel_clicked();
     void on_measure_clicked();
     void on_exportData_clicked();
 
@@ -43,12 +47,13 @@ private slots:
 private:
     Ui::MainWindow *ui;
     RsaToolbox::Vna &_vna;
-    RsaToolbox::Keys &_keys;
 
     MeasurementSettings _settings;
     QScopedPointer<MeasurementData> _results;
     QScopedPointer<MeasureThread> _thread;
 
+    RsaToolbox::Keys &_keys;
+    RsaToolbox::LastPath _exportPath;
     void loadKeys();
     void saveKeys();
     bool processSettings();

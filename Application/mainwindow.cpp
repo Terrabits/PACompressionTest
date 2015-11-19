@@ -11,10 +11,11 @@
 using namespace RsaToolbox;
 
 // Qt
+#include <QApplication>
+#include <QMessageBox>
+#include <QFileDialog>
 #include <QRect>
 #include <QPropertyAnimation>
-#include <QMessageBox>
-#include <QApplication>
 
 
 MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) : 
@@ -43,6 +44,7 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
     ui->stopFrequency->setMaximum(maximum_Hz);
 
     ui->frequencyPoints->setParameterName("Frequency points");
+    ui->frequencyPoints->setMinimum(2);
     ui->frequencyPoints->setMaximum(vna.properties().maximumPoints());
 
     ui->ifBw->setParameterName("IF BW");
@@ -79,6 +81,7 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
     ui->stopPower->setMaximum(maximum_dBm);
 
     ui->powerPoints->setParameterName("Power points");
+    ui->powerPoints->setMinimum(2);
     ui->powerPoints->setMaximum(vna.properties().maximumPoints());
 
     ui->compressionLevel->setParameterName("Compression level");
@@ -126,6 +129,14 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
             this, SLOT(shake()));
     connect(ui->outputPort, SIGNAL(outOfRange(QString)),
             this, SLOT(shake()));
+
+    connect(ui->cancel, SIGNAL(clicked()),
+            this, SLOT(close()));
+
+    qRegisterMetaType<RsaToolbox::QRowVector>("RsaToolbox::QRowVector");
+
+    _exportPath.setKey(&_keys, EXPORT_PATH_KEY);
+    loadKeys();
 }
 
 MainWindow::~MainWindow() {
@@ -135,24 +146,42 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
-// Private slots:
-void MainWindow::on_cancel_clicked() {
-    if (!_isMeasuring) {
-        close();
+void MainWindow::closeEvent(QCloseEvent *event) {
+    if (_isMeasuring) {
+        event->ignore();
+
+        QMessageBox::StandardButton button = QMessageBox::question(this,
+                              "Abort Measurement?",
+                              "Measurements are running.\nAbort?");
+        if (button == QMessageBox::Yes) {
+            if (!_thread.isNull())
+                _thread->requestInterruption();
+        }
     }
     else {
-
+        QMainWindow::closeEvent(event);
     }
 }
+
+// Private slots:
+//void MainWindow::on_cancel_clicked() {
+//    if (!_isMeasuring) {
+//        close();
+//    }
+//    else {
+
+//    }
+//}
 void MainWindow::on_measure_clicked() {
-    if (!processSettings()) {
+    if (!processSettings())
         return;
-    }
+
+    saveKeys();
 
     _isMeasuring = true;
 
-    ui->exportData->setDisabled(true);
     _results.reset();
+    ui->exportData->setDisabled(true);
 
     _thread.reset(new FrequencySweep);
     _thread->setAppInfo(APP_NAME, APP_VERSION);
@@ -174,15 +203,29 @@ void MainWindow::on_measure_clicked() {
     _thread->start();
 }
 void MainWindow::on_exportData_clicked() {
-    qDebug() << "Export Data";
-    shake();
+    QString filename = QFileDialog::getSaveFileName(this,
+                                                    "Export to...",
+                                                    _exportPath.toString(),
+                                                    "Zip (*.zip)");
+    if (filename.isEmpty())
+        return;
+
+    if (_results->exportToZip(filename)) {
+        _exportPath.setFromFilePath(filename);
+        ui->error->showMessage("Export successful!", Qt::darkGreen);
+    }
+    else {
+        ui->error->showMessage("*Error saving export file.");
+    }
 }
 
 void MainWindow::loadKeys() {
     bool _bool;
     quint32 _quint32;
     double _double;
+    QString _string;
 
+    // Frequency
     if (_keys.exists(START_FREQUENCY_KEY)) {
         _keys.get(START_FREQUENCY_KEY, _double);
         ui->startFrequency->setFrequency(_double);
@@ -199,9 +242,80 @@ void MainWindow::loadKeys() {
         _keys.get(IF_BW_KEY, _double);
         ui->ifBw->setFrequency(_double);
     }
+
+    // Power
+    if (_keys.exists(START_POWER_KEY)) {
+        _keys.get(START_POWER_KEY, _double);
+        ui->startPower->setPower(_double);
+    }
+    if (_keys.exists(STOP_POWER_KEY)) {
+        _keys.get(STOP_POWER_KEY, _double);
+        ui->stopPower->setPower(_double);
+    }
+    if (_keys.exists(POWER_POINTS_KEY)) {
+        _keys.get(POWER_POINTS_KEY, _quint32);
+        ui->powerPoints->setPoints(_quint32);
+    }
+    if (_keys.exists(COMPRESSION_LEVEL_KEY)) {
+        _keys.get(COMPRESSION_LEVEL_KEY, _double);
+        ui->compressionLevel->setValue(_double);
+    }
+    if (_keys.exists(IS_GAIN_EXPANSION_KEY)) {
+        _keys.get(IS_GAIN_EXPANSION_KEY, _bool);
+        ui->gainExpansion->setChecked(_bool);
+    }
+    if (_keys.exists(IS_STOP_AT_COMPRESSION_KEY)) {
+        _keys.get(IS_STOP_AT_COMPRESSION_KEY, _bool);
+        ui->stopAtCompression->setChecked(_bool);
+    }
+    if (_keys.exists(POST_CONDITION_KEY)) {
+        _keys.get(POST_CONDITION_KEY, _string);
+        ui->postCondition->setCurrentText(_string);
+    }
+
+    // Miscellaneous
+    if (_keys.exists(CHANNEL_KEY)) {
+        _keys.get(CHANNEL_KEY, _string);
+        if (ui->channel->findText(_string) != -1)
+            ui->channel->setCurrentText(_string);
+    }
+    if (_keys.exists(OUTPUT_PORT_KEY)) {
+        _keys.get(OUTPUT_PORT_KEY, _quint32);
+        ui->outputPort->setPoints(_quint32);
+    }
+    if (_keys.exists(INPUT_PORT_KEY)) {
+        _keys.get(INPUT_PORT_KEY, _quint32);
+        ui->inputPort->setPoints(_quint32);
+    }
+    if (_keys.exists(SWEEP_TYPE_KEY)) {
+        _keys.get(SWEEP_TYPE_KEY, _string);
+        if (ui->sweepType->findText(_string) != -1)
+            ui->sweepType->setCurrentText(_string);
+    }
 }
 void MainWindow::saveKeys() {
+    // Assumes valid input
 
+    // Frequency
+    _keys.set(START_FREQUENCY_KEY, ui->startFrequency->frequency_Hz());
+    _keys.set(STOP_FREQUENCY_KEY, ui->stopFrequency->frequency_Hz());
+    _keys.set(FREQUENCY_POINTS_KEY, quint32(ui->frequencyPoints->points()));
+    _keys.set(IF_BW_KEY, ui->ifBw->frequency_Hz());
+
+    // Power
+    _keys.set(START_POWER_KEY, ui->startPower->power_dBm());
+    _keys.set(STOP_POWER_KEY, ui->stopPower->power_dBm());
+    _keys.set(POWER_POINTS_KEY, quint32(ui->powerPoints->points()));
+    _keys.set(COMPRESSION_LEVEL_KEY, ui->compressionLevel->value_dB());
+    _keys.set(IS_GAIN_EXPANSION_KEY, ui->gainExpansion->isChecked());
+    _keys.set(IS_STOP_AT_COMPRESSION_KEY, ui->stopAtCompression->isChecked());
+    _keys.set(POST_CONDITION_KEY, ui->postCondition->currentText());
+
+    // Miscellaneous
+    _keys.set(CHANNEL_KEY, ui->channel->currentText());
+    _keys.set(OUTPUT_PORT_KEY, ui->outputPort->points());
+    _keys.set(INPUT_PORT_KEY, ui->inputPort->points());
+    _keys.set(SWEEP_TYPE_KEY, ui->sweepType->currentText());
 }
 bool MainWindow::processSettings() {
     if (!ui->startFrequency->hasAcceptableInput()) {
@@ -355,12 +469,6 @@ void MainWindow::plotPinAtCompression(const QRowVector &frequency_Hz, const QRow
 }
 void MainWindow::measurementFinished() {
     _isMeasuring = false;
-
-    if (!_thread->isError()) {
-        _results.reset(_thread->takeResults());
-        ui->exportData->setEnabled(true);
-    }
-
     disconnect(_thread.data(), SIGNAL(progress(int)),
             ui->progressBar, SLOT(setValue(int)));
     disconnect(_thread.data(), SIGNAL(plotMaxGain(RsaToolbox::QRowVector,RsaToolbox::QRowVector)),
@@ -369,9 +477,18 @@ void MainWindow::measurementFinished() {
             this, SLOT(plotPinAtCompression(RsaToolbox::QRowVector,RsaToolbox::QRowVector)));
     disconnect(_thread.data(), SIGNAL(finished()),
             this, SLOT(measurementFinished()));
+
+    if (_thread->isError()) {
+       ui->error->showMessage(_thread->errorMessage());
+       shake();
+    }
+    else {
+        _results.reset(_thread->takeResults());
+        ui->exportData->setEnabled(true);
+        ui->error->showMessage("Measurement complete!", Qt::darkGreen);
+    }
+
     _thread.reset();
-
-
     showSettingsPage();
     ui->measure->setEnabled(true);
 }

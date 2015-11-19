@@ -1,7 +1,7 @@
 PA Compression Test Version 0
 (C) 2015 Rohde & Schwarz North America
 
-Tue Nov 17 21:43:13 2015
+Wed Nov 18 17:03:27 2015
 
 VNA INSTRUMENT INFO
 Connection:       TCPIP
@@ -25,6 +25,7 @@ Options:          ZNB-K2
                   ZNB8-B34
                   ZNB-B81
                   ZNB-B2
+                  ZNB-B12
                   ZN-B15
 
 
@@ -93,7 +94,7 @@ Bytes: 6
 Status: 0x0 Operation completed successfully.
 
 Read:     "ZNB-K2,ZNB-K4,ZNB-K14,ZNB-K17,ZNB-K19,ZNB8-B24,ZNB8-B31,ZNB8-B32,ZNB8-B33,ZNB8-B34,ZNB-B81,ZNB-B2,ZN..."
-Bytes: 105
+Bytes: 113
 Status: 0x0 Operation completed successfully.
 
 Write:    "*OPT?"
@@ -101,7 +102,7 @@ Bytes: 6
 Status: 0x0 Operation completed successfully.
 
 Read:     "ZNB-K2,ZNB-K4,ZNB-K14,ZNB-K17,ZNB-K19,ZNB8-B24,ZNB8-B31,ZNB8-B32,ZNB8-B33,ZNB8-B34,ZNB-B81,ZNB-B2,ZN..."
-Bytes: 105
+Bytes: 113
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SYST:FREQ? MIN"
@@ -254,6 +255,38 @@ Status: 0x0 Operation completed successfully.
 
 Read:     "'1,Ch1'"
 Bytes: 8
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:ERR?"
+Bytes: 11
+Status: 0x0 Operation completed successfully.
+
+Read:     "0,"No error""
+Bytes: 13
+Status: 0x0 Operation completed successfully.
+
+Write:    "*CLS"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:CHAN:CAT?"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Read:     "'1,Ch1'"
+Bytes: 8
+Status: 0x0 Operation completed successfully.
+
+Write:    ":INIT1:CONT?"
+Bytes: 13
+Status: 0x0 Operation completed successfully.
+
+Read:     "1"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":INIT1:CONT 0"
+Bytes: 14
 Status: 0x0 Operation completed successfully.
 
 Write:    ":CONF:CHAN1 1"
@@ -2680,31 +2713,31 @@ Write:    ":FORM ASC"
 Bytes: 10
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM20:DEL"
+Write:    ":SENS2:SEGM7:DEL"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM7:DEL"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM51:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM33:DEL"
+Write:    ":SENS2:SEGM60:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM33:DEL"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM40:DEL"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM53:DEL"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM73:DEL"
+Write:    ":SENS2:SEGM60:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM77:DEL"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM88:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
@@ -2896,67 +2929,59 @@ Write:    ":FORM ASC"
 Bytes: 10
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM11:DEL"
+Write:    ":SENS2:SEGM6:DEL"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM10:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM38:DEL"
+Write:    ":SENS2:SEGM10:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM45:DEL"
+Write:    ":SENS2:SEGM10:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM45:DEL"
+Write:    ":SENS2:SEGM31:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM45:DEL"
+Write:    ":SENS2:SEGM39:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM45:DEL"
+Write:    ":SENS2:SEGM40:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM45:DEL"
+Write:    ":SENS2:SEGM61:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM51:DEL"
+Write:    ":SENS2:SEGM61:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM56:DEL"
+Write:    ":SENS2:SEGM61:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM65:DEL"
+Write:    ":SENS2:SEGM61:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM66:DEL"
+Write:    ":SENS2:SEGM61:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM66:DEL"
+Write:    ":SENS2:SEGM63:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM66:DEL"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM76:DEL"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM76:DEL"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM76:DEL"
+Write:    ":SENS2:SEGM77:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
@@ -2996,7 +3021,7 @@ Write:    ":SENS2:SWE:POIN?"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Read:     "78"
+Read:     "80"
 Bytes: 3
 Status: 0x0 Operation completed successfully.
 
@@ -3088,8 +3113,8 @@ Write:    ":CALC2:DATA:SGR? SDAT"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
-Read:     "#44992..."
-Bytes: 4999
+Read:     "#45120..."
+Bytes: 5127
 Status: 0x0 Operation completed successfully.
 
 Write:    ":FORM ASC"
@@ -3100,7 +3125,7 @@ Write:    ":SENS2:SWE:POIN?"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Read:     "78"
+Read:     "80"
 Bytes: 3
 Status: 0x0 Operation completed successfully.
 
@@ -3140,59 +3165,51 @@ Write:    ":CALC2:DATA:STIM?"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Read:     "#3624..."
-Bytes: 630
+Read:     "#3640..."
+Bytes: 646
 Status: 0x0 Operation completed successfully.
 
 Write:    ":FORM ASC"
 Bytes: 10
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM2:DEL"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM2:DEL"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM3:DEL"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM3:DEL"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM3:DEL"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM3:DEL"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM8:DEL"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM8:DEL"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM9:DEL"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM34:DEL"
+Write:    ":SENS2:SEGM14:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM34:DEL"
+Write:    ":SENS2:SEGM28:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM61:DEL"
+Write:    ":SENS2:SEGM30:DEL"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM37:DEL"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM37:DEL"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM37:DEL"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM41:DEL"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM57:DEL"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM59:DEL"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM59:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
@@ -3232,7 +3249,7 @@ Write:    ":SENS2:SWE:POIN?"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Read:     "66"
+Read:     "70"
 Bytes: 3
 Status: 0x0 Operation completed successfully.
 
@@ -3324,8 +3341,8 @@ Write:    ":CALC2:DATA:SGR? SDAT"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
-Read:     "#44224..."
-Bytes: 4231
+Read:     "#44480..."
+Bytes: 4487
 Status: 0x0 Operation completed successfully.
 
 Write:    ":FORM ASC"
@@ -3336,7 +3353,7 @@ Write:    ":SENS2:SWE:POIN?"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Read:     "66"
+Read:     "70"
 Bytes: 3
 Status: 0x0 Operation completed successfully.
 
@@ -3376,63 +3393,103 @@ Write:    ":CALC2:DATA:STIM?"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Read:     "#3528..."
-Bytes: 534
+Read:     "#3560..."
+Bytes: 566
 Status: 0x0 Operation completed successfully.
 
 Write:    ":FORM ASC"
 Bytes: 10
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM1:DEL"
+Write:    ":SENS2:SEGM2:DEL"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM24:DEL"
+Write:    ":SENS2:SEGM8:DEL"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM22:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM24:DEL"
+Write:    ":SENS2:SEGM35:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM24:DEL"
+Write:    ":SENS2:SEGM35:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM34:DEL"
+Write:    ":SENS2:SEGM37:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM34:DEL"
+Write:    ":SENS2:SEGM37:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM34:DEL"
+Write:    ":SENS2:SEGM37:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM34:DEL"
+Write:    ":SENS2:SEGM37:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM34:DEL"
+Write:    ":SENS2:SEGM37:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM34:DEL"
+Write:    ":SENS2:SEGM37:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM34:DEL"
+Write:    ":SENS2:SEGM37:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM54:DEL"
+Write:    ":SENS2:SEGM37:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM54:DEL"
+Write:    ":SENS2:SEGM37:DEL"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM37:DEL"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM37:DEL"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM37:DEL"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM38:DEL"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM40:DEL"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM43:DEL"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM43:DEL"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM48:DEL"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM48:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
@@ -3472,7 +3529,7 @@ Write:    ":SENS2:SWE:POIN?"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Read:     "53"
+Read:     "47"
 Bytes: 3
 Status: 0x0 Operation completed successfully.
 
@@ -3564,8 +3621,8 @@ Write:    ":CALC2:DATA:SGR? SDAT"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
-Read:     "#43392..."
-Bytes: 3399
+Read:     "#43008..."
+Bytes: 3015
 Status: 0x0 Operation completed successfully.
 
 Write:    ":FORM ASC"
@@ -3576,7 +3633,7 @@ Write:    ":SENS2:SWE:POIN?"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Read:     "53"
+Read:     "47"
 Bytes: 3
 Status: 0x0 Operation completed successfully.
 
@@ -3616,31 +3673,39 @@ Write:    ":CALC2:DATA:STIM?"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Read:     "#3424..."
-Bytes: 430
+Read:     "#3376..."
+Bytes: 382
 Status: 0x0 Operation completed successfully.
 
 Write:    ":FORM ASC"
 Bytes: 10
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM4:DEL"
-Bytes: 17
+Write:    ":SENS2:SEGM23:DEL"
+Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM4:DEL"
-Bytes: 17
+Write:    ":SENS2:SEGM23:DEL"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM24:DEL"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM25:DEL"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM25:DEL"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM25:DEL"
+Bytes: 18
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM26:DEL"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM44:DEL"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM45:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
@@ -3680,7 +3745,7 @@ Write:    ":SENS2:SWE:POIN?"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Read:     "48"
+Read:     "40"
 Bytes: 3
 Status: 0x0 Operation completed successfully.
 
@@ -3772,8 +3837,8 @@ Write:    ":CALC2:DATA:SGR? SDAT"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
-Read:     "#43072..."
-Bytes: 3079
+Read:     "#42560..."
+Bytes: 2567
 Status: 0x0 Operation completed successfully.
 
 Write:    ":FORM ASC"
@@ -3784,7 +3849,7 @@ Write:    ":SENS2:SWE:POIN?"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Read:     "48"
+Read:     "40"
 Bytes: 3
 Status: 0x0 Operation completed successfully.
 
@@ -3824,51 +3889,47 @@ Write:    ":CALC2:DATA:STIM?"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Read:     "#3384..."
-Bytes: 390
+Read:     "#3320..."
+Bytes: 326
 Status: 0x0 Operation completed successfully.
 
 Write:    ":FORM ASC"
 Bytes: 10
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM11:DEL"
+Write:    ":SENS2:SEGM4:DEL"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM5:DEL"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM7:DEL"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM15:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM11:DEL"
+Write:    ":SENS2:SEGM28:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM11:DEL"
+Write:    ":SENS2:SEGM28:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM11:DEL"
+Write:    ":SENS2:SEGM28:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM11:DEL"
+Write:    ":SENS2:SEGM28:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM11:DEL"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM11:DEL"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM26:DEL"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM26:DEL"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM33:DEL"
+Write:    ":SENS2:SEGM28:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
@@ -3908,7 +3969,7 @@ Write:    ":SENS2:SWE:POIN?"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Read:     "38"
+Read:     "31"
 Bytes: 3
 Status: 0x0 Operation completed successfully.
 
@@ -4000,8 +4061,8 @@ Write:    ":CALC2:DATA:SGR? SDAT"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
-Read:     "#42432..."
-Bytes: 2439
+Read:     "#41984..."
+Bytes: 1991
 Status: 0x0 Operation completed successfully.
 
 Write:    ":FORM ASC"
@@ -4012,7 +4073,7 @@ Write:    ":SENS2:SWE:POIN?"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Read:     "38"
+Read:     "31"
 Bytes: 3
 Status: 0x0 Operation completed successfully.
 
@@ -4052,59 +4113,19 @@ Write:    ":CALC2:DATA:STIM?"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Read:     "#3304..."
-Bytes: 310
+Read:     "#3248..."
+Bytes: 254
 Status: 0x0 Operation completed successfully.
 
 Write:    ":FORM ASC"
 Bytes: 10
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM16:DEL"
-Bytes: 18
+Write:    ":SENS2:SEGM9:DEL"
+Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM16:DEL"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM16:DEL"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM16:DEL"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM16:DEL"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM16:DEL"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM16:DEL"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM16:DEL"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM17:DEL"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM23:DEL"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM26:DEL"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM26:DEL"
+Write:    ":SENS2:SEGM28:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
@@ -4144,7 +4165,7 @@ Write:    ":SENS2:SWE:POIN?"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Read:     "26"
+Read:     "29"
 Bytes: 3
 Status: 0x0 Operation completed successfully.
 
@@ -4236,8 +4257,8 @@ Write:    ":CALC2:DATA:SGR? SDAT"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
-Read:     "#41664..."
-Bytes: 1671
+Read:     "#41856..."
+Bytes: 1863
 Status: 0x0 Operation completed successfully.
 
 Write:    ":FORM ASC"
@@ -4248,7 +4269,7 @@ Write:    ":SENS2:SWE:POIN?"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Read:     "26"
+Read:     "29"
 Bytes: 3
 Status: 0x0 Operation completed successfully.
 
@@ -4288,32 +4309,28 @@ Write:    ":CALC2:DATA:STIM?"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Read:     "#3208..."
-Bytes: 214
+Read:     "#3232..."
+Bytes: 238
 Status: 0x0 Operation completed successfully.
 
 Write:    ":FORM ASC"
 Bytes: 10
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM2:DEL"
-Bytes: 17
+Write:    ":SENS2:SEGM14:DEL"
+Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM2:DEL"
-Bytes: 17
+Write:    ":SENS2:SEGM14:DEL"
+Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM6:DEL"
-Bytes: 17
+Write:    ":SENS2:SEGM14:DEL"
+Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM6:DEL"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM6:DEL"
-Bytes: 17
+Write:    ":SENS2:SEGM14:DEL"
+Bytes: 18
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SOUR2:POW -19.1"
@@ -4352,7 +4369,7 @@ Write:    ":SENS2:SWE:POIN?"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Read:     "21"
+Read:     "25"
 Bytes: 3
 Status: 0x0 Operation completed successfully.
 
@@ -4444,8 +4461,8 @@ Write:    ":CALC2:DATA:SGR? SDAT"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
-Read:     "#41344..."
-Bytes: 1351
+Read:     "#41600..."
+Bytes: 1607
 Status: 0x0 Operation completed successfully.
 
 Write:    ":FORM ASC"
@@ -4456,7 +4473,7 @@ Write:    ":SENS2:SWE:POIN?"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Read:     "21"
+Read:     "25"
 Bytes: 3
 Status: 0x0 Operation completed successfully.
 
@@ -4496,35 +4513,43 @@ Write:    ":CALC2:DATA:STIM?"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Read:     "#3168..."
-Bytes: 174
+Read:     "#3200..."
+Bytes: 206
 Status: 0x0 Operation completed successfully.
 
 Write:    ":FORM ASC"
 Bytes: 10
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM9:DEL"
+Write:    ":SENS2:SEGM5:DEL"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM9:DEL"
+Write:    ":SENS2:SEGM7:DEL"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM11:DEL"
+Write:    ":SENS2:SEGM7:DEL"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM7:DEL"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM7:DEL"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM7:DEL"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM16:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM12:DEL"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM15:DEL"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM15:DEL"
+Write:    ":SENS2:SEGM16:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
@@ -4564,7 +4589,7 @@ Write:    ":SENS2:SWE:POIN?"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Read:     "15"
+Read:     "17"
 Bytes: 3
 Status: 0x0 Operation completed successfully.
 
@@ -4656,8 +4681,8 @@ Write:    ":CALC2:DATA:SGR? SDAT"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
-Read:     "#3960..."
-Bytes: 966
+Read:     "#41088..."
+Bytes: 1095
 Status: 0x0 Operation completed successfully.
 
 Write:    ":FORM ASC"
@@ -4668,7 +4693,7 @@ Write:    ":SENS2:SWE:POIN?"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Read:     "15"
+Read:     "17"
 Bytes: 3
 Status: 0x0 Operation completed successfully.
 
@@ -4708,215 +4733,35 @@ Write:    ":CALC2:DATA:STIM?"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Read:     "#3120..."
-Bytes: 126
+Read:     "#3136..."
+Bytes: 142
 Status: 0x0 Operation completed successfully.
 
 Write:    ":FORM ASC"
 Bytes: 10
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM10:DEL"
-Bytes: 18
+Write:    ":SENS2:SEGM6:DEL"
+Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM10:DEL"
+Write:    ":SENS2:SEGM6:DEL"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM6:DEL"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM9:DEL"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SEGM13:DEL"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SOUR2:POW -18.9"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TYPE?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "SEGM"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TYPE?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "SEGM"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:PAR:DEF:SGR 1,2"
-Bytes: 23
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:PAR:DEF:SGR?"
-Bytes: 20
-Status: 0x0 Operation completed successfully.
-
-Read:     "1,2"
-Bytes: 4
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:POIN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "13"
-Bytes: 3
-Status: 0x0 Operation completed successfully.
-
-Write:    ":INIT2:CONT?"
-Bytes: 13
-Status: 0x0 Operation completed successfully.
-
-Read:     "0"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":INIT2"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TIME?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "0.035175"
-Bytes: 9
-Status: 0x0 Operation completed successfully.
-
-Write:    "*IDN?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "Rohde-Schwarz,ZNB8-4Port,1311601044100104,2.60.1.226"
-Bytes: 53
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SYST:FREQ? MAX"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Read:     "8500000000"
-Bytes: 11
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:COUN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    "*OPC?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD?"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Read:     "SWAP"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM REAL,64"
-Bytes: 14
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD SWAP"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:DATA:SGR? SDAT"
-Bytes: 22
-Status: 0x0 Operation completed successfully.
-
-Read:     "#3832..."
-Bytes: 838
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM ASC"
-Bytes: 10
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:POIN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "13"
-Bytes: 3
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD?"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Read:     "SWAP"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM REAL,64"
-Bytes: 14
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD SWAP"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:DATA:STIM?"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Read:     "#3104..."
-Bytes: 110
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM ASC"
-Bytes: 10
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM3:DEL"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SOUR2:POW -18.8"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
@@ -5104,395 +4949,19 @@ Write:    ":FORM ASC"
 Bytes: 10
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM1:DEL"
+Write:    ":SENS2:SEGM2:DEL"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SOUR2:POW -18.7"
+Write:    ":SENS2:SEGM2:DEL"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SWE:TYPE?"
+Write:    ":SENS2:SEGM2:DEL"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Read:     "SEGM"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TYPE?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "SEGM"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:PAR:DEF:SGR 1,2"
-Bytes: 23
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:PAR:DEF:SGR?"
-Bytes: 20
-Status: 0x0 Operation completed successfully.
-
-Read:     "1,2"
-Bytes: 4
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:POIN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "11"
-Bytes: 3
-Status: 0x0 Operation completed successfully.
-
-Write:    ":INIT2:CONT?"
-Bytes: 13
-Status: 0x0 Operation completed successfully.
-
-Read:     "0"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":INIT2"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TIME?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "0.035175"
-Bytes: 9
-Status: 0x0 Operation completed successfully.
-
-Write:    "*IDN?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "Rohde-Schwarz,ZNB8-4Port,1311601044100104,2.60.1.226"
-Bytes: 53
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SYST:FREQ? MAX"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Read:     "8500000000"
-Bytes: 11
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:COUN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    "*OPC?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD?"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Read:     "SWAP"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM REAL,64"
-Bytes: 14
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD SWAP"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:DATA:SGR? SDAT"
-Bytes: 22
-Status: 0x0 Operation completed successfully.
-
-Read:     "#3704..."
-Bytes: 710
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM ASC"
-Bytes: 10
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:POIN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "11"
-Bytes: 3
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD?"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Read:     "SWAP"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM REAL,64"
-Bytes: 14
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD SWAP"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:DATA:STIM?"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Read:     "#288"
-Bytes: 93
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM ASC"
-Bytes: 10
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM7:DEL"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SOUR2:POW -18.6"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TYPE?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "SEGM"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TYPE?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "SEGM"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:PAR:DEF:SGR 1,2"
-Bytes: 23
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:PAR:DEF:SGR?"
-Bytes: 20
-Status: 0x0 Operation completed successfully.
-
-Read:     "1,2"
-Bytes: 4
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:POIN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "10"
-Bytes: 3
-Status: 0x0 Operation completed successfully.
-
-Write:    ":INIT2:CONT?"
-Bytes: 13
-Status: 0x0 Operation completed successfully.
-
-Read:     "0"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":INIT2"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TIME?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "0.035175"
-Bytes: 9
-Status: 0x0 Operation completed successfully.
-
-Write:    "*IDN?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "Rohde-Schwarz,ZNB8-4Port,1311601044100104,2.60.1.226"
-Bytes: 53
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SYST:FREQ? MAX"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Read:     "8500000000"
-Bytes: 11
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:COUN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    "*OPC?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD?"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Read:     "SWAP"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM REAL,64"
-Bytes: 14
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD SWAP"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:DATA:SGR? SDAT"
-Bytes: 22
-Status: 0x0 Operation completed successfully.
-
-Read:     "#3640..."
-Bytes: 646
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM ASC"
-Bytes: 10
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:POIN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "10"
-Bytes: 3
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD?"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Read:     "SWAP"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM REAL,64"
-Bytes: 14
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD SWAP"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:DATA:STIM?"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Read:     "#280"
-Bytes: 85
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM ASC"
-Bytes: 10
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM5:DEL"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SOUR2:POW -18.5"
+Write:    ":SOUR2:POW -18.8"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
@@ -5680,211 +5149,23 @@ Write:    ":FORM ASC"
 Bytes: 10
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM3:DEL"
+Write:    ":SENS2:SEGM5:DEL"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SOUR2:POW -18.4"
+Write:    ":SENS2:SEGM5:DEL"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SWE:TYPE?"
+Write:    ":SENS2:SEGM5:DEL"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Read:     "SEGM"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TYPE?"
+Write:    ":SENS2:SEGM5:DEL"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Read:     "SEGM"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:PAR:DEF:SGR 1,2"
-Bytes: 23
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:PAR:DEF:SGR?"
-Bytes: 20
-Status: 0x0 Operation completed successfully.
-
-Read:     "1,2"
-Bytes: 4
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:POIN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "8"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":INIT2:CONT?"
-Bytes: 13
-Status: 0x0 Operation completed successfully.
-
-Read:     "0"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":INIT2"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TIME?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "0.035175"
-Bytes: 9
-Status: 0x0 Operation completed successfully.
-
-Write:    "*IDN?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "Rohde-Schwarz,ZNB8-4Port,1311601044100104,2.60.1.226"
-Bytes: 53
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SYST:FREQ? MAX"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Read:     "8500000000"
-Bytes: 11
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:COUN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    "*OPC?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD?"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Read:     "SWAP"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM REAL,64"
-Bytes: 14
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD SWAP"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:DATA:SGR? SDAT"
-Bytes: 22
-Status: 0x0 Operation completed successfully.
-
-Read:     "#3512..."
-Bytes: 518
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM ASC"
-Bytes: 10
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:POIN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "8"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD?"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Read:     "SWAP"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM REAL,64"
-Bytes: 14
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD SWAP"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:DATA:STIM?"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Read:     "#264"
-Bytes: 69
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM ASC"
-Bytes: 10
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM4:DEL"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM6:DEL"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM6:DEL"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SOUR2:POW -18.3"
+Write:    ":SOUR2:POW -18.7"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
@@ -6072,15 +5353,15 @@ Write:    ":FORM ASC"
 Bytes: 10
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM4:DEL"
+Write:    ":SENS2:SEGM3:DEL"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SENS2:SEGM4:DEL"
+Write:    ":SENS2:SEGM3:DEL"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SOUR2:POW -18.2"
+Write:    ":SOUR2:POW -18.6"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
@@ -6268,7 +5549,195 @@ Write:    ":FORM ASC"
 Bytes: 10
 Status: 0x0 Operation completed successfully.
 
-Write:    ":SOUR2:POW -18.1"
+Write:    ":SOUR2:POW -18.5"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SWE:TYPE?"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Read:     "SEGM"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SWE:TYPE?"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Read:     "SEGM"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC2:PAR:DEF:SGR 1,2"
+Bytes: 23
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC2:PAR:DEF:SGR?"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Read:     "1,2"
+Bytes: 4
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SWE:POIN?"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Read:     "3"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":INIT2:CONT?"
+Bytes: 13
+Status: 0x0 Operation completed successfully.
+
+Read:     "0"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":INIT2"
+Bytes: 7
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SWE:TIME?"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Read:     "0.035175"
+Bytes: 9
+Status: 0x0 Operation completed successfully.
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde-Schwarz,ZNB8-4Port,1311601044100104,2.60.1.226"
+Bytes: 53
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:FREQ? MAX"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Read:     "8500000000"
+Bytes: 11
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SWE:COUN?"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Read:     "1"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    "*OPC?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "1"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM?"
+Bytes: 7
+Status: 0x0 Operation completed successfully.
+
+Read:     "ASC,0"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM?"
+Bytes: 7
+Status: 0x0 Operation completed successfully.
+
+Read:     "ASC,0"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD?"
+Bytes: 12
+Status: 0x0 Operation completed successfully.
+
+Read:     "SWAP"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM REAL,64"
+Bytes: 14
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD SWAP"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC2:DATA:SGR? SDAT"
+Bytes: 22
+Status: 0x0 Operation completed successfully.
+
+Read:     "#3192..."
+Bytes: 198
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM ASC"
+Bytes: 10
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SWE:POIN?"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Read:     "3"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM?"
+Bytes: 7
+Status: 0x0 Operation completed successfully.
+
+Read:     "ASC,0"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM?"
+Bytes: 7
+Status: 0x0 Operation completed successfully.
+
+Read:     "ASC,0"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD?"
+Bytes: 12
+Status: 0x0 Operation completed successfully.
+
+Read:     "SWAP"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM REAL,64"
+Bytes: 14
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD SWAP"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC2:DATA:STIM?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "#224"
+Bytes: 29
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM ASC"
+Bytes: 10
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SOUR2:POW -18.4"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
@@ -6458,6 +5927,570 @@ Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM1:DEL"
 Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SOUR2:POW -18.3"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SWE:TYPE?"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Read:     "SEGM"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SWE:TYPE?"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Read:     "SEGM"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC2:PAR:DEF:SGR 1,2"
+Bytes: 23
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC2:PAR:DEF:SGR?"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Read:     "1,2"
+Bytes: 4
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SWE:POIN?"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Read:     "2"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":INIT2:CONT?"
+Bytes: 13
+Status: 0x0 Operation completed successfully.
+
+Read:     "0"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":INIT2"
+Bytes: 7
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SWE:TIME?"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Read:     "0.035175"
+Bytes: 9
+Status: 0x0 Operation completed successfully.
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde-Schwarz,ZNB8-4Port,1311601044100104,2.60.1.226"
+Bytes: 53
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:FREQ? MAX"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Read:     "8500000000"
+Bytes: 11
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SWE:COUN?"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Read:     "1"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    "*OPC?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "1"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM?"
+Bytes: 7
+Status: 0x0 Operation completed successfully.
+
+Read:     "ASC,0"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM?"
+Bytes: 7
+Status: 0x0 Operation completed successfully.
+
+Read:     "ASC,0"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD?"
+Bytes: 12
+Status: 0x0 Operation completed successfully.
+
+Read:     "SWAP"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM REAL,64"
+Bytes: 14
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD SWAP"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC2:DATA:SGR? SDAT"
+Bytes: 22
+Status: 0x0 Operation completed successfully.
+
+Read:     "#3128..."
+Bytes: 134
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM ASC"
+Bytes: 10
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SWE:POIN?"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Read:     "2"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM?"
+Bytes: 7
+Status: 0x0 Operation completed successfully.
+
+Read:     "ASC,0"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM?"
+Bytes: 7
+Status: 0x0 Operation completed successfully.
+
+Read:     "ASC,0"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD?"
+Bytes: 12
+Status: 0x0 Operation completed successfully.
+
+Read:     "SWAP"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM REAL,64"
+Bytes: 14
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD SWAP"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC2:DATA:STIM?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "#216"
+Bytes: 21
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM ASC"
+Bytes: 10
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SOUR2:POW -18.2"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SWE:TYPE?"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Read:     "SEGM"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SWE:TYPE?"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Read:     "SEGM"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC2:PAR:DEF:SGR 1,2"
+Bytes: 23
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC2:PAR:DEF:SGR?"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Read:     "1,2"
+Bytes: 4
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SWE:POIN?"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Read:     "2"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":INIT2:CONT?"
+Bytes: 13
+Status: 0x0 Operation completed successfully.
+
+Read:     "0"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":INIT2"
+Bytes: 7
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SWE:TIME?"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Read:     "0.035175"
+Bytes: 9
+Status: 0x0 Operation completed successfully.
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde-Schwarz,ZNB8-4Port,1311601044100104,2.60.1.226"
+Bytes: 53
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:FREQ? MAX"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Read:     "8500000000"
+Bytes: 11
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SWE:COUN?"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Read:     "1"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    "*OPC?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "1"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM?"
+Bytes: 7
+Status: 0x0 Operation completed successfully.
+
+Read:     "ASC,0"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM?"
+Bytes: 7
+Status: 0x0 Operation completed successfully.
+
+Read:     "ASC,0"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD?"
+Bytes: 12
+Status: 0x0 Operation completed successfully.
+
+Read:     "SWAP"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM REAL,64"
+Bytes: 14
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD SWAP"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC2:DATA:SGR? SDAT"
+Bytes: 22
+Status: 0x0 Operation completed successfully.
+
+Read:     "#3128..."
+Bytes: 134
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM ASC"
+Bytes: 10
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SWE:POIN?"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Read:     "2"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM?"
+Bytes: 7
+Status: 0x0 Operation completed successfully.
+
+Read:     "ASC,0"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM?"
+Bytes: 7
+Status: 0x0 Operation completed successfully.
+
+Read:     "ASC,0"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD?"
+Bytes: 12
+Status: 0x0 Operation completed successfully.
+
+Read:     "SWAP"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM REAL,64"
+Bytes: 14
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD SWAP"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC2:DATA:STIM?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "#216"
+Bytes: 21
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM ASC"
+Bytes: 10
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SOUR2:POW -18.1"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SWE:TYPE?"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Read:     "SEGM"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SWE:TYPE?"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Read:     "SEGM"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC2:PAR:DEF:SGR 1,2"
+Bytes: 23
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC2:PAR:DEF:SGR?"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Read:     "1,2"
+Bytes: 4
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SWE:POIN?"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Read:     "2"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":INIT2:CONT?"
+Bytes: 13
+Status: 0x0 Operation completed successfully.
+
+Read:     "0"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":INIT2"
+Bytes: 7
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SWE:TIME?"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Read:     "0.035175"
+Bytes: 9
+Status: 0x0 Operation completed successfully.
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde-Schwarz,ZNB8-4Port,1311601044100104,2.60.1.226"
+Bytes: 53
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:FREQ? MAX"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Read:     "8500000000"
+Bytes: 11
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SWE:COUN?"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Read:     "1"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    "*OPC?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "1"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM?"
+Bytes: 7
+Status: 0x0 Operation completed successfully.
+
+Read:     "ASC,0"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM?"
+Bytes: 7
+Status: 0x0 Operation completed successfully.
+
+Read:     "ASC,0"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD?"
+Bytes: 12
+Status: 0x0 Operation completed successfully.
+
+Read:     "SWAP"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM REAL,64"
+Bytes: 14
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD SWAP"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC2:DATA:SGR? SDAT"
+Bytes: 22
+Status: 0x0 Operation completed successfully.
+
+Read:     "#3128..."
+Bytes: 134
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM ASC"
+Bytes: 10
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SWE:POIN?"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Read:     "2"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM?"
+Bytes: 7
+Status: 0x0 Operation completed successfully.
+
+Read:     "ASC,0"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM?"
+Bytes: 7
+Status: 0x0 Operation completed successfully.
+
+Read:     "ASC,0"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD?"
+Bytes: 12
+Status: 0x0 Operation completed successfully.
+
+Read:     "SWAP"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM REAL,64"
+Bytes: 14
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD SWAP"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC2:DATA:STIM?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "#216"
+Bytes: 21
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM ASC"
+Bytes: 10
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SOUR2:POW -18"
@@ -6836,6 +6869,10 @@ Write:    ":FORM ASC"
 Bytes: 10
 Status: 0x0 Operation completed successfully.
 
+Write:    ":SENS2:SEGM2:DEL"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
 Write:    ":SOUR2:POW -17.8"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
@@ -6872,7 +6909,7 @@ Write:    ":SENS2:SWE:POIN?"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Read:     "2"
+Read:     "1"
 Bytes: 2
 Status: 0x0 Operation completed successfully.
 
@@ -6964,8 +7001,8 @@ Write:    ":CALC2:DATA:SGR? SDAT"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
-Read:     "#3128..."
-Bytes: 134
+Read:     "#264"
+Bytes: 69
 Status: 0x0 Operation completed successfully.
 
 Write:    ":FORM ASC"
@@ -6976,7 +7013,7 @@ Write:    ":SENS2:SWE:POIN?"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
-Read:     "2"
+Read:     "1"
 Bytes: 2
 Status: 0x0 Operation completed successfully.
 
@@ -7016,8 +7053,8 @@ Write:    ":CALC2:DATA:STIM?"
 Bytes: 18
 Status: 0x0 Operation completed successfully.
 
-Read:     "#216"
-Bytes: 21
+Read:     "#18"
+Bytes: 12
 Status: 0x0 Operation completed successfully.
 
 Write:    ":FORM ASC"
@@ -7025,1702 +7062,6 @@ Bytes: 10
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SOUR2:POW -17.7"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TYPE?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "SEGM"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TYPE?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "SEGM"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:PAR:DEF:SGR 1,2"
-Bytes: 23
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:PAR:DEF:SGR?"
-Bytes: 20
-Status: 0x0 Operation completed successfully.
-
-Read:     "1,2"
-Bytes: 4
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:POIN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "2"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":INIT2:CONT?"
-Bytes: 13
-Status: 0x0 Operation completed successfully.
-
-Read:     "0"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":INIT2"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TIME?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "0.035175"
-Bytes: 9
-Status: 0x0 Operation completed successfully.
-
-Write:    "*IDN?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "Rohde-Schwarz,ZNB8-4Port,1311601044100104,2.60.1.226"
-Bytes: 53
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SYST:FREQ? MAX"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Read:     "8500000000"
-Bytes: 11
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:COUN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    "*OPC?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD?"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Read:     "SWAP"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM REAL,64"
-Bytes: 14
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD SWAP"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:DATA:SGR? SDAT"
-Bytes: 22
-Status: 0x0 Operation completed successfully.
-
-Read:     "#3128..."
-Bytes: 134
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM ASC"
-Bytes: 10
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:POIN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "2"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD?"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Read:     "SWAP"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM REAL,64"
-Bytes: 14
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD SWAP"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:DATA:STIM?"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Read:     "#216"
-Bytes: 21
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM ASC"
-Bytes: 10
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SOUR2:POW -17.6"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TYPE?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "SEGM"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TYPE?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "SEGM"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:PAR:DEF:SGR 1,2"
-Bytes: 23
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:PAR:DEF:SGR?"
-Bytes: 20
-Status: 0x0 Operation completed successfully.
-
-Read:     "1,2"
-Bytes: 4
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:POIN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "2"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":INIT2:CONT?"
-Bytes: 13
-Status: 0x0 Operation completed successfully.
-
-Read:     "0"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":INIT2"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TIME?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "0.035175"
-Bytes: 9
-Status: 0x0 Operation completed successfully.
-
-Write:    "*IDN?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "Rohde-Schwarz,ZNB8-4Port,1311601044100104,2.60.1.226"
-Bytes: 53
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SYST:FREQ? MAX"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Read:     "8500000000"
-Bytes: 11
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:COUN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    "*OPC?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD?"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Read:     "SWAP"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM REAL,64"
-Bytes: 14
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD SWAP"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:DATA:SGR? SDAT"
-Bytes: 22
-Status: 0x0 Operation completed successfully.
-
-Read:     "#3128..."
-Bytes: 134
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM ASC"
-Bytes: 10
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:POIN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "2"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD?"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Read:     "SWAP"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM REAL,64"
-Bytes: 14
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD SWAP"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:DATA:STIM?"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Read:     "#216"
-Bytes: 21
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM ASC"
-Bytes: 10
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SOUR2:POW -17.5"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TYPE?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "SEGM"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TYPE?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "SEGM"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:PAR:DEF:SGR 1,2"
-Bytes: 23
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:PAR:DEF:SGR?"
-Bytes: 20
-Status: 0x0 Operation completed successfully.
-
-Read:     "1,2"
-Bytes: 4
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:POIN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "2"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":INIT2:CONT?"
-Bytes: 13
-Status: 0x0 Operation completed successfully.
-
-Read:     "0"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":INIT2"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TIME?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "0.035175"
-Bytes: 9
-Status: 0x0 Operation completed successfully.
-
-Write:    "*IDN?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "Rohde-Schwarz,ZNB8-4Port,1311601044100104,2.60.1.226"
-Bytes: 53
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SYST:FREQ? MAX"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Read:     "8500000000"
-Bytes: 11
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:COUN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    "*OPC?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD?"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Read:     "SWAP"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM REAL,64"
-Bytes: 14
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD SWAP"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:DATA:SGR? SDAT"
-Bytes: 22
-Status: 0x0 Operation completed successfully.
-
-Read:     "#3128..."
-Bytes: 134
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM ASC"
-Bytes: 10
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:POIN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "2"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD?"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Read:     "SWAP"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM REAL,64"
-Bytes: 14
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD SWAP"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:DATA:STIM?"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Read:     "#216"
-Bytes: 21
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM ASC"
-Bytes: 10
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SEGM2:DEL"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SOUR2:POW -17.4"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TYPE?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "SEGM"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TYPE?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "SEGM"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:PAR:DEF:SGR 1,2"
-Bytes: 23
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:PAR:DEF:SGR?"
-Bytes: 20
-Status: 0x0 Operation completed successfully.
-
-Read:     "1,2"
-Bytes: 4
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:POIN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":INIT2:CONT?"
-Bytes: 13
-Status: 0x0 Operation completed successfully.
-
-Read:     "0"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":INIT2"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TIME?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "0.035175"
-Bytes: 9
-Status: 0x0 Operation completed successfully.
-
-Write:    "*IDN?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "Rohde-Schwarz,ZNB8-4Port,1311601044100104,2.60.1.226"
-Bytes: 53
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SYST:FREQ? MAX"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Read:     "8500000000"
-Bytes: 11
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:COUN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    "*OPC?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD?"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Read:     "SWAP"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM REAL,64"
-Bytes: 14
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD SWAP"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:DATA:SGR? SDAT"
-Bytes: 22
-Status: 0x0 Operation completed successfully.
-
-Read:     "#264"
-Bytes: 69
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM ASC"
-Bytes: 10
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:POIN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD?"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Read:     "SWAP"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM REAL,64"
-Bytes: 14
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD SWAP"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:DATA:STIM?"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Read:     "#18"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM ASC"
-Bytes: 10
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SOUR2:POW -17.3"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TYPE?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "SEGM"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TYPE?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "SEGM"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:PAR:DEF:SGR 1,2"
-Bytes: 23
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:PAR:DEF:SGR?"
-Bytes: 20
-Status: 0x0 Operation completed successfully.
-
-Read:     "1,2"
-Bytes: 4
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:POIN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":INIT2:CONT?"
-Bytes: 13
-Status: 0x0 Operation completed successfully.
-
-Read:     "0"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":INIT2"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TIME?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "0.035175"
-Bytes: 9
-Status: 0x0 Operation completed successfully.
-
-Write:    "*IDN?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "Rohde-Schwarz,ZNB8-4Port,1311601044100104,2.60.1.226"
-Bytes: 53
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SYST:FREQ? MAX"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Read:     "8500000000"
-Bytes: 11
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:COUN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    "*OPC?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD?"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Read:     "SWAP"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM REAL,64"
-Bytes: 14
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD SWAP"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:DATA:SGR? SDAT"
-Bytes: 22
-Status: 0x0 Operation completed successfully.
-
-Read:     "#264"
-Bytes: 69
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM ASC"
-Bytes: 10
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:POIN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD?"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Read:     "SWAP"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM REAL,64"
-Bytes: 14
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD SWAP"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:DATA:STIM?"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Read:     "#18"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM ASC"
-Bytes: 10
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SOUR2:POW -17.2"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TYPE?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "SEGM"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TYPE?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "SEGM"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:PAR:DEF:SGR 1,2"
-Bytes: 23
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:PAR:DEF:SGR?"
-Bytes: 20
-Status: 0x0 Operation completed successfully.
-
-Read:     "1,2"
-Bytes: 4
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:POIN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":INIT2:CONT?"
-Bytes: 13
-Status: 0x0 Operation completed successfully.
-
-Read:     "0"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":INIT2"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TIME?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "0.035175"
-Bytes: 9
-Status: 0x0 Operation completed successfully.
-
-Write:    "*IDN?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "Rohde-Schwarz,ZNB8-4Port,1311601044100104,2.60.1.226"
-Bytes: 53
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SYST:FREQ? MAX"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Read:     "8500000000"
-Bytes: 11
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:COUN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    "*OPC?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD?"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Read:     "SWAP"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM REAL,64"
-Bytes: 14
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD SWAP"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:DATA:SGR? SDAT"
-Bytes: 22
-Status: 0x0 Operation completed successfully.
-
-Read:     "#264"
-Bytes: 69
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM ASC"
-Bytes: 10
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:POIN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD?"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Read:     "SWAP"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM REAL,64"
-Bytes: 14
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD SWAP"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:DATA:STIM?"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Read:     "#18"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM ASC"
-Bytes: 10
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SOUR2:POW -17.1"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TYPE?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "SEGM"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TYPE?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "SEGM"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:PAR:DEF:SGR 1,2"
-Bytes: 23
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:PAR:DEF:SGR?"
-Bytes: 20
-Status: 0x0 Operation completed successfully.
-
-Read:     "1,2"
-Bytes: 4
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:POIN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":INIT2:CONT?"
-Bytes: 13
-Status: 0x0 Operation completed successfully.
-
-Read:     "0"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":INIT2"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TIME?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "0.035175"
-Bytes: 9
-Status: 0x0 Operation completed successfully.
-
-Write:    "*IDN?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "Rohde-Schwarz,ZNB8-4Port,1311601044100104,2.60.1.226"
-Bytes: 53
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SYST:FREQ? MAX"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Read:     "8500000000"
-Bytes: 11
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:COUN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    "*OPC?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD?"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Read:     "SWAP"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM REAL,64"
-Bytes: 14
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD SWAP"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:DATA:SGR? SDAT"
-Bytes: 22
-Status: 0x0 Operation completed successfully.
-
-Read:     "#264"
-Bytes: 69
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM ASC"
-Bytes: 10
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:POIN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD?"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Read:     "SWAP"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM REAL,64"
-Bytes: 14
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD SWAP"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:DATA:STIM?"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Read:     "#18"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM ASC"
-Bytes: 10
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SOUR2:POW -17"
-Bytes: 15
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TYPE?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "SEGM"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TYPE?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "SEGM"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:PAR:DEF:SGR 1,2"
-Bytes: 23
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:PAR:DEF:SGR?"
-Bytes: 20
-Status: 0x0 Operation completed successfully.
-
-Read:     "1,2"
-Bytes: 4
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:POIN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":INIT2:CONT?"
-Bytes: 13
-Status: 0x0 Operation completed successfully.
-
-Read:     "0"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":INIT2"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TIME?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "0.035175"
-Bytes: 9
-Status: 0x0 Operation completed successfully.
-
-Write:    "*IDN?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "Rohde-Schwarz,ZNB8-4Port,1311601044100104,2.60.1.226"
-Bytes: 53
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SYST:FREQ? MAX"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Read:     "8500000000"
-Bytes: 11
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:COUN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    "*OPC?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD?"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Read:     "SWAP"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM REAL,64"
-Bytes: 14
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD SWAP"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:DATA:SGR? SDAT"
-Bytes: 22
-Status: 0x0 Operation completed successfully.
-
-Read:     "#264"
-Bytes: 69
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM ASC"
-Bytes: 10
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:POIN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD?"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Read:     "SWAP"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM REAL,64"
-Bytes: 14
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD SWAP"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:DATA:STIM?"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Read:     "#18"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM ASC"
-Bytes: 10
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SOUR2:POW -16.9"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TYPE?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "SEGM"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TYPE?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "SEGM"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:PAR:DEF:SGR 1,2"
-Bytes: 23
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:PAR:DEF:SGR?"
-Bytes: 20
-Status: 0x0 Operation completed successfully.
-
-Read:     "1,2"
-Bytes: 4
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:POIN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":INIT2:CONT?"
-Bytes: 13
-Status: 0x0 Operation completed successfully.
-
-Read:     "0"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":INIT2"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:TIME?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "0.035175"
-Bytes: 9
-Status: 0x0 Operation completed successfully.
-
-Write:    "*IDN?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "Rohde-Schwarz,ZNB8-4Port,1311601044100104,2.60.1.226"
-Bytes: 53
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SYST:FREQ? MAX"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Read:     "8500000000"
-Bytes: 11
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:COUN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    "*OPC?"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD?"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Read:     "SWAP"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM REAL,64"
-Bytes: 14
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD SWAP"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:DATA:SGR? SDAT"
-Bytes: 22
-Status: 0x0 Operation completed successfully.
-
-Read:     "#264"
-Bytes: 69
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM ASC"
-Bytes: 10
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SENS2:SWE:POIN?"
-Bytes: 17
-Status: 0x0 Operation completed successfully.
-
-Read:     "1"
-Bytes: 2
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM?"
-Bytes: 7
-Status: 0x0 Operation completed successfully.
-
-Read:     "ASC,0"
-Bytes: 6
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD?"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Read:     "SWAP"
-Bytes: 5
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM REAL,64"
-Bytes: 14
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM:BORD SWAP"
-Bytes: 16
-Status: 0x0 Operation completed successfully.
-
-Write:    ":CALC2:DATA:STIM?"
-Bytes: 18
-Status: 0x0 Operation completed successfully.
-
-Read:     "#18"
-Bytes: 12
-Status: 0x0 Operation completed successfully.
-
-Write:    ":FORM ASC"
-Bytes: 10
-Status: 0x0 Operation completed successfully.
-
-Write:    ":SOUR2:POW -16.8"
 Bytes: 17
 Status: 0x0 Operation completed successfully.
 
@@ -8913,6 +7254,10 @@ Bytes: 17
 Status: 0x0 Operation completed successfully.
 
 Write:    ":CONF:CHAN2 0"
+Bytes: 14
+Status: 0x0 Operation completed successfully.
+
+Write:    ":INIT1:CONT 1"
 Bytes: 14
 Status: 0x0 Operation completed successfully.
 
@@ -10672,7 +9017,7 @@ Write:    ":SENS2:SEGM1:FREQ:STAR 1e+09Hz"
 Bytes: 31
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM1:POW -19.7"
+Write:    "SENS2:SEGM1:POW -19.8"
 Bytes: 21
 Status: 0x0 Operation completed successfully.
 
@@ -10684,8 +9029,8 @@ Write:    ":SENS2:SEGM2:FREQ:STAR 1.01e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM2:POW -19.8"
-Bytes: 21
+Write:    "SENS2:SEGM2:POW -20"
+Bytes: 19
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM3:SWE:POIN 1"
@@ -10696,8 +9041,8 @@ Write:    ":SENS2:SEGM3:FREQ:STAR 1.02e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM3:POW -20"
-Bytes: 19
+Write:    "SENS2:SEGM3:POW -19.2"
+Bytes: 21
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM4:SWE:POIN 1"
@@ -10708,7 +9053,7 @@ Write:    ":SENS2:SEGM4:FREQ:STAR 1.03e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM4:POW -19.1"
+Write:    "SENS2:SEGM4:POW -19.3"
 Bytes: 21
 Status: 0x0 Operation completed successfully.
 
@@ -10720,8 +9065,8 @@ Write:    ":SENS2:SEGM5:FREQ:STAR 1.04e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM5:POW -20"
-Bytes: 19
+Write:    "SENS2:SEGM5:POW -19.5"
+Bytes: 21
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM6:SWE:POIN 1"
@@ -10732,7 +9077,7 @@ Write:    ":SENS2:SEGM6:FREQ:STAR 1.05e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM6:POW -19.8"
+Write:    "SENS2:SEGM6:POW -19.9"
 Bytes: 21
 Status: 0x0 Operation completed successfully.
 
@@ -10744,8 +9089,8 @@ Write:    ":SENS2:SEGM7:FREQ:STAR 1.06e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM7:POW -19.9"
-Bytes: 21
+Write:    "SENS2:SEGM7:POW -20"
+Bytes: 19
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM8:SWE:POIN 1"
@@ -10756,8 +9101,8 @@ Write:    ":SENS2:SEGM8:FREQ:STAR 1.07e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM8:POW -19.9"
-Bytes: 21
+Write:    "SENS2:SEGM8:POW -20"
+Bytes: 19
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM9:SWE:POIN 1"
@@ -10780,7 +9125,7 @@ Write:    ":SENS2:SEGM10:FREQ:STAR 1.09e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM10:POW -19.9"
+Write:    "SENS2:SEGM10:POW -19.6"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -10792,7 +9137,7 @@ Write:    ":SENS2:SEGM11:FREQ:STAR 1.1e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM11:POW -19.9"
+Write:    "SENS2:SEGM11:POW -19.8"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -10804,7 +9149,7 @@ Write:    ":SENS2:SEGM12:FREQ:STAR 1.11e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM12:POW -19.6"
+Write:    "SENS2:SEGM12:POW -19.8"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -10816,8 +9161,8 @@ Write:    ":SENS2:SEGM13:FREQ:STAR 1.12e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM13:POW -19.7"
-Bytes: 22
+Write:    "SENS2:SEGM13:POW -20"
+Bytes: 20
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM14:SWE:POIN 1"
@@ -10828,8 +9173,8 @@ Write:    ":SENS2:SEGM14:FREQ:STAR 1.13e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM14:POW -18.5"
-Bytes: 22
+Write:    "SENS2:SEGM14:POW -20"
+Bytes: 20
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM15:SWE:POIN 1"
@@ -10852,8 +9197,8 @@ Write:    ":SENS2:SEGM16:FREQ:STAR 1.15e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM16:POW -19.8"
-Bytes: 22
+Write:    "SENS2:SEGM16:POW -18"
+Bytes: 20
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM17:SWE:POIN 1"
@@ -10876,7 +9221,7 @@ Write:    ":SENS2:SEGM18:FREQ:STAR 1.17e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM18:POW -19.8"
+Write:    "SENS2:SEGM18:POW -19.1"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -10888,7 +9233,7 @@ Write:    ":SENS2:SEGM19:FREQ:STAR 1.18e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM19:POW -17.3"
+Write:    "SENS2:SEGM19:POW -19.7"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -10900,8 +9245,8 @@ Write:    ":SENS2:SEGM20:FREQ:STAR 1.19e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM20:POW -20"
-Bytes: 20
+Write:    "SENS2:SEGM20:POW -19.9"
+Bytes: 22
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM21:SWE:POIN 1"
@@ -10912,7 +9257,7 @@ Write:    ":SENS2:SEGM21:FREQ:STAR 1.2e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM21:POW -19.6"
+Write:    "SENS2:SEGM21:POW -19.5"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -10924,7 +9269,7 @@ Write:    ":SENS2:SEGM22:FREQ:STAR 1.21e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM22:POW -19.8"
+Write:    "SENS2:SEGM22:POW -19.2"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -10936,7 +9281,7 @@ Write:    ":SENS2:SEGM23:FREQ:STAR 1.22e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM23:POW -19.9"
+Write:    "SENS2:SEGM23:POW -19.3"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -10948,7 +9293,7 @@ Write:    ":SENS2:SEGM24:FREQ:STAR 1.23e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM24:POW -19.5"
+Write:    "SENS2:SEGM24:POW -19.9"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -10960,7 +9305,7 @@ Write:    ":SENS2:SEGM25:FREQ:STAR 1.24e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM25:POW -19.5"
+Write:    "SENS2:SEGM25:POW -19.8"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -10972,7 +9317,7 @@ Write:    ":SENS2:SEGM26:FREQ:STAR 1.25e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM26:POW -19.7"
+Write:    "SENS2:SEGM26:POW -19.3"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -10996,7 +9341,7 @@ Write:    ":SENS2:SEGM28:FREQ:STAR 1.27e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM28:POW -19.5"
+Write:    "SENS2:SEGM28:POW -19.8"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11032,7 +9377,7 @@ Write:    ":SENS2:SEGM31:FREQ:STAR 1.3e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM31:POW -19.6"
+Write:    "SENS2:SEGM31:POW -19.7"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11044,7 +9389,7 @@ Write:    ":SENS2:SEGM32:FREQ:STAR 1.31e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM32:POW -18.1"
+Write:    "SENS2:SEGM32:POW -19.5"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11056,7 +9401,7 @@ Write:    ":SENS2:SEGM33:FREQ:STAR 1.32e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM33:POW -19.4"
+Write:    "SENS2:SEGM33:POW -19.6"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11068,8 +9413,8 @@ Write:    ":SENS2:SEGM34:FREQ:STAR 1.33e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM34:POW -20"
-Bytes: 20
+Write:    "SENS2:SEGM34:POW -19.8"
+Bytes: 22
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM35:SWE:POIN 1"
@@ -11092,7 +9437,7 @@ Write:    ":SENS2:SEGM36:FREQ:STAR 1.35e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM36:POW -18.9"
+Write:    "SENS2:SEGM36:POW -19.1"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11104,7 +9449,7 @@ Write:    ":SENS2:SEGM37:FREQ:STAR 1.36e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM37:POW -19.2"
+Write:    "SENS2:SEGM37:POW -19.9"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11116,7 +9461,7 @@ Write:    ":SENS2:SEGM38:FREQ:STAR 1.37e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM38:POW -19.8"
+Write:    "SENS2:SEGM38:POW -19.7"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11128,8 +9473,8 @@ Write:    ":SENS2:SEGM39:FREQ:STAR 1.38e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM39:POW -20"
-Bytes: 20
+Write:    "SENS2:SEGM39:POW -19.8"
+Bytes: 22
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM40:SWE:POIN 1"
@@ -11140,7 +9485,7 @@ Write:    ":SENS2:SEGM40:FREQ:STAR 1.39e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM40:POW -19.7"
+Write:    "SENS2:SEGM40:POW -18.8"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11152,7 +9497,7 @@ Write:    ":SENS2:SEGM41:FREQ:STAR 1.4e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM41:POW -19.2"
+Write:    "SENS2:SEGM41:POW -19.6"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11164,8 +9509,8 @@ Write:    ":SENS2:SEGM42:FREQ:STAR 1.41e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM42:POW -20"
-Bytes: 20
+Write:    "SENS2:SEGM42:POW -19.7"
+Bytes: 22
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM43:SWE:POIN 1"
@@ -11176,8 +9521,8 @@ Write:    ":SENS2:SEGM43:FREQ:STAR 1.42e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM43:POW -20"
-Bytes: 20
+Write:    "SENS2:SEGM43:POW -19.7"
+Bytes: 22
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM44:SWE:POIN 1"
@@ -11188,7 +9533,7 @@ Write:    ":SENS2:SEGM44:FREQ:STAR 1.43e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM44:POW -19.7"
+Write:    "SENS2:SEGM44:POW -18.9"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11200,7 +9545,7 @@ Write:    ":SENS2:SEGM45:FREQ:STAR 1.44e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM45:POW -19.5"
+Write:    "SENS2:SEGM45:POW -19.6"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11212,8 +9557,8 @@ Write:    ":SENS2:SEGM46:FREQ:STAR 1.45e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM46:POW -19.5"
-Bytes: 22
+Write:    "SENS2:SEGM46:POW -20"
+Bytes: 20
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM47:SWE:POIN 1"
@@ -11224,7 +9569,7 @@ Write:    ":SENS2:SEGM47:FREQ:STAR 1.46e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM47:POW -19.6"
+Write:    "SENS2:SEGM47:POW -18.9"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11236,7 +9581,7 @@ Write:    ":SENS2:SEGM48:FREQ:STAR 1.47e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM48:POW -19.7"
+Write:    "SENS2:SEGM48:POW -19.9"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11248,7 +9593,7 @@ Write:    ":SENS2:SEGM49:FREQ:STAR 1.48e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM49:POW -19.8"
+Write:    "SENS2:SEGM49:POW -19.9"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11272,8 +9617,8 @@ Write:    ":SENS2:SEGM51:FREQ:STAR 1.5e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM51:POW -20"
-Bytes: 20
+Write:    "SENS2:SEGM51:POW -19.8"
+Bytes: 22
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM52:SWE:POIN 1"
@@ -11284,7 +9629,7 @@ Write:    ":SENS2:SEGM52:FREQ:STAR 1.51e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM52:POW -19.9"
+Write:    "SENS2:SEGM52:POW -19.1"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11296,8 +9641,8 @@ Write:    ":SENS2:SEGM53:FREQ:STAR 1.52e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM53:POW -19.9"
-Bytes: 22
+Write:    "SENS2:SEGM53:POW -20"
+Bytes: 20
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM54:SWE:POIN 1"
@@ -11308,7 +9653,7 @@ Write:    ":SENS2:SEGM54:FREQ:STAR 1.53e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM54:POW -19.9"
+Write:    "SENS2:SEGM54:POW -19.8"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11320,7 +9665,7 @@ Write:    ":SENS2:SEGM55:FREQ:STAR 1.54e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM55:POW -19.9"
+Write:    "SENS2:SEGM55:POW -19.8"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11332,7 +9677,7 @@ Write:    ":SENS2:SEGM56:FREQ:STAR 1.55e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM56:POW -19.5"
+Write:    "SENS2:SEGM56:POW -19.1"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11344,8 +9689,8 @@ Write:    ":SENS2:SEGM57:FREQ:STAR 1.56e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM57:POW -20"
-Bytes: 20
+Write:    "SENS2:SEGM57:POW -19.8"
+Bytes: 22
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM58:SWE:POIN 1"
@@ -11380,7 +9725,7 @@ Write:    ":SENS2:SEGM60:FREQ:STAR 1.59e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM60:POW -19.6"
+Write:    "SENS2:SEGM60:POW -19.7"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11404,7 +9749,7 @@ Write:    ":SENS2:SEGM62:FREQ:STAR 1.61e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM62:POW -19.9"
+Write:    "SENS2:SEGM62:POW -19.7"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11416,8 +9761,8 @@ Write:    ":SENS2:SEGM63:FREQ:STAR 1.62e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM63:POW -19.9"
-Bytes: 22
+Write:    "SENS2:SEGM63:POW -20"
+Bytes: 20
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM64:SWE:POIN 1"
@@ -11428,8 +9773,8 @@ Write:    ":SENS2:SEGM64:FREQ:STAR 1.63e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM64:POW -19.7"
-Bytes: 22
+Write:    "SENS2:SEGM64:POW -20"
+Bytes: 20
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM65:SWE:POIN 1"
@@ -11440,7 +9785,7 @@ Write:    ":SENS2:SEGM65:FREQ:STAR 1.64e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM65:POW -19.7"
+Write:    "SENS2:SEGM65:POW -19.8"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11452,7 +9797,7 @@ Write:    ":SENS2:SEGM66:FREQ:STAR 1.65e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM66:POW -19.7"
+Write:    "SENS2:SEGM66:POW -19.9"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11476,8 +9821,8 @@ Write:    ":SENS2:SEGM68:FREQ:STAR 1.67e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM68:POW -20"
-Bytes: 20
+Write:    "SENS2:SEGM68:POW -19.8"
+Bytes: 22
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM69:SWE:POIN 1"
@@ -11488,7 +9833,7 @@ Write:    ":SENS2:SEGM69:FREQ:STAR 1.68e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM69:POW -19.9"
+Write:    "SENS2:SEGM69:POW -19.8"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11500,7 +9845,7 @@ Write:    ":SENS2:SEGM70:FREQ:STAR 1.69e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM70:POW -18.9"
+Write:    "SENS2:SEGM70:POW -19.7"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11512,7 +9857,7 @@ Write:    ":SENS2:SEGM71:FREQ:STAR 1.7e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM71:POW -19.4"
+Write:    "SENS2:SEGM71:POW -19.8"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11536,7 +9881,7 @@ Write:    ":SENS2:SEGM73:FREQ:STAR 1.72e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM73:POW -19.8"
+Write:    "SENS2:SEGM73:POW -19.9"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11548,8 +9893,8 @@ Write:    ":SENS2:SEGM74:FREQ:STAR 1.73e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM74:POW -19.2"
-Bytes: 22
+Write:    "SENS2:SEGM74:POW -20"
+Bytes: 20
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM75:SWE:POIN 1"
@@ -11560,8 +9905,8 @@ Write:    ":SENS2:SEGM75:FREQ:STAR 1.74e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM75:POW -19.2"
-Bytes: 22
+Write:    "SENS2:SEGM75:POW -20"
+Bytes: 20
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM76:SWE:POIN 1"
@@ -11572,8 +9917,8 @@ Write:    ":SENS2:SEGM76:FREQ:STAR 1.75e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM76:POW -19.4"
-Bytes: 22
+Write:    "SENS2:SEGM76:POW -20"
+Bytes: 20
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM77:SWE:POIN 1"
@@ -11584,7 +9929,7 @@ Write:    ":SENS2:SEGM77:FREQ:STAR 1.76e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM77:POW -19.2"
+Write:    "SENS2:SEGM77:POW -19.9"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11596,8 +9941,8 @@ Write:    ":SENS2:SEGM78:FREQ:STAR 1.77e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM78:POW -20"
-Bytes: 20
+Write:    "SENS2:SEGM78:POW -19.3"
+Bytes: 22
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM79:SWE:POIN 1"
@@ -11608,8 +9953,8 @@ Write:    ":SENS2:SEGM79:FREQ:STAR 1.78e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM79:POW -18.6"
-Bytes: 22
+Write:    "SENS2:SEGM79:POW -20"
+Bytes: 20
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM80:SWE:POIN 1"
@@ -11620,8 +9965,8 @@ Write:    ":SENS2:SEGM80:FREQ:STAR 1.79e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM80:POW -20"
-Bytes: 20
+Write:    "SENS2:SEGM80:POW -19.9"
+Bytes: 22
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM81:SWE:POIN 1"
@@ -11632,8 +9977,8 @@ Write:    ":SENS2:SEGM81:FREQ:STAR 1.8e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM81:POW -19"
-Bytes: 20
+Write:    "SENS2:SEGM81:POW -19.5"
+Bytes: 22
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM82:SWE:POIN 1"
@@ -11644,8 +9989,8 @@ Write:    ":SENS2:SEGM82:FREQ:STAR 1.81e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM82:POW -19.9"
-Bytes: 22
+Write:    "SENS2:SEGM82:POW -20"
+Bytes: 20
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM83:SWE:POIN 1"
@@ -11656,8 +10001,8 @@ Write:    ":SENS2:SEGM83:FREQ:STAR 1.82e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM83:POW -20"
-Bytes: 20
+Write:    "SENS2:SEGM83:POW -19.8"
+Bytes: 22
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM84:SWE:POIN 1"
@@ -11668,8 +10013,8 @@ Write:    ":SENS2:SEGM84:FREQ:STAR 1.83e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM84:POW -20"
-Bytes: 20
+Write:    "SENS2:SEGM84:POW -19.5"
+Bytes: 22
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM85:SWE:POIN 1"
@@ -11680,8 +10025,8 @@ Write:    ":SENS2:SEGM85:FREQ:STAR 1.84e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM85:POW -20"
-Bytes: 20
+Write:    "SENS2:SEGM85:POW -19.8"
+Bytes: 22
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM86:SWE:POIN 1"
@@ -11692,7 +10037,7 @@ Write:    ":SENS2:SEGM86:FREQ:STAR 1.85e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM86:POW -19.4"
+Write:    "SENS2:SEGM86:POW -19.8"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11704,7 +10049,7 @@ Write:    ":SENS2:SEGM87:FREQ:STAR 1.86e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM87:POW -19.7"
+Write:    "SENS2:SEGM87:POW -19.9"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11716,7 +10061,7 @@ Write:    ":SENS2:SEGM88:FREQ:STAR 1.87e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM88:POW -18.8"
+Write:    "SENS2:SEGM88:POW -19.5"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11728,7 +10073,7 @@ Write:    ":SENS2:SEGM89:FREQ:STAR 1.88e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM89:POW -19.8"
+Write:    "SENS2:SEGM89:POW -19.6"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11740,7 +10085,7 @@ Write:    ":SENS2:SEGM90:FREQ:STAR 1.89e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM90:POW -19.2"
+Write:    "SENS2:SEGM90:POW -19.5"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11752,8 +10097,8 @@ Write:    ":SENS2:SEGM91:FREQ:STAR 1.9e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM91:POW -20"
-Bytes: 20
+Write:    "SENS2:SEGM91:POW -19.8"
+Bytes: 22
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM92:SWE:POIN 1"
@@ -11776,7 +10121,7 @@ Write:    ":SENS2:SEGM93:FREQ:STAR 1.92e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM93:POW -19.3"
+Write:    "SENS2:SEGM93:POW -19.5"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11788,8 +10133,8 @@ Write:    ":SENS2:SEGM94:FREQ:STAR 1.93e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM94:POW -19.6"
-Bytes: 22
+Write:    "SENS2:SEGM94:POW -20"
+Bytes: 20
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM95:SWE:POIN 1"
@@ -11800,7 +10145,7 @@ Write:    ":SENS2:SEGM95:FREQ:STAR 1.94e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM95:POW -19.7"
+Write:    "SENS2:SEGM95:POW -19.2"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11812,7 +10157,7 @@ Write:    ":SENS2:SEGM96:FREQ:STAR 1.95e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM96:POW -19.9"
+Write:    "SENS2:SEGM96:POW -19.6"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11836,7 +10181,7 @@ Write:    ":SENS2:SEGM98:FREQ:STAR 1.97e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM98:POW -19.9"
+Write:    "SENS2:SEGM98:POW -18.2"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11848,7 +10193,7 @@ Write:    ":SENS2:SEGM99:FREQ:STAR 1.98e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM99:POW -18.7"
+Write:    "SENS2:SEGM99:POW -19.1"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -11860,8 +10205,8 @@ Write:    ":SENS2:SEGM100:FREQ:STAR 1.99e+09Hz"
 Bytes: 36
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM100:POW -20"
-Bytes: 21
+Write:    "SENS2:SEGM100:POW -19.7"
+Bytes: 23
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS2:SEGM101:SWE:POIN 1"
@@ -11872,8 +10217,8 @@ Write:    ":SENS2:SEGM101:FREQ:STAR 2e+09Hz"
 Bytes: 33
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS2:SEGM101:POW -20"
-Bytes: 21
+Write:    "SENS2:SEGM101:POW -19.9"
+Bytes: 23
 Status: 0x0 Operation completed successfully.
 
 Write:    ":CONF:CHAN1 1"
@@ -13572,7 +11917,7 @@ Write:    ":SENS3:SEGM1:FREQ:STAR 1e+09Hz"
 Bytes: 31
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM1:POW -19.6"
+Write:    "SENS3:SEGM1:POW -18.4"
 Bytes: 21
 Status: 0x0 Operation completed successfully.
 
@@ -13584,7 +11929,7 @@ Write:    ":SENS3:SEGM2:FREQ:STAR 1.01e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM2:POW -19.7"
+Write:    "SENS3:SEGM2:POW -19.6"
 Bytes: 21
 Status: 0x0 Operation completed successfully.
 
@@ -13596,7 +11941,7 @@ Write:    ":SENS3:SEGM3:FREQ:STAR 1.02e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM3:POW -19.7"
+Write:    "SENS3:SEGM3:POW -18.9"
 Bytes: 21
 Status: 0x0 Operation completed successfully.
 
@@ -13608,7 +11953,7 @@ Write:    ":SENS3:SEGM4:FREQ:STAR 1.03e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM4:POW -18.8"
+Write:    "SENS3:SEGM4:POW -18.9"
 Bytes: 21
 Status: 0x0 Operation completed successfully.
 
@@ -13620,7 +11965,7 @@ Write:    ":SENS3:SEGM5:FREQ:STAR 1.04e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM5:POW -19.7"
+Write:    "SENS3:SEGM5:POW -19.4"
 Bytes: 21
 Status: 0x0 Operation completed successfully.
 
@@ -13632,7 +11977,7 @@ Write:    ":SENS3:SEGM6:FREQ:STAR 1.05e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM6:POW -19.7"
+Write:    "SENS3:SEGM6:POW -19.8"
 Bytes: 21
 Status: 0x0 Operation completed successfully.
 
@@ -13644,7 +11989,7 @@ Write:    ":SENS3:SEGM7:FREQ:STAR 1.06e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM7:POW -19.7"
+Write:    "SENS3:SEGM7:POW -19.9"
 Bytes: 21
 Status: 0x0 Operation completed successfully.
 
@@ -13656,7 +12001,7 @@ Write:    ":SENS3:SEGM8:FREQ:STAR 1.07e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM8:POW -19.7"
+Write:    "SENS3:SEGM8:POW -19.9"
 Bytes: 21
 Status: 0x0 Operation completed successfully.
 
@@ -13668,7 +12013,7 @@ Write:    ":SENS3:SEGM9:FREQ:STAR 1.08e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM9:POW -19.2"
+Write:    "SENS3:SEGM9:POW -18.9"
 Bytes: 21
 Status: 0x0 Operation completed successfully.
 
@@ -13680,7 +12025,7 @@ Write:    ":SENS3:SEGM10:FREQ:STAR 1.09e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM10:POW -19.2"
+Write:    "SENS3:SEGM10:POW -19.4"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -13692,7 +12037,7 @@ Write:    ":SENS3:SEGM11:FREQ:STAR 1.1e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM11:POW -19.8"
+Write:    "SENS3:SEGM11:POW -19.1"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -13704,7 +12049,7 @@ Write:    ":SENS3:SEGM12:FREQ:STAR 1.11e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM12:POW -19.5"
+Write:    "SENS3:SEGM12:POW -19.6"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -13716,7 +12061,7 @@ Write:    ":SENS3:SEGM13:FREQ:STAR 1.12e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM13:POW -19.5"
+Write:    "SENS3:SEGM13:POW -19.8"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -13728,7 +12073,7 @@ Write:    ":SENS3:SEGM14:FREQ:STAR 1.13e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM14:POW -18.1"
+Write:    "SENS3:SEGM14:POW -19.8"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -13740,7 +12085,7 @@ Write:    ":SENS3:SEGM15:FREQ:STAR 1.14e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM15:POW -19.7"
+Write:    "SENS3:SEGM15:POW -19.8"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -13752,7 +12097,7 @@ Write:    ":SENS3:SEGM16:FREQ:STAR 1.15e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM16:POW -19.7"
+Write:    "SENS3:SEGM16:POW -17.7"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -13764,7 +12109,7 @@ Write:    ":SENS3:SEGM17:FREQ:STAR 1.16e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM17:POW -18.9"
+Write:    "SENS3:SEGM17:POW -19.4"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -13776,8 +12121,8 @@ Write:    ":SENS3:SEGM18:FREQ:STAR 1.17e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM18:POW -19.7"
-Bytes: 22
+Write:    "SENS3:SEGM18:POW -19"
+Bytes: 20
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS3:SEGM19:SWE:POIN 1"
@@ -13788,7 +12133,7 @@ Write:    ":SENS3:SEGM19:FREQ:STAR 1.18e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM19:POW -16.8"
+Write:    "SENS3:SEGM19:POW -19.1"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -13800,7 +12145,7 @@ Write:    ":SENS3:SEGM20:FREQ:STAR 1.19e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM20:POW -19.9"
+Write:    "SENS3:SEGM20:POW -19.7"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -13812,7 +12157,7 @@ Write:    ":SENS3:SEGM21:FREQ:STAR 1.2e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM21:POW -18.5"
+Write:    "SENS3:SEGM21:POW -19.3"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -13824,7 +12169,7 @@ Write:    ":SENS3:SEGM22:FREQ:STAR 1.21e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM22:POW -19.2"
+Write:    "SENS3:SEGM22:POW -19.1"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -13836,7 +12181,7 @@ Write:    ":SENS3:SEGM23:FREQ:STAR 1.22e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM23:POW -19.2"
+Write:    "SENS3:SEGM23:POW -19.1"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -13848,7 +12193,7 @@ Write:    ":SENS3:SEGM24:FREQ:STAR 1.23e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM24:POW -19.2"
+Write:    "SENS3:SEGM24:POW -19.1"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -13860,7 +12205,7 @@ Write:    ":SENS3:SEGM25:FREQ:STAR 1.24e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM25:POW -19.4"
+Write:    "SENS3:SEGM25:POW -19.1"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -13872,8 +12217,8 @@ Write:    ":SENS3:SEGM26:FREQ:STAR 1.25e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM26:POW -19.4"
-Bytes: 22
+Write:    "SENS3:SEGM26:POW -19"
+Bytes: 20
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS3:SEGM27:SWE:POIN 1"
@@ -13896,7 +12241,7 @@ Write:    ":SENS3:SEGM28:FREQ:STAR 1.27e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM28:POW -19.4"
+Write:    "SENS3:SEGM28:POW -19.2"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -13908,7 +12253,7 @@ Write:    ":SENS3:SEGM29:FREQ:STAR 1.28e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM29:POW -19.4"
+Write:    "SENS3:SEGM29:POW -19.2"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -13920,7 +12265,7 @@ Write:    ":SENS3:SEGM30:FREQ:STAR 1.29e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM30:POW -19.4"
+Write:    "SENS3:SEGM30:POW -19.2"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -13932,7 +12277,7 @@ Write:    ":SENS3:SEGM31:FREQ:STAR 1.3e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM31:POW -19.4"
+Write:    "SENS3:SEGM31:POW -19.6"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -13944,7 +12289,7 @@ Write:    ":SENS3:SEGM32:FREQ:STAR 1.31e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM32:POW -17.5"
+Write:    "SENS3:SEGM32:POW -19.2"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -13956,7 +12301,7 @@ Write:    ":SENS3:SEGM33:FREQ:STAR 1.32e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM33:POW -18.6"
+Write:    "SENS3:SEGM33:POW -19.5"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -13968,7 +12313,7 @@ Write:    ":SENS3:SEGM34:FREQ:STAR 1.33e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM34:POW -19.9"
+Write:    "SENS3:SEGM34:POW -19.5"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -13980,7 +12325,7 @@ Write:    ":SENS3:SEGM35:FREQ:STAR 1.34e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM35:POW -19.9"
+Write:    "SENS3:SEGM35:POW -19.7"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -13992,8 +12337,8 @@ Write:    ":SENS3:SEGM36:FREQ:STAR 1.35e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM36:POW -18.4"
-Bytes: 22
+Write:    "SENS3:SEGM36:POW -19"
+Bytes: 20
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS3:SEGM37:SWE:POIN 1"
@@ -14004,7 +12349,7 @@ Write:    ":SENS3:SEGM37:FREQ:STAR 1.36e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM37:POW -19.1"
+Write:    "SENS3:SEGM37:POW -19.8"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14016,7 +12361,7 @@ Write:    ":SENS3:SEGM38:FREQ:STAR 1.37e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM38:POW -19.6"
+Write:    "SENS3:SEGM38:POW -19.5"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14028,7 +12373,7 @@ Write:    ":SENS3:SEGM39:FREQ:STAR 1.38e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM39:POW -19.6"
+Write:    "SENS3:SEGM39:POW -19.7"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14040,7 +12385,7 @@ Write:    ":SENS3:SEGM40:FREQ:STAR 1.39e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM40:POW -19.6"
+Write:    "SENS3:SEGM40:POW -18.7"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14052,7 +12397,7 @@ Write:    ":SENS3:SEGM41:FREQ:STAR 1.4e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM41:POW -19.1"
+Write:    "SENS3:SEGM41:POW -19.5"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14064,7 +12409,7 @@ Write:    ":SENS3:SEGM42:FREQ:STAR 1.41e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM42:POW -19.8"
+Write:    "SENS3:SEGM42:POW -19.5"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14076,7 +12421,7 @@ Write:    ":SENS3:SEGM43:FREQ:STAR 1.42e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM43:POW -19.9"
+Write:    "SENS3:SEGM43:POW -19.5"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14088,7 +12433,7 @@ Write:    ":SENS3:SEGM44:FREQ:STAR 1.43e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM44:POW -19.3"
+Write:    "SENS3:SEGM44:POW -18.7"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14100,7 +12445,7 @@ Write:    ":SENS3:SEGM45:FREQ:STAR 1.44e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM45:POW -19.3"
+Write:    "SENS3:SEGM45:POW -19.5"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14112,7 +12457,7 @@ Write:    ":SENS3:SEGM46:FREQ:STAR 1.45e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM46:POW -19.3"
+Write:    "SENS3:SEGM46:POW -19.8"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14124,7 +12469,7 @@ Write:    ":SENS3:SEGM47:FREQ:STAR 1.46e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM47:POW -19.5"
+Write:    "SENS3:SEGM47:POW -18.8"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14136,7 +12481,7 @@ Write:    ":SENS3:SEGM48:FREQ:STAR 1.47e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM48:POW -19.3"
+Write:    "SENS3:SEGM48:POW -19.8"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14172,7 +12517,7 @@ Write:    ":SENS3:SEGM51:FREQ:STAR 1.5e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM51:POW -19.8"
+Write:    "SENS3:SEGM51:POW -19.7"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14184,8 +12529,8 @@ Write:    ":SENS3:SEGM52:FREQ:STAR 1.51e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM52:POW -19.8"
-Bytes: 22
+Write:    "SENS3:SEGM52:POW -19"
+Bytes: 20
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS3:SEGM53:SWE:POIN 1"
@@ -14196,7 +12541,7 @@ Write:    ":SENS3:SEGM53:FREQ:STAR 1.52e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM53:POW -19.8"
+Write:    "SENS3:SEGM53:POW -19.9"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14208,7 +12553,7 @@ Write:    ":SENS3:SEGM54:FREQ:STAR 1.53e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM54:POW -19.8"
+Write:    "SENS3:SEGM54:POW -19.6"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14220,7 +12565,7 @@ Write:    ":SENS3:SEGM55:FREQ:STAR 1.54e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM55:POW -19.8"
+Write:    "SENS3:SEGM55:POW -19.6"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14232,7 +12577,7 @@ Write:    ":SENS3:SEGM56:FREQ:STAR 1.55e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM56:POW -19.3"
+Write:    "SENS3:SEGM56:POW -18.8"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14244,7 +12589,7 @@ Write:    ":SENS3:SEGM57:FREQ:STAR 1.56e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM57:POW -19.9"
+Write:    "SENS3:SEGM57:POW -19.7"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14256,7 +12601,7 @@ Write:    ":SENS3:SEGM58:FREQ:STAR 1.57e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM58:POW -19.3"
+Write:    "SENS3:SEGM58:POW -18.8"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14268,7 +12613,7 @@ Write:    ":SENS3:SEGM59:FREQ:STAR 1.58e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM59:POW -19.3"
+Write:    "SENS3:SEGM59:POW -19.6"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14280,7 +12625,7 @@ Write:    ":SENS3:SEGM60:FREQ:STAR 1.59e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM60:POW -19.3"
+Write:    "SENS3:SEGM60:POW -19.6"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14316,7 +12661,7 @@ Write:    ":SENS3:SEGM63:FREQ:STAR 1.62e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM63:POW -19.8"
+Write:    "SENS3:SEGM63:POW -19.9"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14328,7 +12673,7 @@ Write:    ":SENS3:SEGM64:FREQ:STAR 1.63e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM64:POW -19.6"
+Write:    "SENS3:SEGM64:POW -19.9"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14388,7 +12733,7 @@ Write:    ":SENS3:SEGM69:FREQ:STAR 1.68e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM69:POW -19.8"
+Write:    "SENS3:SEGM69:POW -19.6"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14400,7 +12745,7 @@ Write:    ":SENS3:SEGM70:FREQ:STAR 1.69e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM70:POW -18.7"
+Write:    "SENS3:SEGM70:POW -19.6"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14412,7 +12757,7 @@ Write:    ":SENS3:SEGM71:FREQ:STAR 1.7e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM71:POW -19.3"
+Write:    "SENS3:SEGM71:POW -19.6"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14424,7 +12769,7 @@ Write:    ":SENS3:SEGM72:FREQ:STAR 1.71e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM72:POW -19.4"
+Write:    "SENS3:SEGM72:POW -19.6"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14436,7 +12781,7 @@ Write:    ":SENS3:SEGM73:FREQ:STAR 1.72e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM73:POW -19.4"
+Write:    "SENS3:SEGM73:POW -19.8"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14448,8 +12793,8 @@ Write:    ":SENS3:SEGM74:FREQ:STAR 1.73e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM74:POW -19"
-Bytes: 20
+Write:    "SENS3:SEGM74:POW -19.8"
+Bytes: 22
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS3:SEGM75:SWE:POIN 1"
@@ -14460,7 +12805,7 @@ Write:    ":SENS3:SEGM75:FREQ:STAR 1.74e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM75:POW -19.1"
+Write:    "SENS3:SEGM75:POW -19.8"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14472,8 +12817,8 @@ Write:    ":SENS3:SEGM76:FREQ:STAR 1.75e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM76:POW -19"
-Bytes: 20
+Write:    "SENS3:SEGM76:POW -19.8"
+Bytes: 22
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS3:SEGM77:SWE:POIN 1"
@@ -14484,7 +12829,7 @@ Write:    ":SENS3:SEGM77:FREQ:STAR 1.76e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM77:POW -19.1"
+Write:    "SENS3:SEGM77:POW -19.8"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14496,7 +12841,7 @@ Write:    ":SENS3:SEGM78:FREQ:STAR 1.77e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM78:POW -19.9"
+Write:    "SENS3:SEGM78:POW -18.8"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14508,7 +12853,7 @@ Write:    ":SENS3:SEGM79:FREQ:STAR 1.78e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM79:POW -18.3"
+Write:    "SENS3:SEGM79:POW -19.6"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14532,7 +12877,7 @@ Write:    ":SENS3:SEGM81:FREQ:STAR 1.8e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM81:POW -18.3"
+Write:    "SENS3:SEGM81:POW -19.1"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14544,7 +12889,7 @@ Write:    ":SENS3:SEGM82:FREQ:STAR 1.81e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM82:POW -19.8"
+Write:    "SENS3:SEGM82:POW -19.9"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14556,7 +12901,7 @@ Write:    ":SENS3:SEGM83:FREQ:STAR 1.82e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM83:POW -19.9"
+Write:    "SENS3:SEGM83:POW -19.7"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14568,7 +12913,7 @@ Write:    ":SENS3:SEGM84:FREQ:STAR 1.83e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM84:POW -19.8"
+Write:    "SENS3:SEGM84:POW -19.4"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14580,7 +12925,7 @@ Write:    ":SENS3:SEGM85:FREQ:STAR 1.84e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM85:POW -19.8"
+Write:    "SENS3:SEGM85:POW -19.6"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14592,7 +12937,7 @@ Write:    ":SENS3:SEGM86:FREQ:STAR 1.85e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM86:POW -19.3"
+Write:    "SENS3:SEGM86:POW -19.7"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14604,7 +12949,7 @@ Write:    ":SENS3:SEGM87:FREQ:STAR 1.86e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM87:POW -19.4"
+Write:    "SENS3:SEGM87:POW -19.7"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14616,7 +12961,7 @@ Write:    ":SENS3:SEGM88:FREQ:STAR 1.87e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM88:POW -18.4"
+Write:    "SENS3:SEGM88:POW -19.4"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14628,7 +12973,7 @@ Write:    ":SENS3:SEGM89:FREQ:STAR 1.88e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM89:POW -19.5"
+Write:    "SENS3:SEGM89:POW -19.4"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14640,7 +12985,7 @@ Write:    ":SENS3:SEGM90:FREQ:STAR 1.89e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM90:POW -19.1"
+Write:    "SENS3:SEGM90:POW -19.4"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14652,7 +12997,7 @@ Write:    ":SENS3:SEGM91:FREQ:STAR 1.9e+09Hz"
 Bytes: 34
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM91:POW -19.5"
+Write:    "SENS3:SEGM91:POW -19.6"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14664,7 +13009,7 @@ Write:    ":SENS3:SEGM92:FREQ:STAR 1.91e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM92:POW -19.7"
+Write:    "SENS3:SEGM92:POW -19.6"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14676,7 +13021,7 @@ Write:    ":SENS3:SEGM93:FREQ:STAR 1.92e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM93:POW -19.1"
+Write:    "SENS3:SEGM93:POW -19.4"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14688,7 +13033,7 @@ Write:    ":SENS3:SEGM94:FREQ:STAR 1.93e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM94:POW -19.3"
+Write:    "SENS3:SEGM94:POW -19.9"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14700,7 +13045,7 @@ Write:    ":SENS3:SEGM95:FREQ:STAR 1.94e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM95:POW -19.3"
+Write:    "SENS3:SEGM95:POW -19.1"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14712,7 +13057,7 @@ Write:    ":SENS3:SEGM96:FREQ:STAR 1.95e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM96:POW -19.8"
+Write:    "SENS3:SEGM96:POW -19.3"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14736,7 +13081,7 @@ Write:    ":SENS3:SEGM98:FREQ:STAR 1.97e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM98:POW -19.8"
+Write:    "SENS3:SEGM98:POW -17.9"
 Bytes: 22
 Status: 0x0 Operation completed successfully.
 
@@ -14748,8 +13093,8 @@ Write:    ":SENS3:SEGM99:FREQ:STAR 1.98e+09Hz"
 Bytes: 35
 Status: 0x0 Operation completed successfully.
 
-Write:    "SENS3:SEGM99:POW -18.4"
-Bytes: 22
+Write:    "SENS3:SEGM99:POW -19"
+Bytes: 20
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SENS3:SEGM100:SWE:POIN 1"

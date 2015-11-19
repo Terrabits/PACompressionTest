@@ -225,6 +225,11 @@ bool MeasurementSettings::isValid(Vna &vna, QString &errorMessage) const {
         return false;
     }
 
+    if (_outputPort == _inputPort) {
+        errorMessage = "*Output port cannot be same as input port";
+        return false;
+    }
+
     // No errors
     errorMessage.clear();
     return true;

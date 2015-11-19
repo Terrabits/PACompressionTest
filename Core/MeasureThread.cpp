@@ -108,76 +108,64 @@ void MeasureThread::displayResultsOnInstrument() {
     uint iCompression = 0;
     uint diagram = 0;
 
-    // Check for max_gain channel, trace, diagram
-    // Make sure they are together,
-    // otherwise delete trace
     const QString max_gain = "max_gain";
     if (_vna->isChannel(max_gain)) {
         iMaxGain = _vna->channelId(max_gain);
-        if (_vna->isTrace(max_gain)) {
-            if (_vna->trace(max_gain).channel() != iMaxGain)
-                _vna->deleteTrace(max_gain);
-            else if (_vna->trace(max_gain).diagram())
-                diagram = _vna->trace(max_gain).diagram();
-        }
     }
-    else if (_vna->isTrace(max_gain)) {
-        _vna->deleteTrace(max_gain);
-    }
-
-    // Check for compressed_gain channel, trace, diagram
-    // Make sure they are together,
-    // otherwise delete trace
-    const QString compression = "compression";
-    if (_vna->isChannel(compression)) {
-        iMaxGain = _vna->channelId(compression);
-        if (_vna->isTrace(compression)) {
-            if (_vna->trace(compression).channel() != iCompression)
-                _vna->deleteTrace(compression);
-            else if (_vna->trace(compression).diagram()) {
-                if (diagram)
-                    _vna->trace(compression).setDiagram(diagram);
-                else
-                    diagram = _vna->trace(compression).diagram();
-            }
-        }
-    }
-    else if (_vna->isTrace(compression)) {
-        _vna->deleteTrace(compression);
-    }
-
-    // Code above may have orphaned diagrams
-    removeEmptyDiagrams();
-
-    // Create diagram, if none
-    if (!diagram) {
-        diagram = _vna->createDiagram();
-    }
-
-    // Create max gain channel, trace
-    // if none
-    if (!iMaxGain) {
+    else {
         _vna->channel(iChannel).select();
         iMaxGain = _vna->createChannel();
         _vna->channel(iMaxGain).setName(max_gain);
+    }
+
+    const QString compression = "compression";
+    if (_vna->isChannel(compression)) {
+        iCompression = _vna->channelId(compression);
+    }
+    else {
+        _vna->channel(iChannel).select();
+        iCompression = _vna->createChannel();
+        _vna->channel(iCompression).setName(compression);
+    }
+
+    if (_vna->isTrace(max_gain)
+            && _vna->trace(max_gain).channel() != iMaxGain)
+    {
+        _vna->deleteTrace(max_gain);
+    }
+
+    if (_vna->isTrace(compression)
+            && _vna->trace(compression).channel() != iCompression)
+    {
+        _vna->deleteTrace(compression);
+    }
+
+    if (!_vna->isTrace(max_gain) && !_vna->isTrace(compression))
+    {
+        diagram = _vna->createDiagram();
 
         _vna->createTrace(max_gain, iMaxGain);
         _vna->trace(max_gain).setNetworkParameter(NetworkParameter::S, _settings.outputPort(), _settings.inputPort());
         _vna->trace(max_gain).setDiagram(diagram);
-    }
-    setupChannel(iMaxGain, _results->frequencies_Hz(), _results->powerInAtMaxGain_dBm());
-
-    // Create compression channel, trace
-    // if none
-    if (!iCompression) {
-        _vna->channel(iChannel).select();
-        iCompression = _vna->createChannel();
-        _vna->channel(iCompression).setName(compression);
 
         _vna->createTrace(compression, iCompression);
         _vna->trace(compression).setNetworkParameter(NetworkParameter::S, _settings.outputPort(), _settings.inputPort());
         _vna->trace(compression).setDiagram(diagram);
     }
+    else if (!_vna->isTrace(max_gain)) {
+        diagram = _vna->createDiagram();
+        _vna->createTrace(max_gain, iMaxGain);
+        _vna->trace(max_gain).setNetworkParameter(NetworkParameter::S, _settings.outputPort(), _settings.inputPort());
+        _vna->trace(max_gain).setDiagram(diagram);
+    }
+    else if (!_vna->isTrace(compression)) {
+        diagram = _vna->createDiagram();
+        _vna->createTrace(compression, iCompression);
+        _vna->trace(compression).setNetworkParameter(NetworkParameter::S, _settings.outputPort(), _settings.inputPort());
+        _vna->trace(compression).setDiagram(diagram);
+    }
+
+    setupChannel(iMaxGain, _results->frequencies_Hz(), _results->powerInAtMaxGain_dBm());
     setupChannel(iCompression, _results->frequencies_Hz(), _results->powerInAtCompression_dBm());
 }
 

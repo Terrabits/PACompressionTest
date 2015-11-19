@@ -20,11 +20,13 @@ void FrequencySweep::run() {
     QString msg;
     if (!_settings.isValid(*_vna, msg)) {
         setError(msg);
+        _vna->settings().displayOn();
         return;
     }
 
     _vna->isError();
     _vna->clearStatus();
+    _vna->settings().displayOff();
 
     emit progress(0);
 
@@ -69,9 +71,10 @@ void FrequencySweep::run() {
     sweep.setPower(power_dBm);
 
     if (isInterruptionRequested()) {
-        setError("*Measurement cancelled");
+        setError("*Measurement aborted");
         _results->clearAllData();
         _vna->deleteChannel(c);
+        _vna->settings().displayOn();
         return;
     }
     _vna->channel(c).manualSweepOn();
@@ -104,6 +107,7 @@ void FrequencySweep::run() {
             setError("*Measurement cancelled");
             _results->clearAllData();
             _vna->deleteChannel(c);
+            _vna->settings().displayOn();
             return;
         }
         _results->data() << sweep.measure(outputPort, inputPort);
@@ -158,5 +162,6 @@ void FrequencySweep::run() {
     else {
         displayResultsOnInstrument();
     }
+    _vna->settings().displayOn();
 }
 

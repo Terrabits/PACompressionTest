@@ -5,6 +5,10 @@
 #include <General.h>
 using namespace RsaToolbox;
 
+// Qt
+#include <QDebug>
+
+
 FrequencySweep::FrequencySweep(QObject *parent) :
     MeasureThread(parent)
 {
@@ -79,6 +83,7 @@ void FrequencySweep::run() {
     }
     _vna->channel(c).manualSweepOn();
     _results->data() << sweep.measure(outputPort, inputPort);
+
     if (shouldFlipPorts)
         flipPorts(_results->data()[iPower]);
 

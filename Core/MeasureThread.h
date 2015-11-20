@@ -63,8 +63,15 @@ protected:
     void unfreezeChannels();
 
     void displayResultsOnInstrument();
+
     void setupChannel(uint channelIndex, const RsaToolbox::QRowVector &frequencies_Hz, const RsaToolbox::QRowVector &powers_dBm);
     void resizeChannel(uint channelIndex, uint points);
+
+    void createMaxGainTrace(uint diagram);
+    void createCompressedGainTrace(uint diagram);
+    void createPinCompressionTrace(uint diagram);
+    void createPoutCompressionTrace(uint diagram);
+
     void removeEmptyDiagrams();
 
 private:

@@ -34,7 +34,6 @@ protected:
     
 private slots:
     // Buttons
-//    void on_cancel_clicked();
     void on_measure_clicked();
     void on_exportData_clicked();
 

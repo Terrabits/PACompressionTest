@@ -11,6 +11,7 @@
 using namespace RsaToolbox;
 
 // Qt
+#include <QDir>
 #include <QApplication>
 #include <QMessageBox>
 #include <QFileDialog>
@@ -136,6 +137,8 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
     qRegisterMetaType<RsaToolbox::QRowVector>("RsaToolbox::QRowVector");
 
     _exportPath.setKey(&_keys, EXPORT_PATH_KEY);
+    if (_exportPath.isEmpty())
+        _exportPath.setPath(QDir::homePath());
     loadKeys();
 }
 

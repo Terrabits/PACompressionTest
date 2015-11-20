@@ -1,5 +1,5 @@
-#ifndef FREQUENCYSWEEPTEST_H
-#define FREQUENCYSWEEPTEST_H
+#ifndef SAFEFREQUENCYSWEEPTEST_H
+#define SAFEFREQUENCYSWEEPTEST_H
 
 
 // Project
@@ -13,12 +13,12 @@
 #include <QObject>
 
 
-class FrequencySweepTest : public QObject
+class SafeFrequencySweepTest : public QObject
 {
     Q_OBJECT
 public:
-    FrequencySweepTest();
-    ~FrequencySweepTest();
+    SafeFrequencySweepTest();
+    ~SafeFrequencySweepTest();
 
 private slots:
 
@@ -41,4 +41,4 @@ private:
 
 };
 
-#endif // FREQUENCYSWEEPTEST_H
+#endif // SAFEFREQUENCYSWEEPTEST_H

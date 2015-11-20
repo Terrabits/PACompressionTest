@@ -1,4 +1,4 @@
-#include "FrequencySweep.h"
+#include "SafeFrequencySweep.h"
 
 
 // RsaToolbox
@@ -9,18 +9,18 @@ using namespace RsaToolbox;
 #include <QDebug>
 
 
-FrequencySweep::FrequencySweep(QObject *parent) :
+SafeFrequencySweep::SafeFrequencySweep(QObject *parent) :
     MeasureThread(parent)
 {
 
 }
 
-FrequencySweep::~FrequencySweep()
+SafeFrequencySweep::~SafeFrequencySweep()
 {
 
 }
 
-void FrequencySweep::run() {
+void SafeFrequencySweep::run() {
     QString msg;
     if (!_settings.isValid(*_vna, msg)) {
         setError(msg);

@@ -1,9 +1,9 @@
-#include "FrequencySweepTest.h"
+#include "SafeFrequencySweepTest.h"
 
 
 // Project
 #include "MeasurementSettings.h"
-#include "FrequencySweep.h"
+#include "SafeFrequencySweep.h"
 
 // RsaToolbox
 #include <Log.h>
@@ -18,29 +18,29 @@ using namespace RsaToolbox;
 #include <QProgressBar>
 
 
-FrequencySweepTest::FrequencySweepTest() :
+SafeFrequencySweepTest::SafeFrequencySweepTest() :
     _sourceDir(SOURCE_DIR)
 {
 }
-FrequencySweepTest::~FrequencySweepTest() {
+SafeFrequencySweepTest::~SafeFrequencySweepTest() {
 }
 
-void FrequencySweepTest::initTestCase() {
+void SafeFrequencySweepTest::initTestCase() {
 }
-void FrequencySweepTest::cleanupTestCase() {
-}
-
-void FrequencySweepTest::init() {
-}
-void FrequencySweepTest::cleanup() {
+void SafeFrequencySweepTest::cleanupTestCase() {
 }
 
-void FrequencySweepTest::sweep() {
+void SafeFrequencySweepTest::init() {
+}
+void SafeFrequencySweepTest::cleanup() {
+}
+
+void SafeFrequencySweepTest::sweep() {
     Vna vna(ConnectionType::TCPIP_CONNECTION, "127.0.0.1");
     QVERIFY(vna.isConnected());
     QVERIFY(!vna.idString().isEmpty());
 
-    QScopedPointer<Log> log(new Log(_sourceDir.filePath("FrequencySweepTest_Log.txt"),
+    QScopedPointer<Log> log(new Log(_sourceDir.filePath("SafeFrequencySweepTest_Log.txt"),
             "PA Compression Test", "0"));
     QVERIFY(log->isOpen());
     log->printHeader();
@@ -73,7 +73,7 @@ void FrequencySweepTest::sweep() {
     settings.setInputPort(1);
     settings.setOutputPort(2);
 
-    FrequencySweep sweep;
+    SafeFrequencySweep sweep;
     sweep.setAppInfo("PA Compression Test", "0");
     sweep.setSettings(settings);
     sweep.setVna(&vna);
@@ -88,20 +88,36 @@ void FrequencySweepTest::sweep() {
 
     QVERIFY(!vna.isError());
 
-    QVERIFY(vna.isChannel("compression"));
-    QVERIFY(vna.isTrace("compression"));
-    QVERIFY(vna.trace("compression").diagram());
-    QCOMPARE(vna.channelId("compression"), vna.trace("compression").channel());
+    const QString max_gain = "max_gain";
+    QVERIFY(vna.isChannel(max_gain));
+    const uint iMaxGain = vna.channelId(max_gain);
 
-    QVERIFY(vna.isChannel("max_gain"));
-    QVERIFY(vna.isTrace("max_gain"));
-    QVERIFY(vna.trace("max_gain").diagram());
-    QCOMPARE(vna.channelId("max_gain"), vna.trace("max_gain").channel());
+    QVERIFY(vna.isTrace(max_gain));
+    QVERIFY(vna.trace(max_gain).diagram());
+    QCOMPARE(iMaxGain, vna.trace(max_gain).channel());
 
-    QCOMPARE(vna.trace("compression").diagram(), vna.trace("max_gain").diagram());
+    const QString compression = "compression";
+    QVERIFY(vna.isChannel(compression));
+    const uint iCompression = vna.channelId(compression);
+
+    const QString compressed_gain = "compressed_gain";
+    const QString pin_compression = "Pin_compression";
+    const QString pout_compression = "Pout_compression";
+    QVERIFY(vna.isTrace(compressed_gain));
+    QVERIFY(vna.isTrace(pin_compression));
+    QVERIFY(vna.isTrace(pout_compression));
+    QCOMPARE(iCompression, vna.trace(compressed_gain).channel());
+    QCOMPARE(iCompression, vna.trace(pin_compression).channel());
+    QCOMPARE(iCompression, vna.trace(pout_compression).channel());
+
+    const uint diagram = vna.trace(max_gain).diagram();
+    QVERIFY(diagram);
+    QCOMPARE(diagram, vna.trace(compressed_gain).diagram());
+    QCOMPARE(diagram, vna.trace(pin_compression).diagram());
+    QCOMPARE(diagram, vna.trace(pout_compression).diagram());
 
     QVERIFY(!sweep.isError());
-    QCOMPARE(sweep.errorMessage(), QString());
+    QVERIFY(sweep.errorMessage().isEmpty());
 
     QCOMPARE(started.count(), 1);
     QCOMPARE(progress.count(), plotMaxGain.count()+1);
@@ -132,7 +148,7 @@ void FrequencySweepTest::sweep() {
     logThread.wait();
 }
 
-bool FrequencySweepTest::generatePlot(MeasurementData *results, const QString &filename) {
+bool SafeFrequencySweepTest::generatePlot(MeasurementData *results, const QString &filename) {
     QCustomPlot plot;
 
     plot.clearGraphs();

@@ -11,14 +11,14 @@ include($$PWD/../RsaToolbox/rsatoolbox.pri)
 include($$PWD/../RsaToolbox/QuaZip/quazip.pri)
 HEADERS     += Settings.h \
                MeasurementData.h \
-    MeasureThread.h \
-    MeasurementSettings.h \
-    FrequencySweep.h
+               MeasureThread.h \
+               MeasurementSettings.h \
+               SafeFrequencySweep.h
 INCLUDEPATH += $$PWD
 SOURCES     += MeasurementData.cpp \
-    MeasureThread.cpp \
-    MeasurementSettings.cpp \
-    FrequencySweep.cpp
+               MeasureThread.cpp \
+               MeasurementSettings.cpp \
+               SafeFrequencySweep.cpp
 #FORMS       += .ui
 #RESOURCES   += .qrc
 

@@ -5,7 +5,7 @@
 #include "ui_mainwindow.h"
 
 #include "Settings.h"
-#include "FrequencySweep.h"
+#include "SafeFrequencySweep.h"
 
 // RsaToolbox
 using namespace RsaToolbox;
@@ -187,7 +187,7 @@ void MainWindow::on_measure_clicked() {
     ui->exportData->setDisabled(true);
     ui->cancel->setText("Cancel");
 
-    _thread.reset(new FrequencySweep);
+    _thread.reset(new SafeFrequencySweep);
     _thread->setAppInfo(APP_NAME, APP_VERSION);
     _thread->setVna(&_vna);
     _thread->setSettings(_settings);

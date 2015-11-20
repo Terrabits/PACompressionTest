@@ -71,8 +71,7 @@ protected:
     void createCompressedGainTrace(uint diagram);
     void createPinCompressionTrace(uint diagram);
     void createPoutCompressionTrace(uint diagram);
-
-    void removeEmptyDiagrams();
+    void configureDiagram(uint diagram);
 
 private:
     QVector<uint> _channels;

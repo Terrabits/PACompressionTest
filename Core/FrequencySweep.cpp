@@ -48,7 +48,6 @@ void FrequencySweep::run() {
 
     const double compressionLevel_dB = _settings.compressionLevel_dB();
     const bool isGainExpansion = _settings.isGainExpansion();
-    const bool isStopAtCompression = _settings.isStopAtCompression();
 
     // Channel, ports
     const uint channel = _settings.channel();
@@ -58,6 +57,7 @@ void FrequencySweep::run() {
     const bool shouldFlipPorts = outputPort < inputPort;
 
     freezeChannels();
+    _vna->settings().rfOutputPowerOn();
 
     // Setup channel
     _vna->channel(channel).select();
@@ -136,15 +136,12 @@ void FrequencySweep::run() {
             }
 
             // Check for compression
-            bool isCompression = false;
             const double compression_dB = _results->maxGain_dB()[iResult] - gain_dB;
             if (compression_dB > compressionLevel_dB) {
-                isCompression = true;
                 _results->powerInAtCompression_dBm()[iResult] = power_dBm;
                 _results->gainAtCompression_dB()[iResult] = gain_dB;
                 _results->powerOutAtCompression_dBm()[iResult] = power_dBm + gain_dB;
-            }
-            if (isCompression && isStopAtCompression) {
+
                 sweptFreq_Hz.removeAt(iSweptFreq);
                 sweep.deleteSegment(iSweptFreq+1);
                 iSweptFreq--;
@@ -157,6 +154,11 @@ void FrequencySweep::run() {
     emit progress(100);
     _vna->deleteChannel(c);
     unfreezeChannels();
+    if (_settings.isRfOffPostCondition()) {
+        _vna->startSweeps();
+        _vna->pause();
+        _vna->settings().rfOutputPowerOff();
+    }
 
     // Check if any compression points not found
     if (!sweptFreq_Hz.isEmpty()) {

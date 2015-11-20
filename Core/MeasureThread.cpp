@@ -232,10 +232,6 @@ void MeasureThread::createPoutCompressionTrace(uint diagram) {
     _vna->trace(pout_compression).math().on();
 }
 
-void MeasureThread::removeEmptyDiagrams() {
-    QVector<uint> diagrams = _vna->diagrams();
-    foreach(const uint d, diagrams) {
-        if (_vna->diagram(d).traces().isEmpty())
-            _vna->deleteDiagram(d);
-    }
+void MeasureThread::configureDiagram(uint diagram) {
+
 }

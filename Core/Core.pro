@@ -13,12 +13,15 @@ HEADERS     += Settings.h \
                MeasurementData.h \
                MeasureThread.h \
                MeasurementSettings.h \
+               FrequencySweep.h \
                SafeFrequencySweep.h
 INCLUDEPATH += $$PWD
 SOURCES     += MeasurementData.cpp \
                MeasureThread.cpp \
                MeasurementSettings.cpp \
+               FrequencySweep.cpp \
                SafeFrequencySweep.cpp
+
 #FORMS       += .ui
 #RESOURCES   += .qrc
 

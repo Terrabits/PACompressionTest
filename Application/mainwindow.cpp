@@ -5,6 +5,7 @@
 #include "ui_mainwindow.h"
 
 #include "Settings.h"
+#include "FrequencySweep.h"
 #include "SafeFrequencySweep.h"
 
 // RsaToolbox
@@ -187,7 +188,7 @@ void MainWindow::on_measure_clicked() {
     ui->exportData->setDisabled(true);
     ui->cancel->setText("Cancel");
 
-    _thread.reset(new SafeFrequencySweep);
+    _thread.reset(createThread());
     _thread->setAppInfo(APP_NAME, APP_VERSION);
     _thread->setVna(&_vna);
     _thread->setSettings(_settings);
@@ -221,6 +222,21 @@ void MainWindow::on_exportData_clicked() {
     else {
         ui->error->showMessage("*Error saving export file.");
     }
+}
+
+MeasureThread *MainWindow::createThread() {
+    const QString sweepType = ui->sweepType->currentText();
+    const bool isStopAtCompression = ui->stopAtCompression->isChecked();
+
+    if (sweepType == "Frequency") {
+        if (isStopAtCompression)
+            return new SafeFrequencySweep;
+        else
+            return new FrequencySweep;
+    }
+
+    // Default
+    return new SafeFrequencySweep;
 }
 
 void MainWindow::loadKeys() {
@@ -464,6 +480,19 @@ QRect MainWindow::progressGeometry() const {
 }
 
 void MainWindow::plotMaxGain(const QRowVector &frequency_Hz, const QRowVector &gain_dB) {
+    const double upper = ui->plot->yAxis->range().upper;
+    const double lower = ui->plot->yAxis->range().lower;
+
+    double newUpper = max(gain_dB);
+    double newLower = min(gain_dB);
+
+    if (newUpper > upper || newLower < lower) {
+        newUpper = std::max(newUpper, upper);
+        newLower = std::min(newLower, lower);
+        roundAxis(newLower, newUpper, 5.0, newLower, newUpper);
+        ui->plot->yAxis->setRange(newLower, newUpper);
+    }
+
     ui->plot->graph(0)->setData(frequency_Hz, gain_dB);
     ui->plot->replot();
 }
@@ -553,7 +582,7 @@ void MainWindow::setupPlot() {
     ui->plot->xAxis->setRange(_settings.startFrequency_Hz(), _settings.stopFrequency_Hz());
     ui->plot->xAxis->setLabel("Frequency (Hz)");
 
-    ui->plot->yAxis->setRange(-20, 0);
+    ui->plot->yAxis->setRange(0, 100.0);
     ui->plot->yAxis->setLabel("Gain (dB)");
 
     ui->plot->yAxis2->setRange(_settings.startPower_dBm(), _settings.stopPower_dBm());

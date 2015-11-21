@@ -142,13 +142,13 @@ void MeasureThread::displayResultsOnInstrument() {
         if (_vna->isTrace(pout_compression))
             _vna->deleteTrace(pout_compression);
 
-        _vna->settings().displayOn();
+//        _vna->settings().displayOn(); // ?
         uint diagram = _vna->createDiagram();
         createMaxGainTrace(diagram);
         createCompressedGainTrace(diagram);
         createPinCompressionTrace(diagram);
         createPoutCompressionTrace(diagram);
-        _vna->settings().displayOff();
+        configureDiagram(diagram);
     }
 
     setupChannel(iMaxGain, _results->frequencies_Hz(), _results->powerInAtMaxGain_dBm());
@@ -233,5 +233,25 @@ void MeasureThread::createPoutCompressionTrace(uint diagram) {
 }
 
 void MeasureThread::configureDiagram(uint diagram) {
+    double _min = 0;
+    double _max = 0;
 
+    // Get max, mins
+    _min = std::min(_min, min(_results->maxGain_dB()));
+    _max = std::max(_max, max(_results->maxGain_dB()));
+
+    _min = std::min(_min, min(_results->gainAtCompression_dB()));
+    _max = std::max(_max, max(_results->gainAtCompression_dB()));
+
+    _min = std::min(_min, min(_results->powerInAtCompression_dBm()));
+    _max = std::max(_max, max(_results->powerInAtCompression_dBm()));
+
+    _min = std::min(_min, min(_results->powerOutAtCompression_dBm()));
+    _max = std::max(_max, max(_results->powerOutAtCompression_dBm()));
+
+    // Round to 5 dB
+    roundAxis(_min, _max, 5.0, _min, _max);
+
+    // Apply
+    _vna->diagram(diagram).setYAxis(_min, _max);
 }

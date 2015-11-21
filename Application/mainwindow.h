@@ -50,6 +50,7 @@ private:
     MeasurementSettings _settings;
     QScopedPointer<MeasurementData> _results;
     QScopedPointer<MeasureThread> _thread;
+    MeasureThread *createThread();
 
     RsaToolbox::Keys &_keys;
     RsaToolbox::LastPath _exportPath;

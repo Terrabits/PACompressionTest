@@ -6,7 +6,6 @@
 #include "MeasureThread.h"
 
 // Qt
-#include <QBitArray>
 #include <QObject>
 
 
@@ -19,8 +18,6 @@ public:
 
 protected:
     virtual void run();
-
-private:
 
 };
 

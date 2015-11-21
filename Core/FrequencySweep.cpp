@@ -1,4 +1,4 @@
-#include "SafeFrequencySweep.h"
+#include "FrequencySweep.h"
 
 
 // RsaToolbox
@@ -6,21 +6,22 @@
 using namespace RsaToolbox;
 
 // Qt
+#include <QBitArray>
 #include <QDebug>
 
 
-SafeFrequencySweep::SafeFrequencySweep(QObject *parent) :
-    MeasureThread(parent)
+FrequencySweep::FrequencySweep(QObject *parent)
+    : MeasureThread(parent)
 {
 
 }
 
-SafeFrequencySweep::~SafeFrequencySweep()
+FrequencySweep::~FrequencySweep()
 {
 
 }
 
-void SafeFrequencySweep::run() {
+void FrequencySweep::run() {
     QString msg;
     if (!_settings.isValid(*_vna, msg)) {
         setError(msg);
@@ -95,14 +96,13 @@ void SafeFrequencySweep::run() {
     _results->gainAtCompression_dB() = _results->maxGain_dB();
     _results->powerOutAtCompression_dBm() = _results->powerOutAtMaxGain_dBm();
 
-    qDebug() << "Compression points found: " << freqPoints - sweptFreq_Hz.size();
-    emit progress(int((100.0 * (iPower+1))/powerPoints));
     emit plotMaxGain(_results->frequencies_Hz(), _results->maxGain_dB());
     emit plotPinAtCompression(_results->frequencies_Hz(), _results->powerInAtCompression_dBm());
 
+    QBitArray isCompression(freqPoints, false);
     for (iPower = 1; iPower < powerPoints; iPower++) {
-        if (sweptFreq_Hz.isEmpty())
-            break;
+        qDebug() << "Compression points found: " << isCompression.count(true);
+        emit progress(int((100.0 * iPower)/powerPoints));
 
         power_dBm = powers_dBm[iPower];
         _results->powers_dBm() << power_dBm;
@@ -115,85 +115,58 @@ void SafeFrequencySweep::run() {
             _vna->settings().displayOn();
             return;
         }
-
         _results->data() << sweep.measure(outputPort, inputPort);
         if (shouldFlipPorts)
             flipPorts(_results->data()[iPower]);
 
         const double previousPower_dBm = powers_dBm[iPower-1];
-        QRowVector previousFrequencies_Hz = _results->data()[iPower-1].x();
-        QRowVector previousGains_dB = _results->data()[iPower-1].y_dB(2,1);
-
+        QRowVector previousGains_dB = _results->data()[iPower-1].y_dB(2, 1);
         QRowVector gains_dB = _results->data()[iPower].y_dB(2, 1);
-        for (uint iCurrentFreq = 0; iCurrentFreq < uint(sweptFreq_Hz.size()); iCurrentFreq++) {
-            const double freq_Hz = sweptFreq_Hz[iCurrentFreq];
-            const double gain_dB = gains_dB[iCurrentFreq];
-
-            const int iPrevFreq = previousFrequencies_Hz.indexOf(freq_Hz);
-            const double previousGain_dB = previousGains_dB[iPrevFreq];
-
-            const int iTotalFreq = _results->frequencies_Hz().indexOf(freq_Hz);
+        for (uint iFreq = 0; iFreq < freqPoints; iFreq++) {
+            const double previousGain_dB = previousGains_dB[iFreq];
+            const double gain_dB = gains_dB[iFreq];
 
             // Check for Max Gain
             if (isGainExpansion) {
-                if (_results->maxGain_dB()[iTotalFreq] < gain_dB) {
-                    _results->powerInAtMaxGain_dBm()[iTotalFreq] = power_dBm;
-                    _results->maxGain_dB()[iTotalFreq] = gain_dB;
-                    _results->powerOutAtMaxGain_dBm()[iTotalFreq] = power_dBm + gain_dB;
+                if (_results->maxGain_dB()[iFreq] < gain_dB) {
+                    _results->powerInAtMaxGain_dBm()[iFreq] = power_dBm;
+                    _results->maxGain_dB()[iFreq] = gain_dB;
+                    _results->powerOutAtMaxGain_dBm()[iFreq] = power_dBm + gain_dB;
+                    isCompression[iFreq] = false;
                 }
             }
 
             // Check for compression
-            const double maxGain_dB = _results->maxGain_dB()[iTotalFreq];
+            const double maxGain_dB = _results->maxGain_dB()[iFreq];
             const double compressedGain_dB = maxGain_dB - compressionLevel_dB;
-            if (gain_dB <= compressedGain_dB) {
+            if (!isCompression[iFreq] && gain_dB <= compressedGain_dB) {
                 const double pinCompression_dBm
                         = linearInterpolateX(previousPower_dBm, previousGain_dB, // i-1
                                              power_dBm,         gain_dB, // i
                                                                 compressedGain_dB); // Desired Y value
 
-                _results->powerInAtCompression_dBm()[iTotalFreq] = pinCompression_dBm;
-                _results->gainAtCompression_dB()[iTotalFreq] = compressedGain_dB;
-                _results->powerOutAtCompression_dBm()[iTotalFreq] = pinCompression_dBm + compressedGain_dB;
-
                 if (pinCompression_dBm <= previousPower_dBm || pinCompression_dBm > power_dBm) {
                     qDebug() << "***This value seems odd...";
-                    qDebug() << "  iPower:         " << iPower;
-                    qDebug() << "  Power:          " << power_dBm;
-                    qDebug() << "";
-                    qDebug() << "  iCurrent:       " << iCurrentFreq;
-                    qDebug() << "  Frequency:      " << freq_Hz;
-                    qDebug() << "  iTotal:         " << iTotalFreq;
-                    qDebug() << "";
                     qDebug() << "  previous power: " << previousPower_dBm;
+                    qDebug() << "  previous gain:  " << previousGain_dB;
+                    qDebug() << "  power:          " << power_dBm;
+                    qDebug() << "  gain:           " << gain_dB;
                     qDebug() << "  max gain:       " << maxGain_dB;
                     qDebug() << "  comp level:     " << compressionLevel_dB;
-                    qDebug() << "  gain@comp:      " << compressedGain_dB;
-                    qDebug() << "";
-                    qDebug() << "  previous freqs: " << previousFrequencies_Hz << previousFrequencies_Hz.size();
-                    qDebug() << "  iPrev:          " << iPrevFreq;
-                    qDebug() << "  previous gains: " << previousGains_dB << previousGains_dB.size();
-                    qDebug() << "  previous gain:  " << previousGain_dB;
-                    qDebug() << "";
-                    qDebug() << "  gain:           " << gain_dB;
-                    qDebug() << "";
+                    qDebug() << "  gain@Comp:      " << compressedGain_dB;
                     qDebug() << "  Pin@Comp:       " << pinCompression_dBm;
                 }
-
-                sweptFreq_Hz.removeAt(iCurrentFreq);
-                gains_dB.removeAt(iCurrentFreq);
-                sweep.deleteSegment(iCurrentFreq+1);
-                iCurrentFreq--;
+                _results->powerInAtCompression_dBm()[iFreq] = pinCompression_dBm;
+                _results->gainAtCompression_dB()[iFreq] = compressedGain_dB;
+                _results->powerOutAtCompression_dBm()[iFreq] = pinCompression_dBm + compressedGain_dB;
+                isCompression[iFreq] = true;
             }
         }
-
-        qDebug() << "Compression points found: " << freqPoints - sweptFreq_Hz.size();
-        emit progress(int((100.0 * (iPower+1))/powerPoints));
         emit plotMaxGain(_results->frequencies_Hz(), _results->maxGain_dB());
         emit plotPinAtCompression(_results->frequencies_Hz(), _results->powerInAtCompression_dBm());
     }
 
-    qDebug() << "Total Compression points found: " << freqPoints - sweptFreq_Hz.size();
+    qDebug() << "Compression points found: " << isCompression.count(true);
     emit progress(100);
 
     _vna->deleteChannel(c);
@@ -205,9 +178,16 @@ void SafeFrequencySweep::run() {
     }
 
     // Check if any compression points not found
-    if (!sweptFreq_Hz.isEmpty()) {
+    if (isCompression.count(false) > 0) {
+        int iFailure = 0;
+        for (int i = 0; i < isCompression.size(); i++) {
+            if (!isCompression[i]) {
+                iFailure = i;
+                break;
+            }
+        }
         QString msg = "*Could not find compression point for %1";
-        msg = msg.arg(formatValue(sweptFreq_Hz.first(), 3, Units::Hertz));
+        msg = msg.arg(formatValue(sweptFreq_Hz[iFailure], 3, Units::Hertz));
         setError(msg);
     }
     else {
@@ -215,4 +195,3 @@ void SafeFrequencySweep::run() {
     }
     _vna->settings().displayOn();
 }
-

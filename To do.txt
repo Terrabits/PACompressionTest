@@ -1,3 +1,13 @@
+
+Still left to do:
+- Provide documentation on use
+  * Reserved channels, traces
+  * Work flow
+- Get feedback from AEs, M/A-COM
+
+- Ask about power cal:
+
+Notes from discussion with Volker:
 - Power flatness cal at each frequency (cumbersome by hand)
 - (Our) ALC may not work with pulsed power
 - Zva: Cal -> Enhanced Wave Corrections
@@ -15,4 +25,4 @@ CORR:POW:DATA? 'BWAV2'
 If you have a 0.1 dB bullet, add this to each power correction and rewrite
 CORR:POW:DATA 'BWAV2',...
 
-!! Make into separate utility
+!! Make into separate utility (DONE)

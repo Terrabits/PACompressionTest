@@ -13,6 +13,8 @@ const QString APP_NAME = "R&S PA Compression Test";
 const QString APP_VERSION = "1.5";
 const QString MANUFACTURER_FOLDER = "Rohde-Schwarz";
 const QString APP_FOLDER = "PA Compression Test";
+const QString APP_DESCRIPTION = "Measure the compression point of a Power Amplifier";
+const QString CONTACT_INFO = "<html><head/><body><p>Nick Lalic<br/>VNA Software Developer<br/>Cupertino, CA USA<br/>+1 424 200 2846<br/>nick.lalic@rsa.rohde-schwarz.com<br/><a href=\"http://vna.rs-us.net\"><span style=\"text-decoration: underline; color:#0000ff;\">http://vna.rs-us.net</span></a></p></body></html>";
 
 #ifdef DEBUG_MODE
 const QDir dataDir(SOURCE_DIR);

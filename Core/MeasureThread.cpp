@@ -153,6 +153,15 @@ void MeasureThread::displayResultsOnInstrument() {
 
     setupChannel(iMaxGain, _results->frequencies_Hz(), _results->powerInAtMaxGain_dBm());
     setupChannel(iCompression, _results->frequencies_Hz(), _results->powerInAtCompression_dBm());
+    if (_vna->channel(iMaxGain).isManualSweep()) {
+        _vna->channel(iMaxGain).startSweep();
+        _vna->wait();
+    }
+    if (_vna->channel(iCompression).isManualSweep()) {
+        _vna->channel(iCompression).startSweep();
+        _vna->wait();
+    }
+
 }
 
 void MeasureThread::setupChannel(uint channelIndex, const QRowVector &frequencies_Hz, const QRowVector &powers_dBm) {

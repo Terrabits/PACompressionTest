@@ -108,6 +108,13 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
     connect(ui->compressionLevel, SIGNAL(outOfRange(QString)),
             this, SLOT(shake()));
 
+    connect(ui->startPower, SIGNAL(powerChanged(double)),
+            this, SLOT(updatePowerSpacing()));
+    connect(ui->stopPower, SIGNAL(powerChanged(double)),
+            this, SLOT(updatePowerSpacing()));
+    connect(ui->powerPoints, SIGNAL(pointsChanged(double)),
+            this, SLOT(updatePowerSpacing()));
+
     // Miscellaneous
     QStringList channels = toStringList(vna.channels());
     ui->channel->clear();
@@ -222,6 +229,37 @@ void MainWindow::on_exportData_clicked() {
     else {
         ui->error->showMessage("*Error saving export file.");
     }
+}
+
+void MainWindow::updatePowerSpacing() {
+    qDebug() << "MainWindow::updatePowerSpacing from: " << QObject::sender();
+    ui->powerSpacing->clear();
+
+    if (!ui->startPower->hasAcceptableInput()) {
+        qDebug() << "  start power is invalid";
+        return;
+    }
+    if (!ui->stopPower->hasAcceptableInput()) {
+        qDebug() << "  stop power is invalid";
+        return;
+    }
+    if (!ui->powerPoints->hasAcceptableInput()) {
+        qDebug() << "  power points are invalid";
+        return;
+    }
+    if (ui->startPower->power_dBm() > ui->stopPower->power_dBm()) {
+        qDebug() << "  start power > stop power";
+        return;
+    }
+
+    const double start = ui->startPower->power_dBm();
+    const double stop = ui->stopPower->power_dBm();
+    const uint points = ui->powerPoints->points();
+
+    double spacing = (start - stop) / (points - 1);
+    QString text = "%1 dBm";
+    text = text.arg(formatDouble(spacing, 3));
+    ui->powerSpacing->setText(text);
 }
 
 MeasureThread *MainWindow::createThread() {

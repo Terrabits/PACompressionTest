@@ -37,6 +37,8 @@ private slots:
     void on_measure_clicked();
     void on_exportData_clicked();
 
+    void updatePowerSpacing();
+
     void plotMaxGain(const RsaToolbox::QRowVector &frequency_Hz, const RsaToolbox::QRowVector &gain_dB);
     void plotPinAtCompression(const RsaToolbox::QRowVector &frequency_Hz, const RsaToolbox::QRowVector &pin_dBm);
     void measurementFinished();

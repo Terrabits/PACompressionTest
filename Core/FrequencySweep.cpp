@@ -139,27 +139,26 @@ void FrequencySweep::run() {
             // Check for compression
             const double maxGain_dB = _results->maxGain_dB()[iFreq];
             const double compressedGain_dB = maxGain_dB - compressionLevel_dB;
-            if (!isCompression[iFreq] && gain_dB <= compressedGain_dB) {
-                const double pinCompression_dBm
-                        = linearInterpolateX(previousPower_dBm, previousGain_dB, // i-1
-                                             power_dBm,         gain_dB, // i
-                                                                compressedGain_dB); // Desired Y value
+            if (!isCompression[iFreq]) {
+                if (gain_dB <= compressedGain_dB) {
+                    // Compression found
+                    const double pinCompression_dBm
+                            = linearInterpolateX(previousPower_dBm, previousGain_dB, // i-1
+                                                 power_dBm,         gain_dB, // i
+                                                 compressedGain_dB); // Desired Y value
 
-                if (pinCompression_dBm <= previousPower_dBm || pinCompression_dBm > power_dBm) {
-                    qDebug() << "***This value seems odd...";
-                    qDebug() << "  previous power: " << previousPower_dBm;
-                    qDebug() << "  previous gain:  " << previousGain_dB;
-                    qDebug() << "  power:          " << power_dBm;
-                    qDebug() << "  gain:           " << gain_dB;
-                    qDebug() << "  max gain:       " << maxGain_dB;
-                    qDebug() << "  comp level:     " << compressionLevel_dB;
-                    qDebug() << "  gain@Comp:      " << compressedGain_dB;
-                    qDebug() << "  Pin@Comp:       " << pinCompression_dBm;
+                    _results->powerInAtCompression_dBm()[iFreq] = pinCompression_dBm;
+                    _results->gainAtCompression_dB()[iFreq] = compressedGain_dB;
+                    _results->powerOutAtCompression_dBm()[iFreq] = pinCompression_dBm + compressedGain_dB;
+                    isCompression[iFreq] = true;
                 }
-                _results->powerInAtCompression_dBm()[iFreq] = pinCompression_dBm;
-                _results->gainAtCompression_dB()[iFreq] = compressedGain_dB;
-                _results->powerOutAtCompression_dBm()[iFreq] = pinCompression_dBm + compressedGain_dB;
-                isCompression[iFreq] = true;
+                else {
+                    // Compression not found
+                    // Update progress plot with *closest* (current) value
+                    _results->powerInAtCompression_dBm()[iFreq] = power_dBm;
+                    _results->gainAtCompression_dB()[iFreq] = gain_dB;
+                    _results->powerOutAtCompression_dBm()[iFreq] = power_dBm + gain_dB;
+                }
             }
         }
         emit plotMaxGain(_results->frequencies_Hz(), _results->maxGain_dB());

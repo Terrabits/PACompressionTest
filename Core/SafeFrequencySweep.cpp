@@ -156,34 +156,17 @@ void SafeFrequencySweep::run() {
                 _results->gainAtCompression_dB()[iTotalFreq] = compressedGain_dB;
                 _results->powerOutAtCompression_dBm()[iTotalFreq] = pinCompression_dBm + compressedGain_dB;
 
-                if (pinCompression_dBm <= previousPower_dBm || pinCompression_dBm > power_dBm) {
-                    qDebug() << "***This value seems odd...";
-                    qDebug() << "  iPower:         " << iPower;
-                    qDebug() << "  Power:          " << power_dBm;
-                    qDebug() << "";
-                    qDebug() << "  iCurrent:       " << iCurrentFreq;
-                    qDebug() << "  Frequency:      " << freq_Hz;
-                    qDebug() << "  iTotal:         " << iTotalFreq;
-                    qDebug() << "";
-                    qDebug() << "  previous power: " << previousPower_dBm;
-                    qDebug() << "  max gain:       " << maxGain_dB;
-                    qDebug() << "  comp level:     " << compressionLevel_dB;
-                    qDebug() << "  gain@comp:      " << compressedGain_dB;
-                    qDebug() << "";
-                    qDebug() << "  previous freqs: " << previousFrequencies_Hz << previousFrequencies_Hz.size();
-                    qDebug() << "  iPrev:          " << iPrevFreq;
-                    qDebug() << "  previous gains: " << previousGains_dB << previousGains_dB.size();
-                    qDebug() << "  previous gain:  " << previousGain_dB;
-                    qDebug() << "";
-                    qDebug() << "  gain:           " << gain_dB;
-                    qDebug() << "";
-                    qDebug() << "  Pin@Comp:       " << pinCompression_dBm;
-                }
 
                 sweptFreq_Hz.removeAt(iCurrentFreq);
                 gains_dB.removeAt(iCurrentFreq);
                 sweep.deleteSegment(iCurrentFreq+1);
                 iCurrentFreq--;
+            }
+            else {
+                // Update progress plot with closest value
+                _results->powerInAtCompression_dBm()[iTotalFreq] = power_dBm;
+                _results->gainAtCompression_dB()[iTotalFreq] = gain_dB;
+                _results->powerOutAtCompression_dBm()[iTotalFreq] = power_dBm + gain_dB;
             }
         }
 

@@ -232,23 +232,18 @@ void MainWindow::on_exportData_clicked() {
 }
 
 void MainWindow::updatePowerSpacing() {
-    qDebug() << "MainWindow::updatePowerSpacing from: " << QObject::sender();
     ui->powerSpacing->clear();
 
     if (!ui->startPower->hasAcceptableInput()) {
-        qDebug() << "  start power is invalid";
         return;
     }
     if (!ui->stopPower->hasAcceptableInput()) {
-        qDebug() << "  stop power is invalid";
         return;
     }
     if (!ui->powerPoints->hasAcceptableInput()) {
-        qDebug() << "  power points are invalid";
         return;
     }
     if (ui->startPower->power_dBm() > ui->stopPower->power_dBm()) {
-        qDebug() << "  start power > stop power";
         return;
     }
 

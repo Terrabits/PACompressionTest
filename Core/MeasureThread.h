@@ -35,6 +35,10 @@ public:
 signals:
     void plotMaxGain(const RsaToolbox::QRowVector &frequency_Hz, const RsaToolbox::QRowVector &gain_dB);
     void plotPinAtCompression(const RsaToolbox::QRowVector &frequency_Hz, const RsaToolbox::QRowVector &pin_dB);
+
+    void startingSweep(const QString &caption, uint sweepTime_ms);
+    void finishedSweep();
+
     void progress(int percent);
 
 protected:

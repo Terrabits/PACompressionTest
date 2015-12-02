@@ -82,7 +82,9 @@ void SafeFrequencySweep::run() {
         return;
     }
     _vna->channel(c).manualSweepOn();
+    emit startingSweep(QString("Sweep %1").arg(iPower+1), sweep.sweepTime_ms());
     _results->data() << sweep.measure(outputPort, inputPort);
+    emit finishedSweep();
 
     if (shouldFlipPorts)
         flipPorts(_results->data()[iPower]);
@@ -95,7 +97,6 @@ void SafeFrequencySweep::run() {
     _results->gainAtCompression_dB() = _results->maxGain_dB();
     _results->powerOutAtCompression_dBm() = _results->powerOutAtMaxGain_dBm();
 
-    qDebug() << "Compression points found: " << freqPoints - sweptFreq_Hz.size();
     emit progress(int((100.0 * (iPower+1))/powerPoints));
     emit plotMaxGain(_results->frequencies_Hz(), _results->maxGain_dB());
     emit plotPinAtCompression(_results->frequencies_Hz(), _results->powerInAtCompression_dBm());
@@ -115,8 +116,9 @@ void SafeFrequencySweep::run() {
             _vna->settings().displayOn();
             return;
         }
-
+        emit startingSweep(QString("Sweep %1").arg(iPower+1), sweep.sweepTime_ms());
         _results->data() << sweep.measure(outputPort, inputPort);
+        emit finishedSweep();
         if (shouldFlipPorts)
             flipPorts(_results->data()[iPower]);
 
@@ -170,13 +172,11 @@ void SafeFrequencySweep::run() {
             }
         }
 
-        qDebug() << "Compression points found: " << freqPoints - sweptFreq_Hz.size();
         emit progress(int((100.0 * (iPower+1))/powerPoints));
         emit plotMaxGain(_results->frequencies_Hz(), _results->maxGain_dB());
         emit plotPinAtCompression(_results->frequencies_Hz(), _results->powerInAtCompression_dBm());
     }
 
-    qDebug() << "Total Compression points found: " << freqPoints - sweptFreq_Hz.size();
     emit progress(100);
 
     _vna->deleteChannel(c);

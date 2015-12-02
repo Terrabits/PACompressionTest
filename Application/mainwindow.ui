@@ -26,7 +26,7 @@
     <item>
      <widget class="QStackedWidget" name="pages">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="settingsPage">
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -533,7 +533,7 @@
        </layout>
       </widget>
       <widget class="QWidget" name="progressPage">
-       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,0,0">
         <property name="leftMargin">
          <number>0</number>
         </property>
@@ -548,6 +548,22 @@
         </property>
         <item>
          <widget class="QCustomPlot" name="plot" native="true"/>
+        </item>
+        <item>
+         <widget class="RsaToolbox::TimedProgressBar" name="timedProgressBar" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QProgressBar" name="progressBar">
@@ -650,6 +666,12 @@
    <class>QCustomPlot</class>
    <extends>QWidget</extends>
    <header>qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>RsaToolbox::TimedProgressBar</class>
+   <extends>QWidget</extends>
+   <header>TimedProgressBar.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

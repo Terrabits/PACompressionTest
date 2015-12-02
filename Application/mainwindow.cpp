@@ -142,6 +142,8 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
     connect(ui->cancel, SIGNAL(clicked()),
             this, SLOT(close()));
 
+    ui->timedProgressBar->showPercentage();
+
     qRegisterMetaType<RsaToolbox::QRowVector>("RsaToolbox::QRowVector");
 
     _exportPath.setKey(&_keys, EXPORT_PATH_KEY);
@@ -202,10 +204,14 @@ void MainWindow::on_measure_clicked() {
 
     connect(_thread.data(), SIGNAL(progress(int)),
             ui->progressBar, SLOT(setValue(int)));
+    connect(_thread.data(), SIGNAL(startingSweep(QString,uint)),
+            ui->timedProgressBar, SLOT(start(QString,uint)));
     connect(_thread.data(), SIGNAL(plotMaxGain(RsaToolbox::QRowVector,RsaToolbox::QRowVector)),
             this, SLOT(plotMaxGain(RsaToolbox::QRowVector,RsaToolbox::QRowVector)));
     connect(_thread.data(), SIGNAL(plotPinAtCompression(RsaToolbox::QRowVector,RsaToolbox::QRowVector)),
             this, SLOT(plotPinAtCompression(RsaToolbox::QRowVector,RsaToolbox::QRowVector)));
+    connect(_thread.data(), SIGNAL(finishedSweep()),
+            ui->timedProgressBar, SLOT(stop()));
     connect(_thread.data(), SIGNAL(finished()),
             this, SLOT(measurementFinished()));
 
@@ -539,8 +545,12 @@ void MainWindow::measurementFinished() {
             ui->progressBar, SLOT(setValue(int)));
     disconnect(_thread.data(), SIGNAL(plotMaxGain(RsaToolbox::QRowVector,RsaToolbox::QRowVector)),
             this, SLOT(plotMaxGain(RsaToolbox::QRowVector,RsaToolbox::QRowVector)));
+    disconnect(_thread.data(), SIGNAL(startingSweep(QString,uint)),
+            ui->timedProgressBar, SLOT(start(QString,uint)));
     disconnect(_thread.data(), SIGNAL(plotPinAtCompression(RsaToolbox::QRowVector,RsaToolbox::QRowVector)),
             this, SLOT(plotPinAtCompression(RsaToolbox::QRowVector,RsaToolbox::QRowVector)));
+    disconnect(_thread.data(), SIGNAL(finishedSweep()),
+            ui->timedProgressBar, SLOT(stop()));
     disconnect(_thread.data(), SIGNAL(finished()),
             this, SLOT(measurementFinished()));
 

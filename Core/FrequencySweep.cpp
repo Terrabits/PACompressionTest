@@ -83,7 +83,9 @@ void FrequencySweep::run() {
         return;
     }
     _vna->channel(c).manualSweepOn();
+    emit startingSweep(QString("Sweep %1").arg(iPower+1), sweep.sweepTime_ms());
     _results->data() << sweep.measure(outputPort, inputPort);
+    emit finishedSweep();
 
     if (shouldFlipPorts)
         flipPorts(_results->data()[iPower]);
@@ -101,7 +103,6 @@ void FrequencySweep::run() {
 
     QBitArray isCompression(freqPoints, false);
     for (iPower = 1; iPower < powerPoints; iPower++) {
-        qDebug() << "Compression points found: " << isCompression.count(true);
         emit progress(int((100.0 * iPower)/powerPoints));
 
         power_dBm = powers_dBm[iPower];
@@ -115,7 +116,10 @@ void FrequencySweep::run() {
             _vna->settings().displayOn();
             return;
         }
+        emit startingSweep(QString("Sweep %1").arg(iPower+1), sweep.sweepTime_ms());
         _results->data() << sweep.measure(outputPort, inputPort);
+        emit finishedSweep();
+
         if (shouldFlipPorts)
             flipPorts(_results->data()[iPower]);
 
@@ -165,7 +169,6 @@ void FrequencySweep::run() {
         emit plotPinAtCompression(_results->frequencies_Hz(), _results->powerInAtCompression_dBm());
     }
 
-    qDebug() << "Compression points found: " << isCompression.count(true);
     emit progress(100);
 
     _vna->deleteChannel(c);

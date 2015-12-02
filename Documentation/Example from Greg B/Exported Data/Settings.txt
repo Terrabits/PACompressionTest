@@ -1,0 +1,38 @@
+R&S PA Compression Test Version 1.5
+(C) 2015 Rohde & Schwarz North America
+
+Mon Nov 30 20:11:27 2015
+
+SETTINGS
+Start Frequency:     1.5 GHz
+Stop Frequency:      5.5 GHz
+Points:              101
+IF BW:               1 KHz
+
+Start Power:         -25 dBm
+Stop Power:          -10 dBm
+Points:              50
+Compression Level:   1 dB
+Gain Expansion:      Yes
+Stop at Compression: Yes
+Post Condition:      None
+
+VNA INSTRUMENT INFO
+Connection:       TCPIP
+Address:          127.0.0.1
+Make:             Rohde & Schwarz
+Model:            ZVA
+Serial No:        1145111042100361
+Firmware Version: 3.60
+Min Frequency:    10 MHz
+Max Frequency:    43.5 GHz
+Number of Ports:  4
+Options:          ZVAB-B4
+                  ZVA40-B16
+                  ZVA40-B21
+                  ZVA40-B23
+                  ZVA40-B32
+                  ZVA40-B34
+                  ZVAB-B18
+
+

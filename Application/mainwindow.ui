@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>322</width>
-    <height>622</height>
+    <width>375</width>
+    <height>505</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -187,28 +187,28 @@
              <property name="title">
               <string>Power</string>
              </property>
-             <layout class="QGridLayout" name="gridLayout_2">
-              <item row="1" column="1">
-               <widget class="RsaToolbox::PowerEdit" name="stopPower">
+             <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,1,0">
+              <item row="6" column="1">
+               <widget class="QComboBox" name="postCondition">
                 <property name="font">
                  <font>
                   <weight>50</weight>
                   <bold>false</bold>
                  </font>
                 </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="stopPowerLabel">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
+                <property name="currentIndex">
+                 <number>0</number>
                 </property>
-                <property name="text">
-                 <string>Stop:</string>
-                </property>
+                <item>
+                 <property name="text">
+                  <string>None</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>RF Off</string>
+                 </property>
+                </item>
                </widget>
               </item>
               <item row="2" column="0">
@@ -234,8 +234,8 @@
                 </property>
                </widget>
               </item>
-              <item row="0" column="0">
-               <widget class="QLabel" name="startPowerLabel">
+              <item row="1" column="0">
+               <widget class="QLabel" name="stopPowerLabel">
                 <property name="font">
                  <font>
                   <weight>50</weight>
@@ -243,46 +243,17 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string>Start:</string>
+                 <string>Stop:</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="1">
-               <widget class="RsaToolbox::PointsEdit" name="powerPoints">
+              <item row="1" column="1">
+               <widget class="RsaToolbox::PowerEdit" name="stopPower">
                 <property name="font">
                  <font>
                   <weight>50</weight>
                   <bold>false</bold>
                  </font>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="1">
-               <widget class="QCheckBox" name="gainExpansion">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Include Gain Expansion</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="compressionLevelLabel">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Compression:</string>
                 </property>
                </widget>
               </item>
@@ -299,6 +270,42 @@
                 </property>
                </widget>
               </item>
+              <item row="2" column="1">
+               <widget class="RsaToolbox::PointsEdit" name="powerPoints">
+                <property name="font">
+                 <font>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="startPowerLabel">
+                <property name="font">
+                 <font>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Start:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="compressionLevelLabel">
+                <property name="font">
+                 <font>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Compression:</string>
+                </property>
+               </widget>
+              </item>
               <item row="3" column="1">
                <widget class="RsaToolbox::DecibelEdit" name="compressionLevel">
                 <property name="font">
@@ -309,30 +316,23 @@
                 </property>
                </widget>
               </item>
-              <item row="6" column="1">
-               <widget class="QComboBox" name="postCondition">
+              <item row="3" column="2">
+               <widget class="QCheckBox" name="gainExpansion">
                 <property name="font">
                  <font>
                   <weight>50</weight>
                   <bold>false</bold>
                  </font>
                 </property>
-                <property name="currentIndex">
-                 <number>0</number>
+                <property name="text">
+                 <string>Include Gain Expansion</string>
                 </property>
-                <item>
-                 <property name="text">
-                  <string>None</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>RF Off</string>
-                 </property>
-                </item>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
                </widget>
               </item>
-              <item row="5" column="1">
+              <item row="1" column="2">
                <widget class="QCheckBox" name="stopAtCompression">
                 <property name="font">
                  <font>
@@ -621,8 +621,6 @@
   <tabstop>stopPower</tabstop>
   <tabstop>powerPoints</tabstop>
   <tabstop>compressionLevel</tabstop>
-  <tabstop>gainExpansion</tabstop>
-  <tabstop>stopAtCompression</tabstop>
   <tabstop>postCondition</tabstop>
   <tabstop>channel</tabstop>
   <tabstop>outputPort</tabstop>

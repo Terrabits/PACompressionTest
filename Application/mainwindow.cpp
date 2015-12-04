@@ -257,7 +257,7 @@ void MainWindow::updatePowerSpacing() {
     const double stop = ui->stopPower->power_dBm();
     const uint points = ui->powerPoints->points();
 
-    double spacing = (start - stop) / (points - 1);
+    double spacing = (stop - start) / (points - 1);
     QString text = "%1 dBm";
     text = text.arg(formatDouble(spacing, 3));
     ui->powerSpacing->setText(text);

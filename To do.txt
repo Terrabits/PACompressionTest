@@ -1,14 +1,22 @@
 To do:
- - Shrink settings dialog to ZVA screen height
- - "Inner loop" progress bar
- - Update progress plot: increase Pin each sweep UNLESS compression is found
+
+Greg's feedback
+ - DONE Shrink settings dialog to ZVA screen height
+ - DONE "Inner loop" progress bar
+ - DONE Update progress plot: increase Pin each sweep UNLESS compression is found
  - Replace linear interpolation with...?
  - Ensure more accurate and/or repeatable results by...?
    * dwell time?
  - Attenuators: Is Pout_compression off? Pin_compression?
  - Display "Port 1 Source" rather than "Channel Base Pb"
    Channel > Mode > Port config > "Stimulus..." > Power: "Enter and Display" > "Port 1 Source"
- - 
+ 
+ M/A-COM:
+ - Slow?
+ - Add Power sweep option (how to stop?)
+ - Export to giant CSV file
+ - Pulsed CW (Yes, theoretically)
+
 
 ===========================================
 

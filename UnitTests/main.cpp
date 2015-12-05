@@ -1,6 +1,7 @@
 
 
 // Tests
+#include "SpeedTrackerTest.h"
 #include "SafeFrequencySweepTest.h"
 
 // RsaToolbox
@@ -14,7 +15,8 @@ using namespace RsaToolbox;
 
 int main() {
     TestRunner testRunner;
-    testRunner.addTest(new SafeFrequencySweepTest);
+    testRunner.addTest(new SpeedTrackerTest);
+//    testRunner.addTest(new SafeFrequencySweepTest);
 
     qDebug() << "Global result: " << (testRunner.runTests() ? "PASS" : "FAIL");
     return 0;

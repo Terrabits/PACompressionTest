@@ -8,9 +8,11 @@ CONFIG    += console \
              testcase
 
 include(../Core/core.pri)
-HEADERS     += SafeFrequencySweepTest.h
+HEADERS     += SafeFrequencySweepTest.h \
+    SpeedTrackerTest.h
 SOURCES     += main.cpp \
-               SafeFrequencySweepTest.cpp
+               SafeFrequencySweepTest.cpp \
+    SpeedTrackerTest.cpp
 OTHER_FILES += SafeFrequencySweepTest_Log.txt
 
 DEFINES   += SOURCE_DIR=\\\"$$PWD/\\\"

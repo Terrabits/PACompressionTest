@@ -1,0 +1,6 @@
+Parent:             400 ms
+  task1:            100 ms
+  task2:            100 ms
+  task3:            200 ms
+    task3.1:        100 ms
+    task3.2:        100 ms

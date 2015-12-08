@@ -192,8 +192,8 @@ void FrequencySweep::run() {
         msg = msg.arg(formatValue(sweptFreq_Hz[iFailure], 3, Units::Hertz));
         setError(msg);
     }
-    else {
-        displayResultsOnInstrument();
-    }
-    _vna->settings().displayOn();
+//    else {
+//        displayResultsOnInstrument();
+//    }
+//    _vna->settings().displayOn();
 }

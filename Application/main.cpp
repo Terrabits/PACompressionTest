@@ -41,11 +41,6 @@ int main(int argc, char *argv[])
     if (isNoConnection(vna) || isUnknownModel(vna))
             return(0);
 
-    TraceSettingsModel model;
-    TracesWidget tracesWidget;
-    tracesWidget.setModel(&model);
-    tracesWidget.show();
-
     MainWindow w(vna, keys);
     w.setWindowFlags(w.windowFlags() | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint);
     w.show();

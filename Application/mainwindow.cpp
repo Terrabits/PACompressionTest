@@ -8,6 +8,8 @@
 #include "FrequencySweep.h"
 #include "SafeFrequencySweep.h"
 
+#include "ProcessTrace.h"
+
 // RsaToolbox
 using namespace RsaToolbox;
 
@@ -150,6 +152,8 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
     if (_exportPath.isEmpty())
         _exportPath.setPath(QDir::homePath());
     loadKeys();
+
+    ui->tracesWidget->setModel(&_traceSettingsModel);
 }
 
 MainWindow::~MainWindow() {
@@ -186,6 +190,21 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 //    }
 //}
 void MainWindow::on_measure_clicked() {
+    if (ui->pages->currentWidget() == ui->tracesPage) {
+        // Apply traces
+        qDebug() << "PROCESSING TRACES";
+        QVector<TraceSettings> traces = _traceSettingsModel.traces();
+        uint diagram = _vna.createDiagram();
+        for (int i = 0; i < traces.size(); i++) {
+            qDebug() << "  Processing trace " << i << traces[i].name;
+            ProcessTrace(&(traces[i]), _results.data(), &_vna, diagram);
+        }
+        if (_vna.diagram(diagram).traces().isEmpty())
+            _vna.deleteDiagram(diagram);
+        showSettingsPage();
+        return;
+    }
+
     if (!processSettings())
         return;
 
@@ -194,8 +213,6 @@ void MainWindow::on_measure_clicked() {
     _isMeasuring = true;
 
     _results.reset();
-    ui->exportData->setDisabled(true);
-    ui->cancel->setText("Cancel");
 
     _thread.reset(createThread());
     _thread->setAppInfo(APP_NAME, APP_VERSION);
@@ -517,6 +534,20 @@ QRect MainWindow::progressGeometry() const {
     QRect rect = QRect(x, y, w, h);
     return rect;
 }
+QRect MainWindow::tracesGeometry() const {
+    const int i = QApplication::desktop()->primaryScreen();
+    QRect screen = QApplication::desktop()->screen(i)->geometry();
+
+    QPoint center = screen.center();
+
+    const int w = 600;
+    const int h = 450;
+
+    const int x = center.x() - w/2.0;
+    const int y = center.y() - h/2.0;
+    QRect rect = QRect(x, y, w, h);
+    return rect;
+}
 
 void MainWindow::plotMaxGain(const QRowVector &frequency_Hz, const QRowVector &gain_dB) {
     const double upper = ui->plot->yAxis->range().upper;
@@ -557,17 +588,16 @@ void MainWindow::measurementFinished() {
     if (_thread->isError()) {
        ui->error->showMessage(_thread->errorMessage());
        shake();
+       showSettingsPage();
     }
     else {
         _results.reset(_thread->takeResults());
         ui->exportData->setEnabled(true);
-        ui->error->showMessage("Measurement complete!", Qt::darkGreen);
+//        ui->error->showMessage("Measurement complete!", Qt::darkGreen);
+        showTracesPage();
     }
 
     _thread.reset();
-    showSettingsPage();
-    ui->measure->setEnabled(true);
-    ui->cancel->setText("Close");
 }
 
 void MainWindow::shake() {
@@ -585,6 +615,9 @@ void MainWindow::shake() {
 }
 
 void MainWindow::showProgressPage() {
+    ui->exportData->setDisabled(true);
+    ui->cancel->setText("Cancel");
+
     _settingsGeometry = geometry();
     ui->pages->setCurrentWidget(ui->progressPage);
 
@@ -596,6 +629,9 @@ void MainWindow::showProgressPage() {
     animation->start();
 }
 void MainWindow::showSettingsPage() {
+    ui->measure->setEnabled(true);
+    ui->cancel->setText("Close");
+
     QPropertyAnimation *animation = new QPropertyAnimation(this, "geometry");
     animation->setDuration(100);
     animation->setEasingCurve(QEasingCurve::OutSine);
@@ -604,6 +640,20 @@ void MainWindow::showSettingsPage() {
     animation->start();
 
     ui->pages->setCurrentWidget(ui->settingsPage);
+}
+void MainWindow::showTracesPage() {
+    ui->measure->setEnabled(true);
+    ui->measure->setText("Plot");
+    ui->cancel->setText("Close");
+    ui->pages->setCurrentWidget(ui->tracesPage);
+
+    // Need animation?
+//    QPropertyAnimation *animation = new QPropertyAnimation(this, "geometry");
+//    animation->setDuration(100);
+//    animation->setEasingCurve(QEasingCurve::OutSine);
+//    animation->setStartValue(geometry());
+//    animation->setEndValue(tracesGeometry());
+//    animation->start();
 }
 
 void MainWindow::setupPlot() {

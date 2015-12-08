@@ -1,7 +1,11 @@
 #include "ProcessTrace.h"
 
+
 // RsaToolbox
 using namespace RsaToolbox;
+
+// Qt
+#include <QDebug>
 
 ProcessTrace::ProcessTrace(TraceSettings *settings, MeasurementData *data, Vna *vna, uint defaultDiagram) :
     _settings(settings),
@@ -10,6 +14,9 @@ ProcessTrace::ProcessTrace(TraceSettings *settings, MeasurementData *data, Vna *
     _diagram(defaultDiagram),
     _memoryTraceName(settings->name)
 {
+    _channelName = "_" + _memoryTraceName;
+    _dataTraceName = _channelName;
+
     retrieveData();
     if (isPreexistingTrace()) {
         updateTrace();
@@ -18,28 +25,41 @@ ProcessTrace::ProcessTrace(TraceSettings *settings, MeasurementData *data, Vna *
         createTrace();
     }
 }
+ProcessTrace::~ProcessTrace() {
+
+}
 
 bool ProcessTrace::isPreexistingTrace() {
     return _vna->isTrace(_memoryTraceName);
 }
+
+ComplexRowVector ProcessTrace::toComplexRowVector(QRowVector values) {
+    ComplexRowVector _result(values.size());
+    for (int i = 0; i < values.size(); i++) {
+        _result[i] = ComplexDouble(values[i], 0);
+    }
+    return _result;
+}
+
 void ProcessTrace::retrieveData() {
+    qDebug() << "ProcessTrace::retrieveData";
     if (_settings->isYPower()) {
         _x = _data->frequencies_Hz();
         if (_settings->isYPin()) {
             if (_settings->isAtCompression()) {
-                _y = _data->powerInAtCompression_dBm();
+                _y_dBm = _data->powerInAtCompression_dBm();
             }
             else {
-                _y = _data->powerInAtMaxGain_dBm();
+                _y_dBm = _data->powerInAtMaxGain_dBm();
             }
         }
         else {
             // Pout
             if (_settings->isAtCompression()) {
-                _y = _data->powerOutAtCompression_dBm();
+                _y_dBm = _data->powerOutAtCompression_dBm();
             }
             else {
-                _y = _data->powerOutAtMaxGain_dBm();
+                _y_dBm = _data->powerOutAtMaxGain_dBm();
             }
         }
     }
@@ -81,17 +101,13 @@ void ProcessTrace::retrieveData() {
     }
 }
 void ProcessTrace::createTrace() {
+    qDebug() << "ProcessTrace::createTrace";
     _channel = _vna->createChannel();
     _vna->channel(_channel).manualSweepOn();
     _vna->channel(_channel).setName(_channelName);
-    if (_settings->isXFrequency()) {
-        _vna->channel(_channel).setSweepType(VnaChannel::SweepType::Segmented);
-    }
-    else {
-        _vna->channel(_channel).setSweepType(VnaChannel::SweepType::Power);
-    }
-    const uint outputPort = _data->settings.outputPort();
-    const uint inputPort = _data->settings.inputPort();
+
+    const uint outputPort = _data->settings().outputPort();
+    const uint inputPort = _data->settings().inputPort();
     _vna->createTrace(_dataTraceName, _channel);
     if (_settings->isYInputReflectionTrace()) {
         _vna->trace(_dataTraceName).setNetworkParameter(NetworkParameter::S, inputPort, inputPort);
@@ -111,24 +127,40 @@ void ProcessTrace::createTrace() {
     else /*if (_settings->isYPout())*/ {
         _vna->trace(_dataTraceName).setWaveQuantity(WaveQuantity::b, outputPort);
     }
-    _vna->trace(-dataTraceName).setDiagram(_diagram);
+    _vna->trace(_dataTraceName).setDiagram(_diagram);
     _vna->trace(_dataTraceName).toMemory(_memoryTraceName);
+    _vna->trace(_memoryTraceName).setDiagram(_diagram);
     updateTrace();
     _vna->trace(_dataTraceName).hide();
 }
 void ProcessTrace::updateTrace() {
+    qDebug() << "ProcessTrace::updateTrace";
     VnaChannel channel = _vna->channel(_channel);
     channel.manualSweepOn();
 
+    qDebug() << "  x:     " << _x.size();
+    qDebug() << "  y:     " << _y.size();
+    qDebug() << "  y_dBm: " << _y_dBm.size();
+
     VnaTrace trace = _vna->trace(_memoryTraceName);
     if (_settings->isXFrequency()) {
-        trace.write(_x, _y);
+        if (_settings->isYPower()) {
+            trace.write(_x, _y_dBm);
+        }
+        else {
+            trace.write(_x, _y);
+        }
     }
     else {
         channel.setSweepType(VnaChannel::SweepType::Power);
         channel.powerSweep().setStart(_x.first());
         channel.powerSweep().setStop(_x.last());
         channel.powerSweep().setPoints(_x.size());
-        trace.write(_y);
+        if (_settings->isYPower()) {
+            trace.write(_y_dBm);
+        }
+        else {
+            trace.write(_y);
+        }
     }
 }

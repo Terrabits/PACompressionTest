@@ -193,9 +193,9 @@ void SafeFrequencySweep::run() {
         msg = msg.arg(formatValue(sweptFreq_Hz.first(), 3, Units::Hertz));
         setError(msg);
     }
-    else {
-        displayResultsOnInstrument();
-    }
-    _vna->settings().displayOn();
+//    else {
+//        displayResultsOnInstrument();
+//    }
+//    _vna->settings().displayOn();
 }
 

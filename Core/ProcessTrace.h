@@ -34,7 +34,9 @@ private:
     bool isPreexistingTrace();
 
     RsaToolbox::QRowVector _x;
+    RsaToolbox::QRowVector _y_dBm;
     RsaToolbox::ComplexRowVector _y;
+    static RsaToolbox::ComplexRowVector toComplexRowVector(RsaToolbox::QRowVector values);
     void retrieveData();
     void createTrace();
     void updateTrace();

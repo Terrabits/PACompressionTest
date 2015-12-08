@@ -6,6 +6,7 @@
 #include "MeasurementSettings.h"
 #include "MeasurementData.h"
 #include "MeasureThread.h"
+#include "TraceSettingsModel.h"
 
 // RsaToolbox
 #include <Keys.h>
@@ -63,10 +64,14 @@ private:
     bool _isMeasuring;
     QRect _settingsGeometry;
     QRect progressGeometry() const;
+    QRect tracesGeometry() const;
     void showProgressPage();
     void showSettingsPage();
+    void showTracesPage();
 
     void setupPlot();
+
+    TraceSettingsModel _traceSettingsModel;
 };
 
 

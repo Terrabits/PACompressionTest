@@ -4,6 +4,7 @@
 #include "TraceSettingsTest.h"
 #include "SpeedTrackerTest.h"
 #include "SafeFrequencySweepTest.h"
+#include "ProcessTraceTest.h"
 
 // RsaToolbox
 #include "TestRunner.h"
@@ -16,9 +17,10 @@ using namespace RsaToolbox;
 
 int main() {
     TestRunner testRunner;
-    testRunner.addTest(new TraceSettingsTest);
+//    testRunner.addTest(new TraceSettingsTest);
 //    testRunner.addTest(new SpeedTrackerTest);
 //    testRunner.addTest(new SafeFrequencySweepTest);
+    testRunner.addTest(new ProcessTraceTest);
 
     qDebug() << "Global result: " << (testRunner.runTests() ? "PASS" : "FAIL");
     return 0;

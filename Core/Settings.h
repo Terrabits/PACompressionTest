@@ -28,7 +28,11 @@ const QString KEY_PATH = dataDir.filePath("Settings");
 
 // Connection settings
 const RsaToolbox::ConnectionType CONNECTION_TYPE = RsaToolbox::ConnectionType::TCPIP_CONNECTION;
+#ifdef DEBUG_MODE
+const QString INSTRUMENT_ADDRESS = "169.254.166.252";
+#else
 const QString INSTRUMENT_ADDRESS = "127.0.0.1";
+#endif
 const unsigned int TIMEOUT_MS = 1000;
 
 // Keys

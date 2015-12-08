@@ -55,7 +55,11 @@ public:
 
     void clearAllData();
 
+    bool open(QString filename);
+    bool save(QString filename);
+
     bool exportToZip(QString filename);
+
 
 private:
     QString _appName;

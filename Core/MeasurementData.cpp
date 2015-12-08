@@ -12,6 +12,7 @@ using namespace RsaToolbox;
 #include <QFileInfo>
 #include <QFile>
 #include <QTextStream>
+#include <QDataStream>
 
 // QuaZip
 #include <quazip.h>
@@ -158,6 +159,63 @@ void MeasurementData::clearAllData() {
     _powerOutAtCompression_dBm.clear();
 
     _data.clear();
+}
+
+bool MeasurementData::open(QString filename) {
+    QFile file(filename);
+    if (!file.open(QFile::ReadOnly))
+        return false;
+
+    QDataStream stream(&file);
+    stream >> _appName;
+    stream >> _appVersion;
+    stream >> _timeStamp;
+    stream >> _vnaInfo;
+    stream >> _settings;
+
+    stream >> _frequencies_Hz;
+    stream >> _powers_dBm;
+
+    stream >> _powerInAtMaxGain_dBm;
+    stream >> _maxGain_dB;
+    stream >> _powerOutAtMaxGain_dBm;
+
+    stream >> _powerInAtCompression_dBm;
+    stream >> _gainAtCompression_dB;
+    stream >> _powerOutAtCompression_dBm;
+
+    stream >> _data;
+
+    file.close();
+    return true;
+}
+bool MeasurementData::save(QString filename) {
+    QFile file(filename);
+    if (!file.open(QFile::WriteOnly))
+        return false;
+
+    QDataStream stream(&file);
+    stream << _appName;
+    stream << _appVersion;
+    stream << _timeStamp;
+    stream << _vnaInfo;
+    stream << _settings;
+
+    stream << _frequencies_Hz;
+    stream << _powers_dBm;
+
+    stream << _powerInAtMaxGain_dBm;
+    stream << _maxGain_dB;
+    stream << _powerOutAtMaxGain_dBm;
+
+    stream << _powerInAtCompression_dBm;
+    stream << _gainAtCompression_dB;
+    stream << _powerOutAtCompression_dBm;
+
+    stream << _data;
+
+    file.close();
+    return true;
 }
 
 bool MeasurementData::exportToZip(QString filename) {

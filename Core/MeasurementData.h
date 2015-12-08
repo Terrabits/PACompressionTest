@@ -29,7 +29,11 @@ public:
     MeasurementSettings settings() const;
     void setSettings(const MeasurementSettings &settings);
 
+
+    uint frequencyPoints() const;
     RsaToolbox::QRowVector &frequencies_Hz();
+
+    uint powerPoints() const;
     RsaToolbox::QRowVector &powers_dBm();
 
     RsaToolbox::QRowVector &powerInAtMaxGain_dBm();
@@ -38,6 +42,12 @@ public:
     RsaToolbox::QRowVector &powerInAtCompression_dBm();
     RsaToolbox::QRowVector &gainAtCompression_dB();
     RsaToolbox::QRowVector &powerOutAtCompression_dBm();
+
+    RsaToolbox::ComplexRowVector sParameterAtCompression(uint outputPort, uint inputPort);
+    RsaToolbox::ComplexRowVector sParameterAtMaxGain(uint outputPort, uint inputPort);
+
+    void sParameterVsPower(double frequency_Hz, uint outputPort, uint inputPort, RsaToolbox::QRowVector &powers_dBm, RsaToolbox::ComplexRowVector &sParameter);
+    void sParameterVsFrequency(double power_dBm, uint outputPort, uint inputPort, RsaToolbox::QRowVector &frequencies_Hz, RsaToolbox::ComplexRowVector &sParameter);
 
     // data[power]->y()[freq][outputPort-1][inputPort-1]
     // where inputPort, outputPort => [1,2]
@@ -65,6 +75,9 @@ private:
     RsaToolbox::QRowVector _powerOutAtCompression_dBm;
 
     QVector<RsaToolbox::NetworkData> _data;
+
+    RsaToolbox::ComplexMatrix3D sParametersAtCompression();
+    RsaToolbox::ComplexMatrix3D sParametersAtMaxGain();
 
     // Keep?
     bool exportInfo(QString path);

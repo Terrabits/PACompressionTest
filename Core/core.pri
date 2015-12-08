@@ -4,8 +4,15 @@ QT          += core gui widgets
 
 include($$PWD/../RsaToolbox/rsatoolbox.pri)
 include($$PWD/../RsaToolbox/QuaZip/quazip.pri)
-INCLUDEPATH += $$PWD
-DEPENDPATH  += $$PWD
+
+INCLUDEPATH += $$PWD \
+               $$PWD/Traces \
+               $$PWD/MeasureThread \
+               $$PWD/SpeedTracker
+DEPENDPATH  += $$PWD \
+               $$PWD/Traces \
+               $$PWD/MeasureThread \
+               $$PWD/SpeedTracker
 #RESOURCES   += $$PWD/Resources.qrc
 
 win32 {

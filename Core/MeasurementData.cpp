@@ -46,8 +46,14 @@ void MeasurementData::setSettings(const MeasurementSettings &settings) {
     _settings = settings;
 }
 
+uint MeasurementData::frequencyPoints() const {
+    return _frequencies_Hz.size();
+}
 QRowVector &MeasurementData::frequencies_Hz() {
     return _frequencies_Hz;
+}
+uint  MeasurementData::powerPoints() const {
+    return _powers_dBm.size();
 }
 QRowVector &MeasurementData::powers_dBm() {
     return _powers_dBm;
@@ -70,6 +76,69 @@ QRowVector &MeasurementData::gainAtCompression_dB() {
 }
 QRowVector &MeasurementData::powerOutAtCompression_dBm() {
     return _powerOutAtCompression_dBm;
+}
+
+ComplexMatrix3D MeasurementData::sParametersAtCompression() {
+    ComplexMatrix3D _matrix(frequencyPoints());
+    for (uint i = 0; i < frequencyPoints(); i++) {
+        const double freq_Hz = _frequencies_Hz[i];
+        const double power_dBm = _powerInAtCompression_dBm[i];
+        const int pIndex = powers_dBm().indexOf(power_dBm);
+        const int fIndex = _data[pIndex].x().indexOf(freq_Hz);
+
+        _matrix[i] = _data[pIndex].y()[fIndex];
+    }
+    return _matrix;
+}
+ComplexRowVector MeasurementData::sParameterAtCompression(uint outputPort, uint inputPort) {
+    ComplexMatrix3D _matrix = sParametersAtCompression();
+    ComplexRowVector _result(_matrix.size());
+    for (uint i = 0; i < _matrix.size(); i++) {
+        _result[i] = _matrix[i][outputPort-1][inputPort-1];
+    }
+    return _result;
+}
+ComplexMatrix3D MeasurementData::sParametersAtMaxGain() {
+    ComplexMatrix3D _matrix(frequencyPoints());
+    for (uint i = 0; i < frequencyPoints(); i++) {
+        const double freq_Hz = _frequencies_Hz[i];
+        const double power_dBm = _powerInAtMaxGain_dBm[i];
+        const int pIndex = powers_dBm().indexOf(power_dBm);
+        const int fIndex = _data[pIndex].x().indexOf(freq_Hz);
+
+        _matrix[i] = _data[pIndex].y()[fIndex];
+    }
+    return _matrix;
+}
+ComplexRowVector MeasurementData::sParameterAtMaxGain(uint outputPort, uint inputPort) {
+    ComplexMatrix3D _matrix = sParametersAtMaxGain();
+    ComplexRowVector _result(_matrix.size());
+    for (uint i = 0; i < _matrix.size(); i++) {
+        _result[i] = _matrix[i][outputPort-1][inputPort-1];
+    }
+    return _result;
+}
+
+void MeasurementData::sParameterVsPower(double frequency_Hz, uint outputPort, uint inputPort, QRowVector &powers_dBm, ComplexRowVector &sParameter) {
+    powers_dBm.clear();
+    sParameter.clear();
+    for (int i = 0; i < _powers_dBm.size(); i++) {
+        const double power_dBm = _powers_dBm[i];
+        const int fIndex = _data[i].x().indexOf(frequency_Hz);
+        if (fIndex != -1) {
+            powers_dBm << power_dBm;
+            sParameter.push_back(_data[i].y()[fIndex][outputPort-1][inputPort-1]);
+        }
+    }
+}
+void MeasurementData::sParameterVsFrequency(double power_dBm, uint outputPort, uint inputPort, QRowVector &frequencies_Hz, ComplexRowVector &sParameter) {
+    frequencies_Hz.clear();
+    sParameter.clear();
+    const int i = _powers_dBm.indexOf(power_dBm);
+    if (i != -1) {
+        frequencies_Hz = _data[i].x();
+        sParameter = _data[i].y(outputPort, inputPort);
+    }
 }
 
 QVector<NetworkData> &MeasurementData::data() {

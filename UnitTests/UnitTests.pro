@@ -9,10 +9,12 @@ CONFIG    += console \
 
 include(../Core/core.pri)
 HEADERS     += SafeFrequencySweepTest.h \
-    SpeedTrackerTest.h
+               SpeedTrackerTest.h \
+               TraceSettingsTest.h
 SOURCES     += main.cpp \
                SafeFrequencySweepTest.cpp \
-    SpeedTrackerTest.cpp
+               SpeedTrackerTest.cpp \
+               TraceSettingsTest.cpp
 OTHER_FILES += SafeFrequencySweepTest_Log.txt
 
 DEFINES   += SOURCE_DIR=\\\"$$PWD/\\\"

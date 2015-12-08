@@ -9,22 +9,19 @@ CONFIG(debug, debug|release): TARGET = $$join(TARGET,,,d)
 
 include($$PWD/../RsaToolbox/rsatoolbox.pri)
 include($$PWD/../RsaToolbox/QuaZip/quazip.pri)
+
+include($$PWD/Traces/traces.pri)
+include($$PWD/MeasureThread/measurethread.pri)
+include($$PWD/SpeedTracker/speedtracker.pri)
+
 HEADERS     += Settings.h \
                MeasurementData.h \
-               MeasureThread.h \
                MeasurementSettings.h \
-               FrequencySweep.h \
-               SafeFrequencySweep.h \
-    SpeedTracker.h \
-    SpeedTrackerChild.h
+    ProcessTrace.h
 INCLUDEPATH += $$PWD
 SOURCES     += MeasurementData.cpp \
-               MeasureThread.cpp \
                MeasurementSettings.cpp \
-               FrequencySweep.cpp \
-               SafeFrequencySweep.cpp \
-    SpeedTracker.cpp \
-    SpeedTrackerChild.cpp
+    ProcessTrace.cpp
 
 #FORMS       += .ui
 #RESOURCES   += .qrc

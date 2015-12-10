@@ -234,7 +234,6 @@ void MainWindow::on_measure_clicked() {
 
     setupPlot();
     showProgressPage();
-    ui->measure->setDisabled(true);
     _thread->start();
 }
 void MainWindow::on_exportData_clicked() {
@@ -617,6 +616,8 @@ void MainWindow::shake() {
 void MainWindow::showProgressPage() {
     ui->exportData->setDisabled(true);
     ui->cancel->setText("Cancel");
+    ui->measure->setText("Measure");
+    ui->measure->setDisabled(true);
 
     _settingsGeometry = geometry();
     ui->pages->setCurrentWidget(ui->progressPage);
@@ -629,8 +630,9 @@ void MainWindow::showProgressPage() {
     animation->start();
 }
 void MainWindow::showSettingsPage() {
-    ui->measure->setEnabled(true);
     ui->cancel->setText("Close");
+    ui->measure->setText("Measure");
+    ui->measure->setEnabled(true);
 
     QPropertyAnimation *animation = new QPropertyAnimation(this, "geometry");
     animation->setDuration(100);
@@ -642,9 +644,9 @@ void MainWindow::showSettingsPage() {
     ui->pages->setCurrentWidget(ui->settingsPage);
 }
 void MainWindow::showTracesPage() {
-    ui->measure->setEnabled(true);
-    ui->measure->setText("Plot");
     ui->cancel->setText("Close");
+    ui->measure->setText("Plot");
+    ui->measure->setEnabled(true);
     ui->pages->setCurrentWidget(ui->tracesPage);
 
     // Need animation?

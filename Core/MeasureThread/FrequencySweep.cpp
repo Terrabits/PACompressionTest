@@ -92,19 +92,20 @@ void FrequencySweep::run() {
 
     _results->powerInAtMaxGain_dBm() = QRowVector(freqPoints, power_dBm);
     _results->maxGain_dB() = _results->data()[iPower].y_dB(2, 1);
+    _results->sParametersAtMaxGain() = _results->data()[iPower].y();
     _results->powerOutAtMaxGain_dBm() = add(_results->powerInAtMaxGain_dBm(), _results->maxGain_dB());
 
     _results->powerInAtCompression_dBm() = _results->powerInAtMaxGain_dBm();
     _results->gainAtCompression_dB() = _results->maxGain_dB();
+    _results->sParametersAtCompression() = _results->sParametersAtMaxGain();
     _results->powerOutAtCompression_dBm() = _results->powerOutAtMaxGain_dBm();
 
+    emit progress(int((100.0 * (iPower+1))/powerPoints));
     emit plotMaxGain(_results->frequencies_Hz(), _results->maxGain_dB());
     emit plotPinAtCompression(_results->frequencies_Hz(), _results->powerInAtCompression_dBm());
 
     QBitArray isCompression(freqPoints, false);
     for (iPower = 1; iPower < powerPoints; iPower++) {
-        emit progress(int((100.0 * iPower)/powerPoints));
-
         power_dBm = powers_dBm[iPower];
         _results->powers_dBm() << power_dBm;
         sweep.setPower(power_dBm);
@@ -125,16 +126,21 @@ void FrequencySweep::run() {
 
         const double previousPower_dBm = powers_dBm[iPower-1];
         QRowVector previousGains_dB = _results->data()[iPower-1].y_dB(2, 1);
+        ComplexMatrix3D previousSParams = _results->data()[iPower-1].y();
         QRowVector gains_dB = _results->data()[iPower].y_dB(2, 1);
+        ComplexMatrix3D sParams = _results->data()[iPower].y();
         for (uint iFreq = 0; iFreq < freqPoints; iFreq++) {
             const double previousGain_dB = previousGains_dB[iFreq];
+            ComplexMatrix2D previousSParam = previousSParams[iFreq];
             const double gain_dB = gains_dB[iFreq];
+            ComplexMatrix2D sParam = sParams[iFreq];
 
             // Check for Max Gain
             if (isGainExpansion) {
                 if (_results->maxGain_dB()[iFreq] < gain_dB) {
                     _results->powerInAtMaxGain_dBm()[iFreq] = power_dBm;
                     _results->maxGain_dB()[iFreq] = gain_dB;
+                    _results->sParametersAtMaxGain()[iFreq] = sParam;
                     _results->powerOutAtMaxGain_dBm()[iFreq] = power_dBm + gain_dB;
                     isCompression[iFreq] = false;
                 }
@@ -153,6 +159,7 @@ void FrequencySweep::run() {
 
                     _results->powerInAtCompression_dBm()[iFreq] = pinCompression_dBm;
                     _results->gainAtCompression_dB()[iFreq] = compressedGain_dB;
+                    _results->sParametersAtCompression()[iFreq] = linearInterpolateYMagPhase(previousPower_dBm, previousSParam, power_dBm, sParam, pinCompression_dBm);
                     _results->powerOutAtCompression_dBm()[iFreq] = pinCompression_dBm + compressedGain_dB;
                     isCompression[iFreq] = true;
                 }
@@ -165,6 +172,7 @@ void FrequencySweep::run() {
                 }
             }
         }
+        emit progress(int((100.0 * (iPower+1))/powerPoints));
         emit plotMaxGain(_results->frequencies_Hz(), _results->maxGain_dB());
         emit plotPinAtCompression(_results->frequencies_Hz(), _results->powerInAtCompression_dBm());
     }

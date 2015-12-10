@@ -23,8 +23,8 @@ ProcessTraceTest::~ProcessTraceTest() {
 }
 
 void ProcessTraceTest::pinAtCompression_data() {
-    QTest::addColumn<QString>("filename");
-    QTest::addColumn<
+//    QTest::addColumn<QString>("filename");
+//    QTest::addColumn<
 }
 void ProcessTraceTest::pinAtCompression() {
 

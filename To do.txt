@@ -1,4 +1,9 @@
 To do:
+- Finish mem trace for "stop at compression" sweep:
+  Need to generate x (power) axis for this case,
+  probably as part of MeasurementData.pin(double freq_Hz);
+- 
+
 
 Greg's feedback
  - DONE Shrink settings dialog to ZVA screen height

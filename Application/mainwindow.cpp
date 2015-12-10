@@ -192,7 +192,6 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 void MainWindow::on_measure_clicked() {
     if (ui->pages->currentWidget() == ui->tracesPage) {
         // Apply traces
-        qDebug() << "PROCESSING TRACES";
         QVector<TraceSettings> traces = _traceSettingsModel.traces();
         uint diagram = _vna.createDiagram();
         for (int i = 0; i < traces.size(); i++) {
@@ -201,6 +200,8 @@ void MainWindow::on_measure_clicked() {
         }
         if (_vna.diagram(diagram).traces().isEmpty())
             _vna.deleteDiagram(diagram);
+        _vna.settings().updateDisplay();
+        _vna.settings().displayOn();
         showSettingsPage();
         return;
     }

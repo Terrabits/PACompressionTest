@@ -66,7 +66,6 @@ void TracesWidget::on_add_clicked()
     int row = 0;
     if (!selection.isEmpty() && !selection.first().isEmpty())
         row = selection.first().topLeft().row();
-    qDebug() << "index: " << row;
     _model->insertRows(row, 1);
     ui->table->selectRow(row);
 }
@@ -77,7 +76,6 @@ void TracesWidget::on_remove_clicked()
     int row = -1;
     if (!selection.isEmpty() && !selection.first().isEmpty())
         row = selection.first().topLeft().row();
-    qDebug() << "index: " << row;
     if (row != -1) {
         _model->removeRows(row, 1);
         if (!traces().isEmpty()) {

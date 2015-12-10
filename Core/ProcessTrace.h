@@ -36,10 +36,13 @@ private:
     RsaToolbox::QRowVector _x;
     RsaToolbox::QRowVector _y_dBm;
     RsaToolbox::ComplexRowVector _y;
-    static RsaToolbox::ComplexRowVector toComplexRowVector(RsaToolbox::QRowVector values);
+    static RsaToolbox::ComplexRowVector toComplex_dBm(RsaToolbox::QRowVector values);
     void retrieveData();
+    void createChannel();
     void createTrace();
     void updateTrace();
+
+    void debugPrint(const QString &name);
 };
 
 #endif // PROCESSTRACE_H

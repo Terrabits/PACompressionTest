@@ -91,10 +91,12 @@ void SafeFrequencySweep::run() {
 
     _results->powerInAtMaxGain_dBm() = QRowVector(freqPoints, power_dBm);
     _results->maxGain_dB() = _results->data()[iPower].y_dB(2, 1);
+    _results->sParametersAtMaxGain() = _results->data()[iPower].y();
     _results->powerOutAtMaxGain_dBm() = add(_results->powerInAtMaxGain_dBm(), _results->maxGain_dB());
 
     _results->powerInAtCompression_dBm() = _results->powerInAtMaxGain_dBm();
     _results->gainAtCompression_dB() = _results->maxGain_dB();
+    _results->sParametersAtCompression() = _results->sParametersAtMaxGain();
     _results->powerOutAtCompression_dBm() = _results->powerOutAtMaxGain_dBm();
 
     emit progress(int((100.0 * (iPower+1))/powerPoints));
@@ -119,20 +121,24 @@ void SafeFrequencySweep::run() {
         emit startingSweep(QString("Sweep %1").arg(iPower+1), sweep.sweepTime_ms());
         _results->data() << sweep.measure(outputPort, inputPort);
         emit finishedSweep();
+
         if (shouldFlipPorts)
             flipPorts(_results->data()[iPower]);
 
         const double previousPower_dBm = powers_dBm[iPower-1];
         QRowVector previousFrequencies_Hz = _results->data()[iPower-1].x();
         QRowVector previousGains_dB = _results->data()[iPower-1].y_dB(2,1);
-
+        ComplexMatrix3D previousSParams = _results->data()[iPower-1].y();
         QRowVector gains_dB = _results->data()[iPower].y_dB(2, 1);
+        ComplexMatrix3D sParams = _results->data()[iPower].y();
         for (uint iCurrentFreq = 0; iCurrentFreq < uint(sweptFreq_Hz.size()); iCurrentFreq++) {
             const double freq_Hz = sweptFreq_Hz[iCurrentFreq];
             const double gain_dB = gains_dB[iCurrentFreq];
+            const ComplexMatrix2D sParam = sParams[iCurrentFreq];
 
             const int iPrevFreq = previousFrequencies_Hz.indexOf(freq_Hz);
             const double previousGain_dB = previousGains_dB[iPrevFreq];
+            const ComplexMatrix2D previousSParam = previousSParams[iPrevFreq];
 
             const int iTotalFreq = _results->frequencies_Hz().indexOf(freq_Hz);
 
@@ -141,6 +147,7 @@ void SafeFrequencySweep::run() {
                 if (_results->maxGain_dB()[iTotalFreq] < gain_dB) {
                     _results->powerInAtMaxGain_dBm()[iTotalFreq] = power_dBm;
                     _results->maxGain_dB()[iTotalFreq] = gain_dB;
+                    _results->sParametersAtMaxGain()[iTotalFreq] = sParam;
                     _results->powerOutAtMaxGain_dBm()[iTotalFreq] = power_dBm + gain_dB;
                 }
             }
@@ -156,8 +163,8 @@ void SafeFrequencySweep::run() {
 
                 _results->powerInAtCompression_dBm()[iTotalFreq] = pinCompression_dBm;
                 _results->gainAtCompression_dB()[iTotalFreq] = compressedGain_dB;
+                _results->sParametersAtCompression()[iTotalFreq] = linearInterpolateYMagPhase(previousPower_dBm, previousSParam, power_dBm, sParam, pinCompression_dBm);
                 _results->powerOutAtCompression_dBm()[iTotalFreq] = pinCompression_dBm + compressedGain_dB;
-
 
                 sweptFreq_Hz.removeAt(iCurrentFreq);
                 gains_dB.removeAt(iCurrentFreq);

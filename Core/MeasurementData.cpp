@@ -66,6 +66,9 @@ QRowVector &MeasurementData::powerInAtMaxGain_dBm() {
 QRowVector &MeasurementData::maxGain_dB() {
     return _maxGain_dB;
 }
+ComplexMatrix3D &MeasurementData::sParametersAtMaxGain() {
+    return _sParametersAtMaxGain;
+}
 QRowVector &MeasurementData::powerOutAtMaxGain_dBm() {
     return _powerOutAtMaxGain_dBm;
 }
@@ -75,47 +78,25 @@ QRowVector &MeasurementData::powerInAtCompression_dBm() {
 QRowVector &MeasurementData::gainAtCompression_dB() {
     return _gainAtCompression_dB;
 }
+ComplexMatrix3D &MeasurementData::sParametersAtCompression() {
+    return _sParametersAtCompression;
+}
 QRowVector &MeasurementData::powerOutAtCompression_dBm() {
     return _powerOutAtCompression_dBm;
 }
 
-ComplexMatrix3D MeasurementData::sParametersAtCompression() {
-    ComplexMatrix3D _matrix(frequencyPoints());
-    for (uint i = 0; i < frequencyPoints(); i++) {
-        const double freq_Hz = _frequencies_Hz[i];
-        const double power_dBm = _powerInAtCompression_dBm[i];
-        const int pIndex = powers_dBm().indexOf(power_dBm);
-        const int fIndex = _data[pIndex].x().indexOf(freq_Hz);
-
-        _matrix[i] = _data[pIndex].y()[fIndex];
-    }
-    return _matrix;
-}
 ComplexRowVector MeasurementData::sParameterAtCompression(uint outputPort, uint inputPort) {
-    ComplexMatrix3D _matrix = sParametersAtCompression();
-    ComplexRowVector _result(_matrix.size());
-    for (uint i = 0; i < _matrix.size(); i++) {
-        _result[i] = _matrix[i][outputPort-1][inputPort-1];
+    qDebug() << "MeasurementData::sParameterAtCompression S" << outputPort << inputPort;
+    ComplexRowVector _result(frequencyPoints());
+    for (uint i = 0; i < frequencyPoints(); i++) {
+        _result[i] = _sParametersAtCompression[i][outputPort-1][inputPort-1];
     }
     return _result;
 }
-ComplexMatrix3D MeasurementData::sParametersAtMaxGain() {
-    ComplexMatrix3D _matrix(frequencyPoints());
-    for (uint i = 0; i < frequencyPoints(); i++) {
-        const double freq_Hz = _frequencies_Hz[i];
-        const double power_dBm = _powerInAtMaxGain_dBm[i];
-        const int pIndex = powers_dBm().indexOf(power_dBm);
-        const int fIndex = _data[pIndex].x().indexOf(freq_Hz);
-
-        _matrix[i] = _data[pIndex].y()[fIndex];
-    }
-    return _matrix;
-}
 ComplexRowVector MeasurementData::sParameterAtMaxGain(uint outputPort, uint inputPort) {
-    ComplexMatrix3D _matrix = sParametersAtMaxGain();
-    ComplexRowVector _result(_matrix.size());
-    for (uint i = 0; i < _matrix.size(); i++) {
-        _result[i] = _matrix[i][outputPort-1][inputPort-1];
+    ComplexRowVector _result(frequencyPoints());
+    for (uint i = 0; i < frequencyPoints(); i++) {
+        _result[i] = _sParametersAtMaxGain[i][outputPort-1][inputPort-1];
     }
     return _result;
 }

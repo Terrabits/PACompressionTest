@@ -45,75 +45,62 @@ ComplexRowVector ProcessTrace::toComplex_dBm(QRowVector powers_dBm) {
 }
 
 void ProcessTrace::retrieveData() {
-    qDebug() << "ProcessTrace::retrieveData";
     if (_settings->isYPower()) {
-        qDebug() << "  YPower";
         _x = _data->frequencies_Hz();
         if (_settings->isYPin()) {
-            qDebug() << "  YPin";
             if (_settings->isAtCompression()) {
-                qDebug() << "  @Compression";
                 _y_dBm = _data->powerInAtCompression_dBm();
             }
             else {
-                qDebug() << "  @MaxGain";
                 _y_dBm = _data->powerInAtMaxGain_dBm();
             }
         }
         else {
             // Pout
-            qDebug() << "  YPout";
             if (_settings->isAtCompression()) {
-                qDebug() << "  @Compression";
                 _y_dBm = _data->powerOutAtCompression_dBm();
             }
             else {
-                qDebug() << "  @MaxGain";
                 _y_dBm = _data->powerOutAtMaxGain_dBm();
             }
         }
     }
     else {
         // SParameter
-        qDebug() << "  YSParam";
         uint outputPort, inputPort;
         if (_settings->isYInputReflectionTrace()) {
-            qDebug() << "  YS11";
             outputPort = inputPort = 1;
         }
         else if (_settings->isYGainTrace()) {
-            qDebug() << "  YS21";
             outputPort = 2;
             inputPort = 1;
         }
         else if (_settings->isYReverseGainTrace()) {
-            qDebug() << "  YS12";
             outputPort = 1;
             inputPort = 2;
         }
         else {
             // S22
-            qDebug() << "  YS22";
             outputPort = inputPort = 2;
         }
 
         if (_settings->isAtCompression()) {
-            qDebug() << "  @Compression";
             _x = _data->frequencies_Hz();
             _y = _data->sParameterAtCompression(outputPort, inputPort);
+            debugPrint("at compression");
         }
         else if (_settings->isAtMaximumGain()) {
-            qDebug() << "  @MaxGain";
             _x = _data->frequencies_Hz();
             _y = _data->sParameterAtMaxGain(outputPort, inputPort);
+            debugPrint("at max gain");
         }
         else if (_settings->isXFrequency()) {
-            qDebug() << "  @Power " << _settings->atValue;
             _data->sParameterVsFrequency(_settings->atValue, outputPort, inputPort, _x, _y);
+            debugPrint("at dBm");
         }
         else {
-            qDebug() << "  @Freq " << _settings->atValue;
             _data->sParameterVsPower(_settings->atValue, outputPort, inputPort, _x, _y);
+            debugPrint("at Freq");
         }
     }
 }
@@ -135,32 +122,25 @@ void ProcessTrace::createChannel() {
 }
 
 void ProcessTrace::createTrace() {
-    qDebug() << "ProcessTrace::createTrace";
     const uint outputPort = _data->settings().outputPort();
     const uint inputPort = _data->settings().inputPort();
     _vna->createTrace(_dataTraceName, _channel);
     if (_settings->isYInputReflectionTrace()) {
-        qDebug() << "  S11 Trace";
         _vna->trace(_dataTraceName).setNetworkParameter(NetworkParameter::S, inputPort, inputPort);
     }
     else if (_settings->isYOutputReflectionTrace()) {
-        qDebug() << "  S22 Trace";
         _vna->trace(_dataTraceName).setNetworkParameter(NetworkParameter::S, outputPort, outputPort);
     }
     else if (_settings->isYGainTrace()) {
-        qDebug() << "  S21 Trace";
         _vna->trace(_dataTraceName).setNetworkParameter(NetworkParameter::S, outputPort, inputPort);
     }
     else if (_settings->isYReverseGainTrace()) {
-        qDebug() << "  S12 Trace";
         _vna->trace(_dataTraceName).setNetworkParameter(NetworkParameter::S, inputPort, outputPort);
     }
     else if (_settings->isYPin()) {
-        qDebug() << "  Pin Trace";
         _vna->trace(_dataTraceName).setWaveQuantity(WaveQuantity::a, inputPort);
     }
     else /*if (_settings->isYPout())*/ {
-        qDebug() << "  Pout Trace";
         _vna->trace(_dataTraceName).setWaveQuantity(WaveQuantity::b, outputPort);
     }
     _vna->trace(_dataTraceName).setDiagram(_diagram);
@@ -170,29 +150,20 @@ void ProcessTrace::createTrace() {
     _vna->trace(_dataTraceName).hide();
 }
 void ProcessTrace::updateTrace() {
-    qDebug() << "ProcessTrace::updateTrace";
     VnaTrace trace = _vna->trace(_memoryTraceName);
     if (_settings->isXFrequency()) {
         if (_settings->isYPower()) {
-            qDebug() << " Power vs Frequency (_y_dBm).";
-            debugPrint(_memoryTraceName);
             trace.write(toComplex_dBm(_y_dBm));
         }
         else {
-            qDebug() << " Smn vs Frequency (_y).";
-            debugPrint(_memoryTraceName);
             trace.write(_y);
         }
     }
     else {
         if (_settings->isYPower()) {
-            qDebug() << " Power vs Power (_y_dBm).";
-            debugPrint(_memoryTraceName);
             trace.write(toComplex_dBm(_y_dBm));
         }
         else {
-            qDebug() << " Smn vs Power (_y).";
-            debugPrint(_memoryTraceName);
             trace.write(_y);
         }
     }

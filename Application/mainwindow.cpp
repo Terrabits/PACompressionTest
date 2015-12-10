@@ -195,7 +195,6 @@ void MainWindow::on_measure_clicked() {
         QVector<TraceSettings> traces = _traceSettingsModel.traces();
         uint diagram = _vna.createDiagram();
         for (int i = 0; i < traces.size(); i++) {
-            qDebug() << "  Processing trace " << i << traces[i].name;
             ProcessTrace(&(traces[i]), _results.data(), &_vna, diagram);
         }
         if (_vna.diagram(diagram).traces().isEmpty())

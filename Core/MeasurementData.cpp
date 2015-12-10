@@ -86,7 +86,7 @@ QRowVector &MeasurementData::powerOutAtCompression_dBm() {
 }
 
 ComplexRowVector MeasurementData::sParameterAtCompression(uint outputPort, uint inputPort) {
-    qDebug() << "MeasurementData::sParameterAtCompression S" << outputPort << inputPort;
+//    qDebug() << "MeasurementData::sParameterAtCompression S" << outputPort << inputPort;
     ComplexRowVector _result(frequencyPoints());
     for (uint i = 0; i < frequencyPoints(); i++) {
         _result[i] = _sParametersAtCompression[i][outputPort-1][inputPort-1];
@@ -120,6 +120,10 @@ void MeasurementData::sParameterVsFrequency(double power_dBm, uint outputPort, u
     if (i != -1) {
         frequencies_Hz = _data[i].x();
         sParameter = _data[i].y(outputPort, inputPort);
+    }
+    else {
+        qDebug() << "  could not find sParameters at " << power_dBm << " dBm";
+        qDebug() << "  powers: " << _powers_dBm;
     }
 }
 

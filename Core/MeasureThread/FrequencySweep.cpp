@@ -127,11 +127,14 @@ void FrequencySweep::run() {
         const double previousPower_dBm = powers_dBm[iPower-1];
         QRowVector previousGains_dB = _results->data()[iPower-1].y_dB(2, 1);
         ComplexMatrix3D previousSParams = _results->data()[iPower-1].y();
+
         QRowVector gains_dB = _results->data()[iPower].y_dB(2, 1);
         ComplexMatrix3D sParams = _results->data()[iPower].y();
+
         for (uint iFreq = 0; iFreq < freqPoints; iFreq++) {
             const double previousGain_dB = previousGains_dB[iFreq];
             ComplexMatrix2D previousSParam = previousSParams[iFreq];
+
             const double gain_dB = gains_dB[iFreq];
             ComplexMatrix2D sParam = sParams[iFreq];
 
@@ -157,9 +160,25 @@ void FrequencySweep::run() {
                                                  power_dBm,         gain_dB, // i
                                                  compressedGain_dB); // Desired Y value
 
+//                    qDebug() << "Compression Found:";
+//                    qDebug() << "  freq:            " << formatValue(sweptFreq_Hz[iFreq], 3, Units::Hertz);
+//                    qDebug() << "  previous power:  " << previousPower_dBm;
+//                    qDebug() << "  previous gain:   " << previousGain_dB;
+//                    qDebug() << "  power:           " << power_dBm;
+//                    qDebug() << "  gain:            " << gain_dB;
+//                    qDebug() << "  max gain:        " << maxGain_dB;
+//                    qDebug() << "  compressed gain: " << compressedGain_dB;
+//                    qDebug() << "  pin@Comp:        " << pinCompression_dBm;
+
                     _results->powerInAtCompression_dBm()[iFreq] = pinCompression_dBm;
                     _results->gainAtCompression_dB()[iFreq] = compressedGain_dB;
                     _results->sParametersAtCompression()[iFreq] = linearInterpolateYMagPhase(previousPower_dBm, previousSParam, power_dBm, sParam, pinCompression_dBm);
+
+//                    const double calculatedCompressedGain_dB = toDb(_results->sParametersAtCompression()[iFreq][1][0]);
+//                    qDebug() << "  calc comp gain:  " << calculatedCompressedGain_dB;
+//                    qDebug() << "  calculated comp: " << maxGain_dB - calculatedCompressedGain_dB;
+//                    qDebug() << "  error:           " << calculatedCompressedGain_dB - compressedGain_dB;
+
                     _results->powerOutAtCompression_dBm()[iFreq] = pinCompression_dBm + compressedGain_dB;
                     isCompression[iFreq] = true;
                 }
@@ -167,8 +186,8 @@ void FrequencySweep::run() {
                     // Compression not found
                     // Update progress plot with *closest* (current) value
                     _results->powerInAtCompression_dBm()[iFreq] = power_dBm;
-                    _results->gainAtCompression_dB()[iFreq] = gain_dB;
-                    _results->powerOutAtCompression_dBm()[iFreq] = power_dBm + gain_dB;
+//                    _results->gainAtCompression_dB()[iFreq] = gain_dB;
+//                    _results->powerOutAtCompression_dBm()[iFreq] = power_dBm + gain_dB;
                 }
             }
         }

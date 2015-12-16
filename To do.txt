@@ -1,54 +1,6 @@
-To do:
-- Finish mem trace for "stop at compression" sweep:
-  Need to generate x (power) axis for this case,
-  probably as part of MeasurementData.pin(double freq_Hz);
-- 
-
-
-Greg's feedback
- - DONE Shrink settings dialog to ZVA screen height
- - DONE "Inner loop" progress bar
- - DONE Update progress plot: increase Pin each sweep UNLESS compression is found
- - Replace linear interpolation with...?
- - Ensure more accurate and/or repeatable results by...?
-   * dwell time?
- - Attenuators: Is Pout_compression off? Pin_compression?
- - Display "Port 1 Source" rather than "Channel Base Pb"
-   Channel > Mode > Port config > "Stimulus..." > Power: "Enter and Display" > "Port 1 Source"
- 
- M/A-COM:
- - Slow?
- - Add Power sweep option (how to stop?)
- - Export to giant CSV file
- - Pulsed CW (Yes, theoretically)
-
-
-===========================================
-
-Still left to do:
-- Provide documentation on use
-  * Reserved channels, traces
-  * Work flow
-- Get feedback from AEs, M/A-COM
-
-- Ask about power cal:
-
-Notes from discussion with Volker:
-- Power flatness cal at each frequency (cumbersome by hand)
-- (Our) ALC may not work with pulsed power
-- Zva: Cal -> Enhanced Wave Corrections
-
-Add at least power flatness to measurment!??
-
-Power level of DUT?
-- 
-
-Question: Correct bullet/cabling
-
-// Get power corrections:
-CORR:POW:DATA? 'BWAV2'
-
-If you have a 0.1 dB bullet, add this to each power correction and rewrite
-CORR:POW:DATA 'BWAV2',...
-
-!! Make into separate utility (DONE)
+My to do list:
+- Use measured Pin (a1), reinterpolate
+- Plots vs Pout (reinterpolated)
+- GCA CSV file
+- Compact GUI
+- Speed Test

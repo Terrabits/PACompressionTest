@@ -101,30 +101,35 @@ ComplexRowVector MeasurementData::sParameterAtMaxGain(uint outputPort, uint inpu
     return _result;
 }
 
-void MeasurementData::sParameterVsPower(double frequency_Hz, uint outputPort, uint inputPort, QRowVector &powers_dBm, ComplexRowVector &sParameter) {
+bool MeasurementData::sParameterVsPower(double frequency_Hz, uint outputPort, uint inputPort, QRowVector &powers_dBm, ComplexRowVector &sParameter) {
     powers_dBm.clear();
     sParameter.clear();
     for (int i = 0; i < _powers_dBm.size(); i++) {
         const double power_dBm = _powers_dBm[i];
         const int fIndex = _data[i].x().indexOf(frequency_Hz);
-        if (fIndex != -1) {
-            powers_dBm << power_dBm;
-            sParameter.push_back(_data[i].y()[fIndex][outputPort-1][inputPort-1]);
+        if (fIndex == -1) {
+            powers_dBm.clear();
+            sParameter.clear();
+            return false;
         }
+
+        powers_dBm << power_dBm;
+        sParameter.push_back(_data[i].y()[fIndex][outputPort-1][inputPort-1]);
     }
+
+    return true;
 }
-void MeasurementData::sParameterVsFrequency(double power_dBm, uint outputPort, uint inputPort, QRowVector &frequencies_Hz, ComplexRowVector &sParameter) {
+bool MeasurementData::sParameterVsFrequency(double power_dBm, uint outputPort, uint inputPort, QRowVector &frequencies_Hz, ComplexRowVector &sParameter) {
     frequencies_Hz.clear();
     sParameter.clear();
     const int i = _powers_dBm.indexOf(power_dBm);
-    if (i != -1) {
-        frequencies_Hz = _data[i].x();
-        sParameter = _data[i].y(outputPort, inputPort);
+    if (i == -1) {
+        return false;
     }
-    else {
-        qDebug() << "  could not find sParameters at " << power_dBm << " dBm";
-        qDebug() << "  powers: " << _powers_dBm;
-    }
+
+    frequencies_Hz = _data[i].x();
+    sParameter = _data[i].y(outputPort, inputPort);
+    return true;
 }
 
 QVector<NetworkData> &MeasurementData::data() {

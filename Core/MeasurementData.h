@@ -45,10 +45,10 @@ public:
     RsaToolbox::ComplexMatrix3D &sParametersAtCompression();
     RsaToolbox::QRowVector &powerOutAtCompression_dBm();
 
-    void sParameterVsPower(double frequency_Hz, uint outputPort, uint inputPort, RsaToolbox::QRowVector &powers_dBm, RsaToolbox::ComplexRowVector &sParameter);
+    bool sParameterVsPower(double frequency_Hz, uint outputPort, uint inputPort, RsaToolbox::QRowVector &powers_dBm, RsaToolbox::ComplexRowVector &sParameter);
     RsaToolbox::ComplexRowVector sParameterAtCompression(uint outputPort, uint inputPort);
     RsaToolbox::ComplexRowVector sParameterAtMaxGain(uint outputPort, uint inputPort);
-    void sParameterVsFrequency(double power_dBm, uint outputPort, uint inputPort, RsaToolbox::QRowVector &frequencies_Hz, RsaToolbox::ComplexRowVector &sParameter);
+    bool sParameterVsFrequency(double power_dBm, uint outputPort, uint inputPort, RsaToolbox::QRowVector &frequencies_Hz, RsaToolbox::ComplexRowVector &sParameter);
 
     // data[power]->y()[freq][outputPort-1][inputPort-1]
     // where inputPort, outputPort => [1,2]

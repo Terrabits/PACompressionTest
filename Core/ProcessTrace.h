@@ -37,7 +37,7 @@ private:
     RsaToolbox::QRowVector _y_dBm;
     RsaToolbox::ComplexRowVector _y;
     static RsaToolbox::ComplexRowVector toComplex_dBm(RsaToolbox::QRowVector values);
-    void retrieveData();
+    bool retrieveData();
     void createChannel();
     void createTrace();
     void updateTrace();

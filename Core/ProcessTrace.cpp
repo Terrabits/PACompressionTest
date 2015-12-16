@@ -17,7 +17,11 @@ ProcessTrace::ProcessTrace(TraceSettings *settings, MeasurementData *data, Vna *
     _channelName = "_" + _memoryTraceName;
     _dataTraceName = _channelName;
 
-    retrieveData();
+    if (!retrieveData()) {
+        qDebug() << "Could not retrieve data";
+        return;
+    }
+
     _vna->settings().displayOn();
     if (isPreexistingTrace()) {
         updateTrace();
@@ -44,7 +48,7 @@ ComplexRowVector ProcessTrace::toComplex_dBm(QRowVector powers_dBm) {
     return _result;
 }
 
-void ProcessTrace::retrieveData() {
+bool ProcessTrace::retrieveData() {
     if (_settings->isYPower()) {
         _x = _data->frequencies_Hz();
         if (_settings->isYPin()) {
@@ -95,14 +99,18 @@ void ProcessTrace::retrieveData() {
             debugPrint("at max gain");
         }
         else if (_settings->isXFrequency()) {
-            _data->sParameterVsFrequency(_settings->atValue, outputPort, inputPort, _x, _y);
             debugPrint("at dBm");
+            if (!_data->sParameterVsFrequency(_settings->atValue, outputPort, inputPort, _x, _y))
+                return false;
         }
         else {
-            _data->sParameterVsPower(_settings->atValue, outputPort, inputPort, _x, _y);
             debugPrint("at Freq");
+            if (!_data->sParameterVsPower(_settings->atValue, outputPort, inputPort, _x, _y))
+                return false;
         }
     }
+
+    return true;
 }
 void ProcessTrace::createChannel() {
     _channel = _vna->createChannel();

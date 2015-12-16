@@ -27,6 +27,13 @@ TraceSettingsDelegate::~TraceSettingsDelegate()
 
 }
 
+void TraceSettingsDelegate::setFrequencies(const QRowVector &frequencies_Hz) {
+    _frequencies_Hz = frequencies_Hz;
+}
+void TraceSettingsDelegate::setPowers(const QRowVector &powers_dBm) {
+    _powers_dBm = powers_dBm;
+}
+
 QWidget *TraceSettingsDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const {
     const int row = index.row();
     const int column = index.column();
@@ -69,11 +76,13 @@ QWidget *TraceSettingsDelegate::createEditor(QWidget *parent, const QStyleOption
         if (model->traces()[row].isAtFrequency()) {
             frequencyEdit = new FrequencyEdit(parent);
             frequencyEdit->setParameterName("Frequency");
+            frequencyEdit->setAcceptedValues(_frequencies_Hz);
             return frequencyEdit;
         }
         else if (model->traces()[row].isAtPin()) {
             powerEdit = new PowerEdit(parent);
             powerEdit->setParameterName("Power");
+            powerEdit->setAcceptedValues(_powers_dBm);
             return powerEdit;
         }
     default:

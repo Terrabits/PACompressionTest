@@ -649,6 +649,9 @@ void MainWindow::showTracesPage() {
     ui->measure->setEnabled(true);
     ui->pages->setCurrentWidget(ui->tracesPage);
 
+    ui->tracesWidget->setFrequencies(_results->frequencies_Hz());
+    ui->tracesWidget->setPowers(_results->powers_dBm());
+
     // Need animation?
 //    QPropertyAnimation *animation = new QPropertyAnimation(this, "geometry");
 //    animation->setDuration(100);

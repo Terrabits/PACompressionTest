@@ -56,6 +56,13 @@ void TracesWidget::setModel(TraceSettingsModel *model) {
     setFixedColumnWidths();
 }
 
+void TracesWidget::setFrequencies(const RsaToolbox::QRowVector &frequencies_Hz) {
+    _delegate.setFrequencies(frequencies_Hz);
+}
+void TracesWidget::setPowers(const RsaToolbox::QRowVector &powers_dBm) {
+    _delegate.setPowers(powers_dBm);
+}
+
 QVector<TraceSettings> TracesWidget::traces() const {
     return _model->traces();
 }

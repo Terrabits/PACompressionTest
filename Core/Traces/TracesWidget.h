@@ -7,6 +7,9 @@
 #include "TraceSettingsModel.h"
 #include "TraceSettingsDelegate.h"
 
+// RsaToolbox
+#include <Definitions.h>
+
 // Qt
 #include <QVector>
 #include <QWidget>
@@ -26,6 +29,9 @@ public:
 
     TraceSettingsModel *model() const;
     void setModel(TraceSettingsModel *model);
+
+    void setFrequencies(const RsaToolbox::QRowVector &frequencies_Hz);
+    void setPowers(const RsaToolbox::QRowVector &powers_dBm);
 
     QVector<TraceSettings> traces() const;
 

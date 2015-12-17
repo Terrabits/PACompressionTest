@@ -224,3 +224,36 @@ void TraceSettings::roundAtValue(RsaToolbox::QRowVector values) {
     else
         atValue = values[i-1];
 }
+
+bool operator==(const TraceSettings &trace1, const TraceSettings &trace2) {
+    if (trace1.name != trace2.name)
+        return false;
+    if (trace1.yParameter != trace2.yParameter)
+        return false;
+    if (trace1.xParameter != trace2.xParameter)
+        return false;
+    if (trace1.atParameter != trace2.atParameter)
+        return false;
+    if (trace1.atValue != trace2.atValue)
+        return false;
+
+    return true;
+}
+
+QDataStream &operator<<(QDataStream &stream, const TraceSettings &settings) {
+    stream << settings.name;
+    stream << settings.yParameter;
+    stream << settings.xParameter;
+    stream << settings.atParameter;
+    stream << settings.atValue;
+    return stream;
+}
+QDataStream &operator>>(QDataStream &stream, TraceSettings &settings) {
+    stream >> settings.name;
+    stream >> settings.yParameter;
+    stream >> settings.xParameter;
+    stream >> settings.atParameter;
+    stream >> settings.atValue;
+    return stream;
+}
+

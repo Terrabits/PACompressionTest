@@ -2,6 +2,7 @@
 #define TRACESETTINGSTEST_H
 
 #include <QObject>
+#include <QDir>
 
 class TraceSettingsTest : public QObject
 {
@@ -15,7 +16,10 @@ private slots:
     void setNameFromSettings_data();
     void setNameFromSettings();
 
+    void save();
+
 private:
+    QDir _dir;
 };
 
 #endif // TRACESETTINGSTEST_H

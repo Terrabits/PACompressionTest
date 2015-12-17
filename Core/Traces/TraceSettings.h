@@ -8,6 +8,7 @@
 // Qt
 #include <QString>
 #include <QRegExp>
+#include <QDataStream>
 
 
 class TraceSettings
@@ -61,5 +62,10 @@ public:
     bool isValidAtValue() const;
     void roundAtValue(RsaToolbox::QRowVector values);
 };
+
+bool operator==(const TraceSettings &trace1, const TraceSettings &trace2);
+QDataStream &operator<<(QDataStream &stream, const TraceSettings &settings);
+QDataStream &operator>>(QDataStream &stream, TraceSettings &settings);
+
 
 #endif // TRACESETTINGS_H

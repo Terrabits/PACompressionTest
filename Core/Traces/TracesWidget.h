@@ -34,6 +34,7 @@ public:
     void setPowers(const RsaToolbox::QRowVector &powers_dBm);
 
     QVector<TraceSettings> traces() const;
+    void setTraces(const QVector<TraceSettings> &traces);
 
 signals:
     void tracesChanged();

@@ -40,7 +40,6 @@ void TracesWidget::setModel(TraceSettingsModel *model) {
     _model = model;
     ui->table->setModel(_model);
     if (_model) {
-        _model->insertRows(0, 2);
         connect(_model, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
                 this, SIGNAL(tracesChanged()));
         connect(_model, SIGNAL(rowsInserted(QModelIndex,int,int)),
@@ -65,6 +64,9 @@ void TracesWidget::setPowers(const RsaToolbox::QRowVector &powers_dBm) {
 
 QVector<TraceSettings> TracesWidget::traces() const {
     return _model->traces();
+}
+void TracesWidget::setTraces(const QVector<TraceSettings> &traces) {
+    _model->setTraces(traces);
 }
 
 void TracesWidget::on_add_clicked()

@@ -151,6 +151,7 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
     _exportPath.setKey(&_keys, EXPORT_PATH_KEY);
     if (_exportPath.isEmpty())
         _exportPath.setPath(QDir::homePath());
+
     loadKeys();
 
     ui->tracesWidget->setModel(&_traceSettingsModel);
@@ -202,6 +203,8 @@ void MainWindow::on_measure_clicked() {
         _vna.settings().updateDisplay();
         _vna.settings().displayOn();
         showSettingsPage();
+
+        saveKeys();
         return;
     }
 
@@ -367,6 +370,13 @@ void MainWindow::loadKeys() {
         if (ui->sweepType->findText(_string) != -1)
             ui->sweepType->setCurrentText(_string);
     }
+
+    // Traces
+    if (_keys.exists(TRACES_KEY)) {
+        QVector<TraceSettings> traces;
+        _keys.get(TRACES_KEY, traces);
+        ui->tracesWidget->setTraces(traces);
+    }
 }
 void MainWindow::saveKeys() {
     // Assumes valid input
@@ -391,6 +401,9 @@ void MainWindow::saveKeys() {
     _keys.set(OUTPUT_PORT_KEY, ui->outputPort->points());
     _keys.set(INPUT_PORT_KEY, ui->inputPort->points());
     _keys.set(SWEEP_TYPE_KEY, ui->sweepType->currentText());
+
+    // Traces
+    _keys.set(TRACES_KEY, ui->tracesWidget->traces());
 }
 bool MainWindow::processSettings() {
     if (!ui->startFrequency->hasAcceptableInput()) {

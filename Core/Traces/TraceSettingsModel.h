@@ -40,6 +40,7 @@ public:
     virtual bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex());
 
     QVector<TraceSettings> traces() const;
+    void setTraces(const QVector<TraceSettings> &traces);
 
 signals:
 

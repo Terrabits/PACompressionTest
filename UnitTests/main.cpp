@@ -17,10 +17,10 @@ using namespace RsaToolbox;
 
 int main() {
     TestRunner testRunner;
-//    testRunner.addTest(new TraceSettingsTest);
+    testRunner.addTest(new TraceSettingsTest);
 //    testRunner.addTest(new SpeedTrackerTest);
 //    testRunner.addTest(new SafeFrequencySweepTest);
-    testRunner.addTest(new ProcessTraceTest);
+//    testRunner.addTest(new ProcessTraceTest);
 
     qDebug() << "Global result: " << (testRunner.runTests() ? "PASS" : "FAIL");
     return 0;

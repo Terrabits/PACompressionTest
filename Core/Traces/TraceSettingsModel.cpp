@@ -256,6 +256,11 @@ bool TraceSettingsModel::removeRows(int row, int count, const QModelIndex &paren
 QVector<TraceSettings> TraceSettingsModel::traces() const {
     return _traces;
 }
+void TraceSettingsModel::setTraces(const QVector<TraceSettings> &traces) {
+    beginResetModel();
+    _traces = traces;
+    endResetModel();
+}
 
 void TraceSettingsModel::fixTraceSettings(int row) {
     TraceSettings &t(_traces[row]);

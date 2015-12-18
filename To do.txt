@@ -1,6 +1,11 @@
 My to do list:
 - Use measured Pin (a1), reinterpolate
+* Need to "validate" a1 values; either find a way to read/write them directly without error (formatted [real] values), or validate the conversion calculation that I've been using, perhaps preserve precision somehow (keep as complex?).
+
+
 - Plots vs Pout (reinterpolated)
 - GCA CSV file
 - Compact GUI
 - Speed Test
+  * HiSlip?
+  * Concatenate/collapse SCPI commands into fewer statements

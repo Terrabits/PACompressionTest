@@ -70,8 +70,6 @@ private:
     void showTracesPage();
 
     void setupPlot();
-
-    TraceSettingsModel _traceSettingsModel;
 };
 
 

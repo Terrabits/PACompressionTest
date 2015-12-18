@@ -27,16 +27,16 @@ public:
     explicit TracesWidget(QWidget *parent = 0);
     ~TracesWidget();
 
-    TraceSettingsModel *model() const;
-    void setModel(TraceSettingsModel *model);
-
     void setFrequencies(const RsaToolbox::QRowVector &frequencies_Hz);
     void setPowers(const RsaToolbox::QRowVector &powers_dBm);
 
+    bool isTracesValid();
+    bool isTracesValid(QString &message) const;
     QVector<TraceSettings> traces() const;
     void setTraces(const QVector<TraceSettings> &traces);
 
 signals:
+    void error(const QString &message);
     void tracesChanged();
 
 private slots:
@@ -46,7 +46,7 @@ private slots:
 private:
     Ui::TracesWidget *ui;
 
-    TraceSettingsModel *_model;
+    TraceSettingsModel _model;
     TraceSettingsDelegate _delegate;
 
     void setFixedColumnWidths();

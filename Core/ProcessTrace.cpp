@@ -22,8 +22,10 @@ ProcessTrace::ProcessTrace(TraceSettings *settings, MeasurementData *data, Vna *
         return;
     }
 
+    _vna->settings().updateDisplay();
     _vna->settings().displayOn();
     if (isPreexistingTrace()) {
+        updateChannel();
         updateTrace();
     }
     else {
@@ -91,20 +93,16 @@ bool ProcessTrace::retrieveData() {
         if (_settings->isAtCompression()) {
             _x = _data->frequencies_Hz();
             _y = _data->sParameterAtCompression(outputPort, inputPort);
-            debugPrint("at compression");
         }
         else if (_settings->isAtMaximumGain()) {
             _x = _data->frequencies_Hz();
             _y = _data->sParameterAtMaxGain(outputPort, inputPort);
-            debugPrint("at max gain");
         }
         else if (_settings->isXFrequency()) {
-            debugPrint("at dBm");
             if (!_data->sParameterVsFrequency(_settings->atValue, outputPort, inputPort, _x, _y))
                 return false;
         }
         else {
-            debugPrint("at Freq");
             if (!_data->sParameterVsPower(_settings->atValue, outputPort, inputPort, _x, _y))
                 return false;
         }
@@ -112,6 +110,23 @@ bool ProcessTrace::retrieveData() {
 
     return true;
 }
+
+void ProcessTrace::updateChannel() {
+    _channel = _vna->trace(_memoryTraceName).channel();
+    if (_settings->isXFrequency()) {
+        _vna->channel(_channel).setFrequencies(_data->frequencies_Hz());
+    }
+    else {
+        // X Axis: Power
+        _vna->channel(_channel).setSweepType(VnaChannel::SweepType::Power);
+        _vna->channel(_channel).powerSweep().setStart(_data->powers_dBm().first());
+        _vna->channel(_channel).powerSweep().setStop(_data->powers_dBm().last());
+        _vna->channel(_channel).powerSweep().setPoints(_data->powerPoints());
+    }
+    _vna->settings().updateDisplay();
+    _vna->settings().displayOn();
+}
+
 void ProcessTrace::createChannel() {
     _channel = _vna->createChannel();
     VnaChannel channel = _vna->channel(_channel);
@@ -151,7 +166,9 @@ void ProcessTrace::createTrace() {
     else /*if (_settings->isYPout())*/ {
         _vna->trace(_dataTraceName).setWaveQuantity(WaveQuantity::b, outputPort);
     }
-    _vna->trace(_dataTraceName).setDiagram(_diagram);
+
+    _vna->createDiagram(_diagram);
+//    _vna->trace(_dataTraceName).setDiagram(_diagram);
     _vna->trace(_dataTraceName).toMemory(_memoryTraceName);
     _vna->trace(_memoryTraceName).setDiagram(_diagram);
     updateTrace();
@@ -161,7 +178,7 @@ void ProcessTrace::updateTrace() {
     VnaTrace trace = _vna->trace(_memoryTraceName);
     if (_settings->isXFrequency()) {
         if (_settings->isYPower()) {
-            trace.write(toComplex_dBm(_y_dBm));
+            trace.write(_y_dBm);
         }
         else {
             trace.write(_y);
@@ -169,7 +186,7 @@ void ProcessTrace::updateTrace() {
     }
     else {
         if (_settings->isYPower()) {
-            trace.write(toComplex_dBm(_y_dBm));
+            trace.write(_y_dBm);
         }
         else {
             trace.write(_y);

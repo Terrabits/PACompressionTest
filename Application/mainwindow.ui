@@ -609,6 +609,9 @@
      </widget>
     </item>
     <item>
+     <widget class="RsaToolbox::ErrorLabel" name="traceError" native="true"/>
+    </item>
+    <item>
      <widget class="QWidget" name="buttons" native="true">
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <property name="leftMargin">

@@ -63,9 +63,12 @@ void FrequencySweep::run() {
     // Setup channel
     _vna->channel(channel).select();
     uint c = _vna->createChannel();
-
     _vna->channel(c).setFrequencies(sweptFreq_Hz);
     _results->frequencies_Hz() = sweptFreq_Hz;
+
+    // Setup a1 trace
+    QString a1Trace = _vna->createTrace(c);
+    _vna->trace(a1Trace).setWaveQuantity(WaveQuantity::a, inputPort);
 
     // First point
     uint iPower = 0;
@@ -85,7 +88,11 @@ void FrequencySweep::run() {
     _vna->channel(c).manualSweepOn();
     emit startingSweep(QString("Sweep %1").arg(iPower+1), sweep.sweepTime_ms());
     _results->data() << sweep.measure(outputPort, inputPort);
+    QRowVector a1Results;
+    _vna->trace(a1Trace).y(a1Results);
     emit finishedSweep();
+
+    qDebug() << "a1.first: " << a1Results.first() << " should be: " << power_dBm;
 
     if (shouldFlipPorts)
         flipPorts(_results->data()[iPower]);

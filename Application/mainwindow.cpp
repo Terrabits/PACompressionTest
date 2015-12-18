@@ -152,9 +152,10 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
     if (_exportPath.isEmpty())
         _exportPath.setPath(QDir::homePath());
 
-    loadKeys();
+    connect(ui->tracesWidget, SIGNAL(error(QString)),
+            ui->traceError, SLOT(showMessage(QString)));
 
-    ui->tracesWidget->setModel(&_traceSettingsModel);
+    loadKeys();
 }
 
 MainWindow::~MainWindow() {
@@ -191,19 +192,20 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 //    }
 //}
 void MainWindow::on_measure_clicked() {
-    if (ui->pages->currentWidget() == ui->tracesPage) {
+    if (ui->pages->currentWidget() == ui->tracesPage)
+    {
+        if (!ui->tracesWidget->isTracesValid())
+            return;
+
         // Apply traces
-        QVector<TraceSettings> traces = _traceSettingsModel.traces();
-        uint diagram = _vna.createDiagram();
+        QVector<TraceSettings> traces = ui->tracesWidget->traces();
+        uint diagram = max(_vna.diagrams()) + 1;
         for (int i = 0; i < traces.size(); i++) {
             ProcessTrace(&(traces[i]), _results.data(), &_vna, diagram);
         }
-        if (_vna.diagram(diagram).traces().isEmpty())
-            _vna.deleteDiagram(diagram);
-        _vna.settings().updateDisplay();
-        _vna.settings().displayOn();
-        showSettingsPage();
+        _vna.local();
 
+        showSettingsPage();
         saveKeys();
         return;
     }
@@ -605,11 +607,11 @@ void MainWindow::measurementFinished() {
     else {
         _results.reset(_thread->takeResults());
         ui->exportData->setEnabled(true);
-//        ui->error->showMessage("Measurement complete!", Qt::darkGreen);
         showTracesPage();
     }
 
     _thread.reset();
+    _vna.local();
 }
 
 void MainWindow::shake() {

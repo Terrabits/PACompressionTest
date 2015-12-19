@@ -50,6 +50,9 @@ public:
     RsaToolbox::ComplexRowVector sParameterAtMaxGain(uint outputPort, uint inputPort);
     bool sParameterVsFrequency(double power_dBm, uint outputPort, uint inputPort, RsaToolbox::QRowVector &frequencies_Hz, RsaToolbox::ComplexRowVector &sParameter);
 
+    // measuredPowers_dBm()[iPower][iFreq]
+    QVector<RsaToolbox::QRowVector> &measuredPowers_dBm(); // New
+
     // data[power]->y()[freq][outputPort-1][inputPort-1]
     // where inputPort, outputPort => [1,2]
     QVector<RsaToolbox::NetworkData> &data();
@@ -74,13 +77,14 @@ private:
 
     RsaToolbox::QRowVector _powerInAtMaxGain_dBm;
     RsaToolbox::QRowVector _maxGain_dB;
-    RsaToolbox::ComplexMatrix3D _sParametersAtMaxGain; // new? Populate?
+    RsaToolbox::ComplexMatrix3D _sParametersAtMaxGain;
     RsaToolbox::QRowVector _powerOutAtMaxGain_dBm;
     RsaToolbox::QRowVector _powerInAtCompression_dBm;
     RsaToolbox::QRowVector _gainAtCompression_dB;
-    RsaToolbox::ComplexMatrix3D _sParametersAtCompression; // new, POPULATE!!!
+    RsaToolbox::ComplexMatrix3D _sParametersAtCompression;
     RsaToolbox::QRowVector _powerOutAtCompression_dBm;
 
+    QVector<RsaToolbox::QRowVector> _measuredPowers_dBm; // new
     QVector<RsaToolbox::NetworkData> _data;
 
     // Keep?

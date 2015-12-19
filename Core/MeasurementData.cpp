@@ -86,7 +86,6 @@ QRowVector &MeasurementData::powerOutAtCompression_dBm() {
 }
 
 ComplexRowVector MeasurementData::sParameterAtCompression(uint outputPort, uint inputPort) {
-//    qDebug() << "MeasurementData::sParameterAtCompression S" << outputPort << inputPort;
     ComplexRowVector _result(frequencyPoints());
     for (uint i = 0; i < frequencyPoints(); i++) {
         _result[i] = _sParametersAtCompression[i][outputPort-1][inputPort-1];
@@ -103,20 +102,24 @@ ComplexRowVector MeasurementData::sParameterAtMaxGain(uint outputPort, uint inpu
 
 bool MeasurementData::sParameterVsPower(double frequency_Hz, uint outputPort, uint inputPort, QRowVector &powers_dBm, ComplexRowVector &sParameter) {
     powers_dBm.clear();
+    QRowVector measuredPowers_dBm;
     sParameter.clear();
     for (int i = 0; i < _powers_dBm.size(); i++) {
         const double power_dBm = _powers_dBm[i];
         const int fIndex = _data[i].x().indexOf(frequency_Hz);
         if (fIndex == -1) {
-            powers_dBm.clear();
-            sParameter.clear();
-            return false;
+//            powers_dBm.clear();
+//            sParameter.clear();
+//            return false;
+            continue;
         }
 
         powers_dBm << power_dBm;
+        measuredPowers_dBm << _measuredPowers_dBm[i][fIndex];
         sParameter.push_back(_data[i].y()[fIndex][outputPort-1][inputPort-1]);
     }
 
+    // INTERPOLATE measured powers onto grid?
     return true;
 }
 bool MeasurementData::sParameterVsFrequency(double power_dBm, uint outputPort, uint inputPort, QRowVector &frequencies_Hz, ComplexRowVector &sParameter) {
@@ -130,6 +133,10 @@ bool MeasurementData::sParameterVsFrequency(double power_dBm, uint outputPort, u
     frequencies_Hz = _data[i].x();
     sParameter = _data[i].y(outputPort, inputPort);
     return true;
+}
+
+QVector<QRowVector> &MeasurementData::measuredPowers_dBm() {
+    return _measuredPowers_dBm;
 }
 
 QVector<NetworkData> &MeasurementData::data() {

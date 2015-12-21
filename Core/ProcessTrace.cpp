@@ -51,28 +51,60 @@ ComplexRowVector ProcessTrace::toComplex_dBm(QRowVector powers_dBm) {
 }
 
 bool ProcessTrace::retrieveData() {
+    _x.clear();
+    _y.clear();
+    _y_dBm.clear();
+
     if (_settings->isYPower()) {
-        _x = _data->frequencies_Hz();
-        if (_settings->isYPin()) {
-            if (_settings->isAtCompression()) {
-                _y_dBm = _data->powerInAtCompression_dBm();
+        if (_settings->isXFrequency()) {
+            _x = _data->frequencies_Hz();
+            if (_settings->isYPin()) {
+                if (_settings->isAtCompression()) {
+                    // y: Pin
+                    // x: Frequency
+                    // @: Compression
+                    _y_dBm = _data->powerInAtCompression_dBm();
+                }
+                else {
+                    // y: Pin
+                    // x: Frequency
+                    // @: MaxGain
+                    _y_dBm = _data->powerInAtMaxGain_dBm();
+                }
             }
             else {
-                _y_dBm = _data->powerInAtMaxGain_dBm();
+                // Pout
+                if (_settings->isAtCompression()) {
+                    // y: Pout
+                    // x: Frequency
+                    // @: Compression
+                    _y_dBm = _data->powerOutAtCompression_dBm();
+                }
+                else if (_settings->isAtMaximumGain()) {
+                    // y: Pout
+                    // x: Frequency
+                    // @: MaxGain
+                    _y_dBm = _data->powerOutAtMaxGain_dBm();
+                }
+                else {
+                    // y: Pout
+                    // x: Frequency
+                    // @: Pin
+                    if (!_data->poutVsFrequency(_settings->atValue, _x, _y_dBm))
+                        return false;
+                }
             }
         }
         else {
-            // Pout
-            if (_settings->isAtCompression()) {
-                _y_dBm = _data->powerOutAtCompression_dBm();
-            }
-            else {
-                _y_dBm = _data->powerOutAtMaxGain_dBm();
-            }
+            // y: Pout
+            // x: Pin
+            // @: Frequency
+            if (!_data->poutVsPin(_settings->atValue, _x, _y_dBm))
+                return false;
         }
     }
-    else {
-        // SParameter
+    else { // SParameter
+        // Ports
         uint outputPort, inputPort;
         if (_settings->isYInputReflectionTrace()) {
             outputPort = inputPort = 1;
@@ -91,19 +123,38 @@ bool ProcessTrace::retrieveData() {
         }
 
         if (_settings->isAtCompression()) {
+            // y: SParameter
+            // x: Frequency
+            // @: Compression
             _x = _data->frequencies_Hz();
             _y = _data->sParameterAtCompression(outputPort, inputPort);
         }
         else if (_settings->isAtMaximumGain()) {
+            // y: SParameter
+            // x: Frequency
+            // @: MaxGain
             _x = _data->frequencies_Hz();
             _y = _data->sParameterAtMaxGain(outputPort, inputPort);
         }
         else if (_settings->isXFrequency()) {
-            if (!_data->sParameterVsFrequency(_settings->atValue, outputPort, inputPort, _x, _y))
+            // y: SParameter
+            // x: Frequency
+            // @: Pin
+            if (!_data->sParameterVsFrequencyAtPin(_settings->atValue, outputPort, inputPort, _x, _y))
+                return false;
+        }
+        else if (_settings->isXPin()) {
+            // y: SParameter
+            // x: Pin
+            // @: Frequency
+            if (!_data->sParameterVsPin(_settings->atValue, outputPort, inputPort, _x, _y))
                 return false;
         }
         else {
-            if (!_data->sParameterVsPower(_settings->atValue, outputPort, inputPort, _x, _y))
+            // y: SParameter
+            // x: Pout
+            // @: Frequency
+            if (!_data->sParameterVsPout(_settings->atValue, outputPort, inputPort, _x, _y))
                 return false;
         }
     }
@@ -119,9 +170,9 @@ void ProcessTrace::updateChannel() {
     else {
         // X Axis: Power
         _vna->channel(_channel).setSweepType(VnaChannel::SweepType::Power);
-        _vna->channel(_channel).powerSweep().setStart(_data->powers_dBm().first());
-        _vna->channel(_channel).powerSweep().setStop(_data->powers_dBm().last());
-        _vna->channel(_channel).powerSweep().setPoints(_data->powerPoints());
+        _vna->channel(_channel).powerSweep().setStart(_x.first());
+        _vna->channel(_channel).powerSweep().setStop(_x.last());
+        _vna->channel(_channel).powerSweep().setPoints(_x.size());
     }
     _vna->settings().updateDisplay();
     _vna->settings().displayOn();
@@ -133,7 +184,7 @@ void ProcessTrace::createChannel() {
 
     channel.manualSweepOn();
     channel.setName(_channelName);
-    if (_settings->isXPin()) {
+    if (_settings->isXPower()) {
         channel.setSweepType(VnaChannel::SweepType::Power);
         channel.powerSweep().setStart(_x.first());
         channel.powerSweep().setStop(_x.last());

@@ -34,7 +34,7 @@ public:
     RsaToolbox::QRowVector &frequencies_Hz();
 
     uint powerPoints() const;
-    RsaToolbox::QRowVector &powers_dBm();
+    RsaToolbox::QRowVector &pin_dBm();
 
     RsaToolbox::QRowVector &powerInAtMaxGain_dBm();
     RsaToolbox::QRowVector &maxGain_dB();
@@ -45,13 +45,19 @@ public:
     RsaToolbox::ComplexMatrix3D &sParametersAtCompression();
     RsaToolbox::QRowVector &powerOutAtCompression_dBm();
 
-    bool sParameterVsPower(double frequency_Hz, uint outputPort, uint inputPort, RsaToolbox::QRowVector &powers_dBm, RsaToolbox::ComplexRowVector &sParameter);
+    bool sParameterVsPin(double frequency_Hz, uint outputPort, uint inputPort, RsaToolbox::QRowVector &pin_dBm, RsaToolbox::ComplexRowVector &sParameter);
+    bool sParameterVsPout(double frequency_Hz, uint outputPort, uint inputPort, RsaToolbox::QRowVector &pout_dBm, RsaToolbox::ComplexRowVector &sParameter); // New!
     RsaToolbox::ComplexRowVector sParameterAtCompression(uint outputPort, uint inputPort);
     RsaToolbox::ComplexRowVector sParameterAtMaxGain(uint outputPort, uint inputPort);
-    bool sParameterVsFrequency(double power_dBm, uint outputPort, uint inputPort, RsaToolbox::QRowVector &frequencies_Hz, RsaToolbox::ComplexRowVector &sParameter);
+    bool sParameterVsFrequencyAtPin(double pin_dBm, uint outputPort, uint inputPort, RsaToolbox::QRowVector &frequencies_Hz, RsaToolbox::ComplexRowVector &sParameter);
+//    bool sParameterVsFrequencyAtPout(double pout_dBm, uint outputPort, uint inputPort, RsaToolbox::QRowVector &frequencies_Hz, RsaToolbox::ComplexRowVector &sParameter);
+    // ... This would involve major interpolation effort?
+
+    bool poutVsFrequency(double pin_dBm, RsaToolbox::QRowVector &frequencies_Hz, RsaToolbox::QRowVector &pout_dBm);
+    bool poutVsPin(double frequency_Hz, RsaToolbox::QRowVector &pin_dBm, RsaToolbox::QRowVector &pout_dBm);
 
     // measuredPowers_dBm()[iPower][iFreq]
-    QVector<RsaToolbox::QRowVector> &measuredPowers_dBm(); // New
+    QVector<RsaToolbox::QRowVector> &measuredPin_dBm();
 
     // data[power]->y()[freq][outputPort-1][inputPort-1]
     // where inputPort, outputPort => [1,2]
@@ -73,7 +79,7 @@ private:
     MeasurementSettings _settings;
 
     RsaToolbox::QRowVector _frequencies_Hz;
-    RsaToolbox::QRowVector _powers_dBm;
+    RsaToolbox::QRowVector _pin_dBm;
 
     RsaToolbox::QRowVector _powerInAtMaxGain_dBm;
     RsaToolbox::QRowVector _maxGain_dB;
@@ -84,7 +90,7 @@ private:
     RsaToolbox::ComplexMatrix3D _sParametersAtCompression;
     RsaToolbox::QRowVector _powerOutAtCompression_dBm;
 
-    QVector<RsaToolbox::QRowVector> _measuredPowers_dBm; // new
+    QVector<RsaToolbox::QRowVector> _measuredPin_dBm;
     QVector<RsaToolbox::NetworkData> _data;
 
     // Keep?

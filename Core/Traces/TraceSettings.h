@@ -38,6 +38,7 @@ public:
     bool isYPin() const;
     bool isYPout() const;
 
+    bool isYSParameter() const;
     bool isYReflection() const;
     bool isYInsertion() const;
     bool isYPower() const;
@@ -46,7 +47,9 @@ public:
 
     // X Parameter
     bool isXFrequency() const;
+    bool isXPower() const;
     bool isXPin() const;
+    bool isXPout() const;
     bool isValidXParameter() const;
     QStringList possibleXParameters() const;
 

@@ -7,8 +7,8 @@
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
-	<Product Id="846902E4-202E-4243-A89F-77DC6DB3CA52" Name="R&amp;S PA Compression Test" Language="1033"
-    Version="1.5.2" Manufacturer="Rohde &amp; Schwarz"
+	<Product Id="1A274848-1E97-460C-8FDE-900E0C5B2C3E" Name="R&amp;S PA Compression Test" Language="1033"
+    Version="1.5.1" Manufacturer="Rohde &amp; Schwarz"
     UpgradeCode="699b0972-99de-4286-9686-b8cea86158b9">
 		
 		<Package InstallerVersion="200"
@@ -80,17 +80,17 @@
   <Fragment>
     <!-- Application files -->
     <Icon Id="Rs.ico" SourceFile="C:\Program Files (x86)\Rohde-Schwarz\RSA Create Installer/Icons/Rs.ico" />
-    <Component Id="ExecutableComponent" Guid="326DEA1E-BAE2-41B1-A4DD-67D2EAFB713F"
+    <Component Id="ExecutableComponent" Guid="458D05CA-9652-48CE-AFBE-86CA3A58B2CF"
       Directory="INSTALLFOLDER">
       <File Id="AppExecutable" Name="R&amp;S PA Compression Test.exe"
-        Source="C:\Users\Lalic\Documents\Qt\build-PACompressionTest-Desktop_Qt_5_2_1_MSVC2010_32bit-Release\release\PACompressionTest.exe" KeyPath="yes">
+        Source="C:\Users\lalic\Documents\Qt\build-PACompressionTest-Desktop_Qt_5_2_1_MSVC2010_32bit-Release\release\PACompressionTest.exe" KeyPath="yes">
         <Shortcut Id="ZNBShortcut" Name="PA Compression"
           Directory="ZNBExternalToolsFolder" Advertise="yes" Icon="Rs.ico" />
         <Shortcut Id="ZVAShortcut" Name="PA Compression"
           Directory="ZVAExternalToolsFolder" Advertise="yes" Icon="Rs.ico" />
       </File>
     </Component>
-    <Component Id="Licenses" Guid="46ED00FC-4354-4BE2-8784-16654B2D233F" Directory="LicensesFolder">
+    <Component Id="Licenses" Guid="715A023E-F9D7-46A8-A802-DC5B4DE3ABF1" Directory="LicensesFolder">
       <File Id="RsaLicense"
         Name="R&amp;S Terms and Conditions for Royalty-Free Products.txt"
         Source="C:\Program Files (x86)\Rohde-Schwarz\RSA Create Installer\Licenses\R&amp;S Terms and Conditions for Royalty-Free Products.txt"
@@ -111,31 +111,31 @@
         Name="ZLib Copyright and Terms and Conditions.txt"
         Source="C:\Program Files (x86)\Rohde-Schwarz\RSA Create Installer\Licenses\ZLib Copyright and Terms and Conditions.txt" />
     </Component>
-    <Component Id="RsVisa" Guid="830B859D-8B47-4731-9910-2C70CDB91CE3"
+    <Component Id="RsVisa" Guid="CE463E85-CD5F-49F3-B5ED-820450169D20"
       Directory="INSTALLFOLDER">
       <File Id="RsVisa32.dll" Name="RsVisa32.dll"
         Source="..\RsaToolbox\Bus\Visa\RsVisa32.dll" KeyPath="yes" />
     </Component>
-    <Component Id="QCustomPlots" Guid="FD952105-788D-4A7B-A708-B4225E20D60C"
+    <Component Id="QCustomPlots" Guid="E9C57853-CB85-40ED-ADCF-DB3FCA34202C"
       Directory="INSTALLFOLDER">
     	<File Id="qcustomplot.dll" Name="qcustomplot.dll"
         Source="..\RsaToolbox\QCustomPlot\qcustomplot.dll" KeyPath="yes" />
     </Component>
-    <Component Id="QuaZip" Guid="54EF3AD9-AEBB-498E-B84C-B483A92A79CA"
+    <Component Id="QuaZip" Guid="BEA14949-9CDA-4866-B0CC-B3B745405F65"
       Directory="INSTALLFOLDER">
       <File Id="quazip.dll" Name="quazip.dll"
         Source="..\RsaToolbox\QuaZIP\quazip.dll" KeyPath="yes" />
       <File Id="zlib1.dll" Name="zlib1.dll"
         Source="..\RsaToolbox\QuaZIP\ZLib\zlib1.dll" />
     </Component>
-    <Component Id="MsvcRuntime" Guid="41505C2B-9019-4205-B1FF-9938DA6B7457"
+    <Component Id="MsvcRuntime" Guid="D4F9D81D-22A1-45A0-B01B-342287E6B298"
       Directory="INSTALLFOLDER">
       <File Id="msvcr100.dll" Name="msvcr100.dll"
         Source="C:\Program Files (x86)\Rohde-Schwarz\RSA Create Installer\Msvc2010_32\msvcr100.dll" KeyPath="yes" />
       <File Id="msvcp100.dll" Name="msvcp100.dll"
         Source="C:\Program Files (x86)\Rohde-Schwarz\RSA Create Installer\Msvc2010_32\msvcp100.dll" />
     </Component>
-    <Component Id="QtRuntime" Guid="EA442507-9A05-4014-BE46-92239EE41CEB"
+    <Component Id="QtRuntime" Guid="79615F3D-D3BA-4513-8137-835CED424C6D"
       Directory="INSTALLFOLDER">
       <File Id="Qt5Core.dll" Name="Qt5Core.dll"
         Source="C:\Qt\5.2.1\msvc2010\bin\Qt5Core.dll" KeyPath="yes" />
@@ -160,12 +160,12 @@
       <File Id="icuuc51.dll" Name="icuuc51.dll"
         Source="C:\Qt\5.2.1\msvc2010\bin\icuuc51.dll" />
     </Component>
-    <Component Id="QtPlatformPlugin" Guid="D01A9A2F-3559-43E1-A183-E4C3574A6034"
+    <Component Id="QtPlatformPlugin" Guid="32E635C6-21C4-43BB-9E5D-838AE601F7B1"
       Directory="PlatformsFolder">
       <File Id="qwindows.dll" Name="qwindows.dll"
         Source="C:\Qt\5.2.1\msvc2010\bin\..\plugins\platforms\qwindows.dll" KeyPath="yes" />
     </Component>
-    <Component Id="LogsAndSettings" Guid="60131C00-075D-43B4-BAC7-A253236EEA2A"
+    <Component Id="LogsAndSettings" Guid="554A0BF2-FA34-4063-B220-139651D749D8"
       Directory="MyAppDataFolder" KeyPath="yes">
       <CreateFolder Directory="SettingsFolder" />
       <RemoveFile Id="PurgeLogs"
@@ -176,7 +176,7 @@
       <RemoveFolder Id="RemoveSettingsFolder"
       Directory="SettingsFolder" On="uninstall" />
     </Component>
-    <Component Id="ShortcutsComponent" Guid="B7AC8F71-4CF2-49D8-8A1D-3C88A62BDE98"
+    <Component Id="ShortcutsComponent" Guid="BE9E8757-B46C-404E-8184-5194AF5B4854"
       Directory="ApplicationStartMenuFolder">
       <RegistryKey Root="HKCU"
         Key="Software\Rohde-Schwarz\R&amp;S PA Compression Test\Uninstall">

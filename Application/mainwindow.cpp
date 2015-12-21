@@ -665,7 +665,7 @@ void MainWindow::showTracesPage() {
     ui->pages->setCurrentWidget(ui->tracesPage);
 
     ui->tracesWidget->setFrequencies(_results->frequencies_Hz());
-    ui->tracesWidget->setPowers(_results->powers_dBm());
+    ui->tracesWidget->setPowers(_results->pin_dBm());
 
     // Need animation?
 //    QPropertyAnimation *animation = new QPropertyAnimation(this, "geometry");

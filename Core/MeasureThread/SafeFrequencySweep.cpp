@@ -72,7 +72,7 @@ void SafeFrequencySweep::run() {
     // First point
     uint iPower = 0;
     double power_dBm = powers_dBm[iPower];
-    _results->powers_dBm() << power_dBm;
+    _results->pin_dBm() << power_dBm;
 
     VnaSegmentedSweep sweep = _vna->channel(c).segmentedSweep();
     sweep.setPower(power_dBm);
@@ -89,7 +89,7 @@ void SafeFrequencySweep::run() {
     _results->data() << sweep.measure(outputPort, inputPort);
     QRowVector measuredPowers_dBm;
     _vna->trace(a1Trace).y(measuredPowers_dBm);
-    _results->measuredPowers_dBm() << measuredPowers_dBm;
+    _results->measuredPin_dBm() << measuredPowers_dBm;
     emit finishedSweep();
 
     if (shouldFlipPorts)
@@ -114,7 +114,7 @@ void SafeFrequencySweep::run() {
             break;
 
         power_dBm = powers_dBm[iPower];
-        _results->powers_dBm() << power_dBm;
+        _results->pin_dBm() << power_dBm;
         sweep.setPower(power_dBm);
 
         if (isInterruptionRequested()) {
@@ -127,14 +127,14 @@ void SafeFrequencySweep::run() {
         emit startingSweep(QString("Sweep %1").arg(iPower+1), sweep.sweepTime_ms());
         _results->data() << sweep.measure(outputPort, inputPort);
         _vna->trace(a1Trace).y(measuredPowers_dBm);
-        _results->measuredPowers_dBm() << measuredPowers_dBm;
+        _results->measuredPin_dBm() << measuredPowers_dBm;
         emit finishedSweep();
 
         if (shouldFlipPorts)
             flipPorts(_results->data()[iPower]);
 
 //        const double previousPower_dBm = powers_dBm[iPower-1];
-        QRowVector previousMeasuredPowers_dBm = _results->measuredPowers_dBm()[iPower-1]; // NEW
+        QRowVector previousMeasuredPowers_dBm = _results->measuredPin_dBm()[iPower-1]; // NEW
         QRowVector previousFrequencies_Hz = _results->data()[iPower-1].x();
         QRowVector previousGains_dB = _results->data()[iPower-1].y_dB(2,1);
         ComplexMatrix3D previousSParams = _results->data()[iPower-1].y();

@@ -54,10 +54,10 @@ QRowVector &MeasurementData::frequencies_Hz() {
     return _frequencies_Hz;
 }
 uint  MeasurementData::powerPoints() const {
-    return _powers_dBm.size();
+    return _pin_dBm.size();
 }
-QRowVector &MeasurementData::powers_dBm() {
-    return _powers_dBm;
+QRowVector &MeasurementData::pin_dBm() {
+    return _pin_dBm;
 }
 
 QRowVector &MeasurementData::powerInAtMaxGain_dBm() {
@@ -100,32 +100,56 @@ ComplexRowVector MeasurementData::sParameterAtMaxGain(uint outputPort, uint inpu
     return _result;
 }
 
-bool MeasurementData::sParameterVsPower(double frequency_Hz, uint outputPort, uint inputPort, QRowVector &powers_dBm, ComplexRowVector &sParameter) {
-    powers_dBm.clear();
-    QRowVector measuredPowers_dBm;
+bool MeasurementData::sParameterVsPin(double frequency_Hz, uint outputPort, uint inputPort, QRowVector &pin_dBm, ComplexRowVector &sParameter) {
+    pin_dBm.clear();
     sParameter.clear();
-    for (int i = 0; i < _powers_dBm.size(); i++) {
-        const double power_dBm = _powers_dBm[i];
+
+    QRowVector measuredPin_dBm;
+    for (int i = 0; i < _pin_dBm.size(); i++) {
         const int fIndex = _data[i].x().indexOf(frequency_Hz);
         if (fIndex == -1) {
-//            powers_dBm.clear();
-//            sParameter.clear();
-//            return false;
             continue;
         }
 
-        powers_dBm << power_dBm;
-        measuredPowers_dBm << _measuredPowers_dBm[i][fIndex];
+        measuredPin_dBm << _measuredPin_dBm[i][fIndex];
         sParameter.push_back(_data[i].y()[fIndex][outputPort-1][inputPort-1]);
     }
+    if (measuredPin_dBm.isEmpty()) {
+        return false;
+    }
 
-    // INTERPOLATE measured powers onto grid?
+    // Reinterpolate using measured Pin (a1)
+    pin_dBm = linearSpacing(measuredPin_dBm.first(), measuredPin_dBm.last(), measuredPin_dBm.size());
+    sParameter = linearInterpolateMagPhase(measuredPin_dBm, sParameter, pin_dBm);
     return true;
 }
-bool MeasurementData::sParameterVsFrequency(double power_dBm, uint outputPort, uint inputPort, QRowVector &frequencies_Hz, ComplexRowVector &sParameter) {
+bool MeasurementData::sParameterVsPout(double frequency_Hz, uint outputPort, uint inputPort, QRowVector &pout_dBm, ComplexRowVector &sParameter) {
+    pout_dBm.clear();
+    sParameter.clear();
+
+    QRowVector pin_dBm;
+    ComplexRowVector gain;
+    if (!sParameterVsPin(frequency_Hz, 2, 1, pin_dBm, gain))
+        return false;
+
+    QRowVector _pout_dBm = add(pin_dBm, toDb(gain));
+    if (outputPort == 2 && inputPort == 1) {
+        sParameter = gain;
+    }
+    else {
+        if (!sParameterVsPin(frequency_Hz, outputPort, inputPort, pin_dBm, sParameter))
+            return false;
+    }
+
+    // Reinterpolate onto square grid vs Pout
+    pout_dBm = linearSpacing(_pout_dBm.first(), _pout_dBm.last(), _pout_dBm.size());
+    sParameter = linearInterpolateMagPhase(_pout_dBm, sParameter, pout_dBm);
+    return true;
+}
+bool MeasurementData::sParameterVsFrequencyAtPin(double pin_dBm, uint outputPort, uint inputPort, QRowVector &frequencies_Hz, ComplexRowVector &sParameter) {
     frequencies_Hz.clear();
     sParameter.clear();
-    const int i = _powers_dBm.indexOf(power_dBm);
+    const int i = _pin_dBm.indexOf(pin_dBm);
     if (i == -1) {
         return false;
     }
@@ -135,8 +159,41 @@ bool MeasurementData::sParameterVsFrequency(double power_dBm, uint outputPort, u
     return true;
 }
 
-QVector<QRowVector> &MeasurementData::measuredPowers_dBm() {
-    return _measuredPowers_dBm;
+bool MeasurementData::poutVsFrequency(double pin_dBm, QRowVector &frequencies_Hz, QRowVector &pout_dBm) {
+    frequencies_Hz.clear();
+    pout_dBm.clear();
+
+    const int i = _pin_dBm.indexOf(pin_dBm);
+    if (i == -1) {
+        return false;
+    }
+    const QRowVector measuredPin_dBm = _measuredPin_dBm[i];
+
+    ComplexRowVector gain;
+    if (!sParameterVsFrequencyAtPin(pin_dBm, 2, 1, frequencies_Hz, gain)) {
+        frequencies_Hz.clear();
+        return false;
+    }
+
+    pout_dBm = add(measuredPin_dBm, toDb(gain));
+    return true;
+}
+bool MeasurementData::poutVsPin(double frequency_Hz, QRowVector &pin_dBm, QRowVector &pout_dBm) {
+    pin_dBm.clear();
+    pout_dBm.clear();
+
+    ComplexRowVector gain;
+    if (!sParameterVsPin(frequency_Hz, 2, 1, pin_dBm, gain)) {
+        pin_dBm.clear();
+        return false;
+    }
+
+    pout_dBm = add(pin_dBm, toDb(gain));
+    return true;
+}
+
+QVector<QRowVector> &MeasurementData::measuredPin_dBm() {
+    return _measuredPin_dBm;
 }
 
 QVector<NetworkData> &MeasurementData::data() {
@@ -145,7 +202,7 @@ QVector<NetworkData> &MeasurementData::data() {
 
 void MeasurementData::clearAllData() {
     _frequencies_Hz.clear();
-    _powers_dBm.clear();
+    _pin_dBm.clear();
 
     _powerInAtMaxGain_dBm.clear();
     _maxGain_dB.clear();
@@ -171,7 +228,7 @@ bool MeasurementData::open(QString filename) {
     stream >> _settings;
 
     stream >> _frequencies_Hz;
-    stream >> _powers_dBm;
+    stream >> _pin_dBm;
 
     stream >> _powerInAtMaxGain_dBm;
     stream >> _maxGain_dB;
@@ -199,7 +256,7 @@ bool MeasurementData::save(QString filename) {
     stream << _settings;
 
     stream << _frequencies_Hz;
-    stream << _powers_dBm;
+    stream << _pin_dBm;
 
     stream << _powerInAtMaxGain_dBm;
     stream << _maxGain_dB;
@@ -311,7 +368,7 @@ bool MeasurementData::exportTouchstone(QString path) {
     QDir _path(path);
     for (int i = 0; i < _data.size(); i++) {
         QString filename = "Pin %1 dBm.s2p";
-        filename = filename.arg(formatDouble(_powers_dBm[i], 2));
+        filename = filename.arg(formatDouble(_pin_dBm[i], 2));
         filename = _path.filePath(filename);
         if (!Touchstone::write(_data[i], filename)) {
             return false;

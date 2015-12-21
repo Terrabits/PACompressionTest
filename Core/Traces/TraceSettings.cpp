@@ -81,6 +81,9 @@ bool TraceSettings::isYPout() const {
     return yParameter.compare("Pout", Qt::CaseInsensitive) == 0;
 }
 
+bool TraceSettings::isYSParameter() const {
+    return isYReflection() || isYInsertion();
+}
 bool TraceSettings::isYReflection() const {
     return isYInputReflectionTrace() || isYOutputReflectionTrace();
 }
@@ -99,7 +102,8 @@ QStringList TraceSettings::possibleYParameters() const {
          << "Gain"
          << "Reverse Gain"
          << "Output Reflection"
-         << "Pin" << "Pout";
+         << "Pin"
+         << "Pout";
     return list;
 }
 
@@ -107,8 +111,14 @@ QStringList TraceSettings::possibleYParameters() const {
 bool TraceSettings::isXFrequency() const {
     return xParameter.compare("Frequency", Qt::CaseInsensitive) == 0;
 }
+bool TraceSettings::isXPower() const {
+    return isXPin() || isXPout();
+}
 bool TraceSettings::isXPin() const {
     return xParameter.compare("Pin", Qt::CaseInsensitive) == 0;
+}
+bool TraceSettings::isXPout() const {
+    return xParameter.compare("Pout", Qt::CaseInsensitive) == 0;
 }
 bool TraceSettings::isValidXParameter() const {
     return possibleXParameters().contains(xParameter, Qt::CaseInsensitive);
@@ -120,6 +130,9 @@ QStringList TraceSettings::possibleXParameters() const {
     list << "Frequency";
     if (!isYPin()) {
         list << "Pin";
+    }
+    if (isYSParameter()) {
+        list << "Pout";
     }
     return list;
 }
@@ -144,21 +157,28 @@ QStringList TraceSettings::possibleAtParameters() const {
     QStringList list;
     if (!isValidYParameter() || !isValidXParameter())
         return list;
-    if (!isYPower()) {
+    if (isYSParameter()) {
         if (isXPin()) {
             // y: SParam
             // x: Pin
+            list << "Frequency";
+        }
+        else if (isXPout()) {
+            // y: SParam
+            // x: Pout
             list << "Frequency";
         }
         else {
             // y: SParam
             // x: Frequency
             list << "Pin"
+//                 << "Pout"
                  << "Compression"
                  << "Maximum Gain";
         }
     }
     else {
+        // Y is power
         if (isYPin()) {
             // y: Pin
             // x: Frequency (default)

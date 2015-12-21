@@ -1,9 +1,4 @@
 My to do list:
-- Use measured Pin (a1), reinterpolate
-  * Added MeasurementData.measuredPowers_dBm()[iPower][iFreq]
-  * Need to update MeasurementData.sParameterVsPower to do reinterpolation onto square power grid. May need to update RsaToolbox to do this with complex values on Mag/Phase.
-
-- Plots vs Pout (reinterpolated)
 - GCA CSV file
 - Compact GUI
 - Speed Test

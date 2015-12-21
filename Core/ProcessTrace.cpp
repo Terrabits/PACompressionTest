@@ -227,21 +227,18 @@ void ProcessTrace::createTrace() {
 }
 void ProcessTrace::updateTrace() {
     VnaTrace trace = _vna->trace(_memoryTraceName);
-    if (_settings->isXFrequency()) {
-        if (_settings->isYPower()) {
+    if (_settings->isYPower()) {
+        if (!_vna->properties().isZvaFamily()) {
             trace.write(_y_dBm);
         }
         else {
-            trace.write(_y);
+            // 0 dBm: sqrt(5.0)/10.0 ...?????
+            const ComplexDouble zero_dBm(0.223606797749979, 0);
+            trace.write(multiply(toMagnitude(_y_dBm), zero_dBm));
         }
     }
     else {
-        if (_settings->isYPower()) {
-            trace.write(_y_dBm);
-        }
-        else {
-            trace.write(_y);
-        }
+        trace.write(_y);
     }
 }
 

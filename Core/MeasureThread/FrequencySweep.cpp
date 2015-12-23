@@ -45,7 +45,7 @@ void FrequencySweep::run() {
     const double start_dBm = _settings.startPower_dBm();
     const double stop_dBm = _settings.stopPower_dBm();
     const uint powerPoints = _settings.powerPoints();
-    QRowVector powers_dBm = linearSpacing(start_dBm, stop_dBm, powerPoints);
+    QRowVector pin_dBm = linearSpacing(start_dBm, stop_dBm, powerPoints);
 
     const double compressionLevel_dB = _settings.compressionLevel_dB();
     const bool isGainExpansion = _settings.isGainExpansion();
@@ -72,7 +72,7 @@ void FrequencySweep::run() {
 
     // First point
     uint iPower = 0;
-    double power_dBm = powers_dBm[iPower];
+    double power_dBm = pin_dBm[iPower];
     _results->pin_dBm() << power_dBm;
 
     VnaSegmentedSweep sweep = _vna->channel(c).segmentedSweep();
@@ -88,15 +88,15 @@ void FrequencySweep::run() {
     _vna->channel(c).manualSweepOn();
     emit startingSweep(QString("Sweep %1").arg(iPower+1), sweep.sweepTime_ms());
     _results->data() << sweep.measure(outputPort, inputPort);
-    QRowVector measuredPowers_dBm;
-    _vna->trace(a1Trace).y(measuredPowers_dBm);
-    _results->measuredPin_dBm() << measuredPowers_dBm;
+    QRowVector measuredPin_dBm;
+    _vna->trace(a1Trace).y(measuredPin_dBm);
+    _results->measuredPin_dBm() << measuredPin_dBm;
     emit finishedSweep();
 
     if (shouldFlipPorts)
         flipPorts(_results->data()[iPower]);
 
-    _results->powerInAtMaxGain_dBm() = QRowVector(freqPoints, power_dBm);
+    _results->powerInAtMaxGain_dBm() = measuredPin_dBm;
     _results->maxGain_dB() = _results->data()[iPower].y_dB(2, 1);
     _results->sParametersAtMaxGain() = _results->data()[iPower].y();
     _results->powerOutAtMaxGain_dBm() = add(_results->powerInAtMaxGain_dBm(), _results->maxGain_dB());
@@ -112,7 +112,7 @@ void FrequencySweep::run() {
 
     QBitArray isCompression(freqPoints, false);
     for (iPower = 1; iPower < powerPoints; iPower++) {
-        power_dBm = powers_dBm[iPower];
+        power_dBm = pin_dBm[iPower];
         _results->pin_dBm() << power_dBm;
         sweep.setPower(power_dBm);
 
@@ -125,8 +125,8 @@ void FrequencySweep::run() {
         }
         emit startingSweep(QString("Sweep %1").arg(iPower+1), sweep.sweepTime_ms());
         _results->data() << sweep.measure(outputPort, inputPort);
-        _vna->trace(a1Trace).y(measuredPowers_dBm);
-        _results->measuredPin_dBm() << measuredPowers_dBm;
+        _vna->trace(a1Trace).y(measuredPin_dBm);
+        _results->measuredPin_dBm() << measuredPin_dBm;
         emit finishedSweep();
 
         if (shouldFlipPorts)
@@ -146,7 +146,7 @@ void FrequencySweep::run() {
             const double previousGain_dB = previousGains_dB[iFreq];
             ComplexMatrix2D previousSParam = previousSParams[iFreq];
 
-            const double measuredPower_dBm = measuredPowers_dBm[iFreq];
+            const double measuredPower_dBm = measuredPin_dBm[iFreq];
             const double gain_dB = gains_dB[iFreq];
             ComplexMatrix2D sParam = sParams[iFreq];
 

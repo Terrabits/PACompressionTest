@@ -277,7 +277,8 @@ bool MeasurementData::exportToZip(QString filename) {
         filename.chop(4);
 
     QString s2pFolder = "Touchstone Files";
-    QString csvFile = "Compression.csv";
+    QString simpleCsvFile = "Compression.csv";
+    QString completeCsvFile = "Data.csv";
     QString infoFile = "Settings.txt";
     QFileInfo fileInfo(filename);
     QDir dir(fileInfo.absolutePath());
@@ -287,18 +288,29 @@ bool MeasurementData::exportToZip(QString filename) {
     }
     dir.cd(fileInfo.fileName());
 
+    qDebug() << "info";
     infoFile = dir.filePath(infoFile);
     if (!exportInfo(infoFile)) {
         dir.removeRecursively();
         return false;
     }
 
-    csvFile = dir.filePath(csvFile);
-    if (!exportCsv(csvFile)) {
+    qDebug() << "simple csv";
+    simpleCsvFile = dir.filePath(simpleCsvFile);
+    if (!exportSimpleCsv(simpleCsvFile)) {
         dir.removeRecursively();
         return false;
     }
 
+    qDebug() << "complete csv";
+    completeCsvFile = dir.filePath(completeCsvFile);
+    if (!exportCompleteCsv(completeCsvFile)) {
+        qDebug() << "complete csv failed";
+        dir.removeRecursively();
+        return false;
+    }
+
+    qDebug() << "touchstone";
     if (!dir.mkdir(s2pFolder)) {
         dir.removeRecursively();
         return false;
@@ -312,6 +324,7 @@ bool MeasurementData::exportToZip(QString filename) {
     filename += ".zip";
     bool success = JlCompress::compressDir(filename, dir.path(), true);
     dir.removeRecursively();
+    qDebug() << "/Export";
     return success;
 }
 bool MeasurementData::exportInfo(QString path) {
@@ -321,7 +334,7 @@ bool MeasurementData::exportInfo(QString path) {
     log.print(_vnaInfo);
     return true;
 }
-bool MeasurementData::exportCsv(QString path) {
+bool MeasurementData::exportSimpleCsv(QString path) {
     if (!path.endsWith(".csv", Qt::CaseInsensitive))
         path += ".csv";
 
@@ -329,18 +342,21 @@ bool MeasurementData::exportCsv(QString path) {
     if (!file.open(QFile::WriteOnly))
         return false;
 
-    const int FIELD_WIDTH = 20;
+    const int FIELD_WIDTH = 25;
     QTextStream s(&file);
     s.setFieldAlignment(QTextStream::AlignLeft);
     s.setFieldWidth(FIELD_WIDTH);
 
-    s << "Frequency Hz,"; // 13
-    s << "Pin[Max Gain] dBm,"; // 18
-    s << "Max Gain dB,"; // 12
-    s << "Pout[Max] dBm,"; // 14
-    s << "Pin[Comp] dBm,"; // 14
-    s << "Gain[Comp] dB,"; // 14
-    s << "Pout[Comp] dBm"; // 15
+    s.setRealNumberNotation(QTextStream::ScientificNotation);
+    s.setRealNumberPrecision(15);
+
+    s << "Frequency_Hz";
+    s << "Pin[Max Gain]_dBm";
+    s << "Max Gain_dB";
+    s << "Pout[Max]_dBm";
+    s << "Pin[Comp]_dBm";
+    s << "Gain[Comp]_dB";
+    s << "Pout[Comp]_dBm";
 
     s.setFieldWidth(0);
     s << "\n";
@@ -358,6 +374,73 @@ bool MeasurementData::exportCsv(QString path) {
         s.setFieldWidth(0);
         s << "\n";
         s.setFieldWidth(FIELD_WIDTH);
+    }
+
+    s.flush();
+    file.close();
+    return true;
+}
+bool MeasurementData::exportCompleteCsv(QString path) {
+    if (!path.endsWith(".csv", Qt::CaseInsensitive))
+        path += ".csv";
+
+    QFile file(path);
+    if (!file.open(QFile::WriteOnly))
+        return false;
+
+    const int FIELD_WIDTH = 25;
+    QTextStream s(&file);
+    s.setFieldAlignment(QTextStream::AlignLeft);
+    s.setFieldWidth(FIELD_WIDTH);
+
+    s.setRealNumberNotation(QTextStream::ScientificNotation);
+    s.setRealNumberPrecision(15);
+
+    s << "Frequency_Hz";
+    s << "Pin_dBm";
+    s << "Pout_dBm";
+    s << "S11_dB";
+    s << "S11_deg";
+    s << "S21_dB";
+    s << "S21_deg";
+    s << "S12_dB";
+    s << "S12_deg";
+    s << "S22_dB";
+    s << "S22_deg";
+
+    s.setFieldWidth(0);
+    s << "\n";
+    s.setFieldWidth(FIELD_WIDTH);
+
+    for (int iFreq = 0; iFreq < _frequencies_Hz.size(); iFreq++) {
+        const double freq_Hz = _frequencies_Hz[iFreq];
+
+        for (int iPower = 0; iPower < _pin_dBm.size(); iPower++) {
+            const int iCurrentFreq = _data[iPower].x().indexOf(freq_Hz);
+            if (iCurrentFreq == -1)
+                continue;
+
+            const ComplexDouble s11 = _data[iPower].y()[iCurrentFreq][0][0];
+            const ComplexDouble s21 = _data[iPower].y()[iCurrentFreq][1][0];
+            const ComplexDouble s12 = _data[iPower].y()[iCurrentFreq][0][1];
+            const ComplexDouble s22 = _data[iPower].y()[iCurrentFreq][1][1];
+
+            s << freq_Hz;
+            s << _measuredPin_dBm[iPower][iCurrentFreq];
+            s << _measuredPin_dBm[iPower][iCurrentFreq] + toDb(s21);
+            s << toDb(s11);
+            s << angle_deg(s11);
+            s << toDb(s21);
+            s << angle_deg(s21);
+            s << toDb(s12);
+            s << angle_deg(s12);
+            s << toDb(s22);
+            s << angle_deg(s22);
+
+            s.setFieldWidth(0);
+            s << "\n";
+            s.setFieldWidth(FIELD_WIDTH);
+        }
     }
 
     s.flush();

@@ -22,7 +22,7 @@ public:
     bool isValid();
     QString name;
     QString yParameter; // Input Reflection, Gain, Reverse Gain, Output Reflection, Pin, Pout
-    QString xParameter; // Frequency, Pin
+    QString xParameter; // Frequency, Pin, Pout
     QString atParameter; // Frequency, Pin, Compression, Maximum Gain
     double atValue; // if atParameter != Compression
 

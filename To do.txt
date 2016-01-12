@@ -1,5 +1,15 @@
 My to do list:
-- GCA CSV file
+- Plots Testing and improvement
+  * Table of tests
+  * Pout reinterpolation: more points
+  * Change nomenclature to Sxy
+  * Test plotting after range change (x-axis doesn't adjust?)
+  * Test creating/moving mixed plots to different diagrams
+- CSV File:
+  * comma-delimeter 
+  * add settings as header (combine previous files into CSV) 
+  * Add pulse definition info 
+  * Add phase of Pout (same as phase of S21) 
 - Compact GUI
 - Speed Test
   * HiSlip?

@@ -102,7 +102,7 @@ void TraceSettingsTest::isValid_data() {
     QTest::newRow("Pin_vs_Pin_at_Pin")    << "Pin_vs_Pin_at_Pin"   << "Pin" << "Pin"       << "Pin"          << 1.0 << false;
     QTest::newRow("Pin_vs_Pin_at_Comp")   << "Pin_vs_Pin_at_Comp"  << "Pin" << "Pin"       << "Compression"  << 1.0 << false;
     QTest::newRow("Pin_vs_Pin_at_MaxG")   << "Pin_vs_Pin_at_MaxG"  << "Pin" << "Pin"       << "Maximum Gain" << 1.0 << false;
-    QTest::newRow("Pin_vs_Pout_at_Freq")  << "Pin_vs_Pout_at_Freq" << "Pin" << "Pout"      << "Frequency"    << 1.0 << false; // False: not monotonic?
+    QTest::newRow("Pin_vs_Pout_at_Freq")  << "Pin_vs_Pout_at_Freq" << "Pin" << "Pout"      << "Frequency"    << 1.0 << false; // Possible, but not monotonic?
     QTest::newRow("Pin_vs_Pout_at_Pin")   << "Pin_vs_Pout_at_Pin"  << "Pin" << "Pout"      << "Pin"          << 1.0 << false;
     QTest::newRow("Pin_vs_Pout_at_Comp")  << "Pin_vs_Pout_at_Comp" << "Pin" << "Pout"      << "Compression"  << 1.0 << false;
     QTest::newRow("Pin_vs_Pout_at_MaxG")  << "Pin_vs_Pout_at_MaxG" << "Pin" << "Pout"      << "Maximum Gain" << 1.0 << false;

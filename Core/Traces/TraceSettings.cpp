@@ -13,7 +13,7 @@ using namespace RsaToolbox;
 QRegExp TraceSettings::nameRegex("^[a-z_][0-9a-z_]*$", Qt::CaseInsensitive);
 
 TraceSettings::TraceSettings() :
-    yParameter("Gain"),
+    yParameter("S21"),
     xParameter("Frequency"),
     atParameter("Compression"),
     atValue(0)
@@ -62,17 +62,17 @@ void TraceSettings::generateNameFromSettings() {
 }
 
 // Y Parameter
-bool TraceSettings::isYInputReflectionTrace() const {
-    return yParameter.compare("Input Reflection", Qt::CaseInsensitive) == 0;
+bool TraceSettings::isYS11Trace() const {
+    return yParameter.compare("S11", Qt::CaseInsensitive) == 0;
 }
-bool TraceSettings::isYOutputReflectionTrace() const {
-    return yParameter.compare("Output Reflection", Qt::CaseInsensitive) == 0;
+bool TraceSettings::isYS22Trace() const {
+    return yParameter.compare("S22", Qt::CaseInsensitive) == 0;
 }
-bool TraceSettings::isYGainTrace() const {
-    return yParameter.compare("Gain", Qt::CaseInsensitive) == 0;
+bool TraceSettings::isYS21Trace() const {
+    return yParameter.compare("S21", Qt::CaseInsensitive) == 0;
 }
-bool TraceSettings::isYReverseGainTrace() const {
-    return yParameter.compare("Reverse Gain", Qt::CaseInsensitive) == 0;
+bool TraceSettings::isYS12Trace() const {
+    return yParameter.compare("S12", Qt::CaseInsensitive) == 0;
 }
 bool TraceSettings::isYPin() const {
     return yParameter.compare("Pin", Qt::CaseInsensitive) == 0;
@@ -85,10 +85,10 @@ bool TraceSettings::isYSParameter() const {
     return isYReflection() || isYInsertion();
 }
 bool TraceSettings::isYReflection() const {
-    return isYInputReflectionTrace() || isYOutputReflectionTrace();
+    return isYS11Trace() || isYS22Trace();
 }
 bool TraceSettings::isYInsertion() const {
-    return isYGainTrace() || isYReverseGainTrace();
+    return isYS21Trace() || isYS12Trace();
 }
 bool TraceSettings::isYPower() const {
     return isYPin() || isYPout();
@@ -98,10 +98,10 @@ bool TraceSettings::isValidYParameter() const {
 }
 QStringList TraceSettings::possibleYParameters() const {
     QStringList list;
-    list << "Input Reflection"
-         << "Gain"
-         << "Reverse Gain"
-         << "Output Reflection"
+    list << "S11"
+         << "S21"
+         << "S12"
+         << "S22"
          << "Pin"
          << "Pout";
     return list;

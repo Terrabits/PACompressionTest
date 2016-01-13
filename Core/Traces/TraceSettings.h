@@ -21,20 +21,20 @@ public:
 
     bool isValid();
     QString name;
-    QString yParameter; // Input Reflection, Gain, Reverse Gain, Output Reflection, Pin, Pout
+    QString yParameter; // S11, S21, S12, S22, Pin, Pout
     QString xParameter; // Frequency, Pin, Pout
     QString atParameter; // Frequency, Pin, Compression, Maximum Gain
-    double atValue; // if atParameter != Compression
+    double atValue; // if atParameter != Compression or Maximum Gain
 
     // Name
     bool isValidName(); // Trims as well
     void generateNameFromSettings();
 
     // Y Parameter
-    bool isYInputReflectionTrace() const;
-    bool isYOutputReflectionTrace() const;
-    bool isYGainTrace() const;
-    bool isYReverseGainTrace() const;
+    bool isYS11Trace() const;
+    bool isYS22Trace() const;
+    bool isYS21Trace() const;
+    bool isYS12Trace() const;
     bool isYPin() const;
     bool isYPout() const;
 

@@ -24,6 +24,121 @@ TraceSettingsTest::~TraceSettingsTest() {
 
 }
 
+void TraceSettingsTest::isValid_data() {
+    QTest::addColumn<QString>("name");
+    QTest::addColumn<QString>("yParameter");
+    QTest::addColumn<QString>("xParameter");
+    QTest::addColumn<QString>("atParameter");
+    QTest::addColumn<double>("atValue");
+    QTest::addColumn<bool>("isValid");
+
+    // S11
+    //            Row Name                   Trace Name               YParam   XParam         @Param                   isValid?
+    QTest::newRow("S11_vs_Freq_at_Freq")  << "S11_vs_Freq_at_Freq" << "S11" << "Frequency" << "Frequency"    << 1.0 << false;
+    QTest::newRow("S11_vs_Freq_at_Pin")   << "S11_vs_Freq_at_Pin"  << "S11" << "Frequency" << "Pin"          << 1.0 << true;
+    QTest::newRow("S11_vs_Freq_at_Comp")  << "S11_vs_Freq_at_Comp" << "S11" << "Frequency" << "Compression"  << 1.0 << true;
+    QTest::newRow("S11_vs_Freq_at_MaxG")  << "S11_vs_Freq_at_MaxG" << "S11" << "Frequency" << "Maximum Gain" << 1.0 << true;
+    QTest::newRow("S11_vs_Pin_at_Freq")   << "S11_vs_Pin_at_Freq"  << "S11" << "Pin"       << "Frequency"    << 1.0 << true;
+    QTest::newRow("S11_vs_Pin_at_Pin")    << "S11_vs_Pin_at_Pin"   << "S11" << "Pin"       << "Pin"          << 1.0 << false;
+    QTest::newRow("S11_vs_Pin_at_Comp")   << "S11_vs_Pin_at_Comp"  << "S11" << "Pin"       << "Compression"  << 1.0 << false;
+    QTest::newRow("S11_vs_Pin_at_MaxG")   << "S11_vs_Pin_at_MaxG"  << "S11" << "Pin"       << "Maximum Gain" << 1.0 << false;
+    QTest::newRow("S11_vs_Pout_at_Freq")  << "S11_vs_Pout_at_Freq" << "S11" << "Pout"      << "Frequency"    << 1.0 << true;
+    QTest::newRow("S11_vs_Pout_at_Pin")   << "S11_vs_Pout_at_Pin"  << "S11" << "Pout"      << "Pin"          << 1.0 << false;
+    QTest::newRow("S11_vs_Pout_at_Comp")  << "S11_vs_Pout_at_Comp" << "S11" << "Pout"      << "Compression"  << 1.0 << false;
+    QTest::newRow("S11_vs_Pout_at_MaxG")  << "S11_vs_Pout_at_MaxG" << "S11" << "Pout"      << "Maximum Gain" << 1.0 << false;
+
+    // S21
+    //            Row Name                   Trace Name               YParam   XParam         @Param                   isValid?
+    QTest::newRow("S21_vs_Freq_at_Freq")  << "S21_vs_Freq_at_Freq" << "S21" << "Frequency" << "Frequency"    << 1.0 << false;
+    QTest::newRow("S21_vs_Freq_at_Pin")   << "S21_vs_Freq_at_Pin"  << "S21" << "Frequency" << "Pin"          << 1.0 << true;
+    QTest::newRow("S21_vs_Freq_at_Comp")  << "S21_vs_Freq_at_Comp" << "S21" << "Frequency" << "Compression"  << 1.0 << true;
+    QTest::newRow("S21_vs_Freq_at_MaxG")  << "S21_vs_Freq_at_MaxG" << "S21" << "Frequency" << "Maximum Gain" << 1.0 << true;
+    QTest::newRow("S21_vs_Pin_at_Freq")   << "S21_vs_Pin_at_Freq"  << "S21" << "Pin"       << "Frequency"    << 1.0 << true;
+    QTest::newRow("S21_vs_Pin_at_Pin")    << "S21_vs_Pin_at_Pin"   << "S21" << "Pin"       << "Pin"          << 1.0 << false;
+    QTest::newRow("S21_vs_Pin_at_Comp")   << "S21_vs_Pin_at_Comp"  << "S21" << "Pin"       << "Compression"  << 1.0 << false;
+    QTest::newRow("S21_vs_Pin_at_MaxG")   << "S21_vs_Pin_at_MaxG"  << "S21" << "Pin"       << "Maximum Gain" << 1.0 << false;
+    QTest::newRow("S21_vs_Pout_at_Freq")  << "S21_vs_Pout_at_Freq" << "S21" << "Pout"      << "Frequency"    << 1.0 << true;
+    QTest::newRow("S21_vs_Pout_at_Pin")   << "S21_vs_Pout_at_Pin"  << "S21" << "Pout"      << "Pin"          << 1.0 << false;
+    QTest::newRow("S21_vs_Pout_at_Comp")  << "S21_vs_Pout_at_Comp" << "S21" << "Pout"      << "Compression"  << 1.0 << false;
+    QTest::newRow("S21_vs_Pout_at_MaxG")  << "S21_vs_Pout_at_MaxG" << "S21" << "Pout"      << "Maximum Gain" << 1.0 << false;
+
+    // S12
+    //            Row Name                   Trace Name               YParam   XParam         @Param                   isValid?
+    QTest::newRow("S12_vs_Freq_at_Freq")  << "S12_vs_Freq_at_Freq" << "S12" << "Frequency" << "Frequency"    << 1.0 << false;
+    QTest::newRow("S12_vs_Freq_at_Pin")   << "S12_vs_Freq_at_Pin"  << "S12" << "Frequency" << "Pin"          << 1.0 << true;
+    QTest::newRow("S12_vs_Freq_at_Comp")  << "S12_vs_Freq_at_Comp" << "S12" << "Frequency" << "Compression"  << 1.0 << true;
+    QTest::newRow("S12_vs_Freq_at_MaxG")  << "S12_vs_Freq_at_MaxG" << "S12" << "Frequency" << "Maximum Gain" << 1.0 << true;
+    QTest::newRow("S12_vs_Pin_at_Freq")   << "S12_vs_Pin_at_Freq"  << "S12" << "Pin"       << "Frequency"    << 1.0 << true;
+    QTest::newRow("S12_vs_Pin_at_Pin")    << "S12_vs_Pin_at_Pin"   << "S12" << "Pin"       << "Pin"          << 1.0 << false;
+    QTest::newRow("S12_vs_Pin_at_Comp")   << "S12_vs_Pin_at_Comp"  << "S12" << "Pin"       << "Compression"  << 1.0 << false;
+    QTest::newRow("S12_vs_Pin_at_MaxG")   << "S12_vs_Pin_at_MaxG"  << "S12" << "Pin"       << "Maximum Gain" << 1.0 << false;
+    QTest::newRow("S12_vs_Pout_at_Freq")  << "S12_vs_Pout_at_Freq" << "S12" << "Pout"      << "Frequency"    << 1.0 << true;
+    QTest::newRow("S12_vs_Pout_at_Pin")   << "S12_vs_Pout_at_Pin"  << "S12" << "Pout"      << "Pin"          << 1.0 << false;
+    QTest::newRow("S12_vs_Pout_at_Comp")  << "S12_vs_Pout_at_Comp" << "S12" << "Pout"      << "Compression"  << 1.0 << false;
+    QTest::newRow("S12_vs_Pout_at_MaxG")  << "S12_vs_Pout_at_MaxG" << "S12" << "Pout"      << "Maximum Gain" << 1.0 << false;
+
+    // S22
+    //            Row Name                   Trace Name               YParam   XParam         @Param                   isValid?
+    QTest::newRow("S22_vs_Freq_at_Freq")  << "S22_vs_Freq_at_Freq" << "S22" << "Frequency" << "Frequency"    << 1.0 << false;
+    QTest::newRow("S22_vs_Freq_at_Pin")   << "S22_vs_Freq_at_Pin"  << "S22" << "Frequency" << "Pin"          << 1.0 << true;
+    QTest::newRow("S22_vs_Freq_at_Comp")  << "S22_vs_Freq_at_Comp" << "S22" << "Frequency" << "Compression"  << 1.0 << true;
+    QTest::newRow("S22_vs_Freq_at_MaxG")  << "S22_vs_Freq_at_MaxG" << "S22" << "Frequency" << "Maximum Gain" << 1.0 << true;
+    QTest::newRow("S22_vs_Pin_at_Freq")   << "S22_vs_Pin_at_Freq"  << "S22" << "Pin"       << "Frequency"    << 1.0 << true;
+    QTest::newRow("S22_vs_Pin_at_Pin")    << "S22_vs_Pin_at_Pin"   << "S22" << "Pin"       << "Pin"          << 1.0 << false;
+    QTest::newRow("S22_vs_Pin_at_Comp")   << "S22_vs_Pin_at_Comp"  << "S22" << "Pin"       << "Compression"  << 1.0 << false;
+    QTest::newRow("S22_vs_Pin_at_MaxG")   << "S22_vs_Pin_at_MaxG"  << "S22" << "Pin"       << "Maximum Gain" << 1.0 << false;
+    QTest::newRow("S22_vs_Pout_at_Freq")  << "S22_vs_Pout_at_Freq" << "S22" << "Pout"      << "Frequency"    << 1.0 << true;
+    QTest::newRow("S22_vs_Pout_at_Pin")   << "S22_vs_Pout_at_Pin"  << "S22" << "Pout"      << "Pin"          << 1.0 << false;
+    QTest::newRow("S22_vs_Pout_at_Comp")  << "S22_vs_Pout_at_Comp" << "S22" << "Pout"      << "Compression"  << 1.0 << false;
+    QTest::newRow("S22_vs_Pout_at_MaxG")  << "S22_vs_Pout_at_MaxG" << "S22" << "Pout"      << "Maximum Gain" << 1.0 << false;
+
+    // Pin
+    //            Row Name                   Trace Name               YParam   XParam         @Param                   isValid?
+    QTest::newRow("Pin_vs_Freq_at_Freq")  << "Pin_vs_Freq_at_Freq" << "Pin" << "Frequency" << "Frequency"    << 1.0 << false;
+    QTest::newRow("Pin_vs_Freq_at_Pin")   << "Pin_vs_Freq_at_Pin"  << "Pin" << "Frequency" << "Pin"          << 1.0 << false;
+    QTest::newRow("Pin_vs_Freq_at_Comp")  << "Pin_vs_Freq_at_Comp" << "Pin" << "Frequency" << "Compression"  << 1.0 << true;
+    QTest::newRow("Pin_vs_Freq_at_MaxG")  << "Pin_vs_Freq_at_MaxG" << "Pin" << "Frequency" << "Maximum Gain" << 1.0 << true;
+    QTest::newRow("Pin_vs_Pin_at_Freq")   << "Pin_vs_Pin_at_Freq"  << "Pin" << "Pin"       << "Frequency"    << 1.0 << false;
+    QTest::newRow("Pin_vs_Pin_at_Pin")    << "Pin_vs_Pin_at_Pin"   << "Pin" << "Pin"       << "Pin"          << 1.0 << false;
+    QTest::newRow("Pin_vs_Pin_at_Comp")   << "Pin_vs_Pin_at_Comp"  << "Pin" << "Pin"       << "Compression"  << 1.0 << false;
+    QTest::newRow("Pin_vs_Pin_at_MaxG")   << "Pin_vs_Pin_at_MaxG"  << "Pin" << "Pin"       << "Maximum Gain" << 1.0 << false;
+    QTest::newRow("Pin_vs_Pout_at_Freq")  << "Pin_vs_Pout_at_Freq" << "Pin" << "Pout"      << "Frequency"    << 1.0 << false; // False: not monotonic?
+    QTest::newRow("Pin_vs_Pout_at_Pin")   << "Pin_vs_Pout_at_Pin"  << "Pin" << "Pout"      << "Pin"          << 1.0 << false;
+    QTest::newRow("Pin_vs_Pout_at_Comp")  << "Pin_vs_Pout_at_Comp" << "Pin" << "Pout"      << "Compression"  << 1.0 << false;
+    QTest::newRow("Pin_vs_Pout_at_MaxG")  << "Pin_vs_Pout_at_MaxG" << "Pin" << "Pout"      << "Maximum Gain" << 1.0 << false;
+
+    // Pout
+    //            Row Name                   Trace Name                YParam    XParam         @Param                   isValid?
+    QTest::newRow("Pout_vs_Freq_at_Freq") << "Pout_vs_Freq_at_Freq" << "Pout" << "Frequency" << "Frequency"    << 1.0 << false;
+    QTest::newRow("Pout_vs_Freq_at_Pin")  << "Pout_vs_Freq_at_Pin"  << "Pout" << "Frequency" << "Pin"          << 1.0 << true;
+    QTest::newRow("Pout_vs_Freq_at_Comp") << "Pout_vs_Freq_at_Comp" << "Pout" << "Frequency" << "Compression"  << 1.0 << true;
+    QTest::newRow("Pout_vs_Freq_at_MaxG") << "Pout_vs_Freq_at_MaxG" << "Pout" << "Frequency" << "Maximum Gain" << 1.0 << true;
+    QTest::newRow("Pout_vs_Pin_at_Freq")  << "Pout_vs_Pin_at_Freq"  << "Pout" << "Pin"       << "Frequency"    << 1.0 << true;
+    QTest::newRow("Pout_vs_Pin_at_Pin")   << "Pout_vs_Pin_at_Pin"   << "Pout" << "Pin"       << "Pin"          << 1.0 << false;
+    QTest::newRow("Pout_vs_Pin_at_Comp")  << "Pout_vs_Pin_at_Comp"  << "Pout" << "Pin"       << "Compression"  << 1.0 << false;
+    QTest::newRow("Pout_vs_Pin_at_MaxG")  << "Pout_vs_Pin_at_MaxG"  << "Pout" << "Pin"       << "Maximum Gain" << 1.0 << false;
+    QTest::newRow("Pout_vs_Pout_at_Freq") << "Pout_vs_Pout_at_Freq" << "Pout" << "Pout"      << "Frequency"    << 1.0 << false;
+    QTest::newRow("Pout_vs_Pout_at_Pin")  << "Pout_vs_Pout_at_Pin"  << "Pout" << "Pout"      << "Pin"          << 1.0 << false;
+    QTest::newRow("Pout_vs_Pout_at_Comp") << "Pout_vs_Pout_at_Comp" << "Pout" << "Pout"      << "Compression"  << 1.0 << false;
+    QTest::newRow("Pout_vs_Pout_at_MaxG") << "Pout_vs_Pout_at_MaxG" << "Pout" << "Pout"      << "Maximum Gain" << 1.0 << false;
+}
+void TraceSettingsTest::isValid() {
+    QFETCH(QString, name);
+    QFETCH(QString, yParameter);
+    QFETCH(QString, xParameter);
+    QFETCH(QString, atParameter);
+    QFETCH(double,  atValue);
+    QFETCH(bool,    isValid);
+
+    TraceSettings trace;
+    trace.name = name;
+    trace.yParameter = yParameter;
+    trace.xParameter = xParameter;
+    trace.atParameter = atParameter;
+    trace.atValue = atValue;
+    QCOMPARE(trace.isValid(), isValid);
+}
+
 void TraceSettingsTest::setNameFromSettings_data() {
     QTest::addColumn<QString>("yParameter");
     QTest::addColumn<QString>("xParameter");
@@ -31,12 +146,12 @@ void TraceSettingsTest::setNameFromSettings_data() {
     QTest::addColumn<double>("atValue");
     QTest::addColumn<QString>("expectedName");
 
-    QTest::newRow("InputReflectionAtCompression")  << "Input Reflection"    << "Frequency" << "Compression"  << 0.0   << "Input_Reflection_at_Compression";
-    QTest::newRow("OutputReflectionAtMaximumGain") << "Output Reflection"   << "Frequency" << "Maximum Gain" << 0.0   << "Output_Reflection_at_Maximum_Gain";
-    QTest::newRow("GainAtPinValue")                << "Gain"                << "Frequency" << "Pin"          << -10.5 << "Gain_at_Pin_neg10_5_dBm";
-    QTest::newRow("ReverseGainAtFrequencyValue")   << "Reverse Gain"        << "Pin"       << "Frequency"    << 1.0E9 << "Reverse_Gain_at_Frequency_1_GHz";
-    QTest::newRow("PinAtCompression")              << "Pin"                 << "Frequency" << "Compression"  << 0.0   << "Pin_at_Compression";
-    QTest::newRow("PoutAtCompression")             << "Pout"                << "Frequency" << "Compression"  << 0.0   << "Pout_at_Compression";
+    QTest::newRow("S11_at_Comp")  << "S11"  << "Frequency" << "Compression"  << 0.0   << "S11_at_Compression";
+    QTest::newRow("S22_at_MaxG")  << "S22"  << "Frequency" << "Maximum Gain" << 0.0   << "S22_at_Maximum_Gain";
+    QTest::newRow("S21_at_Pin")   << "S21"  << "Frequency" << "Pin"          << -10.5 << "S21_at_Pin_neg10_5_dBm";
+    QTest::newRow("S12_at_Freq")  << "S12"  << "Pin"       << "Frequency"    << 1.0E9 << "S12_at_Frequency_1_GHz";
+    QTest::newRow("Pin_at_Comp")  << "Pin"  << "Frequency" << "Compression"  << 0.0   << "Pin_at_Compression";
+    QTest::newRow("Pout_at_Comp") << "Pout" << "Frequency" << "Compression"  << 0.0   << "Pout_at_Compression";
 }
 void TraceSettingsTest::setNameFromSettings() {
     QFETCH(QString, yParameter);

@@ -1,5 +1,5 @@
-#ifndef PROCESSTRACETEST_H
-#define PROCESSTRACETEST_H
+#ifndef MEASUREDATATEST_H
+#define MEASUREDATATEST_H
 
 
 // Project
@@ -10,15 +10,36 @@
 #include <QObject>
 
 
-class ProcessTraceTest : public QObject
+class MeasureDataTest : public QObject
 {
     Q_OBJECT
 public:
-    explicit ProcessTraceTest(QObject *parent = 0);
-    ~ProcessTraceTest();
+    explicit MeasureDataTest(QObject *parent = 0);
+    ~MeasureDataTest();
 
 private slots:
     void init();
+
+    void sParameterVsPin_data();
+    void sParameterVsPin();
+
+    void sParameterVsPout_data();
+    void sParameterVsPout();
+
+    void sParameterAtCompression_data();
+    void sParameterAtCompression();
+
+    void sParameterAtMaxGain_data();
+    void sParameterAtMaxGain();
+
+    void sParameterVsFrequencyAtPin_data();
+    void sParameterVsFrequencyAtPin();
+
+    void poutVsFrequency_data();
+    void poutVsFrequency();
+
+    void poutVsPin_data();
+    void poutVsPin();
 
 private:
     static const double startFreq_Hz;
@@ -45,4 +66,4 @@ private:
 
 };
 
-#endif // PROCESSTRACETEST_H
+#endif // MEASUREDATATEST_H

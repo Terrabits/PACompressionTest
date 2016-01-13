@@ -106,14 +106,14 @@ bool ProcessTrace::retrieveData() {
     else { // SParameter
         // Ports
         uint outputPort, inputPort;
-        if (_settings->isYInputReflectionTrace()) {
+        if (_settings->isYS11Trace()) {
             outputPort = inputPort = 1;
         }
-        else if (_settings->isYGainTrace()) {
+        else if (_settings->isYS21Trace()) {
             outputPort = 2;
             inputPort = 1;
         }
-        else if (_settings->isYReverseGainTrace()) {
+        else if (_settings->isYS12Trace()) {
             outputPort = 1;
             inputPort = 2;
         }
@@ -199,16 +199,16 @@ void ProcessTrace::createTrace() {
     const uint outputPort = _data->settings().outputPort();
     const uint inputPort = _data->settings().inputPort();
     _vna->createTrace(_dataTraceName, _channel);
-    if (_settings->isYInputReflectionTrace()) {
+    if (_settings->isYS11Trace()) {
         _vna->trace(_dataTraceName).setNetworkParameter(NetworkParameter::S, inputPort, inputPort);
     }
-    else if (_settings->isYOutputReflectionTrace()) {
+    else if (_settings->isYS22Trace()) {
         _vna->trace(_dataTraceName).setNetworkParameter(NetworkParameter::S, outputPort, outputPort);
     }
-    else if (_settings->isYGainTrace()) {
+    else if (_settings->isYS21Trace()) {
         _vna->trace(_dataTraceName).setNetworkParameter(NetworkParameter::S, outputPort, inputPort);
     }
-    else if (_settings->isYReverseGainTrace()) {
+    else if (_settings->isYS12Trace()) {
         _vna->trace(_dataTraceName).setNetworkParameter(NetworkParameter::S, inputPort, outputPort);
     }
     else if (_settings->isYPin()) {

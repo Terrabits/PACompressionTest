@@ -13,6 +13,9 @@ public:
 
 private slots:
 
+    void isValid_data();
+    void isValid();
+
     void setNameFromSettings_data();
     void setNameFromSettings();
 

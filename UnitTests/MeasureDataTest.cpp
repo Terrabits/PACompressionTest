@@ -1,4 +1,4 @@
-#include "ProcessTraceTest.h"
+#include "MeasureDataTest.h"
 
 
 // Project
@@ -12,42 +12,59 @@ using namespace RsaToolbox;
 #include <QTest>
 
 
-ProcessTraceTest::ProcessTraceTest(QObject *parent) :
+MeasureDataTest::MeasureDataTest(QObject *parent) :
     QObject(parent)
 {
 //    QDir sourceDir(SOURCE_DIR);
 }
-ProcessTraceTest::~ProcessTraceTest() {
+MeasureDataTest::~MeasureDataTest() {
 
 }
 
-void ProcessTraceTest::init() {
+void MeasureDataTest::init() {
     generateSampleData();
 }
 
+void MeasureDataTest::sParameterVsPin_data() {
+    QTest::addColumn<double>("freq_Hz");
+    QTest::addColumn<uint>("outputPort");
+    QTest::addColumn<uint>("inputPort");
+    QTest::addColumn<QRowVector>("expectedPin_dBm");
+    QTest::addColumn<ComplexRowVector>("expectedSParameter");
+
+    QRowVector expectedPin_dBm(_data.pin_dBm());
+    ComplexRowVector expectedSParameter;
+    expectedSParameter.push_back(toMagnitude(match_dB) * ComplexDouble(1.0/sqrt(2.0), 1.0/sqrt(2.0)));
+
+    //            Test name         freq     out  in   Pin                               SParam
+    QTest::newRow("S11_at_1GHz") << startFreq_Hz << uint(1) << uint(1) << QRowVector(powerPoints, value) << ComplexRowVector(value, powerPoints);
+}
+void MeasureDataTest::sParameterVsPin() {
+
+    _data.sParameterVsPin(freq, outputPort, inputPort, pin_dBm, sParameter);
+}
 
 
+const double MeasureDataTest::startFreq_Hz    =  1.0E9;
+const double MeasureDataTest::stopFreq_Hz     =  2.0E9;
+const uint   MeasureDataTest::freqPoints      =  11;
+const double MeasureDataTest::startPower_dBm  = -10.0;
+const double MeasureDataTest::stopPower_dBm   =   0.0;
+const uint   MeasureDataTest::powerPoints     =  11;
+const double MeasureDataTest::compression_dB  =   1.0;
 
-const double ProcessTraceTest::startFreq_Hz    =  1.0E9;
-const double ProcessTraceTest::stopFreq_Hz     =  2.0E9;
-const uint   ProcessTraceTest::freqPoints      =  11;
-const double ProcessTraceTest::startPower_dBm  = -10.0;
-const double ProcessTraceTest::stopPower_dBm   =   0.0;
-const uint   ProcessTraceTest::powerPoints     =  11;
-const double ProcessTraceTest::compression_dB  =   1.0;
+const double MeasureDataTest::measuredPinOffset_dBm = 0.0;
 
-const double ProcessTraceTest::measuredPinOffset_dBm = 0.0;
+const double MeasureDataTest::match_dB = -10.0;
+const double MeasureDataTest::compressedMatch_dB = -7.0;
 
-const double ProcessTraceTest::match_dB = -10.0;
-const double ProcessTraceTest::compressedMatch_dB = -7.0;
+const double MeasureDataTest::maxGain_dB = 10.0;
+const double MeasureDataTest::gain_dB    =  9.5;
 
-const double ProcessTraceTest::maxGain_dB = 10.0;
-const double ProcessTraceTest::gain_dB    =  9.5;
+const double MeasureDataTest::isolation_dB = -20.0;
+const double MeasureDataTest::compressedIsolation_dB = -10.0;
 
-const double ProcessTraceTest::isolation_dB = -20.0;
-const double ProcessTraceTest::compressedIsolation_dB = -10.0;
-
-void ProcessTraceTest::generateSampleData() {
+void MeasureDataTest::generateSampleData() {
     // Data notes:
     //             -10 dBm => max gain (10.0 dB)
     // middle power points => gain (9.5 dB)

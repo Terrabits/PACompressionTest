@@ -50,16 +50,25 @@ private:
     static const uint   powerPoints;
     static const double compression_dB;
 
+    static const double nonSquareFreq_Hz;
     static const double measuredPinOffset_dBm;
 
     static const double match_dB;
     static const double compressedMatch_dB;
+    static const RsaToolbox::ComplexDouble match_complex;
+    static const RsaToolbox::ComplexDouble compressedMatch_complex;
 
     static const double maxGain_dB;
     static const double gain_dB;
+    static const double compressedGain_dB;
+    static const RsaToolbox::ComplexDouble maxGain_complex;
+    static const RsaToolbox::ComplexDouble gain_complex;
+    static const RsaToolbox::ComplexDouble compressedGain_complex;
 
     static const double isolation_dB;
     static const double compressedIsolation_dB;
+    static const RsaToolbox::ComplexDouble isolation_complex;
+    static const RsaToolbox::ComplexDouble isolation_complex;
 
     MeasurementData _data;
     void generateSampleData();

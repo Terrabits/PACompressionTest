@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     if (isNoConnection(vna) || isUnknownModel(vna))
             return(0);
 
-    MainWindow w/*(vna, keys)*/;
+    MainWindow w(vna, keys);
     w.show();
     return app.exec();
 }

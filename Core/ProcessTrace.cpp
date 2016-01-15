@@ -219,7 +219,7 @@ void ProcessTrace::createTrace() {
     }
 
     _vna->createDiagram(_diagram);
-//    _vna->trace(_dataTraceName).setDiagram(_diagram);
+    _vna->trace(_dataTraceName).setDiagram(_diagram);
     _vna->trace(_dataTraceName).toMemory(_memoryTraceName);
     _vna->trace(_memoryTraceName).setDiagram(_diagram);
     updateTrace();

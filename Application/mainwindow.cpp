@@ -249,6 +249,7 @@ void MainWindow::on_exportData_clicked() {
     if (filename.isEmpty())
         return;
 
+    _results->save(QDir(SOURCE_DIR).filePath("measurementData.dat"));
     if (_results->exportToZip(filename)) {
         _exportPath.setFromFilePath(filename);
         ui->error->showMessage("Export successful!", Qt::darkGreen);

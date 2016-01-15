@@ -1,7 +1,7 @@
 R&S PA Compression Test Version 1.5.4
 (C) 2016 Rohde & Schwarz North America
 
-Thu Jan 14 21:52:39 2016
+Fri Jan 15 03:20:44 2016
 
 VNA INSTRUMENT INFO
 Connection:       TCPIP
@@ -50,4 +50,5348 @@ Status: 0x0 Operation completed successfully.
 Read:     "Rohde&Schwarz,ZVA40-4Port,1145111042100375,3.60"
 Bytes: 48
 Status: 0x0 Operation completed successfully.
+
+Write:    ":DISP:CAT?"
+Bytes: 11
+Status: 0x0 Operation completed successfully.
+
+Read:     "'1,1,2,2,3,3,4,4'"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":DISP:CAT?"
+Bytes: 11
+Status: 0x0 Operation completed successfully.
+
+Read:     "'1,1,2,2,3,3,4,4'"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ONCE"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CAT?"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Read:     "'1,Trc1,2,_S21_vs_Pin_at_500_MHz,3,S21_vs_Pin_at_500_MHz,4,_S21_vs_Pin_at_1GHz,5,S21_vs_Pin_at_1GHz,..."
+Bytes: 549
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'Pout_at_MaxGain'"
+Bytes: 43
+Status: 0x0 Operation completed successfully.
+
+Read:     "13"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:DEL:ALL"
+Bytes: 21
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "0"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM1:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM1:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM1:FREQ:STOP 5e+08Hz"
+Bytes: 32
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "1"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM2:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM2:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM2:FREQ:STOP 6.1e+08Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "2"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM3:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM3:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM3:FREQ:STOP 7.2e+08Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "3"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM4:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM4:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM4:FREQ:STOP 8.3e+08Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "4"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM5:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM5:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM5:FREQ:STOP 9.4e+08Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "5"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM6:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM6:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM6:FREQ:STOP 1.05e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "6"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM7:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM7:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM7:FREQ:STOP 1.16e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "7"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM8:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM8:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM8:FREQ:STOP 1.27e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "8"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM9:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM9:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM9:FREQ:STOP 1.38e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "9"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM10:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM10:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM10:FREQ:STOP 1.49e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "10"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM11:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM11:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM11:FREQ:STOP 1.6e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "11"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM12:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM12:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM12:FREQ:STOP 1.71e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "12"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM13:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM13:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM13:FREQ:STOP 1.82e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "13"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM14:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM14:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM14:FREQ:STOP 1.93e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "14"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM15:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM15:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM15:FREQ:STOP 2.04e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "15"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM16:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM16:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM16:FREQ:STOP 2.15e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "16"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM17:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM17:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM17:FREQ:STOP 2.26e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "17"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM18:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM18:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM18:FREQ:STOP 2.37e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "18"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM19:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM19:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM19:FREQ:STOP 2.48e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "19"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM20:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM20:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM20:FREQ:STOP 2.59e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "20"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM21:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM21:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM21:FREQ:STOP 2.7e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "21"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM22:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM22:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM22:FREQ:STOP 2.81e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "22"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM23:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM23:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM23:FREQ:STOP 2.92e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "23"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM24:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM24:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM24:FREQ:STOP 3.03e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "24"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM25:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM25:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM25:FREQ:STOP 3.14e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "25"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM26:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM26:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM26:FREQ:STOP 3.25e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "26"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM27:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM27:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM27:FREQ:STOP 3.36e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "27"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM28:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM28:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM28:FREQ:STOP 3.47e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "28"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM29:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM29:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM29:FREQ:STOP 3.58e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "29"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM30:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM30:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM30:FREQ:STOP 3.69e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "30"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM31:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM31:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM31:FREQ:STOP 3.8e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "31"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM32:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM32:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM32:FREQ:STOP 3.91e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "32"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM33:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM33:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM33:FREQ:STOP 4.02e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "33"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM34:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM34:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM34:FREQ:STOP 4.13e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "34"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM35:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM35:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM35:FREQ:STOP 4.24e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "35"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM36:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM36:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM36:FREQ:STOP 4.35e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "36"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM37:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM37:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM37:FREQ:STOP 4.46e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "37"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM38:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM38:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM38:FREQ:STOP 4.57e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "38"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM39:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM39:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM39:FREQ:STOP 4.68e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "39"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM40:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM40:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM40:FREQ:STOP 4.79e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "40"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM41:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM41:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM41:FREQ:STOP 4.9e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "41"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM42:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM42:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM42:FREQ:STOP 5.01e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "42"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM43:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM43:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM43:FREQ:STOP 5.12e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "43"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM44:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM44:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM44:FREQ:STOP 5.23e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "44"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM45:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM45:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM45:FREQ:STOP 5.34e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "45"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM46:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM46:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM46:FREQ:STOP 5.45e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "46"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM47:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM47:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM47:FREQ:STOP 5.56e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "47"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM48:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM48:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM48:FREQ:STOP 5.67e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "48"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM49:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM49:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM49:FREQ:STOP 5.78e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "49"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM50:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM50:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM50:FREQ:STOP 5.89e+09Hz"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM:COUN?"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Read:     "50"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM51:ADD"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM51:SWE:POIN 1"
+Bytes: 26
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SEGM51:FREQ:STOP 6e+09Hz"
+Bytes: 33
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS13:SWE:TYPE SEGM"
+Bytes: 22
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ONCE"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde&Schwarz,ZVA40-4Port,1145111042100375,3.60"
+Bytes: 48
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'Pout_at_MaxGain'"
+Bytes: 43
+Status: 0x0 Operation completed successfully.
+
+Read:     "13"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde&Schwarz,ZVA40-4Port,1145111042100375,3.60"
+Bytes: 48
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'Pout_at_MaxGain'"
+Bytes: 43
+Status: 0x0 Operation completed successfully.
+
+Read:     "13"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC13:PAR:SEL 'Pout_at_MaxGain'"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM REAL,64"
+Bytes: 14
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD SWAP"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC13:DATA SDAT, #3816L?oI???"
+Bytes: 841
+Status: 0x0 Operation completed successfully.
+
+Write:    "*WAI"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":DISP:CAT?"
+Bytes: 11
+Status: 0x0 Operation completed successfully.
+
+Read:     "'1,1,2,2,3,3,4,4'"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ONCE"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CAT?"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Read:     "'1,Trc1,2,_S21_vs_Pin_at_500_MHz,3,S21_vs_Pin_at_500_MHz,4,_S21_vs_Pin_at_1GHz,5,S21_vs_Pin_at_1GHz,..."
+Bytes: 549
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'S21_vs_Pin_at_500_MHz'"
+Bytes: 49
+Status: 0x0 Operation completed successfully.
+
+Read:     "2"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SWE:TYPE POW"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    "SOUR2:POW:STAR -19.817"
+Bytes: 23
+Status: 0x0 Operation completed successfully.
+
+Write:    "SOUR2:POW:STOP 3.93412"
+Bytes: 23
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS2:SWE:POIN 49"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ONCE"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'S21_vs_Pin_at_500_MHz'"
+Bytes: 49
+Status: 0x0 Operation completed successfully.
+
+Read:     "2"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde&Schwarz,ZVA40-4Port,1145111042100375,3.60"
+Bytes: 48
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'S21_vs_Pin_at_500_MHz'"
+Bytes: 49
+Status: 0x0 Operation completed successfully.
+
+Read:     "2"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC2:PAR:SEL 'S21_vs_Pin_at_500_MHz'"
+Bytes: 39
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM REAL,64"
+Bytes: 14
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD SWAP"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC2:DATA SDAT, #3784?3????w@??s@/>???L?:??@
+`?5???L:=9??@T??<??^?o?@fakW#??e?z?"
+Bytes: 808
+Status: 0x0 Operation completed successfully.
+
+Write:    "*WAI"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":DISP:CAT?"
+Bytes: 11
+Status: 0x0 Operation completed successfully.
+
+Read:     "'1,1,2,2,3,3,4,4'"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ONCE"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CAT?"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Read:     "'1,Trc1,2,_S21_vs_Pin_at_500_MHz,3,S21_vs_Pin_at_500_MHz,4,_S21_vs_Pin_at_1GHz,5,S21_vs_Pin_at_1GHz,..."
+Bytes: 549
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'S21_vs_Pin_at_1GHz'"
+Bytes: 46
+Status: 0x0 Operation completed successfully.
+
+Read:     "3"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS3:SWE:TYPE POW"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    "SOUR3:POW:STAR -19.9758"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    "SOUR3:POW:STOP -0.119894"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS3:SWE:POIN 41"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ONCE"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'S21_vs_Pin_at_1GHz'"
+Bytes: 46
+Status: 0x0 Operation completed successfully.
+
+Read:     "3"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde&Schwarz,ZVA40-4Port,1145111042100375,3.60"
+Bytes: 48
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'S21_vs_Pin_at_1GHz'"
+Bytes: 46
+Status: 0x0 Operation completed successfully.
+
+Read:     "3"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC3:PAR:SEL 'S21_vs_Pin_at_1GHz'"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM REAL,64"
+Bytes: 14
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD SWAP"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC3:DATA SDAT, #3656.fUS?"
+Bytes: 680
+Status: 0x0 Operation completed successfully.
+
+Write:    "*WAI"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":DISP:CAT?"
+Bytes: 11
+Status: 0x0 Operation completed successfully.
+
+Read:     "'1,1,2,2,3,3,4,4'"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ONCE"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CAT?"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Read:     "'1,Trc1,2,_S21_vs_Pin_at_500_MHz,3,S21_vs_Pin_at_500_MHz,4,_S21_vs_Pin_at_1GHz,5,S21_vs_Pin_at_1GHz,..."
+Bytes: 549
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'S21_vs_Pin_at_4GHz'"
+Bytes: 46
+Status: 0x0 Operation completed successfully.
+
+Read:     "4"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS4:SWE:TYPE POW"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    "SOUR4:POW:STAR -19.6076"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    "SOUR4:POW:STOP -0.783215"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS4:SWE:POIN 39"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ONCE"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'S21_vs_Pin_at_4GHz'"
+Bytes: 46
+Status: 0x0 Operation completed successfully.
+
+Read:     "4"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde&Schwarz,ZVA40-4Port,1145111042100375,3.60"
+Bytes: 48
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'S21_vs_Pin_at_4GHz'"
+Bytes: 46
+Status: 0x0 Operation completed successfully.
+
+Read:     "4"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC4:PAR:SEL 'S21_vs_Pin_at_4GHz'"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM REAL,64"
+Bytes: 14
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD SWAP"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC4:DATA SDAT, #3624?(;?r7??_/M?2?f???????e?u???I???R??@?Wi??x??7????G?\???U6?0???%?????"
+Bytes: 648
+Status: 0x0 Operation completed successfully.
+
+Write:    "*WAI"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":DISP:CAT?"
+Bytes: 11
+Status: 0x0 Operation completed successfully.
+
+Read:     "'1,1,2,2,3,3,4,4'"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ONCE"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CAT?"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Read:     "'1,Trc1,2,_S21_vs_Pin_at_500_MHz,3,S21_vs_Pin_at_500_MHz,4,_S21_vs_Pin_at_1GHz,5,S21_vs_Pin_at_1GHz,..."
+Bytes: 549
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'S21_vs_Pin_at_6GHz'"
+Bytes: 46
+Status: 0x0 Operation completed successfully.
+
+Read:     "5"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS5:SWE:TYPE POW"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    "SOUR5:POW:STAR -19.4046"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    "SOUR5:POW:STOP -1.21242"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS5:SWE:POIN 38"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ONCE"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'S21_vs_Pin_at_6GHz'"
+Bytes: 46
+Status: 0x0 Operation completed successfully.
+
+Read:     "5"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde&Schwarz,ZVA40-4Port,1145111042100375,3.60"
+Bytes: 48
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'S21_vs_Pin_at_6GHz'"
+Bytes: 46
+Status: 0x0 Operation completed successfully.
+
+Read:     "5"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC5:PAR:SEL 'S21_vs_Pin_at_6GHz'"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM REAL,64"
+Bytes: 14
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD SWAP"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC5:DATA SDAT, #3608?{?U???d??r??@pp??????8{???@???lu??J???@sa?A???????@
+??!????pndt?"
+Bytes: 632
+Status: 0x0 Operation completed successfully.
+
+Write:    "*WAI"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":DISP:CAT?"
+Bytes: 11
+Status: 0x0 Operation completed successfully.
+
+Read:     "'1,1,2,2,3,3,4,4'"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ONCE"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CAT?"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Read:     "'1,Trc1,2,_S21_vs_Pin_at_500_MHz,3,S21_vs_Pin_at_500_MHz,4,_S21_vs_Pin_at_1GHz,5,S21_vs_Pin_at_1GHz,..."
+Bytes: 549
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'Pin_at_Compression'"
+Bytes: 46
+Status: 0x0 Operation completed successfully.
+
+Read:     "6"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:DEL:ALL"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "0"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM1:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM1:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM1:FREQ:STOP 5e+08Hz"
+Bytes: 31
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "1"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM2:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM2:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM2:FREQ:STOP 6.1e+08Hz"
+Bytes: 33
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "2"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM3:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM3:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM3:FREQ:STOP 7.2e+08Hz"
+Bytes: 33
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "3"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM4:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM4:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM4:FREQ:STOP 8.3e+08Hz"
+Bytes: 33
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "4"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM5:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM5:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM5:FREQ:STOP 9.4e+08Hz"
+Bytes: 33
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "5"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM6:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM6:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM6:FREQ:STOP 1.05e+09Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "6"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM7:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM7:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM7:FREQ:STOP 1.16e+09Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "7"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM8:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM8:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM8:FREQ:STOP 1.27e+09Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "8"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM9:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM9:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM9:FREQ:STOP 1.38e+09Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "9"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM10:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM10:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM10:FREQ:STOP 1.49e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "10"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM11:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM11:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM11:FREQ:STOP 1.6e+09Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "11"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM12:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM12:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM12:FREQ:STOP 1.71e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "12"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM13:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM13:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM13:FREQ:STOP 1.82e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "13"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM14:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM14:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM14:FREQ:STOP 1.93e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "14"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM15:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM15:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM15:FREQ:STOP 2.04e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "15"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM16:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM16:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM16:FREQ:STOP 2.15e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "16"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM17:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM17:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM17:FREQ:STOP 2.26e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "17"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM18:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM18:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM18:FREQ:STOP 2.37e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "18"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM19:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM19:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM19:FREQ:STOP 2.48e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "19"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM20:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM20:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM20:FREQ:STOP 2.59e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "20"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM21:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM21:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM21:FREQ:STOP 2.7e+09Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "21"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM22:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM22:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM22:FREQ:STOP 2.81e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "22"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM23:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM23:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM23:FREQ:STOP 2.92e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "23"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM24:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM24:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM24:FREQ:STOP 3.03e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "24"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM25:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM25:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM25:FREQ:STOP 3.14e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "25"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM26:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM26:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM26:FREQ:STOP 3.25e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "26"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM27:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM27:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM27:FREQ:STOP 3.36e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "27"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM28:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM28:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM28:FREQ:STOP 3.47e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "28"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM29:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM29:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM29:FREQ:STOP 3.58e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "29"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM30:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM30:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM30:FREQ:STOP 3.69e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "30"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM31:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM31:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM31:FREQ:STOP 3.8e+09Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "31"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM32:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM32:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM32:FREQ:STOP 3.91e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "32"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM33:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM33:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM33:FREQ:STOP 4.02e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "33"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM34:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM34:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM34:FREQ:STOP 4.13e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "34"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM35:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM35:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM35:FREQ:STOP 4.24e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "35"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM36:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM36:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM36:FREQ:STOP 4.35e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "36"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM37:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM37:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM37:FREQ:STOP 4.46e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "37"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM38:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM38:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM38:FREQ:STOP 4.57e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "38"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM39:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM39:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM39:FREQ:STOP 4.68e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "39"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM40:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM40:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM40:FREQ:STOP 4.79e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "40"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM41:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM41:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM41:FREQ:STOP 4.9e+09Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "41"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM42:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM42:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM42:FREQ:STOP 5.01e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "42"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM43:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM43:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM43:FREQ:STOP 5.12e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "43"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM44:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM44:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM44:FREQ:STOP 5.23e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "44"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM45:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM45:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM45:FREQ:STOP 5.34e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "45"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM46:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM46:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM46:FREQ:STOP 5.45e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "46"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM47:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM47:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM47:FREQ:STOP 5.56e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "47"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM48:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM48:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM48:FREQ:STOP 5.67e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "48"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM49:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM49:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM49:FREQ:STOP 5.78e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "49"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM50:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM50:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM50:FREQ:STOP 5.89e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "50"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM51:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM51:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SEGM51:FREQ:STOP 6e+09Hz"
+Bytes: 32
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS6:SWE:TYPE SEGM"
+Bytes: 21
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ONCE"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde&Schwarz,ZVA40-4Port,1145111042100375,3.60"
+Bytes: 48
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'Pin_at_Compression'"
+Bytes: 46
+Status: 0x0 Operation completed successfully.
+
+Read:     "6"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde&Schwarz,ZVA40-4Port,1145111042100375,3.60"
+Bytes: 48
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'Pin_at_Compression'"
+Bytes: 46
+Status: 0x0 Operation completed successfully.
+
+Read:     "6"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC6:PAR:SEL 'Pin_at_Compression'"
+Bytes: 36
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM REAL,64"
+Bytes: 14
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD SWAP"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC6:DATA SDAT, #3816Npp?J??"
+Bytes: 840
+Status: 0x0 Operation completed successfully.
+
+Write:    "*WAI"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":DISP:CAT?"
+Bytes: 11
+Status: 0x0 Operation completed successfully.
+
+Read:     "'1,1,2,2,3,3,4,4'"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ONCE"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CAT?"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Read:     "'1,Trc1,2,_S21_vs_Pin_at_500_MHz,3,S21_vs_Pin_at_500_MHz,4,_S21_vs_Pin_at_1GHz,5,S21_vs_Pin_at_1GHz,..."
+Bytes: 549
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'Pout_at_Compression'"
+Bytes: 47
+Status: 0x0 Operation completed successfully.
+
+Read:     "7"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:DEL:ALL"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "0"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM1:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM1:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM1:FREQ:STOP 5e+08Hz"
+Bytes: 31
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "1"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM2:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM2:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM2:FREQ:STOP 6.1e+08Hz"
+Bytes: 33
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "2"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM3:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM3:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM3:FREQ:STOP 7.2e+08Hz"
+Bytes: 33
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "3"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM4:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM4:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM4:FREQ:STOP 8.3e+08Hz"
+Bytes: 33
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "4"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM5:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM5:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM5:FREQ:STOP 9.4e+08Hz"
+Bytes: 33
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "5"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM6:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM6:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM6:FREQ:STOP 1.05e+09Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "6"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM7:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM7:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM7:FREQ:STOP 1.16e+09Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "7"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM8:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM8:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM8:FREQ:STOP 1.27e+09Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "8"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM9:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM9:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM9:FREQ:STOP 1.38e+09Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "9"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM10:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM10:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM10:FREQ:STOP 1.49e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "10"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM11:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM11:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM11:FREQ:STOP 1.6e+09Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "11"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM12:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM12:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM12:FREQ:STOP 1.71e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "12"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM13:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM13:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM13:FREQ:STOP 1.82e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "13"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM14:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM14:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM14:FREQ:STOP 1.93e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "14"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM15:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM15:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM15:FREQ:STOP 2.04e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "15"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM16:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM16:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM16:FREQ:STOP 2.15e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "16"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM17:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM17:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM17:FREQ:STOP 2.26e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "17"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM18:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM18:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM18:FREQ:STOP 2.37e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "18"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM19:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM19:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM19:FREQ:STOP 2.48e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "19"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM20:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM20:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM20:FREQ:STOP 2.59e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "20"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM21:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM21:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM21:FREQ:STOP 2.7e+09Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "21"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM22:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM22:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM22:FREQ:STOP 2.81e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "22"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM23:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM23:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM23:FREQ:STOP 2.92e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "23"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM24:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM24:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM24:FREQ:STOP 3.03e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "24"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM25:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM25:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM25:FREQ:STOP 3.14e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "25"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM26:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM26:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM26:FREQ:STOP 3.25e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "26"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM27:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM27:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM27:FREQ:STOP 3.36e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "27"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM28:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM28:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM28:FREQ:STOP 3.47e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "28"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM29:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM29:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM29:FREQ:STOP 3.58e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "29"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM30:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM30:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM30:FREQ:STOP 3.69e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "30"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM31:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM31:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM31:FREQ:STOP 3.8e+09Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "31"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM32:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM32:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM32:FREQ:STOP 3.91e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "32"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM33:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM33:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM33:FREQ:STOP 4.02e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "33"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM34:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM34:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM34:FREQ:STOP 4.13e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "34"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM35:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM35:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM35:FREQ:STOP 4.24e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "35"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM36:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM36:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM36:FREQ:STOP 4.35e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "36"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM37:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM37:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM37:FREQ:STOP 4.46e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "37"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM38:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM38:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM38:FREQ:STOP 4.57e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "38"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM39:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM39:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM39:FREQ:STOP 4.68e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "39"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM40:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM40:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM40:FREQ:STOP 4.79e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "40"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM41:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM41:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM41:FREQ:STOP 4.9e+09Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "41"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM42:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM42:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM42:FREQ:STOP 5.01e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "42"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM43:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM43:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM43:FREQ:STOP 5.12e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "43"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM44:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM44:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM44:FREQ:STOP 5.23e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "44"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM45:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM45:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM45:FREQ:STOP 5.34e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "45"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM46:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM46:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM46:FREQ:STOP 5.45e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "46"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM47:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM47:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM47:FREQ:STOP 5.56e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "47"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM48:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM48:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM48:FREQ:STOP 5.67e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "48"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM49:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM49:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM49:FREQ:STOP 5.78e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "49"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM50:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM50:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM50:FREQ:STOP 5.89e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "50"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM51:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM51:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SEGM51:FREQ:STOP 6e+09Hz"
+Bytes: 32
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS7:SWE:TYPE SEGM"
+Bytes: 21
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ONCE"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde&Schwarz,ZVA40-4Port,1145111042100375,3.60"
+Bytes: 48
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'Pout_at_Compression'"
+Bytes: 47
+Status: 0x0 Operation completed successfully.
+
+Read:     "7"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde&Schwarz,ZVA40-4Port,1145111042100375,3.60"
+Bytes: 48
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'Pout_at_Compression'"
+Bytes: 47
+Status: 0x0 Operation completed successfully.
+
+Read:     "7"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC7:PAR:SEL 'Pout_at_Compression'"
+Bytes: 37
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM REAL,64"
+Bytes: 14
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD SWAP"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC7:DATA SDAT, #3816I???Y:??"
+Bytes: 840
+Status: 0x0 Operation completed successfully.
+
+Write:    "*WAI"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":DISP:CAT?"
+Bytes: 11
+Status: 0x0 Operation completed successfully.
+
+Read:     "'1,1,2,2,3,3,4,4'"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ONCE"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CAT?"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Read:     "'1,Trc1,2,_S21_vs_Pin_at_500_MHz,3,S21_vs_Pin_at_500_MHz,4,_S21_vs_Pin_at_1GHz,5,S21_vs_Pin_at_1GHz,..."
+Bytes: 549
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'Pin_at_MaxGain'"
+Bytes: 42
+Status: 0x0 Operation completed successfully.
+
+Read:     "8"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:DEL:ALL"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "0"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM1:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM1:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM1:FREQ:STOP 5e+08Hz"
+Bytes: 31
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "1"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM2:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM2:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM2:FREQ:STOP 6.1e+08Hz"
+Bytes: 33
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "2"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM3:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM3:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM3:FREQ:STOP 7.2e+08Hz"
+Bytes: 33
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "3"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM4:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM4:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM4:FREQ:STOP 8.3e+08Hz"
+Bytes: 33
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "4"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM5:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM5:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM5:FREQ:STOP 9.4e+08Hz"
+Bytes: 33
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "5"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM6:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM6:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM6:FREQ:STOP 1.05e+09Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "6"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM7:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM7:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM7:FREQ:STOP 1.16e+09Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "7"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM8:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM8:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM8:FREQ:STOP 1.27e+09Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "8"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM9:ADD"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM9:SWE:POIN 1"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM9:FREQ:STOP 1.38e+09Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "9"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM10:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM10:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM10:FREQ:STOP 1.49e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "10"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM11:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM11:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM11:FREQ:STOP 1.6e+09Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "11"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM12:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM12:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM12:FREQ:STOP 1.71e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "12"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM13:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM13:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM13:FREQ:STOP 1.82e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "13"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM14:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM14:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM14:FREQ:STOP 1.93e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "14"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM15:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM15:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM15:FREQ:STOP 2.04e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "15"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM16:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM16:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM16:FREQ:STOP 2.15e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "16"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM17:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM17:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM17:FREQ:STOP 2.26e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "17"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM18:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM18:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM18:FREQ:STOP 2.37e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "18"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM19:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM19:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM19:FREQ:STOP 2.48e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "19"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM20:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM20:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM20:FREQ:STOP 2.59e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "20"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM21:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM21:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM21:FREQ:STOP 2.7e+09Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "21"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM22:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM22:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM22:FREQ:STOP 2.81e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "22"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM23:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM23:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM23:FREQ:STOP 2.92e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "23"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM24:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM24:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM24:FREQ:STOP 3.03e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "24"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM25:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM25:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM25:FREQ:STOP 3.14e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "25"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM26:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM26:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM26:FREQ:STOP 3.25e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "26"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM27:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM27:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM27:FREQ:STOP 3.36e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "27"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM28:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM28:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM28:FREQ:STOP 3.47e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "28"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM29:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM29:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM29:FREQ:STOP 3.58e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "29"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM30:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM30:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM30:FREQ:STOP 3.69e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "30"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM31:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM31:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM31:FREQ:STOP 3.8e+09Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "31"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM32:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM32:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM32:FREQ:STOP 3.91e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "32"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM33:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM33:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM33:FREQ:STOP 4.02e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "33"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM34:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM34:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM34:FREQ:STOP 4.13e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "34"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM35:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM35:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM35:FREQ:STOP 4.24e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "35"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM36:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM36:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM36:FREQ:STOP 4.35e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "36"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM37:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM37:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM37:FREQ:STOP 4.46e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "37"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM38:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM38:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM38:FREQ:STOP 4.57e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "38"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM39:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM39:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM39:FREQ:STOP 4.68e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "39"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM40:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM40:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM40:FREQ:STOP 4.79e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "40"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM41:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM41:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM41:FREQ:STOP 4.9e+09Hz"
+Bytes: 34
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "41"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM42:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM42:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM42:FREQ:STOP 5.01e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "42"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM43:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM43:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM43:FREQ:STOP 5.12e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "43"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM44:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM44:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM44:FREQ:STOP 5.23e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "44"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM45:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM45:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM45:FREQ:STOP 5.34e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "45"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM46:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM46:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM46:FREQ:STOP 5.45e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "46"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM47:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM47:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM47:FREQ:STOP 5.56e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "47"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM48:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM48:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM48:FREQ:STOP 5.67e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "48"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM49:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM49:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM49:FREQ:STOP 5.78e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "49"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM50:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM50:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM50:FREQ:STOP 5.89e+09Hz"
+Bytes: 35
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM:COUN?"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Read:     "50"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM51:ADD"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM51:SWE:POIN 1"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SEGM51:FREQ:STOP 6e+09Hz"
+Bytes: 32
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS8:SWE:TYPE SEGM"
+Bytes: 21
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ONCE"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde&Schwarz,ZVA40-4Port,1145111042100375,3.60"
+Bytes: 48
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'Pin_at_MaxGain'"
+Bytes: 42
+Status: 0x0 Operation completed successfully.
+
+Read:     "8"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde&Schwarz,ZVA40-4Port,1145111042100375,3.60"
+Bytes: 48
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'Pin_at_MaxGain'"
+Bytes: 42
+Status: 0x0 Operation completed successfully.
+
+Read:     "8"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC8:PAR:SEL 'Pin_at_MaxGain'"
+Bytes: 32
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM REAL,64"
+Bytes: 14
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD SWAP"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC8:DATA SDAT, #3816??Y???"
+Bytes: 840
+Status: 0x0 Operation completed successfully.
+
+Write:    "*WAI"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":DISP:CAT?"
+Bytes: 11
+Status: 0x0 Operation completed successfully.
+
+Read:     "'1,1,2,2,3,3,4,4'"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ONCE"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CAT?"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Read:     "'1,Trc1,2,_S21_vs_Pin_at_500_MHz,3,S21_vs_Pin_at_500_MHz,4,_S21_vs_Pin_at_1GHz,5,S21_vs_Pin_at_1GHz,..."
+Bytes: 549
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'S21_vs_Pout_at_500_MHz'"
+Bytes: 50
+Status: 0x0 Operation completed successfully.
+
+Read:     "9"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS9:SWE:TYPE POW"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    "SOUR9:POW:STAR -4.27296"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    "SOUR9:POW:STOP 18.1169"
+Bytes: 23
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS9:SWE:POIN 49"
+Bytes: 19
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ONCE"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'S21_vs_Pout_at_500_MHz'"
+Bytes: 50
+Status: 0x0 Operation completed successfully.
+
+Read:     "9"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde&Schwarz,ZVA40-4Port,1145111042100375,3.60"
+Bytes: 48
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'S21_vs_Pout_at_500_MHz'"
+Bytes: 50
+Status: 0x0 Operation completed successfully.
+
+Read:     "9"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC9:PAR:SEL 'S21_vs_Pout_at_500_MHz'"
+Bytes: 40
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM REAL,64"
+Bytes: 14
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD SWAP"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC9:DATA SDAT, #3784?3????w@??s@??3]???]?UA??@J???????"
+Bytes: 808
+Status: 0x0 Operation completed successfully.
+
+Write:    "*WAI"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":DISP:CAT?"
+Bytes: 11
+Status: 0x0 Operation completed successfully.
+
+Read:     "'1,1,2,2,3,3,4,4'"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ONCE"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CAT?"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Read:     "'1,Trc1,2,_S21_vs_Pin_at_500_MHz,3,S21_vs_Pin_at_500_MHz,4,_S21_vs_Pin_at_1GHz,5,S21_vs_Pin_at_1GHz,..."
+Bytes: 549
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'S21_vs_Pout_at_1GHz'"
+Bytes: 47
+Status: 0x0 Operation completed successfully.
+
+Read:     "10"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS10:SWE:TYPE POW"
+Bytes: 21
+Status: 0x0 Operation completed successfully.
+
+Write:    "SOUR10:POW:STAR -4.09913"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    "SOUR10:POW:STOP 13.5136"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS10:SWE:POIN 41"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ONCE"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'S21_vs_Pout_at_1GHz'"
+Bytes: 47
+Status: 0x0 Operation completed successfully.
+
+Read:     "10"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde&Schwarz,ZVA40-4Port,1145111042100375,3.60"
+Bytes: 48
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'S21_vs_Pout_at_1GHz'"
+Bytes: 47
+Status: 0x0 Operation completed successfully.
+
+Read:     "10"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC10:PAR:SEL 'S21_vs_Pout_at_1GHz'"
+Bytes: 38
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM REAL,64"
+Bytes: 14
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD SWAP"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC10:DATA SDAT, #3656.fUS?"
+Bytes: 681
+Status: 0x0 Operation completed successfully.
+
+Write:    "*WAI"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":DISP:CAT?"
+Bytes: 11
+Status: 0x0 Operation completed successfully.
+
+Read:     "'1,1,2,2,3,3,4,4'"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ONCE"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CAT?"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Read:     "'1,Trc1,2,_S21_vs_Pin_at_500_MHz,3,S21_vs_Pin_at_500_MHz,4,_S21_vs_Pin_at_1GHz,5,S21_vs_Pin_at_1GHz,..."
+Bytes: 549
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'S21_vs_Pout_at_4GHz'"
+Bytes: 47
+Status: 0x0 Operation completed successfully.
+
+Read:     "11"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS11:SWE:TYPE POW"
+Bytes: 21
+Status: 0x0 Operation completed successfully.
+
+Write:    "SOUR11:POW:STAR -4.03619"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    "SOUR11:POW:STOP 13.5958"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS11:SWE:POIN 39"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ONCE"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'S21_vs_Pout_at_4GHz'"
+Bytes: 47
+Status: 0x0 Operation completed successfully.
+
+Read:     "11"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde&Schwarz,ZVA40-4Port,1145111042100375,3.60"
+Bytes: 48
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'S21_vs_Pout_at_4GHz'"
+Bytes: 47
+Status: 0x0 Operation completed successfully.
+
+Read:     "11"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC11:PAR:SEL 'S21_vs_Pout_at_4GHz'"
+Bytes: 38
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM REAL,64"
+Bytes: 14
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD SWAP"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC11:DATA SDAT, #3624?(;?r7??^/M?2??????`?x?????y?F?????n?????O?????rN^???[??I+???X?Y?{"
+Bytes: 649
+Status: 0x0 Operation completed successfully.
+
+Write:    "*WAI"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    ":DISP:CAT?"
+Bytes: 11
+Status: 0x0 Operation completed successfully.
+
+Read:     "'1,1,2,2,3,3,4,4'"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ONCE"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CAT?"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Read:     "'1,Trc1,2,_S21_vs_Pin_at_500_MHz,3,S21_vs_Pin_at_500_MHz,4,_S21_vs_Pin_at_1GHz,5,S21_vs_Pin_at_1GHz,..."
+Bytes: 549
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'S21_vs_Pout_at_6GHz'"
+Bytes: 47
+Status: 0x0 Operation completed successfully.
+
+Read:     "12"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS12:SWE:TYPE POW"
+Bytes: 21
+Status: 0x0 Operation completed successfully.
+
+Write:    "SOUR12:POW:STAR -5.66094"
+Bytes: 25
+Status: 0x0 Operation completed successfully.
+
+Write:    "SOUR12:POW:STOP 11.4178"
+Bytes: 24
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SENS12:SWE:POIN 38"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ONCE"
+Bytes: 20
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'S21_vs_Pout_at_6GHz'"
+Bytes: 47
+Status: 0x0 Operation completed successfully.
+
+Read:     "12"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde&Schwarz,ZVA40-4Port,1145111042100375,3.60"
+Bytes: 48
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:DISP:UPD ON"
+Bytes: 18
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CONF:TRAC:CHAN:NAME:ID? 'S21_vs_Pout_at_6GHz'"
+Bytes: 47
+Status: 0x0 Operation completed successfully.
+
+Read:     "12"
+Bytes: 3
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC12:PAR:SEL 'S21_vs_Pout_at_6GHz'"
+Bytes: 38
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM REAL,64"
+Bytes: 14
+Status: 0x0 Operation completed successfully.
+
+Write:    ":FORM:BORD SWAP"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Write:    ":CALC12:DATA SDAT, #3608?{?U???d??r??@?!jIc???q?\??@M?j??v????????@)??nD??P????@?l?O?????k5?"
+Bytes: 633
+Status: 0x0 Operation completed successfully.
+
+Write:    "*WAI"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Write:    "@LOC"
+Bytes: 5
+Status: 0x0 Operation completed successfully.
+
+Instrument in local mode
 

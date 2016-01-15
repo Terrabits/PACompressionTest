@@ -1,0 +1,53 @@
+R&S PA Compression Test Version 1.5.4
+(C) 2016 Rohde & Schwarz North America
+
+Thu Jan 14 21:52:39 2016
+
+VNA INSTRUMENT INFO
+Connection:       TCPIP
+Address:          192.168.1.110
+Make:             Rohde & Schwarz
+Model:            ZVA
+Serial No:        1145111042100375
+Firmware Version: 3.60
+Min Frequency:    10 MHz
+Max Frequency:    43.5 GHz
+Number of Ports:  4
+Options:          ZVAB-K2
+                  ZVB-K3
+                  ZVA-K4
+                  ZVA-K5
+                  ZVA-K6
+                  ZVA-K7
+                  ZVA-K8
+                  ZVA-K9
+                  ZVA-K10
+                  ZVA-K17
+                  ZVA-K27
+                  ZVA-K30
+                  ZVA-K31
+                  ZVAB-B4
+                  ZVA40-B16
+                  ZVAB-B18
+                  ZVA40-B21
+                  ZVA40-B23
+                  ZVA40-B32
+                  ZVA40-B34
+
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde&Schwarz,ZVA40-4Port,1145111042100375,3.60"
+Bytes: 48
+Status: 0x0 Operation completed successfully.
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde&Schwarz,ZVA40-4Port,1145111042100375,3.60"
+Bytes: 48
+Status: 0x0 Operation completed successfully.
+

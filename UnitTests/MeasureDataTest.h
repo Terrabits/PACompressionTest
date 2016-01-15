@@ -23,23 +23,23 @@ private slots:
     void sParameterVsPin_data();
     void sParameterVsPin();
 
-    void sParameterVsPout_data();
-    void sParameterVsPout();
+//    void sParameterVsPout_data();
+//    void sParameterVsPout();
 
-    void sParameterAtCompression_data();
-    void sParameterAtCompression();
+//    void sParameterAtCompression_data();
+//    void sParameterAtCompression();
 
-    void sParameterAtMaxGain_data();
-    void sParameterAtMaxGain();
+//    void sParameterAtMaxGain_data();
+//    void sParameterAtMaxGain();
 
-    void sParameterVsFrequencyAtPin_data();
-    void sParameterVsFrequencyAtPin();
+//    void sParameterVsFrequencyAtPin_data();
+//    void sParameterVsFrequencyAtPin();
 
-    void poutVsFrequency_data();
-    void poutVsFrequency();
+//    void poutVsFrequency_data();
+//    void poutVsFrequency();
 
-    void poutVsPin_data();
-    void poutVsPin();
+//    void poutVsPin_data();
+//    void poutVsPin();
 
 private:
     static const double startFreq_Hz;
@@ -68,7 +68,7 @@ private:
     static const double isolation_dB;
     static const double compressedIsolation_dB;
     static const RsaToolbox::ComplexDouble isolation_complex;
-    static const RsaToolbox::ComplexDouble isolation_complex;
+    static const RsaToolbox::ComplexDouble compressedIsolation_complex;
 
     MeasurementData _data;
     void generateSampleData();

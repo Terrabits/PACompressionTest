@@ -205,7 +205,7 @@ void MainWindow::on_measure_clicked() {
         }
         _vna.local();
 
-        showSettingsPage();
+//        showSettingsPage();
         saveKeys();
         return;
     }

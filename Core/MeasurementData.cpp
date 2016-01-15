@@ -232,12 +232,15 @@ bool MeasurementData::open(QString filename) {
 
     stream >> _powerInAtMaxGain_dBm;
     stream >> _maxGain_dB;
+    stream >> _sParametersAtMaxGain;
     stream >> _powerOutAtMaxGain_dBm;
 
     stream >> _powerInAtCompression_dBm;
     stream >> _gainAtCompression_dB;
+    stream >> _sParametersAtCompression;
     stream >> _powerOutAtCompression_dBm;
 
+    stream >> _measuredPin_dBm;
     stream >> _data;
 
     file.close();
@@ -260,12 +263,15 @@ bool MeasurementData::save(QString filename) {
 
     stream << _powerInAtMaxGain_dBm;
     stream << _maxGain_dB;
+    stream << _sParametersAtMaxGain;
     stream << _powerOutAtMaxGain_dBm;
 
     stream << _powerInAtCompression_dBm;
     stream << _gainAtCompression_dB;
+    stream << _sParametersAtCompression;
     stream << _powerOutAtCompression_dBm;
 
+    stream << _measuredPin_dBm;
     stream << _data;
 
     file.close();

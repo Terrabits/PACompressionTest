@@ -32,12 +32,20 @@ void MeasureDataTest::sParameterVsPin_data() {
     QTest::addColumn<QRowVector>("expectedPin_dBm");
     QTest::addColumn<ComplexRowVector>("expectedSParameter");
 
-    QRowVector expectedPin_dBm(_data.pin_dBm());
+    QRowVector expectedPin_dBm = linearSpacing(startPower_dBm, stopPower_dBm, powerPoints);
     ComplexRowVector expectedSParameter(powerPoints, match_complex);
     expectedSParameter[powerPoints-1] = compressedMatch_complex;
 
     //            Test name         freq            out  in   Pin                SParam
     QTest::newRow("S11_at_1GHz") << startFreq_Hz << 1 << 1 << expectedPin_dBm << expectedSParameter;
+    QTest::newRow("S11_at_2GHz") << stopFreq_Hz  << 1 << 1 << expectedPin_dBm << expectedSParameter;
+
+    expectedPin_dBm.removeLast();
+    expectedSParameter[powerPoints-2] = expectedSParameter[powerPoints-1];
+    expectedSParameter.pop_back();
+    //            Test name           freq             out     in   Pin                SParam
+    QTest::newRow("S11_at_1_5GHz") << nonSquareFreq_Hz << 1 << 1 << expectedPin_dBm << expectedSParameter;
+
 
 }
 void MeasureDataTest::sParameterVsPin() {
@@ -50,16 +58,21 @@ void MeasureDataTest::sParameterVsPin() {
     QRowVector pin_dBm;
     ComplexRowVector sParameter;
     _data.sParameterVsPin(freq_Hz, outputPort, inputPort, pin_dBm, sParameter);
+    QCOMPARE(pin_dBm.size(), expectedPin_dBm.size());
     QCOMPARE(pin_dBm, expectedPin_dBm);
-    QCOMPARE(sParameter, expectedSParameter);
+    QCOMPARE(sParameter.size(), expectedSParameter.size());
+    for (uint i = 0; i < sParameter.size(); i++) {
+        QCOMPARE(sParameter[i].real(), expectedSParameter[i].real());
+        QCOMPARE(sParameter[i].imag(), expectedSParameter[i].imag());
+    }
 }
 
-void MeasureDataTest::sParameterVsPout_data() {
+//void MeasureDataTest::sParameterVsPout_data() {
 
-}
-void MeasureDataTest::sParameterVsPout() {
+//}
+//void MeasureDataTest::sParameterVsPout() {
 
-}
+//}
 
 
 // Data notes:
@@ -90,14 +103,14 @@ const ComplexDouble MeasureDataTest::compressedMatch_complex = toMagnitude(compr
 const double MeasureDataTest::maxGain_dB = 10.0;
 const double MeasureDataTest::gain_dB    =  9.5;
 const double MeasureDataTest::compressedGain_dB = 9.0;
-const ComplexDouble maxGain_complex = toMagnitude(maxGain_dB) * ComplexDouble(-1.0, 0.0);
-const ComplexDouble gain_complex = toMagnitude(gain_dB) * ComplexDouble(-1.0, 0.0);
-const ComplexDouble compressedGain_complex = toMagnitude(compressedGain_dB) * ComplexDouble(-1.0, 0.0);
+const ComplexDouble MeasureDataTest::maxGain_complex = toMagnitude(maxGain_dB) * ComplexDouble(-1.0, 0.0);
+const ComplexDouble MeasureDataTest::gain_complex = toMagnitude(gain_dB) * ComplexDouble(-1.0, 0.0);
+const ComplexDouble MeasureDataTest::compressedGain_complex = toMagnitude(compressedGain_dB) * ComplexDouble(-1.0, 0.0);
 
 const double MeasureDataTest::isolation_dB = -20.0;
 const double MeasureDataTest::compressedIsolation_dB = -10.0;
-const ComplexDouble isolation_complex = toMagnitude(isolation_dB) * ComplexDouble(-1.0, 0);
-const ComplexDouble compressedIsolation_complex = toMagnitude(compressedIsolation_dB) * ComplexDouble(-1.0, 0);
+const ComplexDouble MeasureDataTest::isolation_complex = toMagnitude(isolation_dB) * ComplexDouble(-1.0, 0);
+const ComplexDouble MeasureDataTest::compressedIsolation_complex = toMagnitude(compressedIsolation_dB) * ComplexDouble(-1.0, 0);
 
 void MeasureDataTest::generateSampleData() {
     MeasurementSettings settings;

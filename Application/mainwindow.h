@@ -6,7 +6,6 @@
 #include "MeasurementSettings.h"
 #include "MeasurementData.h"
 #include "MeasureThread.h"
-#include "TraceSettingsModel.h"
 
 // RsaToolbox
 #include <Keys.h>

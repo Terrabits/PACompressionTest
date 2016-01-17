@@ -33,9 +33,11 @@ TracesWidget::~TracesWidget()
 
 void TracesWidget::setFrequencies(const RsaToolbox::QRowVector &frequencies_Hz) {
     _delegate.setFrequencies(frequencies_Hz);
+    _model.setFrequencies(frequencies_Hz);
 }
 void TracesWidget::setPowers(const RsaToolbox::QRowVector &powers_dBm) {
     _delegate.setPowers(powers_dBm);
+    _model.setPinValues(powers_dBm);
 }
 
 bool TracesWidget::isTracesValid() {

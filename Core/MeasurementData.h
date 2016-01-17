@@ -98,6 +98,8 @@ private:
     bool exportSimpleCsv(QString path);
     bool exportCompleteCsv(QString path);
     bool exportTouchstone(QString path);
+
+    QString toScientificNotationWithComma(const double value);
 };
 
 #endif // MEASUREMENTDATA_H

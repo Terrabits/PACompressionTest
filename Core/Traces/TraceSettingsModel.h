@@ -39,6 +39,10 @@ public:
     virtual bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex());
     virtual bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex());
 
+    // Interact with model outside Qt interface
+    void setFrequencies(const RsaToolbox::QRowVector &frequencies_Hz);
+    void setPinValues(const RsaToolbox::QRowVector &pin_dBm);
+
     QVector<TraceSettings> traces() const;
     void setTraces(const QVector<TraceSettings> &traces);
 
@@ -47,8 +51,11 @@ signals:
 public slots:
 
 private:
+    RsaToolbox::QRowVector _frequencies_Hz;
+    RsaToolbox::QRowVector _pin_dBm;
     QVector<TraceSettings> _traces;
 
+    void validateAllTraces();
     void fixTraceSettings(int row);
 };
 

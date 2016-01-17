@@ -201,11 +201,14 @@ void MainWindow::on_measure_clicked() {
         QVector<TraceSettings> traces = ui->tracesWidget->traces();
         uint diagram = max(_vna.diagrams()) + 1;
         for (int i = 0; i < traces.size(); i++) {
+            if (_vna.isDiagram(diagram) && _vna.diagram(diagram).traces().size() >= 20) {
+                diagram++;
+            }
             ProcessTrace(&(traces[i]), _results.data(), &_vna, diagram);
         }
         _vna.local();
 
-//        showSettingsPage();
+        showSettingsPage();
         saveKeys();
         return;
     }
@@ -249,7 +252,7 @@ void MainWindow::on_exportData_clicked() {
     if (filename.isEmpty())
         return;
 
-    _results->save(QDir(SOURCE_DIR).filePath("measurementData.dat"));
+//    _results->save(QDir(SOURCE_DIR).filePath("measurementData.dat")); // Save data for testing purposes
     if (_results->exportToZip(filename)) {
         _exportPath.setFromFilePath(filename);
         ui->error->showMessage("Export successful!", Qt::darkGreen);

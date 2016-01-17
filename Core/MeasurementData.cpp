@@ -119,7 +119,14 @@ bool MeasurementData::sParameterVsPin(double frequency_Hz, uint outputPort, uint
     }
 
     // Reinterpolate using measured Pin (a1)
-    pin_dBm = linearSpacing(measuredPin_dBm.first(), measuredPin_dBm.last(), measuredPin_dBm.size());
+    const double start_dBm = measuredPin_dBm.first();
+    const double stop_dBm = measuredPin_dBm.last();
+
+    const uint factor = 10;
+    uint points = measuredPin_dBm.size();
+    points = factor * points - factor + 1;
+
+    pin_dBm = linearSpacing(start_dBm, stop_dBm, points);
     sParameter = linearInterpolateMagPhase(measuredPin_dBm, sParameter, pin_dBm);
     return true;
 }
@@ -128,13 +135,13 @@ bool MeasurementData::sParameterVsPout(double frequency_Hz, uint outputPort, uin
     sParameter.clear();
 
     QRowVector pin_dBm;
-    ComplexRowVector gain;
-    if (!sParameterVsPin(frequency_Hz, 2, 1, pin_dBm, gain))
+    ComplexRowVector s21;
+    if (!sParameterVsPin(frequency_Hz, 2, 1, pin_dBm, s21))
         return false;
 
-    QRowVector _pout_dBm = add(pin_dBm, toDb(gain));
+    QRowVector _pout_dBm = add(pin_dBm, toDb(s21));
     if (outputPort == 2 && inputPort == 1) {
-        sParameter = gain;
+        sParameter = s21;
     }
     else {
         if (!sParameterVsPin(frequency_Hz, outputPort, inputPort, pin_dBm, sParameter))
@@ -142,7 +149,13 @@ bool MeasurementData::sParameterVsPout(double frequency_Hz, uint outputPort, uin
     }
 
     // Reinterpolate onto square grid vs Pout
-    pout_dBm = linearSpacing(_pout_dBm.first(), _pout_dBm.last(), _pout_dBm.size());
+    const double start_dBm = _pout_dBm.first();
+    const double stop_dBm = _pout_dBm.last();
+//    const uint factor = 10;
+    uint points = _pout_dBm.size();
+//    points = factor * points - factor + 1; // Enhanced point spacing
+
+    pout_dBm = linearSpacing(start_dBm, stop_dBm, points);
     sParameter = linearInterpolateMagPhase(_pout_dBm, sParameter, pout_dBm);
     return true;
 }
@@ -394,25 +407,24 @@ bool MeasurementData::exportCompleteCsv(QString path) {
     if (!file.open(QFile::WriteOnly))
         return false;
 
-    const int FIELD_WIDTH = 25;
+    const int FIELD_WIDTH = 26;
     QTextStream s(&file);
     s.setFieldAlignment(QTextStream::AlignLeft);
     s.setFieldWidth(FIELD_WIDTH);
 
-    s.setRealNumberNotation(QTextStream::ScientificNotation);
-    s.setRealNumberPrecision(15);
-
-    s << "Frequency_Hz";
-    s << "Pin_dBm";
-    s << "Pout_dBm";
-    s << "S11_dB";
-    s << "S11_deg";
-    s << "S21_dB";
-    s << "S21_deg";
-    s << "S12_dB";
-    s << "S12_deg";
-    s << "S22_dB";
-    s << "S22_deg";
+    s << "Frequency_Hz,";
+    s << "Pin_dBm,";
+    s << "Pin_deg,";
+    s << "Pout_dBm,";
+    s << "Pout_deg,";
+    s << "S11_dB,";
+    s << "S11_deg,";
+    s << "S21_dB,";
+    s << "S21_deg,";
+    s << "S12_dB,";
+    s << "S12_deg,";
+    s << "S22_dB,";
+    s << "S22_deg,";
 
     s.setFieldWidth(0);
     s << "\n";
@@ -431,17 +443,19 @@ bool MeasurementData::exportCompleteCsv(QString path) {
             const ComplexDouble s12 = _data[iPower].y()[iCurrentFreq][0][1];
             const ComplexDouble s22 = _data[iPower].y()[iCurrentFreq][1][1];
 
-            s << freq_Hz;
-            s << _measuredPin_dBm[iPower][iCurrentFreq];
-            s << _measuredPin_dBm[iPower][iCurrentFreq] + toDb(s21);
-            s << toDb(s11);
-            s << angle_deg(s11);
-            s << toDb(s21);
-            s << angle_deg(s21);
-            s << toDb(s12);
-            s << angle_deg(s12);
-            s << toDb(s22);
-            s << angle_deg(s22);
+            s << toScientificNotationWithComma(freq_Hz);
+            s << toScientificNotationWithComma(_measuredPin_dBm[iPower][iCurrentFreq]);
+            s << toScientificNotationWithComma(0); // Pin_deg (0 by def)
+            s << toScientificNotationWithComma(_measuredPin_dBm[iPower][iCurrentFreq] + toDb(s21));
+            s << toScientificNotationWithComma(angle_deg(s21)); // Pout_deg ( = s21_deg by def)
+            s << toScientificNotationWithComma(toDb(s11));
+            s << toScientificNotationWithComma(angle_deg(s11));
+            s << toScientificNotationWithComma(toDb(s21));
+            s << toScientificNotationWithComma(angle_deg(s21));
+            s << toScientificNotationWithComma(toDb(s12));
+            s << toScientificNotationWithComma(angle_deg(s12));
+            s << toScientificNotationWithComma(toDb(s22));
+            s << toScientificNotationWithComma(angle_deg(s22));
 
             s.setFieldWidth(0);
             s << "\n";
@@ -464,4 +478,15 @@ bool MeasurementData::exportTouchstone(QString path) {
         }
     }
     return true;
+}
+
+QString MeasurementData::toScientificNotationWithComma(const double value) {
+    QString result;
+    QTextStream stream(&result);
+    stream.setRealNumberNotation(QTextStream::ScientificNotation);
+    stream.setRealNumberPrecision(15);
+
+    stream << value << ",";
+    stream.flush();
+    return result;
 }

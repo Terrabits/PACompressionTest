@@ -1,16 +1,31 @@
+Things I've done:
+ - Renamed Y axis options: S11, S21, S12, S22
+ - Assiged data traces to diagrams. It adds clutter, yes, but the trace manager will not let you move the memory trace unless both are assigned (confirmed Jerome's complaint about this)
+ - Create plots unit tests
+ - Was not able to recreate "bogus" plot
+ - Reinterpolate vs Measured Pin, Pout with a greater number of points (no straight lines, missing features?)
+ - Added comma to CSV
+ - Added Pin phase, Pout phase to CSV
+ - When appropriate, channel frequency/power is set to chosen value (displayed X-axis summary)
+ - Checks validity of at-value if X, at parameters change
+ - Checks validity of at-value when measurement range changes
+ - Changing xFreq plot to Pin: trace shows up now
+ - Changing xPower to Freq: trace shows up now
+
+ 
+
+Note:
+ - x-axis does not adjust: Cannot work around this without deleting channel (would lose diagram, trace format, markers etc)
+ - Having too many memory traces on-screen slows down subsequent PA Compression Test measurement efforts, to the point where they will time out. Any way to increase memory?
+
+
 My to do list:
 - Plots Testing and improvement
-  * Table of tests
-  * Pout reinterpolation: more points
-  * Change nomenclature to Sxy
   * Test plotting after range change (x-axis doesn't adjust?)
-  * Test creating/moving mixed plots to different diagrams
 - CSV File:
-  * comma-delimeter 
-  * add settings as header (combine previous files into CSV) 
-  * Add pulse definition info 
-  * Add phase of Pout (same as phase of S21) 
+  * add settings as header (combine previous files into CSV)
+  * Add pulse definition info
 - Compact GUI
 - Speed Test
-  * HiSlip?
+  * HiSlip? ZVA DOES NOT SUPPORT!
   * Concatenate/collapse SCPI commands into fewer statements

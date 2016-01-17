@@ -165,14 +165,32 @@ bool ProcessTrace::retrieveData() {
 void ProcessTrace::updateChannel() {
     _channel = _vna->trace(_memoryTraceName).channel();
     if (_settings->isXFrequency()) {
-        _vna->channel(_channel).setFrequencies(_data->frequencies_Hz());
+        if (_vna->channel(_channel).sweepType() != VnaChannel::SweepType::Segmented) {
+            _vna->deleteChannel(_channel);
+            createChannel();
+            createTrace();
+            return;
+        }
+        else {
+            _vna->channel(_channel).setFrequencies(_data->frequencies_Hz());
+            if (_settings->isAtValue())
+                _vna->channel(_channel).segmentedSweep().setPower(_settings->atValue);
+        }
     }
     else {
-        // X Axis: Power
-        _vna->channel(_channel).setSweepType(VnaChannel::SweepType::Power);
-        _vna->channel(_channel).powerSweep().setStart(_x.first());
-        _vna->channel(_channel).powerSweep().setStop(_x.last());
-        _vna->channel(_channel).powerSweep().setPoints(_x.size());
+        if (_vna->channel(_channel).sweepType() != VnaChannel::SweepType::Power) {
+            _vna->deleteChannel(_channel);
+            createChannel();
+            createTrace();
+            return;
+        }
+        else {
+            _vna->channel(_channel).powerSweep().setStart(_x.first());
+            _vna->channel(_channel).powerSweep().setStop(_x.last());
+            _vna->channel(_channel).powerSweep().setPoints(_x.size());
+            if (_settings->isAtValue())
+                _vna->channel(_channel).powerSweep().setFrequency(_settings->atValue);
+        }
     }
     _vna->settings().updateDisplay();
     _vna->settings().displayOn();
@@ -189,9 +207,13 @@ void ProcessTrace::createChannel() {
         channel.powerSweep().setStart(_x.first());
         channel.powerSweep().setStop(_x.last());
         channel.powerSweep().setPoints(_x.size());
+        if (_settings->isAtValue())
+            _vna->channel(_channel).powerSweep().setFrequency(_settings->atValue);
     }
     else {
         channel.setFrequencies(_x);
+        if (_settings->isAtValue())
+            _vna->channel(_channel).segmentedSweep().setPower(_settings->atValue);
     }
 }
 

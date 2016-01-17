@@ -253,12 +253,28 @@ bool TraceSettingsModel::removeRows(int row, int count, const QModelIndex &paren
     return true;
 }
 
+void TraceSettingsModel::setFrequencies(const QRowVector &frequencies_Hz) {
+    _frequencies_Hz = frequencies_Hz;
+    validateAllTraces();
+}
+void TraceSettingsModel::setPinValues(const QRowVector &pin_dBm) {
+    _pin_dBm = pin_dBm;
+    validateAllTraces();
+}
+
 QVector<TraceSettings> TraceSettingsModel::traces() const {
     return _traces;
 }
 void TraceSettingsModel::setTraces(const QVector<TraceSettings> &traces) {
     beginResetModel();
     _traces = traces;
+    endResetModel();
+}
+
+void TraceSettingsModel::validateAllTraces() {
+    beginResetModel();
+    for (int i = 0; i < _traces.size(); i++)
+        fixTraceSettings(i);
     endResetModel();
 }
 
@@ -281,5 +297,11 @@ void TraceSettingsModel::fixTraceSettings(int row) {
     }
     if (!t.isValidAtValue()) {
         t.atValue = 0;
+    }
+
+    if (t.isAtFrequency() && !_frequencies_Hz.isEmpty())
+        t.roundAtValue(_frequencies_Hz);
+    else if (t.isAtPin() && !_pin_dBm.isEmpty()) {
+        t.roundAtValue(_pin_dBm);
     }
 }

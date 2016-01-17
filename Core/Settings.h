@@ -10,7 +10,7 @@
 
 // Application settings
 const QString APP_NAME = "R&S PA Compression Test";
-const QString APP_VERSION = "1.5.4";
+const QString APP_VERSION = "1.5.5";
 const QString MANUFACTURER_FOLDER = "Rohde-Schwarz";
 const QString APP_FOLDER = "PA Compression Test";
 const QString APP_DESCRIPTION = "Measure the compression point of a Power Amplifier";
@@ -29,8 +29,8 @@ const QString KEY_PATH = dataDir.filePath("Settings");
 // Connection settings
 const RsaToolbox::ConnectionType CONNECTION_TYPE = RsaToolbox::ConnectionType::TCPIP_CONNECTION;
 #ifdef DEBUG_MODE
-//const QString INSTRUMENT_ADDRESS = "127.0.0.1";
-const QString INSTRUMENT_ADDRESS = "192.168.1.110";
+const QString INSTRUMENT_ADDRESS = "127.0.0.1";
+//const QString INSTRUMENT_ADDRESS = "192.168.1.110";
 #else
 const QString INSTRUMENT_ADDRESS = "127.0.0.1";
 #endif

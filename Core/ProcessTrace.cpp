@@ -248,8 +248,19 @@ void ProcessTrace::createTrace() {
     _vna->trace(_dataTraceName).hide();
 }
 void ProcessTrace::updateTrace() {
+    const uint outputPort = _data->settings().outputPort();
+    const uint inputPort = _data->settings().inputPort();
     VnaTrace trace = _vna->trace(_memoryTraceName);
     if (_settings->isYPower()) {
+        if (_settings->isYPin()) {
+            _vna->trace(_dataTraceName).setWaveQuantity(WaveQuantity::a, inputPort);
+            _vna->trace(_memoryTraceName).setWaveQuantity(WaveQuantity::a, inputPort);
+        }
+        else /*if (_settings->isYPout())*/ {
+            _vna->trace(_dataTraceName).setWaveQuantity(WaveQuantity::b, outputPort);
+            _vna->trace(_memoryTraceName).setWaveQuantity(WaveQuantity::b, outputPort);
+        }
+
         if (!_vna->properties().isZvaFamily()) {
             trace.write(_y_dBm);
         }
@@ -260,6 +271,23 @@ void ProcessTrace::updateTrace() {
         }
     }
     else {
+        if (_settings->isYS11Trace()) {
+            _vna->trace(_dataTraceName).setNetworkParameter(NetworkParameter::S, inputPort, inputPort);
+            _vna->trace(_memoryTraceName).setNetworkParameter(NetworkParameter::S, inputPort, inputPort);
+        }
+        else if (_settings->isYS22Trace()) {
+            _vna->trace(_dataTraceName).setNetworkParameter(NetworkParameter::S, outputPort, outputPort);
+            _vna->trace(_memoryTraceName).setNetworkParameter(NetworkParameter::S, outputPort, outputPort);
+        }
+        else if (_settings->isYS21Trace()) {
+            _vna->trace(_dataTraceName).setNetworkParameter(NetworkParameter::S, outputPort, inputPort);
+            _vna->trace(_memoryTraceName).setNetworkParameter(NetworkParameter::S, outputPort, inputPort);
+        }
+        else if (_settings->isYS12Trace()) {
+            _vna->trace(_dataTraceName).setNetworkParameter(NetworkParameter::S, inputPort, outputPort);
+            _vna->trace(_memoryTraceName).setNetworkParameter(NetworkParameter::S, inputPort, outputPort);
+        }
+
         trace.write(_y);
     }
 }

@@ -41,6 +41,7 @@ void MainWindow::plot() {
     if (!ui->tracesWidget->isTracesValid())
         return;
 
+    // Apply traces
     QVector<TraceSettings> traces = ui->tracesWidget->traces();
     uint diagram = max(_vna.diagrams()) + 1;
     for (int i = 0; i < traces.size(); i++) {

@@ -411,7 +411,6 @@ bool MeasurementData::exportCompleteCsv(QString path) {
     QTextStream s(&file);
     s.setFieldAlignment(QTextStream::AlignLeft);
     s.setFieldWidth(FIELD_WIDTH);
-
     s << "Frequency_Hz,";
     s << "Pin_dBm,";
     s << "Pin_deg,";
@@ -424,11 +423,8 @@ bool MeasurementData::exportCompleteCsv(QString path) {
     s << "S12_dB,";
     s << "S12_deg,";
     s << "S22_dB,";
-    s << "S22_deg,";
-
     s.setFieldWidth(0);
-    s << "\n";
-    s.setFieldWidth(FIELD_WIDTH);
+    s << "S22_deg";
 
     for (int iFreq = 0; iFreq < _frequencies_Hz.size(); iFreq++) {
         const double freq_Hz = _frequencies_Hz[iFreq];
@@ -443,6 +439,10 @@ bool MeasurementData::exportCompleteCsv(QString path) {
             const ComplexDouble s12 = _data[iPower].y()[iCurrentFreq][0][1];
             const ComplexDouble s22 = _data[iPower].y()[iCurrentFreq][1][1];
 
+
+            s << "\n";
+            s.setFieldWidth(FIELD_WIDTH);
+
             s << toScientificNotationWithComma(freq_Hz);
             s << toScientificNotationWithComma(_measuredPin_dBm[iPower][iCurrentFreq]);
             s << toScientificNotationWithComma(0); // Pin_deg (0 by def)
@@ -455,11 +455,8 @@ bool MeasurementData::exportCompleteCsv(QString path) {
             s << toScientificNotationWithComma(toDb(s12));
             s << toScientificNotationWithComma(angle_deg(s12));
             s << toScientificNotationWithComma(toDb(s22));
-            s << toScientificNotationWithComma(angle_deg(s22));
-
             s.setFieldWidth(0);
-            s << "\n";
-            s.setFieldWidth(FIELD_WIDTH);
+            s << toScientificNotation(angle_deg(s22));
         }
     }
 
@@ -480,6 +477,16 @@ bool MeasurementData::exportTouchstone(QString path) {
     return true;
 }
 
+QString MeasurementData::toScientificNotation(const double value) {
+    QString result;
+    QTextStream stream(&result);
+    stream.setRealNumberNotation(QTextStream::ScientificNotation);
+    stream.setRealNumberPrecision(15);
+
+    stream << value;
+    stream.flush();
+    return result;
+}
 QString MeasurementData::toScientificNotationWithComma(const double value) {
     QString result;
     QTextStream stream(&result);

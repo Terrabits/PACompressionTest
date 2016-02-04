@@ -24,7 +24,8 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
     connect(ui->button, SIGNAL(clicked()),
             this, SLOT(plot()));
 
-    _data.open(QDir(SOURCE_DIR).filePath("measurementData.dat"));
+    QDir sourceDir(SOURCE_DIR);
+    _data.open(sourceDir.filePath("measurementData.dat"));
     ui->tracesWidget->setFrequencies(_data.frequencies_Hz());
     ui->tracesWidget->setPowers(_data.pin_dBm());
     loadKeys();

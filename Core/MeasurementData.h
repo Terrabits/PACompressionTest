@@ -99,6 +99,7 @@ private:
     bool exportCompleteCsv(QString path);
     bool exportTouchstone(QString path);
 
+    QString toScientificNotation(const double value);
     QString toScientificNotationWithComma(const double value);
 };
 

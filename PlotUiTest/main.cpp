@@ -3,6 +3,7 @@
 // RsaPaCompressionTest
 #include "Settings.h"
 #include "mainwindow.h"
+#include "MeasurementData.h"
 
 // RsaToolbox
 #include "Log.h"
@@ -30,6 +31,11 @@ int main(int argc, char *argv[])
     vna.printInfo();
 
     Keys keys(KEY_PATH);
+
+//    QDir sourceDir(SOURCE_DIR);
+//    MeasurementData data;
+//    data.open(sourceDir.filePath("measurementData.dat"));
+//    data.exportToZip(sourceDir.filePath("exportedMeasurementData.zip"));
 
     if (isNoConnection(vna) || isUnknownModel(vna))
             return(0);

@@ -36,9 +36,6 @@ void MeasurementData::setAppInfo(const QString &name, const QString &version) {
 void MeasurementData::setTimeToNow() {
     _timeStamp = QDateTime::currentDateTime();
 }
-void MeasurementData::setVnaInfo(Vna &vna) {
-    vna.printInfo(_vnaInfo);
-}
 
 MeasurementSettings MeasurementData::settings() const {
     return _settings;
@@ -291,14 +288,146 @@ bool MeasurementData::save(QString filename) {
     return true;
 }
 
+// Header
+void MeasurementData::createExportFileHeader(Vna &vna) {
+    _header.clear();
+
+    QTextStream stream(&_header);
+    stream << generateApplicationHeader();
+    stream << generateCopyright();
+    stream << "! " << endl;
+    stream << generateTimeStamp();
+    stream << "! " << endl;
+    stream << generateVnaInfo(vna);
+    stream << "! " << endl;
+    stream << generatePulsedRfInfo(vna);
+    stream << "! " << endl;
+    stream << generateSettingsSummary();
+    stream << "! " << endl;
+    stream.flush();
+}
+QString MeasurementData::generateApplicationHeader() const {
+    QString header;
+    if (_appName.isEmpty() || _appVersion.isEmpty())
+        return header;
+
+    QTextStream stream(&header);
+    stream << "! " << _appName << " Version " << _appVersion << endl;
+    stream.flush();
+
+    return header;
+}
+QString MeasurementData::generateCopyright() const {
+    QString header;
+
+    QString date(__DATE__);
+    date.remove(0, date.size()-4);
+
+    QTextStream stream(&header);
+    stream << "! (C) " + date + " Rohde & Schwarz North America" << endl;
+    stream.flush();
+
+    return header;
+}
+QString MeasurementData::generateTimeStamp() const {
+    QString header;
+    QTextStream stream(&header);
+    stream << "! " << _timeStamp.toString() << endl;
+    stream.flush();
+    return header;
+}
+QString MeasurementData::generateVnaInfo(Vna &vna) const {
+    QString vnaInfo;
+    QTextStream stream(&vnaInfo);
+
+    stream << "! VNA INSTRUMENT INFO" << endl;
+    stream << "! Connection:       " << toString(vna.connectionType()) << endl;
+    stream << "! Address:          " << vna.address() << endl;
+    stream << "! Make:             Rohde & Schwarz" << endl;
+    stream << "! Model:            " << toString(vna.properties().model()) << endl;
+    stream << "! Serial No:        " << vna.properties().serialNumber() << endl;
+    stream << "! Firmware Version: " << vna.properties().firmwareVersion() << endl;
+    stream << "! Min Frequency:    " << formatValue(vna.properties().minimumFrequency_Hz(), 1, Units::Hertz) << endl;
+    stream << "! Max Frequency:    " << formatValue(vna.properties().maximumFrequency_Hz(), 1, Units::Hertz) << endl;
+    stream << "! Number of Ports:  " << vna.properties().physicalPorts() << endl;
+    if (!vna.optionsString().isEmpty()) {
+        stream << "! Options:" << endl << "!     ";
+        stream << toString(vna.properties().optionsList(), "\n!     ");
+        stream << endl;
+    }
+
+
+    stream.flush();
+    return vnaInfo;
+}
+QString MeasurementData::generatePulsedRfInfo(Vna &vna) const {
+    QString pulsedRfInfo;
+    QTextStream stream(&pulsedRfInfo);
+
+    stream << "! PULSED RF? ";
+    const uint c = _settings.channel();
+    const uint inputPort = _settings.inputPort();
+    bool isPulsedRf = vna.isExtensionUnit() && vna.channel(c).extensionUnit().isPulseModulatorOn(inputPort);
+    if (isPulsedRf) {
+        stream << "Yes" << endl;
+        stream << "! Delay:       " << formatValue(vna.channel(c).pulseGenerator().delay_s(), 3, Units::Seconds) << endl;
+        stream << "! Pulse Width: " << formatValue(vna.channel(c).pulseGenerator().pulseWidth_s(), 3, Units::Seconds) << endl;
+        stream << "! Period:      " << formatValue(vna.channel(c).pulseGenerator().period_s(), 3, Units::Seconds) << endl << endl;
+    }
+    else {
+        stream << "No" << endl;
+    }
+
+    stream.flush();
+    return pulsedRfInfo;
+}
+QString MeasurementData::generateSettingsSummary() const {
+    QString summary;
+
+    QTextStream stream(&summary);
+    stream << "! SETTINGS" << endl;
+    stream << "! Start Frequency:        " << formatValue(_settings.startFrequency_Hz(), 3, Units::Hertz) << endl;
+    stream << "! Stop Frequency:         " << formatValue(_settings.stopFrequency_Hz(), 3, Units::Hertz) << endl;
+    stream << "! Frequency Points:       " << _settings.frequencyPoints() << endl;
+    stream << "! IF BW:                  " << formatValue(_settings.ifBw_Hz(), 3, Units::Hertz) << endl;
+    stream << "! " << endl;
+    stream << "! Start Power:            " << formatValue(_settings.startPower_dBm(), 3, Units::dBm) << endl;
+    stream << "! Stop Power:             " << formatValue(_settings.stopPower_dBm(), 3, Units::dBm) << endl;
+    stream << "! Power Points:           " << _settings.powerPoints() << endl;
+    stream << "! Compression value:      " << formatValue(_settings.compressionLevel_dB(), 3, Units::dB) << endl;
+    stream << "! Include gain expansion? ";
+    if (_settings.isGainExpansion())
+        stream << "Yes" << endl;
+    else
+        stream << "No" << endl;
+    stream << "! Stop at compression?    ";
+    if (_settings.isStopAtCompression())
+        stream << "Yes" << endl;
+    else
+        stream << "No" << endl;
+    stream << "! Post Condition:         ";
+    if (_settings.isRfOffPostCondition())
+        stream << "RF Off" << endl;
+    else
+        stream << "None" << endl;
+    stream << "! " << endl;
+
+    stream << "! Channel:                " << _settings.channel() << endl;
+    stream << "! Input port:             " << _settings.inputPort() << endl;
+    stream << "! Output port:            " << _settings.outputPort() << endl;
+    stream << "! " << endl;
+
+    stream.flush();
+    return summary;
+}
+
 bool MeasurementData::exportToZip(QString filename) {
     if (filename.endsWith(".zip", Qt::CaseInsensitive))
         filename.chop(4);
 
-    QString s2pFolder = "Touchstone Files";
-    QString simpleCsvFile = "Compression.csv";
-    QString completeCsvFile = "Data.csv";
-    QString infoFile = "Settings.txt";
+    QString touchstoneFolder = "Touchstone Files";
+    QString compressionCsvFile = "Compression.csv";
+    QString dataCsvFile = "Data.csv";
     QFileInfo fileInfo(filename);
     QDir dir(fileInfo.absolutePath());
 
@@ -307,35 +436,24 @@ bool MeasurementData::exportToZip(QString filename) {
     }
     dir.cd(fileInfo.fileName());
 
-    qDebug() << "info";
-    infoFile = dir.filePath(infoFile);
-    if (!exportInfo(infoFile)) {
+    compressionCsvFile = dir.filePath(compressionCsvFile);
+    if (!exportCompressionCsv(compressionCsvFile)) {
         dir.removeRecursively();
         return false;
     }
 
-    qDebug() << "simple csv";
-    simpleCsvFile = dir.filePath(simpleCsvFile);
-    if (!exportSimpleCsv(simpleCsvFile)) {
+    dataCsvFile = dir.filePath(dataCsvFile);
+    if (!exportDataCsv(dataCsvFile)) {
         dir.removeRecursively();
         return false;
     }
 
-    qDebug() << "complete csv";
-    completeCsvFile = dir.filePath(completeCsvFile);
-    if (!exportCompleteCsv(completeCsvFile)) {
-        qDebug() << "complete csv failed";
+    if (!dir.mkdir(touchstoneFolder)) {
         dir.removeRecursively();
         return false;
     }
-
-    qDebug() << "touchstone";
-    if (!dir.mkdir(s2pFolder)) {
-        dir.removeRecursively();
-        return false;
-    }
-    s2pFolder = dir.filePath(s2pFolder);
-    if (!exportTouchstone(s2pFolder)) {
+    touchstoneFolder = dir.filePath(touchstoneFolder);
+    if (!exportTouchstone(touchstoneFolder)) {
         dir.removeRecursively();
         return false;
     }
@@ -343,17 +461,11 @@ bool MeasurementData::exportToZip(QString filename) {
     filename += ".zip";
     bool success = JlCompress::compressDir(filename, dir.path(), true);
     dir.removeRecursively();
-    qDebug() << "/Export";
     return success;
 }
-bool MeasurementData::exportInfo(QString path) {
-    Log log(path, _appName, _appVersion);
-    log.printHeader();
-    log.print(_settings.printInfo());
-    log.print(_vnaInfo);
-    return true;
-}
-bool MeasurementData::exportSimpleCsv(QString path) {
+bool MeasurementData::exportCompressionCsv(QString path) {
+    const int FIELD_WIDTH = 25;
+
     if (!path.endsWith(".csv", Qt::CaseInsensitive))
         path += ".csv";
 
@@ -361,45 +473,41 @@ bool MeasurementData::exportSimpleCsv(QString path) {
     if (!file.open(QFile::WriteOnly))
         return false;
 
-    const int FIELD_WIDTH = 25;
     QTextStream s(&file);
+    s << _header;
+
     s.setFieldAlignment(QTextStream::AlignLeft);
     s.setFieldWidth(FIELD_WIDTH);
 
-    s.setRealNumberNotation(QTextStream::ScientificNotation);
-    s.setRealNumberPrecision(15);
-
-    s << "Frequency_Hz";
-    s << "Pin[Max Gain]_dBm";
-    s << "Max Gain_dB";
-    s << "Pout[Max]_dBm";
-    s << "Pin[Comp]_dBm";
-    s << "Gain[Comp]_dB";
-    s << "Pout[Comp]_dBm";
-
+    s << "Frequency_Hz,";
+    s << "Pin[Max Gain]_dBm,";
+    s << "Max Gain_dB,";
+    s << "Pout[Max]_dBm,";
+    s << "Pin[Comp]_dBm,";
+    s << "Gain[Comp]_dB,";
     s.setFieldWidth(0);
-    s << "\n";
-    s.setFieldWidth(FIELD_WIDTH);
-
+    s << "Pout[Comp]_dBm";
     for (int i = 0; i < _frequencies_Hz.size(); i++) {
-        s << _frequencies_Hz[i];
-        s << _powerInAtMaxGain_dBm[i];
-        s << _maxGain_dB[i];
-        s << _powerOutAtMaxGain_dBm[i];
-        s << _powerInAtCompression_dBm[i];
-        s << _gainAtCompression_dB[i];
-        s << _powerOutAtCompression_dBm[i];
-
-        s.setFieldWidth(0);
         s << "\n";
         s.setFieldWidth(FIELD_WIDTH);
+
+        s << toScientificNotationWithComma(_frequencies_Hz[i]);
+        s << toScientificNotationWithComma(_powerInAtMaxGain_dBm[i]);
+        s << toScientificNotationWithComma(_maxGain_dB[i]);
+        s << toScientificNotationWithComma(_powerOutAtMaxGain_dBm[i]);
+        s << toScientificNotationWithComma(_powerInAtCompression_dBm[i]);
+        s << toScientificNotationWithComma(_gainAtCompression_dB[i]);
+        s.setFieldWidth(0);
+        s << toScientificNotation(_powerOutAtCompression_dBm[i]);
     }
 
     s.flush();
     file.close();
     return true;
 }
-bool MeasurementData::exportCompleteCsv(QString path) {
+bool MeasurementData::exportDataCsv(QString path) {
+    const int FIELD_WIDTH = 26;
+
     if (!path.endsWith(".csv", Qt::CaseInsensitive))
         path += ".csv";
 
@@ -407,10 +515,12 @@ bool MeasurementData::exportCompleteCsv(QString path) {
     if (!file.open(QFile::WriteOnly))
         return false;
 
-    const int FIELD_WIDTH = 26;
     QTextStream s(&file);
+    s << _header;
+
     s.setFieldAlignment(QTextStream::AlignLeft);
     s.setFieldWidth(FIELD_WIDTH);
+
     s << "Frequency_Hz,";
     s << "Pin_dBm,";
     s << "Pin_deg,";

@@ -19,8 +19,6 @@ Note:
  - For @ Pin values that do not have many points (such as Pin max, which may only have one point), the points may only cover a subset of the x-axis range, it may look like a bunch of straight lines, and a replot may not work (see x-axis does not adjust bug above)
 
 Bugs to report:
- - Cannot write formatted data to memory trace on ZVA (for ex. dBm). Works on ZNB.
- - Cannot change memory trace type (for ex. from S21 to S12. Can change data trace, but memory trace remains)
  - ZVA does not support HiSlip
 
 

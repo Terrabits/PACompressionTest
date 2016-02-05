@@ -1,0 +1,9 @@
+! RsaToolbox (C) 2015 Rohde & Schwarz America
+! 
+! Number of points: 1
+! Number of ports: 2
+! Balanced ports?: No
+! 
+! 
+# Hz S RI R 50
+500000000         -0.1337753832     0.05632982403     -4.123357149      3.032533894       0.06416674301     -0.03645530702    0.08234016012     0.1031931186      

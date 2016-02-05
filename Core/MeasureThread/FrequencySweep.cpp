@@ -196,11 +196,11 @@ void FrequencySweep::run() {
     emit progress(100);
 
     _vna->deleteChannel(c);
-    unfreezeChannels();
     if (_settings.isRfOffPostCondition()) {
-        _vna->startSweeps();
-        _vna->pause();
-        _vna->settings().rfOutputPowerOff();
+        _vna->settings().powerReductionBetweenSweepsOn();
+    }
+    else {
+        unfreezeChannels();
     }
 
     // Check if any compression points not found

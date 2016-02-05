@@ -58,8 +58,8 @@ void MeasureThread::start(Priority priority) {
     _results.reset(new MeasurementData());
     _results->setAppInfo(_appName, _appVersion);
     _results->setTimeToNow();
-    _results->setVnaInfo(*_vna);
     _results->setSettings(_settings);
+    _results->createExportFileHeader(*_vna);
     QThread::start(priority);
 }
 MeasurementData *MeasureThread::takeResults() {

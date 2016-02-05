@@ -1,7 +1,7 @@
 R&S PA Compression Test Version 1.5.6
 (C) 2016 Rohde & Schwarz North America
 
-Wed Feb 3 16:16:55 2016
+Thu Feb 4 18:19:59 2016
 
 VNA INSTRUMENT INFO
 Connection:       TCPIP
@@ -48,5 +48,77 @@ Status: 0x0 Operation completed successfully.
 
 Read:     "Rohde&Schwarz,ZVA8-4Port,1145101099999999,3.60"
 Bytes: 47
+Status: 0x0 Operation completed successfully.
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde&Schwarz,ZVA8-4Port,1145101099999999,3.60"
+Bytes: 47
+Status: 0x0 Operation completed successfully.
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde&Schwarz,ZVA8-4Port,1145101099999999,3.60"
+Bytes: 47
+Status: 0x0 Operation completed successfully.
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde&Schwarz,ZVA8-4Port,1145101099999999,3.60"
+Bytes: 47
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:FREQ? MIN"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Read:     "300000"
+Bytes: 7
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:FREQ? MAX"
+Bytes: 16
+Status: 0x0 Operation completed successfully.
+
+Read:     "8000000000"
+Bytes: 11
+Status: 0x0 Operation completed successfully.
+
+Write:    ":INST:PORT:COUN?"
+Bytes: 17
+Status: 0x0 Operation completed successfully.
+
+Read:     "4"
+Bytes: 2
+Status: 0x0 Operation completed successfully.
+
+Write:    "*OPT?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "ZVA-K7,ZVA-K17,ZVAB-SIM,ZVT8-B63,ZVT8-B64,ZVT8-B65,ZVT8-B66,ZVT8-B68,ZVA8-B16,ZVA8-B21,ZVA8-B22,ZVA8..."
+Bytes: 166
+Status: 0x0 Operation completed successfully.
+
+Write:    "*OPT?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "ZVA-K7,ZVA-K17,ZVAB-SIM,ZVT8-B63,ZVT8-B64,ZVT8-B65,ZVT8-B66,ZVT8-B68,ZVA8-B16,ZVA8-B21,ZVA8-B22,ZVA8..."
+Bytes: 166
+Status: 0x0 Operation completed successfully.
+
+Write:    ":SYST:COMM:RDEV:TEUN:COUN?"
+Bytes: 27
+Status: 0x0 Operation completed successfully.
+
+Read:     "0"
+Bytes: 2
 Status: 0x0 Operation completed successfully.
 

@@ -32,13 +32,15 @@ int main(int argc, char *argv[])
 
     Keys keys(KEY_PATH);
 
-//    QDir sourceDir(SOURCE_DIR);
-//    MeasurementData data;
-//    data.open(sourceDir.filePath("measurementData.dat"));
-//    data.exportToZip(sourceDir.filePath("exportedMeasurementData.zip"));
-
     if (isNoConnection(vna) || isUnknownModel(vna))
             return(0);
+
+    QDir sourceDir(SOURCE_DIR);
+    MeasurementData data;
+    data.open(sourceDir.filePath("measurementData.dat"));
+    data.createExportFileHeader(vna);
+    data.exportToZip(sourceDir.filePath("exportedMeasurementData.zip"));
+    return 0;
 
     MainWindow w(vna, keys);
     w.show();

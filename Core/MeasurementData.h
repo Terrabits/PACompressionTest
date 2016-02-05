@@ -24,11 +24,11 @@ public:
 
     void setAppInfo(const QString &name, const QString &version);
     void setTimeToNow();
-    void setVnaInfo(RsaToolbox::Vna &vna);
 
     MeasurementSettings settings() const;
     void setSettings(const MeasurementSettings &settings);
 
+    void createExportFileHeader(RsaToolbox::Vna &vna);
 
     uint frequencyPoints() const;
     RsaToolbox::QRowVector &frequencies_Hz();
@@ -50,8 +50,6 @@ public:
     RsaToolbox::ComplexRowVector sParameterAtCompression(uint outputPort, uint inputPort);
     RsaToolbox::ComplexRowVector sParameterAtMaxGain(uint outputPort, uint inputPort);
     bool sParameterVsFrequencyAtPin(double pin_dBm, uint outputPort, uint inputPort, RsaToolbox::QRowVector &frequencies_Hz, RsaToolbox::ComplexRowVector &sParameter);
-//    bool sParameterVsFrequencyAtPout(double pout_dBm, uint outputPort, uint inputPort, RsaToolbox::QRowVector &frequencies_Hz, RsaToolbox::ComplexRowVector &sParameter);
-    // ... This would involve major interpolation effort?
 
     bool poutVsFrequency(double pin_dBm, RsaToolbox::QRowVector &frequencies_Hz, RsaToolbox::QRowVector &pout_dBm);
     bool poutVsPin(double frequency_Hz, RsaToolbox::QRowVector &pin_dBm, RsaToolbox::QRowVector &pout_dBm);
@@ -70,12 +68,13 @@ public:
 
     bool exportToZip(QString filename);
 
-
 private:
     QString _appName;
     QString _appVersion;
     QDateTime _timeStamp;
     QString _vnaInfo;
+    QString _header;
+
     MeasurementSettings _settings;
 
     RsaToolbox::QRowVector _frequencies_Hz;
@@ -93,10 +92,17 @@ private:
     QVector<RsaToolbox::QRowVector> _measuredPin_dBm;
     QVector<RsaToolbox::NetworkData> _data;
 
-    // Keep?
-    bool exportInfo(QString path);
-    bool exportSimpleCsv(QString path);
-    bool exportCompleteCsv(QString path);
+    // Header
+    QString generateApplicationHeader() const;
+    QString generateCopyright() const;
+    QString generateTimeStamp() const;
+    QString generateVnaInfo(RsaToolbox::Vna &vna) const;
+    QString generatePulsedRfInfo(RsaToolbox::Vna &vna) const;
+    QString generateSettingsSummary() const;
+
+    // Export
+    bool exportCompressionCsv(QString path);
+    bool exportDataCsv(QString path);
     bool exportTouchstone(QString path);
 
     QString toScientificNotation(const double value);

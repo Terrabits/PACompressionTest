@@ -148,12 +148,10 @@ bool MeasurementData::sParameterVsPout(double frequency_Hz, uint outputPort, uin
     // Reinterpolate onto square grid vs Pout
     const double start_dBm = _pout_dBm.first();
     const double stop_dBm = _pout_dBm.last();
-//    const uint factor = 10;
     uint points = _pout_dBm.size();
-//    points = factor * points - factor + 1; // Enhanced point spacing
-
     pout_dBm = linearSpacing(start_dBm, stop_dBm, points);
     sParameter = linearInterpolateMagPhase(_pout_dBm, sParameter, pout_dBm);
+
     return true;
 }
 bool MeasurementData::sParameterVsFrequencyAtPin(double pin_dBm, uint outputPort, uint inputPort, QRowVector &frequencies_Hz, ComplexRowVector &sParameter) {
@@ -199,6 +197,33 @@ bool MeasurementData::poutVsPin(double frequency_Hz, QRowVector &pin_dBm, QRowVe
     }
 
     pout_dBm = add(pin_dBm, toDb(gain));
+    return true;
+}
+
+bool MeasurementData::amPmVsPin(double frequency_Hz, QRowVector &pin_dBm, QRowVector amPm_deg) {
+    pin_dBm.clear();
+    amPm_deg.clear();
+
+    ComplexRowVector s21;
+    if (!sParameterVsPin(frequency_Hz, 2, 1, pin_dBm, s21))
+        return false;
+
+    amPm_deg = angle_deg(s21);
+    amPm_deg = unwrap(amPm_deg, 360.0);
+    amPm_deg = subtract(amPm_deg, amPm_deg.first());
+    return true;
+}
+bool MeasurementData::amPmVsPout(double frequency_Hz, QRowVector &pout_dBm, QRowVector amPm_deg) {
+    pout_dBm.clear();
+    amPm_deg.clear();
+
+    ComplexRowVector s21;
+    if (!sParameterVsPout(frequency_Hz, 2, 1, pout_dBm, s21))
+        return false;
+
+    amPm_deg = angle_deg(s21);
+    amPm_deg = unwrap(amPm_deg, 360.0);
+    amPm_deg = subtract(amPm_deg, amPm_deg.first());
     return true;
 }
 

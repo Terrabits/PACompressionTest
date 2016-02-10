@@ -54,6 +54,9 @@ public:
     bool poutVsFrequency(double pin_dBm, RsaToolbox::QRowVector &frequencies_Hz, RsaToolbox::QRowVector &pout_dBm);
     bool poutVsPin(double frequency_Hz, RsaToolbox::QRowVector &pin_dBm, RsaToolbox::QRowVector &pout_dBm);
 
+    bool amPmVsPin(double frequency_Hz, RsaToolbox::QRowVector &pin_dBm, RsaToolbox::QRowVector amPm_deg);
+    bool amPmVsPout(double frequency_Hz, RsaToolbox::QRowVector &pout_dBm, RsaToolbox::QRowVector amPm_deg);
+
     // measuredPowers_dBm()[iPower][iFreq]
     QVector<RsaToolbox::QRowVector> &measuredPin_dBm();
 

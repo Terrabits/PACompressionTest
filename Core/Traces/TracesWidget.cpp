@@ -1,7 +1,10 @@
 #include "TracesWidget.h"
 #include "ui_TracesWidget.h"
 
+
+// Qt
 #include <QDebug>
+
 
 TracesWidget::TracesWidget(QWidget *parent) :
     QWidget(parent),

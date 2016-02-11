@@ -3,6 +3,7 @@
 
 // Project
 #include "TraceSettingsModel.h"
+#include "TracesWidget.h"
 
 // RsaToolbox
 #include <FrequencyEdit.h>
@@ -32,6 +33,9 @@ void TraceSettingsDelegate::setFrequencies(const QRowVector &frequencies_Hz) {
 }
 void TraceSettingsDelegate::setPowers(const QRowVector &powers_dBm) {
     _powers_dBm = powers_dBm;
+}
+void TraceSettingsDelegate::setTracesWidget(TracesWidget *tracesWidget) {
+    _tracesWidget = tracesWidget;
 }
 
 QWidget *TraceSettingsDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const {
@@ -77,12 +81,16 @@ QWidget *TraceSettingsDelegate::createEditor(QWidget *parent, const QStyleOption
             frequencyEdit = new FrequencyEdit(parent);
             frequencyEdit->setParameterName("Frequency");
             frequencyEdit->setAcceptedValues(_frequencies_Hz);
+            connect(frequencyEdit, SIGNAL(outOfRange(QString)),
+                    _tracesWidget, SIGNAL(error(QString)));
             return frequencyEdit;
         }
         else if (model->traces()[row].isAtPin()) {
             powerEdit = new PowerEdit(parent);
             powerEdit->setParameterName("Power");
             powerEdit->setAcceptedValues(_powers_dBm);
+            connect(powerEdit, SIGNAL(outOfRange(QString)),
+                    _tracesWidget, SIGNAL(error(QString)));
             return powerEdit;
         }
     default:

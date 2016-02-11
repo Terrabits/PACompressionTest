@@ -93,6 +93,9 @@ bool TraceSettings::isYInsertion() const {
 bool TraceSettings::isYPower() const {
     return isYPin() || isYPout();
 }
+bool TraceSettings::isYAmPm() const {
+    return yParameter.compare("AMPM", Qt::CaseInsensitive) == 0;
+}
 bool TraceSettings::isValidYParameter() const {
     return possibleYParameters().contains(yParameter, Qt::CaseInsensitive);
 }
@@ -103,7 +106,8 @@ QStringList TraceSettings::possibleYParameters() const {
          << "S12"
          << "S22"
          << "Pin"
-         << "Pout";
+         << "Pout"
+         << "AMPM";
     return list;
 }
 
@@ -127,11 +131,12 @@ QStringList TraceSettings::possibleXParameters() const {
     QStringList list;
     if (!isValidYParameter())
         return list;
-    list << "Frequency";
+    if (!isYAmPm())
+        list << "Frequency";
     if (!isYPin()) {
         list << "Pin";
     }
-    if (isYSParameter()) {
+    if (isYSParameter() || isYAmPm()) {
         list << "Pout";
     }
     return list;
@@ -176,6 +181,11 @@ QStringList TraceSettings::possibleAtParameters() const {
                  << "Compression"
                  << "Maximum Gain";
         }
+    }
+    else if (isYAmPm()) {
+        // y: AMPM
+        // x: Pin, Pout
+        list << "Frequency";
     }
     else {
         // Y is power

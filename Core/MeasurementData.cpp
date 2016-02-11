@@ -200,7 +200,7 @@ bool MeasurementData::poutVsPin(double frequency_Hz, QRowVector &pin_dBm, QRowVe
     return true;
 }
 
-bool MeasurementData::amPmVsPin(double frequency_Hz, QRowVector &pin_dBm, QRowVector amPm_deg) {
+bool MeasurementData::amPmVsPin(double frequency_Hz, QRowVector &pin_dBm, QRowVector &amPm_deg) {
     pin_dBm.clear();
     amPm_deg.clear();
 
@@ -213,7 +213,7 @@ bool MeasurementData::amPmVsPin(double frequency_Hz, QRowVector &pin_dBm, QRowVe
     amPm_deg = subtract(amPm_deg, amPm_deg.first());
     return true;
 }
-bool MeasurementData::amPmVsPout(double frequency_Hz, QRowVector &pout_dBm, QRowVector amPm_deg) {
+bool MeasurementData::amPmVsPout(double frequency_Hz, QRowVector &pout_dBm, QRowVector &amPm_deg) {
     pout_dBm.clear();
     amPm_deg.clear();
 
@@ -537,8 +537,9 @@ bool MeasurementData::exportDataCsv(QString path) {
         path += ".csv";
 
     QFile file(path);
-    if (!file.open(QFile::WriteOnly))
+    if (!file.open(QFile::WriteOnly)) {
         return false;
+    }
 
     QTextStream s(&file);
     s << _header;
@@ -551,6 +552,7 @@ bool MeasurementData::exportDataCsv(QString path) {
     s << "Pin_deg,";
     s << "Pout_dBm,";
     s << "Pout_deg,";
+    s << "AMPM_deg,";
     s << "S11_dB,";
     s << "S11_deg,";
     s << "S21_dB,";
@@ -564,34 +566,49 @@ bool MeasurementData::exportDataCsv(QString path) {
     for (int iFreq = 0; iFreq < _frequencies_Hz.size(); iFreq++) {
         const double freq_Hz = _frequencies_Hz[iFreq];
 
-        for (int iPower = 0; iPower < _pin_dBm.size(); iPower++) {
+        // Gather relevant values for freq_Hz
+        QRowVector pin_dBm;
+        ComplexRowVector s11, s21, s12, s22;
+        for (int iPower = 0; iPower < _measuredPin_dBm.size(); iPower++) {
             const int iCurrentFreq = _data[iPower].x().indexOf(freq_Hz);
-            if (iCurrentFreq == -1)
-                continue;
+            if (iCurrentFreq == -1) {
+                break; // instead of continue?
+            }
 
-            const ComplexDouble s11 = _data[iPower].y()[iCurrentFreq][0][0];
-            const ComplexDouble s21 = _data[iPower].y()[iCurrentFreq][1][0];
-            const ComplexDouble s12 = _data[iPower].y()[iCurrentFreq][0][1];
-            const ComplexDouble s22 = _data[iPower].y()[iCurrentFreq][1][1];
+            pin_dBm.append(_measuredPin_dBm[iPower][iCurrentFreq]);
+            s11.push_back(_data[iPower].y()[iCurrentFreq][0][0]);
+            s21.push_back(_data[iPower].y()[iCurrentFreq][1][0]);
+            s12.push_back(_data[iPower].y()[iCurrentFreq][0][1]);
+            s22.push_back(_data[iPower].y()[iCurrentFreq][1][1]);
+        }
 
+        // Calculate pout, AMPM
+        QRowVector pout_dBm, pout_deg, amPm_deg;
+        pout_dBm = add(pin_dBm, toDb(s21));
+        pout_deg = angle_deg(s21);
+        amPm_deg = unwrap(pout_deg, 360);
+        amPm_deg = subtract(amPm_deg, amPm_deg.first());
 
+        // Write values for freq_Hz to CSV
+        for (int iPower = 0; iPower < pin_dBm.size(); iPower++) {
             s << "\n";
             s.setFieldWidth(FIELD_WIDTH);
 
             s << toScientificNotationWithComma(freq_Hz);
-            s << toScientificNotationWithComma(_measuredPin_dBm[iPower][iCurrentFreq]);
+            s << toScientificNotationWithComma(pin_dBm[iPower]);
             s << toScientificNotationWithComma(0); // Pin_deg (0 by def)
-            s << toScientificNotationWithComma(_measuredPin_dBm[iPower][iCurrentFreq] + toDb(s21));
-            s << toScientificNotationWithComma(angle_deg(s21)); // Pout_deg ( = s21_deg by def)
-            s << toScientificNotationWithComma(toDb(s11));
-            s << toScientificNotationWithComma(angle_deg(s11));
-            s << toScientificNotationWithComma(toDb(s21));
-            s << toScientificNotationWithComma(angle_deg(s21));
-            s << toScientificNotationWithComma(toDb(s12));
-            s << toScientificNotationWithComma(angle_deg(s12));
-            s << toScientificNotationWithComma(toDb(s22));
+            s << toScientificNotationWithComma(pout_dBm[iPower]);
+            s << toScientificNotationWithComma(pout_deg[iPower]); // Pout_deg ( = s21_deg by def)
+            s << toScientificNotationWithComma(amPm_deg[iPower]);
+            s << toScientificNotationWithComma(toDb(s11[iPower]));
+            s << toScientificNotationWithComma(angle_deg(s11[iPower]));
+            s << toScientificNotationWithComma(toDb(s21[iPower]));
+            s << toScientificNotationWithComma(angle_deg(s21[iPower]));
+            s << toScientificNotationWithComma(toDb(s12)[iPower]);
+            s << toScientificNotationWithComma(angle_deg(s12[iPower]));
+            s << toScientificNotationWithComma(toDb(s22[iPower]));
             s.setFieldWidth(0);
-            s << toScientificNotation(angle_deg(s22));
+            s << toScientificNotation(angle_deg(s22[iPower]));
         }
     }
 

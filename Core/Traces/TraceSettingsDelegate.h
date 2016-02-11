@@ -9,6 +9,9 @@
 #include <QStyledItemDelegate>
 
 
+// Forward declare TracesWidget
+class TracesWidget;
+
 class TraceSettingsDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
@@ -18,6 +21,7 @@ public:
 
     void setFrequencies(const RsaToolbox::QRowVector &frequencies_Hz);
     void setPowers(const RsaToolbox::QRowVector &powers_dBm);
+    void setTracesWidget(TracesWidget *tracesWidget);
 
     virtual QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     virtual void setEditorData(QWidget *editor, const QModelIndex &index) const;
@@ -28,6 +32,7 @@ public:
 private:
     RsaToolbox::QRowVector _frequencies_Hz;
     RsaToolbox::QRowVector _powers_dBm;
+    TracesWidget *_tracesWidget;
 };
 
 #endif // TRACESETTINGSDELEGATE_H

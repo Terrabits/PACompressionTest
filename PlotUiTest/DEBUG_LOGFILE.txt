@@ -1,7 +1,7 @@
-R&S PA Compression Test Version 1.5.6
+R&S PA Compression Test Version 1.6
 (C) 2016 Rohde & Schwarz North America
 
-Thu Feb 4 18:19:59 2016
+Wed Feb 10 20:58:49 2016
 
 VNA INSTRUMENT INFO
 Connection:       TCPIP
@@ -112,6 +112,14 @@ Status: 0x0 Operation completed successfully.
 
 Read:     "ZVA-K7,ZVA-K17,ZVAB-SIM,ZVT8-B63,ZVT8-B64,ZVT8-B65,ZVT8-B66,ZVT8-B68,ZVA8-B16,ZVA8-B21,ZVA8-B22,ZVA8..."
 Bytes: 166
+Status: 0x0 Operation completed successfully.
+
+Write:    "*IDN?"
+Bytes: 6
+Status: 0x0 Operation completed successfully.
+
+Read:     "Rohde&Schwarz,ZVA8-4Port,1145101099999999,3.60"
+Bytes: 47
 Status: 0x0 Operation completed successfully.
 
 Write:    ":SYST:COMM:RDEV:TEUN:COUN?"

@@ -21,7 +21,7 @@ public:
 
     bool isValid();
     QString name;
-    QString yParameter; // S11, S21, S12, S22, Pin, Pout
+    QString yParameter; // S11, S21, S12, S22, Pin, Pout, AMPM
     QString xParameter; // Frequency, Pin, Pout
     QString atParameter; // Frequency, Pin, Compression, Maximum Gain
     double atValue; // if atParameter != Compression or Maximum Gain
@@ -42,6 +42,7 @@ public:
     bool isYReflection() const;
     bool isYInsertion() const;
     bool isYPower() const;
+    bool isYAmPm() const;
     bool isValidYParameter() const;
     QStringList possibleYParameters() const;
 

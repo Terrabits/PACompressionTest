@@ -34,9 +34,10 @@ private:
     bool isPreexistingTrace();
 
     RsaToolbox::QRowVector _x;
-    RsaToolbox::QRowVector _y_dBm;
-    RsaToolbox::ComplexRowVector _y;
-    static RsaToolbox::ComplexRowVector toComplex_dBm(RsaToolbox::QRowVector values);
+    RsaToolbox::QRowVector _y_formatted;
+    RsaToolbox::ComplexRowVector _y_complex;
+    static RsaToolbox::ComplexRowVector toComplex_dBm(RsaToolbox::QRowVector values_dBm);
+    static RsaToolbox::ComplexRowVector toComplex_deg(RsaToolbox::QRowVector values_deg);
     bool retrieveData();
 
     void createChannel();

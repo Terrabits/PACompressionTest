@@ -41,19 +41,27 @@ bool ProcessTrace::isPreexistingTrace() {
     return _vna->isTrace(_memoryTraceName);
 }
 
-ComplexRowVector ProcessTrace::toComplex_dBm(QRowVector powers_dBm) {
-    ComplexRowVector _result(powers_dBm.size());
-    for (int i = 0; i < powers_dBm.size(); i++) {
-        const double magnitude = toMagnitude(powers_dBm[i] - 13.0);
-        _result[i] = ComplexDouble(magnitude, 0);
+ComplexRowVector ProcessTrace::toComplex_dBm(QRowVector values_dBm) {
+    // 0 dBm: sqrt(5.0)/10.0 ...?????
+    const ComplexDouble zero_dBm(0.223606797749979, 0);
+    return multiply(toMagnitude(values_dBm), zero_dBm);
+}
+ComplexRowVector ProcessTrace::toComplex_deg(QRowVector values_deg) {
+    qDebug() << "ProcessTrace::toComplex_deg" << values_deg.size();
+    ComplexRowVector _result(values_deg.size());
+//    _result.resize(values_deg.size());
+    for (int i = 0; i < values_deg.size(); i++) {
+        const double rad = values_deg[i] * PI / 180.0;
+        _result[i] = ComplexDouble(cos(rad), sin(rad));
+        qDebug() << "rad " << rad << " <- deg " << values_deg[i] << ": complex " << _result[i].real() << _result[i].imag();
     }
     return _result;
 }
 
 bool ProcessTrace::retrieveData() {
     _x.clear();
-    _y.clear();
-    _y_dBm.clear();
+    _y_complex.clear();
+    _y_formatted.clear();
 
     if (_settings->isYPower()) {
         if (_settings->isXFrequency()) {
@@ -63,13 +71,13 @@ bool ProcessTrace::retrieveData() {
                     // y: Pin
                     // x: Frequency
                     // @: Compression
-                    _y_dBm = _data->powerInAtCompression_dBm();
+                    _y_formatted = _data->powerInAtCompression_dBm();
                 }
                 else {
                     // y: Pin
                     // x: Frequency
                     // @: MaxGain
-                    _y_dBm = _data->powerInAtMaxGain_dBm();
+                    _y_formatted = _data->powerInAtMaxGain_dBm();
                 }
             }
             else {
@@ -78,19 +86,19 @@ bool ProcessTrace::retrieveData() {
                     // y: Pout
                     // x: Frequency
                     // @: Compression
-                    _y_dBm = _data->powerOutAtCompression_dBm();
+                    _y_formatted = _data->powerOutAtCompression_dBm();
                 }
                 else if (_settings->isAtMaximumGain()) {
                     // y: Pout
                     // x: Frequency
                     // @: MaxGain
-                    _y_dBm = _data->powerOutAtMaxGain_dBm();
+                    _y_formatted = _data->powerOutAtMaxGain_dBm();
                 }
                 else {
                     // y: Pout
                     // x: Frequency
                     // @: Pin
-                    if (!_data->poutVsFrequency(_settings->atValue, _x, _y_dBm))
+                    if (!_data->poutVsFrequency(_settings->atValue, _x, _y_formatted))
                         return false;
                 }
             }
@@ -99,8 +107,24 @@ bool ProcessTrace::retrieveData() {
             // y: Pout
             // x: Pin
             // @: Frequency
-            if (!_data->poutVsPin(_settings->atValue, _x, _y_dBm))
+            if (!_data->poutVsPin(_settings->atValue, _x, _y_formatted))
                 return false;
+        }
+    }
+    else if (_settings->isYAmPm()) {
+        if (_settings->isXPin()) {
+            // y: AMPM
+            // x: Pin
+            // @: Frequency
+            qDebug() << "yAmPmVsPin?" << _data->amPmVsPin(_settings->atValue, _x, _y_formatted);
+            qDebug() << "Points: " << _x.size() << _y_formatted.size();
+        }
+        else {
+            // y: AMPM
+            // x: Pout
+            // @: Frequency
+            qDebug() << "yAmPmVsPout?" << _data->amPmVsPout(_settings->atValue, _x, _y_formatted);
+            qDebug() << "Points: " << _x.size() << _y_formatted.size();
         }
     }
     else { // SParameter
@@ -127,34 +151,34 @@ bool ProcessTrace::retrieveData() {
             // x: Frequency
             // @: Compression
             _x = _data->frequencies_Hz();
-            _y = _data->sParameterAtCompression(outputPort, inputPort);
+            _y_complex = _data->sParameterAtCompression(outputPort, inputPort);
         }
         else if (_settings->isAtMaximumGain()) {
             // y: SParameter
             // x: Frequency
             // @: MaxGain
             _x = _data->frequencies_Hz();
-            _y = _data->sParameterAtMaxGain(outputPort, inputPort);
+            _y_complex = _data->sParameterAtMaxGain(outputPort, inputPort);
         }
         else if (_settings->isXFrequency()) {
             // y: SParameter
             // x: Frequency
             // @: Pin
-            if (!_data->sParameterVsFrequencyAtPin(_settings->atValue, outputPort, inputPort, _x, _y))
+            if (!_data->sParameterVsFrequencyAtPin(_settings->atValue, outputPort, inputPort, _x, _y_complex))
                 return false;
         }
         else if (_settings->isXPin()) {
             // y: SParameter
             // x: Pin
             // @: Frequency
-            if (!_data->sParameterVsPin(_settings->atValue, outputPort, inputPort, _x, _y))
+            if (!_data->sParameterVsPin(_settings->atValue, outputPort, inputPort, _x, _y_complex))
                 return false;
         }
         else {
             // y: SParameter
             // x: Pout
             // @: Frequency
-            if (!_data->sParameterVsPout(_settings->atValue, outputPort, inputPort, _x, _y))
+            if (!_data->sParameterVsPout(_settings->atValue, outputPort, inputPort, _x, _y_complex))
                 return false;
         }
     }
@@ -178,6 +202,7 @@ void ProcessTrace::updateChannel() {
         }
     }
     else {
+        // x: dBm
         if (_vna->channel(_channel).sweepType() != VnaChannel::SweepType::Power) {
             _vna->deleteChannel(_channel);
             createChannel();
@@ -211,6 +236,7 @@ void ProcessTrace::createChannel() {
             _vna->channel(_channel).powerSweep().setFrequency(_settings->atValue);
     }
     else {
+        // x: Hz
         channel.setFrequencies(_x);
         if (_settings->isAtValue())
             _vna->channel(_channel).segmentedSweep().setPower(_settings->atValue);
@@ -236,8 +262,12 @@ void ProcessTrace::createTrace() {
     else if (_settings->isYPin()) {
         _vna->trace(_dataTraceName).setWaveQuantity(WaveQuantity::a, inputPort);
     }
-    else /*if (_settings->isYPout())*/ {
+    else if (_settings->isYPout()) {
         _vna->trace(_dataTraceName).setWaveQuantity(WaveQuantity::b, outputPort);
+    }
+    else /*if (_settings->isYAmPm())*/ {
+        _vna->trace(_dataTraceName).setNetworkParameter(NetworkParameter::S, outputPort, inputPort);
+        _vna->trace(_dataTraceName).setFormat(TraceFormat::UnwrappedPhase);
     }
 
     _vna->createDiagram(_diagram);
@@ -264,12 +294,23 @@ void ProcessTrace::updateTrace() {
         }
 
         if (!_vna->properties().isZvaFamily()) {
-            trace.write(_y_dBm);
+            trace.write(_y_formatted);
         }
         else {
-            // 0 dBm: sqrt(5.0)/10.0 ...?????
-            const ComplexDouble zero_dBm(0.223606797749979, 0);
-            trace.write(multiply(toMagnitude(_y_dBm), zero_dBm));
+            trace.write(toComplex_dBm(_y_formatted));
+        }
+    }
+    else if (_settings->isYAmPm()) {
+        _vna->trace(_dataTraceName).setNetworkParameter(NetworkParameter::S, outputPort, inputPort);
+        _vna->trace(_dataTraceName).setFormat(TraceFormat::UnwrappedPhase);
+        _vna->trace(_dataTraceName).toMemory(_memoryTraceName);
+        _vna->trace(_memoryTraceName).setFormat(TraceFormat::UnwrappedPhase);
+
+        if (!_vna->properties().isZvaFamily()) {
+            _vna->trace(_memoryTraceName).write(_y_formatted);
+        }
+        else {
+            _vna->trace(_memoryTraceName).write(toComplex_deg(_y_formatted));
         }
     }
     else {
@@ -294,13 +335,13 @@ void ProcessTrace::updateTrace() {
             _vna->trace(_memoryTraceName).setNetworkParameter(NetworkParameter::S, inputPort, outputPort);
         }
 
-        trace.write(_y);
+        trace.write(_y_complex);
     }
 }
 
 void ProcessTrace::debugPrint(const QString &name) {
     qDebug() << "  at \'" << name << "\':";
     qDebug() << "    x.size:     " << _x.size();
-    qDebug() << "    y.size:     " << _y.size();
-    qDebug() << "    y_dBm.size: " << _y_dBm.size();
+    qDebug() << "    y.size:     " << _y_complex.size();
+    qDebug() << "    y_dBm.size: " << _y_formatted.size();
 }

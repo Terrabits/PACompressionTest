@@ -37,7 +37,8 @@ int main(int argc, char *argv[])
 
     QDir sourceDir(SOURCE_DIR);
     MeasurementData data;
-    data.open(sourceDir.filePath("measurementData.dat"));
+    qDebug() << "Opening " << sourceDir.filePath("measurementData.dat");
+    qDebug() << data.open(sourceDir.filePath("measurementData.dat"));
     data.createExportFileHeader(vna);
     data.exportToZip(sourceDir.filePath("exportedMeasurementData.zip"));
     return 0;

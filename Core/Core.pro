@@ -17,11 +17,15 @@ include($$PWD/SpeedTracker/speedtracker.pri)
 HEADERS     += Settings.h \
                MeasurementData.h \
                MeasurementSettings.h \
-               ProcessTrace.h
+               ProcessTrace.h \
+    SettingsPage.h \
+    ProgressPage.h
 INCLUDEPATH += $$PWD
 SOURCES     += MeasurementData.cpp \
                MeasurementSettings.cpp \
-               ProcessTrace.cpp
+               ProcessTrace.cpp \
+    SettingsPage.cpp \
+    ProgressPage.cpp
 #FORMS       += .ui
 #RESOURCES   += .qrc
 OTHER_FILES += ../Documentation/GCA.csv
@@ -29,3 +33,7 @@ OTHER_FILES += ../Documentation/GCA.csv
 DEFINES     += SOURCE_DIR=\\\"$$PWD/\\\"
 CONFIG(debug, debug|release):DEFINES += DEBUG_MODE
 CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
+
+FORMS += \
+    SettingsPage.ui \
+    ProgressPage.ui

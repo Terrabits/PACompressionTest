@@ -32,10 +32,8 @@ private:
     Ui::MainWindow *ui;
 
     RsaToolbox::Keys &_keys;
-    void loadKeys();
-    void saveKeys();
-
     RsaToolbox::Vna &_vna;
+
     MeasurementData _data;
 };
 

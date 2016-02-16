@@ -82,7 +82,7 @@ QWidget *TraceSettingsDelegate::createEditor(QWidget *parent, const QStyleOption
             frequencyEdit->setParameterName("Frequency");
             frequencyEdit->setAcceptedValues(_frequencies_Hz);
             connect(frequencyEdit, SIGNAL(outOfRange(QString)),
-                    _tracesWidget, SIGNAL(error(QString)));
+                    _tracesWidget, SLOT(delegateError(QString)));
             return frequencyEdit;
         }
         else if (model->traces()[row].isAtPin()) {
@@ -90,7 +90,7 @@ QWidget *TraceSettingsDelegate::createEditor(QWidget *parent, const QStyleOption
             powerEdit->setParameterName("Power");
             powerEdit->setAcceptedValues(_powers_dBm);
             connect(powerEdit, SIGNAL(outOfRange(QString)),
-                    _tracesWidget, SIGNAL(error(QString)));
+                    _tracesWidget, SLOT(delegateError(QString)));
             return powerEdit;
         }
     default:

@@ -2,8 +2,7 @@
 
 // RsaPaCompressionTest
 #include "Settings.h"
-#include "mainwindow.h"
-#include "MeasurementData.h"
+#include "SettingsPage.h"
 
 // RsaToolbox
 #include "Log.h"
@@ -35,17 +34,18 @@ int main(int argc, char *argv[])
     if (isNoConnection(vna) || isUnknownModel(vna))
             return(0);
 
-//    QDir sourceDir(SOURCE_DIR);
-//    MeasurementData data;
-//    qDebug() << "Opening " << sourceDir.filePath("measurementData.dat");
-//    qDebug() << "Opened? " << data.open(sourceDir.filePath("measurementData.dat"));
-//    data.createExportFileHeader(vna);
-//    data.exportToZip(sourceDir.filePath("exportedMeasurementData.zip"));
-//    return 0;
+    SettingsPage page;
+    page.setVna(&vna);
+    page.setKeys(&keys);
+    page.loadKeys();
+    page.show();
 
-    MainWindow w(vna, keys);
-    w.show();
-    return app.exec();
+    int result = app.exec();
+
+    if (page.hasAcceptableInput())
+        page.saveKeys();
+
+    return result;
 }
 
 bool isNoConnection(Vna &vna) {

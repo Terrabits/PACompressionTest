@@ -2,17 +2,26 @@
 #include "ui_TracesWidget.h"
 
 
+// Project
+#include "Settings.h"
+
+// RsaToolbox
+using namespace RsaToolbox;
+
 // Qt
 #include <QDebug>
 
 
 TracesWidget::TracesWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::TracesWidget)
+    ui(new ::Ui::TracesWidget),
+    _keys(NULL)
 {
     ui->setupUi(this);
 
     ui->table->setModel(&_model);
+
+    _delegate.setTracesWidget(this);
     ui->table->setItemDelegate(&_delegate);
 
     connect(&_model, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
@@ -27,11 +36,39 @@ TracesWidget::TracesWidget(QWidget *parent) :
             this, SIGNAL(tracesChanged()));
 
     setFixedColumnWidths();
+
+    connect(ui->exportButton, SIGNAL(clicked()),
+            this, SIGNAL(exportClicked()));
+    connect(ui->closeButton, SIGNAL(clicked()),
+            this, SIGNAL(closeClicked()));
+    connect(ui->plotButton, SIGNAL(clicked()),
+            this, SIGNAL(plotClicked()));
 }
 
 TracesWidget::~TracesWidget()
 {
     delete ui;
+}
+
+void TracesWidget::setKeys(Keys *keys) {
+    _keys = keys;
+}
+void TracesWidget::loadKeys() {
+    if (!_keys)
+        return;
+
+    if (_keys->exists(TRACES_KEY)) {
+        QVector<TraceSettings> traces;
+        _keys->get(TRACES_KEY, traces);
+        _model.setTraces(traces);
+    }
+}
+void TracesWidget::saveKeys() const {
+    if (!_keys)
+        return;
+
+    // Assumes valid input
+    _keys->set(TRACES_KEY, _model.traces());
 }
 
 void TracesWidget::setFrequencies(const RsaToolbox::QRowVector &frequencies_Hz) {
@@ -44,24 +81,23 @@ void TracesWidget::setPowers(const RsaToolbox::QRowVector &powers_dBm) {
 }
 
 bool TracesWidget::isTracesValid() {
-    QString msg;
-    const bool valid = isTracesValid(msg);
-    if (!valid)
-        emit error(msg);
-    return valid;
-}
-bool TracesWidget::isTracesValid(QString &message) const {
-    message.clear();
-    QVector<TraceSettings> _traces = traces();
+    QString message;
 
     QStringList names;
+    QVector<TraceSettings> _traces = traces();
     for (int i = 0; i < _traces.size(); i++) {
+        // Validate trace settings?
+        // ?
+
+        // Validate name
         const QString name = _traces[i].name;
         if (name.isEmpty()) {
             message = "*Name cannot be blank";
             ui->table->selectionModel()->select(_model.index(i, TraceSettingsModel::Column::name), QItemSelectionModel::ClearAndSelect);
             ui->table->selectionModel()->setCurrentIndex(_model.index(i, TraceSettingsModel::Column::name), QItemSelectionModel::ClearAndSelect);
             ui->table->setFocus();
+            ui->error->showMessage(message);
+            emit inputError(message);
             return false;
         }
         if (names.contains(name, Qt::CaseInsensitive)) {
@@ -69,9 +105,10 @@ bool TracesWidget::isTracesValid(QString &message) const {
             ui->table->selectionModel()->select(_model.index(i, TraceSettingsModel::Column::name), QItemSelectionModel::ClearAndSelect);
             ui->table->selectionModel()->setCurrentIndex(_model.index(i, TraceSettingsModel::Column::name), QItemSelectionModel::ClearAndSelect);
             ui->table->setFocus();
+            ui->error->showMessage(message);
+            emit inputError(message);
             return false;
         }
-
         names << name;
     }
 
@@ -109,6 +146,10 @@ void TracesWidget::on_remove_clicked()
                 ui->table->selectRow(traces().size()-1);
         }
     }
+}
+void TracesWidget::delegateError(const QString &message) {
+    ui->error->showMessage(message);
+    emit inputError(message);
 }
 
 void TracesWidget::setFixedColumnWidths() {

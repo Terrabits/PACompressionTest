@@ -26,7 +26,7 @@
     <item>
      <widget class="QStackedWidget" name="pages">
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="settingsPage">
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -602,9 +602,7 @@
          </widget>
         </item>
         <item>
-         <widget class="TracesWidget" name="tracesWidget" native="true">
-          <zorder>traceError</zorder>
-         </widget>
+         <widget class="TracesWidget" name="tracesWidget" native="true"/>
         </item>
         <item>
          <widget class="RsaToolbox::ErrorLabel" name="traceError" native="true"/>
@@ -684,12 +682,6 @@
    <header>FrequencyEdit.h</header>
   </customwidget>
   <customwidget>
-   <class>RsaToolbox::ErrorLabel</class>
-   <extends>QWidget</extends>
-   <header>ErrorLabel.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>RsaToolbox::PowerEdit</class>
    <extends>QLineEdit</extends>
    <header>PowerEdit.h</header>
@@ -698,6 +690,12 @@
    <class>RsaToolbox::DecibelEdit</class>
    <extends>QLineEdit</extends>
    <header>DecibelEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>RsaToolbox::ErrorLabel</class>
+   <extends>QWidget</extends>
+   <header>ErrorLabel.h</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>QCustomPlot</class>

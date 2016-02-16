@@ -19,22 +19,23 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->tracesWidget, SIGNAL(error(QString)),
-            ui->error, SLOT(showMessage(QString)));
-    connect(ui->button, SIGNAL(clicked()),
-            this, SLOT(plot()));
-
     QDir sourceDir(SOURCE_DIR);
     _data.open(sourceDir.filePath("measurementData.dat"));
     ui->tracesWidget->setFrequencies(_data.frequencies_Hz());
     ui->tracesWidget->setPowers(_data.pin_dBm());
-    loadKeys();
     ui->tracesWidget->isTracesValid();
+
+    ui->tracesWidget->setKeys(&keys);
+    ui->tracesWidget->loadKeys();
+
+    connect(ui->tracesWidget, SIGNAL(closeClicked()),
+            this, SLOT(close()));
+    connect(ui->tracesWidget, SIGNAL(plotClicked()),
+            this, SLOT(plot()));
 }
 
 MainWindow::~MainWindow()
-{
-    saveKeys();
+{   
     delete ui;
 }
 
@@ -52,16 +53,5 @@ void MainWindow::plot() {
         ProcessTrace(&(traces[i]), &_data, &_vna, diagram);
     }
     _vna.local();
-    saveKeys();
-}
-
-void MainWindow::loadKeys() {
-    if (_keys.exists(TRACES_KEY)) {
-        QVector<TraceSettings> traces;
-        _keys.get(TRACES_KEY, traces);
-        ui->tracesWidget->setTraces(traces);
-    }
-}
-void MainWindow::saveKeys() {
-    _keys.set(TRACES_KEY, ui->tracesWidget->traces());
+    ui->tracesWidget->saveKeys();
 }

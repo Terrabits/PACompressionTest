@@ -404,8 +404,8 @@ void MainWindow::saveKeys() {
 
     // Miscellaneous
     _keys.set(CHANNEL_KEY, ui->channel->currentText());
-    _keys.set(OUTPUT_PORT_KEY, ui->outputPort->points());
-    _keys.set(INPUT_PORT_KEY, ui->inputPort->points());
+    _keys.set(OUTPUT_PORT_KEY, quint32(ui->outputPort->points()));
+    _keys.set(INPUT_PORT_KEY, quint32(ui->inputPort->points()));
     _keys.set(SWEEP_TYPE_KEY, ui->sweepType->currentText());
 
     // Traces

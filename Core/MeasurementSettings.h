@@ -14,6 +14,12 @@
 class MeasurementSettings
 {
 public:
+
+    enum /*class*/ SweepType {
+        Frequency,
+        Power
+    };
+
     MeasurementSettings();
     ~MeasurementSettings();
 
@@ -49,6 +55,11 @@ public:
     void setOutputPort(uint port);
     void setInputPort(uint port);
 
+    bool isFrequencySweep() const;
+    bool isPowerSweep() const;
+    SweepType sweepType() const;
+    void setSweepType(SweepType type);
+
     bool isValid(RsaToolbox::Vna &vna) const;
     bool isValid(RsaToolbox::Vna &vna, QString &errorMessage) const;
 
@@ -75,6 +86,7 @@ private:
     uint _channel;
     uint _inputPort;
     uint _outputPort;
+    SweepType _sweepType;
 };
 
 QDataStream &operator>>(QDataStream &stream, MeasurementSettings &settings);

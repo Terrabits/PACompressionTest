@@ -29,20 +29,26 @@ public:
     explicit MainWindow(RsaToolbox::Vna &_vna, RsaToolbox::Keys &_keys, QWidget *parent = 0);
     ~MainWindow();
 
+    enum /*class*/ GuiState {
+        Configuration,
+        Progress,
+        Mini
+    };
+
 protected:
+    bool askCancelMeasurement();
     virtual void closeEvent(QCloseEvent *event);
     
 private slots:
-    // Buttons
-    void on_measure_clicked();
-    void on_exportData_clicked();
-
-    void updatePowerSpacing();
-
-    void plotMaxGain(const RsaToolbox::QRowVector &frequency_Hz, const RsaToolbox::QRowVector &gain_dB);
-    void plotPinAtCompression(const RsaToolbox::QRowVector &frequency_Hz, const RsaToolbox::QRowVector &pin_dBm);
+    void startMeasurement();
+    void cancelMeasurement();
     void measurementFinished();
 
+    void exportData();
+    void processTraces();
+
+    void showMessage(const QString &message);
+    void showMessage(const QString &message, Qt::GlobalColor color);
     void shake();
 
 private:
@@ -50,25 +56,34 @@ private:
     RsaToolbox::Vna &_vna;
 
     MeasurementSettings _settings;
-    QScopedPointer<MeasurementData> _results;
+
     QScopedPointer<MeasureThread> _thread;
     MeasureThread *createThread();
 
+    QScopedPointer<MeasurementData> _results;
+    void showResults();
+    void clearResults();
+
+    // Keys
     RsaToolbox::Keys &_keys;
     RsaToolbox::LastPath _exportPath;
     void loadKeys();
-    void saveKeys();
-    bool processSettings();
 
+    // Gui
     bool _isMeasuring;
-    QRect _settingsGeometry;
-    QRect progressGeometry() const;
-    QRect tracesGeometry() const;
-    void showProgressPage();
-    void showSettingsPage();
-    void showTracesPage();
+    GuiState _guiState;
 
-    void setupPlot();
+    QRect _defaultGeometry;
+    void showConfiguration();
+
+    QRect progressGeometry() const;
+    void prepareProgressPage();
+    void showProgressPage();
+    void disconnectProgressPage();
+
+    void showMini();
+    void prepareMiniForMeasurement();
+    void disconnectMini();
 };
 
 

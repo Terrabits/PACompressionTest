@@ -23,647 +23,78 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout_4">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
     <item>
      <widget class="QStackedWidget" name="pages">
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
-      <widget class="QWidget" name="settingsPage">
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <property name="spacing">
-         <number>0</number>
-        </property>
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <widget class="QWidget" name="settings" native="true">
-          <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0">
-           <property name="spacing">
-            <number>6</number>
-           </property>
-           <property name="leftMargin">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QGroupBox" name="frequencyGroup">
-             <property name="font">
-              <font>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="title">
-              <string>Frequency</string>
-             </property>
-             <property name="flat">
-              <bool>false</bool>
-             </property>
-             <layout class="QGridLayout" name="gridLayout">
-              <item row="0" column="0">
-               <widget class="QLabel" name="startFrequencyLabel">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Start:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="ifBwLabel">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>IF Bw:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="stopFrequencyLabel">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Stop:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="frequencyPointsLabel">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Points:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="RsaToolbox::PointsEdit" name="frequencyPoints">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="RsaToolbox::FrequencyEdit" name="startFrequency">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="RsaToolbox::FrequencyEdit" name="stopFrequency">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="RsaToolbox::FrequencyEdit" name="ifBw">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QGroupBox" name="powerGroup">
-             <property name="font">
-              <font>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="title">
-              <string>Power</string>
-             </property>
-             <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,1,0">
-              <item row="6" column="1">
-               <widget class="QComboBox" name="postCondition">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="currentIndex">
-                 <number>0</number>
-                </property>
-                <item>
-                 <property name="text">
-                  <string>None</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>RF Off</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="pointsLabel">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Points:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="RsaToolbox::PowerEdit" name="startPower">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="stopPowerLabel">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Stop:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="RsaToolbox::PowerEdit" name="stopPower">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-               </widget>
-              </item>
-              <item row="6" column="0">
-               <widget class="QLabel" name="postConditionLabel">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Post-Condition:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="RsaToolbox::PointsEdit" name="powerPoints">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="0">
-               <widget class="QLabel" name="startPowerLabel">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Start:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="compressionLevelLabel">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Compression:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="RsaToolbox::DecibelEdit" name="compressionLevel">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="2">
-               <widget class="QCheckBox" name="gainExpansion">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Include Gain Expansion</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="2">
-               <widget class="QCheckBox" name="stopAtCompression">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Stop at compression</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="2">
-               <widget class="QWidget" name="powerSpacingWidget" native="true">
-                <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1">
-                 <property name="leftMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <widget class="QLabel" name="powerSpacingLabel">
-                   <property name="font">
-                    <font>
-                     <weight>50</weight>
-                     <bold>false</bold>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>ΔP:</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="powerSpacing">
-                   <property name="font">
-                    <font>
-                     <weight>50</weight>
-                     <bold>false</bold>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string/>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QGroupBox" name="portsGroup">
-             <property name="font">
-              <font>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="title">
-              <string>Miscellaneous</string>
-             </property>
-             <layout class="QGridLayout" name="gridLayout_5">
-              <item row="3" column="0">
-               <widget class="QLabel" name="sweepTypeLabel">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Sweep Type:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="inputPortLabel">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Input Port:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="outputPortLabel">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Output Port:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="RsaToolbox::PointsEdit" name="outputPort">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="0">
-               <widget class="QLabel" name="channelLabel">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Channel:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QComboBox" name="channel">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="RsaToolbox::PointsEdit" name="inputPort">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="QComboBox" name="sweepType">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <item>
-                 <property name="text">
-                  <string>Frequency</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_3">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
+      <widget class="QWidget" name="configurePage">
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
+         <widget class="QTabWidget" name="configureTabs">
+          <property name="tabShape">
+           <enum>QTabWidget::Rounded</enum>
           </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>24</height>
-           </size>
+          <property name="currentIndex">
+           <number>1</number>
           </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="RsaToolbox::ErrorLabel" name="error" native="true">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>23</height>
-           </size>
+          <property name="usesScrollButtons">
+           <bool>false</bool>
           </property>
+          <widget class="QWidget" name="settingsTab">
+           <attribute name="title">
+            <string>Settings</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout">
+            <item row="0" column="0">
+             <widget class="SettingsPage" name="settings" native="true"/>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tracesTab">
+           <attribute name="title">
+            <string>Traces</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_3">
+            <item row="0" column="0">
+             <widget class="TracesWidget" name="traces" native="true"/>
+            </item>
+           </layout>
+          </widget>
          </widget>
         </item>
        </layout>
       </widget>
       <widget class="QWidget" name="progressPage">
-       <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,0,0">
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <widget class="QCustomPlot" name="plot" native="true"/>
-        </item>
-        <item>
-         <widget class="RsaToolbox::TimedProgressBar" name="timedProgressBar" native="true">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>16777215</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QProgressBar" name="progressBar">
-          <property name="value">
-           <number>0</number>
-          </property>
-         </widget>
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="0">
+         <widget class="ProgressPage" name="progress" native="true"/>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tracesPage">
-       <layout class="QVBoxLayout" name="verticalLayout_5" stretch="0,1,0">
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>10</number>
-        </property>
-        <item>
-         <widget class="QLabel" name="tracesLabel">
-          <property name="font">
-           <font>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
+      <widget class="QWidget" name="miniPage">
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label">
           <property name="text">
-           <string>Traces:</string>
+           <string>MINI PROGRESS PAGE</string>
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="TracesWidget" name="tracesWidget" native="true"/>
-        </item>
-        <item>
-         <widget class="RsaToolbox::ErrorLabel" name="traceError" native="true"/>
-        </item>
        </layout>
       </widget>
-     </widget>
-    </item>
-    <item>
-     <widget class="QWidget" name="buttons" native="true">
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="QPushButton" name="exportData">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="text">
-          <string>Export Data</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QPushButton" name="cancel">
-         <property name="text">
-          <string>Close</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="measure">
-         <property name="text">
-          <string>Measure</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
      </widget>
     </item>
    </layout>
@@ -672,70 +103,24 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>RsaToolbox::PointsEdit</class>
-   <extends>QLineEdit</extends>
-   <header>PointsEdit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>RsaToolbox::FrequencyEdit</class>
-   <extends>QLineEdit</extends>
-   <header>FrequencyEdit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>RsaToolbox::PowerEdit</class>
-   <extends>QLineEdit</extends>
-   <header>PowerEdit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>RsaToolbox::DecibelEdit</class>
-   <extends>QLineEdit</extends>
-   <header>DecibelEdit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>RsaToolbox::ErrorLabel</class>
-   <extends>QWidget</extends>
-   <header>ErrorLabel.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>QCustomPlot</class>
-   <extends>QWidget</extends>
-   <header>qcustomplot.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>RsaToolbox::TimedProgressBar</class>
-   <extends>QWidget</extends>
-   <header>TimedProgressBar.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>TracesWidget</class>
    <extends>QWidget</extends>
    <header>TracesWidget.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>SettingsPage</class>
+   <extends>QWidget</extends>
+   <header>SettingsPage.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ProgressPage</class>
+   <extends>QWidget</extends>
+   <header>ProgressPage.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
- <tabstops>
-  <tabstop>startFrequency</tabstop>
-  <tabstop>stopFrequency</tabstop>
-  <tabstop>frequencyPoints</tabstop>
-  <tabstop>ifBw</tabstop>
-  <tabstop>startPower</tabstop>
-  <tabstop>stopPower</tabstop>
-  <tabstop>stopAtCompression</tabstop>
-  <tabstop>powerPoints</tabstop>
-  <tabstop>compressionLevel</tabstop>
-  <tabstop>gainExpansion</tabstop>
-  <tabstop>postCondition</tabstop>
-  <tabstop>channel</tabstop>
-  <tabstop>outputPort</tabstop>
-  <tabstop>inputPort</tabstop>
-  <tabstop>sweepType</tabstop>
-  <tabstop>exportData</tabstop>
-  <tabstop>cancel</tabstop>
-  <tabstop>measure</tabstop>
- </tabstops>
  <resources/>
  <connections/>
 </ui>

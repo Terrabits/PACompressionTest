@@ -20,6 +20,9 @@ public:
     explicit ProgressPage(QWidget *parent = 0);
     ~ProgressPage();
 
+signals:
+    void cancelClicked();
+
 public slots:
     void startMeasurement(double startFrequency_Hz, double stopFrequency_Hz, double startPower_dBm, double stopPower_dBm);
 

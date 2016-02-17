@@ -43,6 +43,10 @@ signals:
 
     void inputError();
 
+public slots:
+    void enableExport();
+    void disableExport();
+
 private slots:
     void updatePowerStepSize();
 

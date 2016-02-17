@@ -121,6 +121,19 @@ void TracesWidget::setTraces(const QVector<TraceSettings> &traces) {
     _model.setTraces(traces);
 }
 
+ErrorLabel *TracesWidget::errorLabel() {
+    return ui->error;
+}
+
+void TracesWidget::enableExportAndPlot() {
+    ui->exportButton->setEnabled(true);
+    ui->plotButton->setEnabled(true);
+}
+void TracesWidget::disableExportAndPlot() {
+    ui->exportButton->setDisabled(true);
+    ui->plotButton->setDisabled(true);
+}
+
 void TracesWidget::on_add_clicked()
 {
     QItemSelection selection = ui->table->selectionModel()->selection();

@@ -78,7 +78,7 @@ void SafeFrequencySweep::run() {
     sweep.setPower(power_dBm);
 
     if (isInterruptionRequested()) {
-        setError("*Measurement aborted");
+        setError("*Measurement cancelled");
         _results->clearAllData();
         _vna->deleteChannel(c);
         _vna->settings().displayOn();

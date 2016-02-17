@@ -10,6 +10,7 @@
 // RsaToolbox
 #include <Definitions.h>
 #include <Keys.h>
+#include <ErrorLabel.h>
 
 // Qt
 #include <QVector>
@@ -40,6 +41,8 @@ public:
     QVector<TraceSettings> traces() const;
     void setTraces(const QVector<TraceSettings> &traces);
 
+    RsaToolbox::ErrorLabel *errorLabel();
+
 signals:
     void exportClicked();
     void closeClicked();
@@ -47,6 +50,10 @@ signals:
 
     void inputError(const QString &message);
     void tracesChanged();
+
+public slots:
+    void enableExportAndPlot();
+    void disableExportAndPlot();
 
 protected slots:
     void delegateError(const QString &message);

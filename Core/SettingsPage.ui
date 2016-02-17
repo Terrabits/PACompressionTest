@@ -39,16 +39,16 @@
      </property>
      <layout class="QGridLayout" name="frequencyGridLayout" columnstretch="0,1">
       <property name="leftMargin">
-       <number>0</number>
+       <number>9</number>
       </property>
       <property name="topMargin">
-       <number>0</number>
+       <number>9</number>
       </property>
       <property name="rightMargin">
-       <number>0</number>
+       <number>9</number>
       </property>
       <property name="bottomMargin">
-       <number>0</number>
+       <number>9</number>
       </property>
       <item row="0" column="0">
        <widget class="QLabel" name="startFrequencyLabel">
@@ -158,16 +158,16 @@
      </property>
      <layout class="QGridLayout" name="powerGridLayout" columnstretch="0,1,0">
       <property name="leftMargin">
-       <number>0</number>
+       <number>9</number>
       </property>
       <property name="topMargin">
-       <number>0</number>
+       <number>9</number>
       </property>
       <property name="rightMargin">
-       <number>0</number>
+       <number>9</number>
       </property>
       <property name="bottomMargin">
-       <number>0</number>
+       <number>9</number>
       </property>
       <item row="0" column="0">
        <widget class="QLabel" name="startPowerLabel">
@@ -380,16 +380,16 @@
      </property>
      <layout class="QGridLayout" name="miscellaneousGridLayout" columnstretch="0,1">
       <property name="leftMargin">
-       <number>0</number>
+       <number>9</number>
       </property>
       <property name="topMargin">
-       <number>0</number>
+       <number>9</number>
       </property>
       <property name="rightMargin">
-       <number>0</number>
+       <number>9</number>
       </property>
       <property name="bottomMargin">
-       <number>0</number>
+       <number>9</number>
       </property>
       <item row="0" column="0">
        <widget class="QLabel" name="channelLabel">
@@ -510,8 +510,23 @@
    <item>
     <widget class="QWidget" name="widget" native="true">
      <layout class="QHBoxLayout" name="buttonHorizontalLayout">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QPushButton" name="exportButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="text">
          <string>Export</string>
         </property>
@@ -589,6 +604,26 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>startFrequency</tabstop>
+  <tabstop>stopFrequency</tabstop>
+  <tabstop>frequencyPoints</tabstop>
+  <tabstop>ifBw</tabstop>
+  <tabstop>startPower</tabstop>
+  <tabstop>stopPower</tabstop>
+  <tabstop>stopAtCompression</tabstop>
+  <tabstop>powerPoints</tabstop>
+  <tabstop>compression</tabstop>
+  <tabstop>includeGainExpansion</tabstop>
+  <tabstop>postCondition</tabstop>
+  <tabstop>channel</tabstop>
+  <tabstop>outputPort</tabstop>
+  <tabstop>inputPort</tabstop>
+  <tabstop>sweepType</tabstop>
+  <tabstop>exportButton</tabstop>
+  <tabstop>closeButton</tabstop>
+  <tabstop>measureButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

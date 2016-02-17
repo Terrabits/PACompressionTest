@@ -120,6 +120,19 @@ void MeasurementSettings::setInputPort(uint port) {
     _inputPort = port;
 }
 
+bool MeasurementSettings::isFrequencySweep() const {
+    return _sweepType == SweepType::Frequency;
+}
+bool MeasurementSettings::isPowerSweep() const {
+    return _sweepType == SweepType::Power;
+}
+MeasurementSettings::SweepType MeasurementSettings::sweepType() const {
+    return _sweepType;
+}
+void MeasurementSettings::setSweepType(SweepType type) {
+    _sweepType = type;
+}
+
 bool MeasurementSettings::isValid(Vna &vna) const {
     QString msg;
     return isValid(vna, msg);
@@ -227,6 +240,11 @@ bool MeasurementSettings::isValid(Vna &vna, QString &errorMessage) const {
 
     if (_outputPort == _inputPort) {
         errorMessage = "*Output port cannot be same as input port";
+        return false;
+    }
+
+    if (!isFrequencySweep() && !isPowerSweep()) {
+        errorMessage = "*Choose sweep type";
         return false;
     }
 
@@ -345,6 +363,8 @@ QDataStream &operator>>(QDataStream &stream, MeasurementSettings &settings) {
     settings.setOutputPort(_uint);
     stream >> _uint;
     settings.setInputPort(_uint);
+    stream >> _uint;
+    settings.setSweepType(MeasurementSettings::SweepType(_uint));
 
     return stream;
 }
@@ -362,6 +382,8 @@ QDataStream &operator<<(QDataStream &stream, const MeasurementSettings &settings
            << settings.isRfOffPostCondition()
            << quint32(settings.channel())
            << quint32(settings.outputPort())
-           << quint32(settings.inputPort());
+           << quint32(settings.inputPort())
+           << quint32(settings.sweepType());
+
     return stream;
 }

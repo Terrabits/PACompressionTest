@@ -12,6 +12,9 @@ ProgressPage::ProgressPage(QWidget *parent) :
     ui(new ::Ui::ProgressPage)
 {
     ui->setupUi(this);
+
+    connect(ui->cancelButton, SIGNAL(clicked()),
+            this, SIGNAL(cancelClicked()));
 }
 
 ProgressPage::~ProgressPage()

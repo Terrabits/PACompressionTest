@@ -353,12 +353,23 @@ MeasurementSettings SettingsPage::settings() const {
     _settings.setOutputPort(ui->outputPort->points());
     _settings.setInputPort(ui->inputPort->points());
     _settings.setRfOffPostCondition(ui->postCondition->currentText().compare("RF Off", Qt::CaseInsensitive) == 0);
+    if (ui->sweepType->currentText() == "Frequency")
+        _settings.setSweepType(MeasurementSettings::SweepType::Frequency);
+    else
+        _settings.setSweepType(MeasurementSettings::SweepType::Power);
 
     return _settings;
 }
 
 ErrorLabel *SettingsPage::errorLabel() {
     return ui->error;
+}
+
+void SettingsPage::enableExport() {
+    ui->exportButton->setEnabled(true);
+}
+void SettingsPage::disableExport() {
+    ui->exportButton->setDisabled(true);
 }
 
 void SettingsPage::updatePowerStepSize() {

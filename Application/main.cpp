@@ -39,8 +39,9 @@ int main(int argc, char *argv[])
     if (isNoConnection(vna) || isUnknownModel(vna))
             return(0);
 
+    Q_INIT_RESOURCE(CoreResources);
     MainWindow w(vna, keys);
-    w.setWindowFlags(w.windowFlags() | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint);
+    w.setWindowFlags(w.windowFlags() | Qt::WindowStaysOnTopHint); // Note: removed Qt::MSWindowsFixedSizeDialogHint
     w.show();
     return app.exec();
 }

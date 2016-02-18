@@ -39,6 +39,8 @@ TracesWidget::TracesWidget(QWidget *parent) :
 
     connect(ui->exportButton, SIGNAL(clicked()),
             this, SIGNAL(exportClicked()));
+    connect(ui->miniGuiButton, SIGNAL(clicked()),
+            this, SIGNAL(miniGuiClicked()));
     connect(ui->closeButton, SIGNAL(clicked()),
             this, SIGNAL(closeClicked()));
     connect(ui->plotButton, SIGNAL(clicked()),

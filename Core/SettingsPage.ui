@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>342</width>
-    <height>481</height>
+    <height>482</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -549,6 +549,29 @@
        </spacer>
       </item>
       <item>
+       <widget class="QPushButton" name="miniGuiButton">
+        <property name="minimumSize">
+         <size>
+          <width>23</width>
+          <height>23</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>23</width>
+          <height>23</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="resources.qrc">
+          <normaloff>:/Down_arrow.png</normaloff>:/Down_arrow.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="closeButton">
         <property name="text">
          <string>Close</string>
@@ -578,6 +601,12 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>RsaToolbox::ErrorLabel</class>
+   <extends>QWidget</extends>
+   <header>ErrorLabel.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
    <class>RsaToolbox::PointsEdit</class>
    <extends>QLineEdit</extends>
    <header>PointsEdit.h</header>
@@ -596,12 +625,6 @@
    <class>RsaToolbox::DecibelEdit</class>
    <extends>QLineEdit</extends>
    <header>DecibelEdit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>RsaToolbox::ErrorLabel</class>
-   <extends>QWidget</extends>
-   <header>ErrorLabel.h</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -624,6 +647,8 @@
   <tabstop>closeButton</tabstop>
   <tabstop>measureButton</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -51,6 +51,10 @@ private slots:
     void showMessage(const QString &message, Qt::GlobalColor color);
     void shake();
 
+    void miniGuiMode();
+    void standardGuiMode();
+    void restoreSizePolicy();
+
 private:
     Ui::MainWindow *ui;
     RsaToolbox::Vna &_vna;
@@ -73,17 +77,18 @@ private:
     bool _isMeasuring;
     GuiState _guiState;
 
-    QRect _defaultGeometry;
+    QRect _configureGeometry;
+    QRect _miniGeometry;
+
     void showConfiguration();
 
-    QRect progressGeometry() const;
     void prepareProgressPage();
     void showProgressPage();
     void disconnectProgressPage();
 
-    void showMini();
-    void prepareMiniForMeasurement();
-    void disconnectMini();
+    void showMiniGui();
+    void prepareMiniGuiForMeasurement();
+    void finishMiniGuiMeasurement();
 };
 
 

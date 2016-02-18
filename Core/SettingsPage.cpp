@@ -91,6 +91,8 @@ SettingsPage::SettingsPage(QWidget *parent) :
     // Buttons
     connect(ui->exportButton, SIGNAL(clicked()),
             this, SIGNAL(exportClicked()));
+    connect(ui->miniGuiButton, SIGNAL(clicked()),
+            this, SIGNAL(miniGuiClicked()));
     connect(ui->closeButton, SIGNAL(clicked()),
             this, SIGNAL(closeClicked()));
     connect(ui->measureButton, SIGNAL(clicked()),

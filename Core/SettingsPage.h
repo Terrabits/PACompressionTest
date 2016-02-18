@@ -38,6 +38,7 @@ public:
 
 signals:
     void exportClicked();
+    void miniGuiClicked();
     void closeClicked();
     void measureClicked();
 

@@ -10,7 +10,7 @@
 
 // Application settings
 const QString APP_NAME = "R&S PA Compression Test";
-const QString APP_VERSION = "1.7";
+const QString APP_VERSION = "2.0";
 const QString MANUFACTURER_FOLDER = "Rohde-Schwarz";
 const QString APP_FOLDER = "PA Compression Test";
 const QString APP_DESCRIPTION = "Measure the compression point of a Power Amplifier";
@@ -57,6 +57,8 @@ const QString SWEEP_TYPE_KEY             = "SWEEP_TYPE";
 
 const QString TRACES_KEY                 = "TRACES";
 
+const QString STANDARD_GEOMETRY_KEY      = "STANDARD_GEOMETRY";
+const QString MINI_GEOMETRY_KEY          = "MINI_GEOMETRY_KEY";
 const QString EXPORT_PATH_KEY            = "EXPORT_PATH";
 #endif
 

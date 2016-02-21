@@ -18,28 +18,23 @@ HEADERS     += Settings.h \
                MeasurementData.h \
                MeasurementSettings.h \
                ProcessTrace.h \
-    SettingsPage.h \
-    ProgressPage.h \
-    MiniPage.h
+               SettingsPage.h \
+               ProgressPage.h \
+               MiniPage.h
 INCLUDEPATH += $$PWD
 SOURCES     += MeasurementData.cpp \
                MeasurementSettings.cpp \
                ProcessTrace.cpp \
-    SettingsPage.cpp \
-    ProgressPage.cpp \
-    MiniPage.cpp
-#FORMS       += .ui
-#RESOURCES   += .qrc
+               SettingsPage.cpp \
+               ProgressPage.cpp \
+               MiniPage.cpp
+FORMS       += SettingsPage.ui \
+               ProgressPage.ui \
+               MiniPage.ui
+RESOURCES   += CoreResources.qrc
 OTHER_FILES += ../Documentation/GCA.csv
 
 DEFINES     += SOURCE_DIR=\\\"$$PWD/\\\"
 CONFIG(debug, debug|release):DEFINES += DEBUG_MODE
 CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
 
-FORMS += \
-    SettingsPage.ui \
-    ProgressPage.ui \
-    MiniPage.ui
-
-RESOURCES += \
-    CoreResources.qrc

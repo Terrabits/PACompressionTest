@@ -13,7 +13,6 @@ DEPENDPATH  += $$PWD \
                $$PWD/Traces \
                $$PWD/MeasureThread \
                $$PWD/SpeedTracker
-#RESOURCES   += $$PWD/Resources.qrc
 
 win32 {
     # C++11 enum class warnings:

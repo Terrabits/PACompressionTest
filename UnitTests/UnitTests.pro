@@ -12,13 +12,15 @@ HEADERS     += SafeFrequencySweepTest.h \
                SpeedTrackerTest.h \
                TraceSettingsTest.h \
                ProcessTraceTest.h \
-               MeasureDataTest.h
+               MeasureDataTest.h \
+    HeaderTest.h
 SOURCES     += main.cpp \
                SafeFrequencySweepTest.cpp \
                SpeedTrackerTest.cpp \
                TraceSettingsTest.cpp \
                ProcessTraceTest.cpp \
-               MeasureDataTest.cpp
+               MeasureDataTest.cpp \
+    HeaderTest.cpp
 OTHER_FILES += SafeFrequencySweepTest_Log.txt
 
 DEFINES   += SOURCE_DIR=\\\"$$PWD/\\\"

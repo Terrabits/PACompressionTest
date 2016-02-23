@@ -184,23 +184,25 @@ void MainWindow::measurementFinished() {
         // Maximized
         disconnectProgressPage();
         showConfiguration();
+        ui->configureTabs->setCurrentWidget(ui->tracesTab);
     }
     else {
-        // Minimized
         finishMiniGuiMeasurement();
+    }
+
+    if (_thread->isError()) {
+        showMessage(_thread->errorMessage());
+        _thread.reset();
+        shake();
+        return;
+    }
+
+    _results.reset(_thread->takeResults());
+    _thread.reset();
+    if (_guiState == GuiState::Mini) {
         processTraces();
     }
-
-    if (!_thread->isError()) {
-        _results.reset(_thread->takeResults());
-        showResults();
-    }
-    else {
-        showMessage(_thread->errorMessage());
-        shake();
-    }
-
-    _thread.reset();
+    showResults();
     _vna.local();
 }
 
@@ -211,14 +213,12 @@ void MainWindow::exportData() {
                                                     "Zip (*.zip)");
     if (filename.isEmpty())
         return;
-
-//    _results->save(QDir(SOURCE_DIR).filePath("measurementData.dat")); // Save data for testing purposes
     if (_results->exportToZip(filename)) {
         _exportPath.setFromFilePath(filename);
         showMessage("Export Sucessful!", Qt::darkGreen);
     }
     else {
-        showMessage("*Error saving export file.");
+        showMessage("*Error exporting file.");
     }
 }
 void MainWindow::processTraces() {

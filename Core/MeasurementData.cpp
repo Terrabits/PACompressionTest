@@ -320,15 +320,15 @@ void MeasurementData::createExportFileHeader(Vna &vna) {
     QTextStream stream(&_header);
     stream << generateApplicationHeader();
     stream << generateCopyright();
-    stream << "! " << endl;
+    stream << "!" << endl;
     stream << generateTimeStamp();
-    stream << "! " << endl;
+    stream << "!" << endl;
     stream << generateVnaInfo(vna);
-    stream << "! " << endl;
+    stream << "!" << endl;
     stream << generatePulsedRfInfo(vna);
-    stream << "! " << endl;
+    stream << "!" << endl;
     stream << generateSettingsSummary();
-    stream << "! " << endl;
+    stream << "!" << endl;
     stream.flush();
 }
 QString MeasurementData::generateApplicationHeader() const {
@@ -395,9 +395,10 @@ QString MeasurementData::generatePulsedRfInfo(Vna &vna) const {
     bool isPulsedRf = vna.isExtensionUnit() && vna.channel(c).extensionUnit().isPulseModulatorOn(inputPort);
     if (isPulsedRf) {
         stream << "Yes" << endl;
-        stream << "! Delay:       " << formatValue(vna.channel(c).pulseGenerator().delay_s(), 3, Units::Seconds) << endl;
-        stream << "! Pulse Width: " << formatValue(vna.channel(c).pulseGenerator().pulseWidth_s(), 3, Units::Seconds) << endl;
-        stream << "! Period:      " << formatValue(vna.channel(c).pulseGenerator().period_s(), 3, Units::Seconds) << endl << endl;
+        stream << "! Pulse Width:   " << formatValue(vna.channel(c).pulseGenerator().pulseWidth_s(), 3, Units::Seconds) << endl;
+        stream << "! Period:        " << formatValue(vna.channel(c).pulseGenerator().period_s(), 3, Units::Seconds) << endl;
+        stream << "! Trigger delay: " << formatValue(vna.channel(c).trigger().delay_ms(), 3, Units::Seconds) << endl;
+        stream << "!" << endl;
     }
     else {
         stream << "No" << endl;
@@ -415,7 +416,7 @@ QString MeasurementData::generateSettingsSummary() const {
     stream << "! Stop Frequency:         " << formatValue(_settings.stopFrequency_Hz(), 3, Units::Hertz) << endl;
     stream << "! Frequency Points:       " << _settings.frequencyPoints() << endl;
     stream << "! IF BW:                  " << formatValue(_settings.ifBw_Hz(), 3, Units::Hertz) << endl;
-    stream << "! " << endl;
+    stream << "!" << endl;
     stream << "! Start Power:            " << formatValue(_settings.startPower_dBm(), 3, Units::dBm) << endl;
     stream << "! Stop Power:             " << formatValue(_settings.stopPower_dBm(), 3, Units::dBm) << endl;
     stream << "! Power Points:           " << _settings.powerPoints() << endl;
@@ -435,12 +436,12 @@ QString MeasurementData::generateSettingsSummary() const {
         stream << "RF Off" << endl;
     else
         stream << "None" << endl;
-    stream << "! " << endl;
+    stream << "!" << endl;
 
     stream << "! Channel:                " << _settings.channel() << endl;
     stream << "! Input port:             " << _settings.inputPort() << endl;
     stream << "! Output port:            " << _settings.outputPort() << endl;
-    stream << "! " << endl;
+    stream << "!" << endl;
 
     stream.flush();
     return summary;

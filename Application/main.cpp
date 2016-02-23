@@ -14,6 +14,7 @@ using namespace RsaToolbox;
 // Qt
 #include <QApplication>
 #include <QMessageBox>
+#include <QDebug>
 
 
 bool isAboutMenu(int argc, char *argv[]);

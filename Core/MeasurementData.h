@@ -46,7 +46,7 @@ public:
     RsaToolbox::QRowVector &powerOutAtCompression_dBm();
 
     bool sParameterVsPin(double frequency_Hz, uint outputPort, uint inputPort, RsaToolbox::QRowVector &pin_dBm, RsaToolbox::ComplexRowVector &sParameter);
-    bool sParameterVsPout(double frequency_Hz, uint outputPort, uint inputPort, RsaToolbox::QRowVector &pout_dBm, RsaToolbox::ComplexRowVector &sParameter); // New!
+    bool sParameterVsPout(double frequency_Hz, uint outputPort, uint inputPort, RsaToolbox::QRowVector &pout_dBm, RsaToolbox::ComplexRowVector &sParameter);
     RsaToolbox::ComplexRowVector sParameterAtCompression(uint outputPort, uint inputPort);
     RsaToolbox::ComplexRowVector sParameterAtMaxGain(uint outputPort, uint inputPort);
     bool sParameterVsFrequencyAtPin(double pin_dBm, uint outputPort, uint inputPort, RsaToolbox::QRowVector &frequencies_Hz, RsaToolbox::ComplexRowVector &sParameter);

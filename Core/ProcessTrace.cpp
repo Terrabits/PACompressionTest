@@ -18,7 +18,6 @@ ProcessTrace::ProcessTrace(TraceSettings *settings, MeasurementData *data, Vna *
     _dataTraceName = _channelName;
 
     if (!retrieveData()) {
-        qDebug() << "Could not retrieve data";
         return;
     }
 
@@ -47,13 +46,11 @@ ComplexRowVector ProcessTrace::toComplex_dBm(QRowVector values_dBm) {
     return multiply(toMagnitude(values_dBm), zero_dBm);
 }
 ComplexRowVector ProcessTrace::toComplex_deg(QRowVector values_deg) {
-    qDebug() << "ProcessTrace::toComplex_deg" << values_deg.size();
     ComplexRowVector _result(values_deg.size());
 //    _result.resize(values_deg.size());
     for (int i = 0; i < values_deg.size(); i++) {
         const double rad = values_deg[i] * PI / 180.0;
         _result[i] = ComplexDouble(cos(rad), sin(rad));
-        qDebug() << "rad " << rad << " <- deg " << values_deg[i] << ": complex " << _result[i].real() << _result[i].imag();
     }
     return _result;
 }
@@ -116,15 +113,13 @@ bool ProcessTrace::retrieveData() {
             // y: AMPM
             // x: Pin
             // @: Frequency
-            qDebug() << "yAmPmVsPin?" << _data->amPmVsPin(_settings->atValue, _x, _y_formatted);
-            qDebug() << "Points: " << _x.size() << _y_formatted.size();
+            _data->amPmVsPin(_settings->atValue, _x, _y_formatted);
         }
         else {
             // y: AMPM
             // x: Pout
             // @: Frequency
-            qDebug() << "yAmPmVsPout?" << _data->amPmVsPout(_settings->atValue, _x, _y_formatted);
-            qDebug() << "Points: " << _x.size() << _y_formatted.size();
+            _data->amPmVsPout(_settings->atValue, _x, _y_formatted);
         }
     }
     else { // SParameter

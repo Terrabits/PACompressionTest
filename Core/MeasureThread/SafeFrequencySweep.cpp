@@ -69,14 +69,7 @@ void SafeFrequencySweep::run() {
     QString a1Trace = _vna->createTrace(c);
     _vna->trace(a1Trace).setWaveQuantity(WaveQuantity::a, inputPort);
 
-    // First point
-    uint iPower = 0;
-    double power_dBm = pin_dBm[iPower];
-    _results->pin_dBm() << power_dBm;
-
-    VnaSegmentedSweep sweep = _vna->channel(c).segmentedSweep();
-    sweep.setPower(power_dBm);
-
+    // Handle interrupt
     if (isInterruptionRequested()) {
         setError("*Measurement cancelled");
         _results->clearAllData();
@@ -84,9 +77,27 @@ void SafeFrequencySweep::run() {
         _vna->settings().displayOn();
         return;
     }
+
+    // First sweep
+    uint iPower = 0;
+    double power_dBm = pin_dBm[iPower];
+    _results->pin_dBm() << power_dBm;
+
+    VnaSegmentedSweep sweep = _vna->channel(c).segmentedSweep();
+    sweep.setPower(power_dBm);
     _vna->channel(c).manualSweepOn();
     emit startingSweep(QString("Sweep %1").arg(iPower+1), sweep.sweepTime_ms());
-    _results->data() << sweep.measure(outputPort, inputPort);
+    NetworkData data = sweep.measure(outputPort, inputPort);
+    if (data.points() == 0) {
+        // Sweep unsuccessful
+        emit finishedSweep();
+        setError("*Could not perform sweep.");
+        _results->clearAllData();
+        _vna->deleteChannel(c);
+        _vna->settings().displayOn();
+        return;
+    }
+    _results->data() << data;
     QRowVector measuredPin_dBm;
     _vna->trace(a1Trace).y(measuredPin_dBm);
     _results->measuredPin_dBm() << measuredPin_dBm;
@@ -115,7 +126,6 @@ void SafeFrequencySweep::run() {
 
         power_dBm = pin_dBm[iPower];
         _results->pin_dBm() << power_dBm;
-        sweep.setPower(power_dBm);
 
         if (isInterruptionRequested()) {
             setError("*Measurement cancelled");
@@ -124,8 +134,20 @@ void SafeFrequencySweep::run() {
             _vna->settings().displayOn();
             return;
         }
+
         emit startingSweep(QString("Sweep %1").arg(iPower+1), sweep.sweepTime_ms());
-        _results->data() << sweep.measure(outputPort, inputPort);
+        sweep.setPower(power_dBm);
+        data = sweep.measure(outputPort, inputPort);
+        if (data.points() == 0) {
+            // Sweep unsuccessful
+            emit finishedSweep();
+            setError("*Could not perform sweep.");
+            _results->clearAllData();
+            _vna->deleteChannel(c);
+            _vna->settings().displayOn();
+            return;
+        }
+        _results->data() << data;
         _vna->trace(a1Trace).y(measuredPin_dBm);
         _results->measuredPin_dBm() << measuredPin_dBm;
         emit finishedSweep();

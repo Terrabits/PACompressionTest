@@ -24,6 +24,9 @@ private slots:
     void sParameterVsPin();
 
 //    void sParameterVsPout_data();
+    void sParameterVsPout();
+
+//    void sParameterVsPout_data();
 //    void sParameterVsPout();
 
 //    void sParameterAtCompression_data();

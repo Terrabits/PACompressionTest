@@ -16,6 +16,7 @@ using namespace RsaToolbox;
 
 // QuaZip
 #include <quazip.h>
+#include <quazipfile.h>
 #include <JlCompress.h>
 
 
@@ -136,7 +137,7 @@ bool MeasurementData::sParameterVsPout(double frequency_Hz, uint outputPort, uin
     if (!sParameterVsPin(frequency_Hz, 2, 1, pin_dBm, s21))
         return false;
 
-    QRowVector _pout_dBm = add(pin_dBm, toDb(s21));
+    QRowVector initialPout_dBm = add(pin_dBm, toDb(s21));
     if (outputPort == 2 && inputPort == 1) {
         sParameter = s21;
     }
@@ -146,11 +147,11 @@ bool MeasurementData::sParameterVsPout(double frequency_Hz, uint outputPort, uin
     }
 
     // Reinterpolate onto square grid vs Pout
-    const double start_dBm = _pout_dBm.first();
-    const double stop_dBm = _pout_dBm.last();
-    uint points = _pout_dBm.size();
+    const double start_dBm = initialPout_dBm.first();
+    const double stop_dBm = max(initialPout_dBm);
+    uint points = initialPout_dBm.size();
     pout_dBm = linearSpacing(start_dBm, stop_dBm, points);
-    sParameter = linearInterpolateMagPhase(_pout_dBm, sParameter, pout_dBm);
+    sParameter = linearInterpolateMagPhase(initialPout_dBm, sParameter, pout_dBm);
 
     return true;
 }

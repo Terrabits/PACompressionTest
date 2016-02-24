@@ -20,6 +20,8 @@ TracesWidget::TracesWidget(QWidget *parent) :
     ui->setupUi(this);
 
     ui->table->setModel(&_model);
+    connect(&_model, SIGNAL(inputError(QString)),
+            this, SIGNAL(inputError(QString)));
 
     _delegate.setTracesWidget(this);
     ui->table->setItemDelegate(&_delegate);

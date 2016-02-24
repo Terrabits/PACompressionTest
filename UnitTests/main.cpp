@@ -9,7 +9,8 @@
 #include "ProcessTraceTest.h"
 
 // RsaToolbox
-#include "TestRunner.h"
+#include <General.h>
+#include <TestRunner.h>
 using namespace RsaToolbox;
 
 // Qt
@@ -19,11 +20,11 @@ using namespace RsaToolbox;
 
 int main() {
     TestRunner testRunner;
-    testRunner.addTest(new HeaderTest);
+//    testRunner.addTest(new HeaderTest);
 //    testRunner.addTest(new TraceSettingsTest);
 //    testRunner.addTest(new SpeedTrackerTest);
 //    testRunner.addTest(new SafeFrequencySweepTest);
-//    testRunner.addTest(new MeasureDataTest);
+    testRunner.addTest(new MeasureDataTest);
 //    testRunner.addTest(new ProcessTraceTest);
 
     qDebug() << "Global result: " << (testRunner.runTests() ? "PASS" : "FAIL");

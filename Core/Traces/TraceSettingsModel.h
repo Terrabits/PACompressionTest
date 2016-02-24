@@ -47,6 +47,7 @@ public:
     void setTraces(const QVector<TraceSettings> &traces);
 
 signals:
+    void inputError(const QString &message);
 
 public slots:
 

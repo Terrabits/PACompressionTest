@@ -63,6 +63,7 @@ void SafeFrequencySweep::run() {
     _vna->channel(channel).select();
     uint c = _vna->createChannel();
     _vna->channel(c).setFrequencies(sweptFreq_Hz);
+    sweptFreq_Hz = _vna->channel(c).segmentedSweep().frequencies_Hz(); // <------- Will this fix the index problem?
     _results->frequencies_Hz() = sweptFreq_Hz;
 
     // Setup a1 trace
@@ -166,7 +167,7 @@ void SafeFrequencySweep::run() {
         ComplexMatrix3D sParams = _results->data()[iPower].y();
 
         for (int iCurrentFreq = 0; iCurrentFreq < sweptFreq_Hz.size(); iCurrentFreq++) {
-            const double measuredPower_dBm = measuredPin_dBm[iCurrentFreq]; // NEW
+            const double measuredPower_dBm = measuredPin_dBm[iCurrentFreq];
             const double freq_Hz = sweptFreq_Hz[iCurrentFreq];
             const double gain_dB = gains_dB[iCurrentFreq];
             const ComplexMatrix2D sParam = sParams[iCurrentFreq];

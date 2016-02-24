@@ -64,6 +64,7 @@ void FrequencySweep::run() {
     _vna->channel(channel).select();
     uint c = _vna->createChannel();
     _vna->channel(c).setFrequencies(sweptFreq_Hz);
+    sweptFreq_Hz = _vna->channel(c).segmentedSweep().frequencies_Hz();
     _results->frequencies_Hz() = sweptFreq_Hz;
 
     // Setup a1 trace

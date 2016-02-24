@@ -67,12 +67,17 @@ void MeasureDataTest::sParameterVsPin() {
     }
 }
 
-//void MeasureDataTest::sParameterVsPout_data() {
 
-//}
-//void MeasureDataTest::sParameterVsPout() {
-
-//}
+void MeasureDataTest::sParameterVsPout() {
+    _data.open(QDir(SOURCE_DIR).filePath("MessedUpPlots2.dat"));
+    QRowVector pout_dBm;
+    ComplexRowVector s21;
+    _data.sParameterVsPout(2.1E9, 2, 1, pout_dBm, s21);
+    qDebug() << "*** vs Pout:";
+    qDebug() << "S21.first: " << pout_dBm.first() << " dBm, " << toDb(s21[0]) << " dB";
+    qDebug() << "S21.last:  " << pout_dBm.last() << " dBm, " << toDb(s21[s21.size()-1]) << " dB";
+    qDebug() << "points: " << pout_dBm.size();
+}
 
 
 // Data notes:

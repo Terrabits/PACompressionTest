@@ -57,6 +57,8 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
 
 
     // Traces
+    connect(ui->traces, SIGNAL(inputError(QString)),
+            this, SLOT(showMessage(QString)));
     connect(ui->traces, SIGNAL(exportClicked()),
             this, SLOT(exportData()));
     connect(ui->traces, SIGNAL(miniGuiClicked()),
@@ -215,13 +217,14 @@ void MainWindow::measurementFinished() {
 
     _results.reset(_thread->takeResults());
     _thread.reset();
+    showResults();
+
     if (_guiState == GuiState::Mini) {
         processTraces();
     }
     else {
         ui->configureTabs->setCurrentWidget(ui->tracesTab);
     }
-    showResults();
 }
 
 void MainWindow::exportData() {
@@ -233,6 +236,12 @@ void MainWindow::exportData() {
         return;
     if (_results->exportToZip(filename)) {
         _exportPath.setFromFilePath(filename);
+
+        // DEBUGGING PURPOSES
+        filename.remove(".zip", Qt::CaseInsensitive);
+        filename += ".dat";
+        _results->save(filename);
+
         showMessage("Export Sucessful!", Qt::darkGreen);
     }
     else {

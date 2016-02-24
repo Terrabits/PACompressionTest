@@ -171,6 +171,38 @@ border-bottom: 2px solid rgb(170, 170, 170);</string>
              </widget>
             </item>
             <item>
+             <widget class="QPushButton" name="measureAndPlotButton">
+              <property name="minimumSize">
+               <size>
+                <width>40</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="CoreResources.qrc">
+                <normaloff>:/Icons/Run.png</normaloff>:/Icons/Run.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>40</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QPushButton" name="exportButton">
               <property name="enabled">
                <bool>false</bool>
@@ -225,38 +257,6 @@ border-bottom: 2px solid rgb(170, 170, 170);</string>
               <property name="icon">
                <iconset resource="CoreResources.qrc">
                 <normaloff>:/Icons/Exit.png</normaloff>:/Icons/Exit.png</iconset>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>40</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="flat">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="measureAndPlotButton">
-              <property name="minimumSize">
-               <size>
-                <width>40</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>40</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset resource="CoreResources.qrc">
-                <normaloff>:/Icons/Run.png</normaloff>:/Icons/Run.png</iconset>
               </property>
               <property name="iconSize">
                <size>

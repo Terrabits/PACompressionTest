@@ -273,16 +273,14 @@ void TraceSettingsModel::setTraces(const QVector<TraceSettings> &traces) {
 
 void TraceSettingsModel::validateAllTraces() {
     beginResetModel();
-    for (int i = 0; i < _traces.size(); i++)
+    for (int i = 0; i < _traces.size(); i++) {
         fixTraceSettings(i);
+    }
     endResetModel();
 }
 
 void TraceSettingsModel::fixTraceSettings(int row) {
     TraceSettings &t(_traces[row]);
-    if (t.isValid())
-        return;
-
     if (!t.isValidName()) {
         t.name = "trace_name";
     }
@@ -295,13 +293,18 @@ void TraceSettingsModel::fixTraceSettings(int row) {
     if (!t.isValidAtParameter()) {
         t.atParameter = t.possibleAtParameters().first();
     }
-    if (!t.isValidAtValue()) {
-        t.atValue = 0;
-    }
 
+    const double previousAtValue = t.atValue;
     if (t.isAtFrequency() && !_frequencies_Hz.isEmpty())
         t.roundAtValue(_frequencies_Hz);
     else if (t.isAtPin() && !_pin_dBm.isEmpty()) {
         t.roundAtValue(_pin_dBm);
+    }
+    if (!t.isValidAtValue()) {
+        t.atValue = 0;
+    }
+
+    if (previousAtValue != t.atValue) {
+        emit inputError("*Rounded at value(s) per current setup.");
     }
 }

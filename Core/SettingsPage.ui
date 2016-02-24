@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>342</width>
-    <height>482</height>
+    <width>347</width>
+    <height>537</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -566,8 +566,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="resources.qrc">
-          <normaloff>:/Down_arrow.png</normaloff>:/Down_arrow.png</iconset>
+         <iconset resource="CoreResources.qrc">
+          <normaloff>:/Icons/Down_arrow.png</normaloff>:/Icons/Down_arrow.png</iconset>
         </property>
        </widget>
       </item>
@@ -648,7 +648,7 @@
   <tabstop>measureButton</tabstop>
  </tabstops>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="CoreResources.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -20,14 +20,16 @@ HEADERS     += Settings.h \
                ProcessTrace.h \
                SettingsPage.h \
                ProgressPage.h \
-               MiniPage.h
+               MiniPage.h \
+    DragWidget.h
 INCLUDEPATH += $$PWD
 SOURCES     += MeasurementData.cpp \
                MeasurementSettings.cpp \
                ProcessTrace.cpp \
                SettingsPage.cpp \
                ProgressPage.cpp \
-               MiniPage.cpp
+               MiniPage.cpp \
+    DragWidget.cpp
 FORMS       += SettingsPage.ui \
                ProgressPage.ui \
                MiniPage.ui

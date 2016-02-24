@@ -3,6 +3,7 @@
 // RsaPaCompressionTest
 #include "Settings.h"
 #include "mainwindow.h"
+#include "MiniPage.h"
 
 // RsaToolbox
 #include "About.h"
@@ -41,8 +42,12 @@ int main(int argc, char *argv[])
             return(0);
 
     Q_INIT_RESOURCE(CoreResources);
+
+    MiniPage miniPage;
+
     MainWindow w(vna, keys);
-    w.setWindowFlags(w.windowFlags() | Qt::WindowStaysOnTopHint); // Note: removed Qt::MSWindowsFixedSizeDialogHint
+    w.setWindowFlags(w.windowFlags() | Qt::WindowStaysOnTopHint);
+    w.setMiniPage(&miniPage);
     w.show();
     return app.exec();
 }

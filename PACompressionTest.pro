@@ -6,4 +6,6 @@ SUBDIRS  += Core \
             UnitTests \
             SettingsPageTest \
             PlotUiTest \
-            Application
+            MiniPageTest \
+            Application \
+

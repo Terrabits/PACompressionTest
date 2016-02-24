@@ -2,8 +2,15 @@
 #include "ui_MiniPage.h"
 
 
+// Project
+#include "Settings.h"
+
 // RsaToolbox
 using namespace RsaToolbox;
+
+// Qt
+#include <QMessageBox>
+#include <QPropertyAnimation>
 
 
 MiniPage::MiniPage(QWidget *parent) :
@@ -11,10 +18,12 @@ MiniPage::MiniPage(QWidget *parent) :
     ui(new ::Ui::MiniPage)
 {
     ui->setupUi(this);
+    setWindowFlags(windowFlags() | Qt::FramelessWindowHint | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint);
 
-    ui->timedProgressBar->hidePercentage();
-    ui->progressBar->setVisible(false);
-    ui->timedProgressBar->setVisible(false);
+    ui->progressLabel->clear();
+
+    connect(ui->dragWidget, SIGNAL(dragged(int,int)),
+            this, SLOT(drag(int,int)));
 
     connect(ui->exportButton, SIGNAL(clicked()),
             this, SIGNAL(exportClicked()));
@@ -31,30 +40,47 @@ MiniPage::~MiniPage()
     delete ui;
 }
 
-ErrorLabel *MiniPage::errorLabel() {
-    return ui->error;
+void MiniPage::drag(int x, int y) {
+    move(x, y);
+}
+void MiniPage::animateMove(int x, int y) {
+    QPropertyAnimation *animation = new QPropertyAnimation(this, "geometry");
+    connect(animation, SIGNAL(finished()),
+            this, SIGNAL(animationFinished()));
+
+    const QRect currentGeometry = geometry();
+    QRect newGeometry = currentGeometry;
+    newGeometry.moveTo(x, y);
+
+    animation->setDuration(100);
+    animation->setEasingCurve(QEasingCurve::OutSine);
+    animation->setStartValue(currentGeometry);
+    animation->setEndValue(newGeometry);
+    animation->start();
+}
+
+void MiniPage::showError(const QString &message) {
+    QMessageBox::critical(this, APP_NAME, message);
 }
 
 void MiniPage::startMeasurement() {
     ui->standardGuiButton->setDisabled(true);
+    ui->exportButton->setDisabled(true);
 
-    ui->timedProgressBar->setVisible(true);
-    ui->progressBar->setValue(0);
-    ui->progressBar->setVisible(true);
+    ui->progressLabel->setText("0%");
 }
 void MiniPage::startSweep(const QString &caption, uint time_ms) {
-    ui->timedProgressBar->start(caption, time_ms);
+    Q_UNUSED(caption);
+    Q_UNUSED(time_ms);
 }
 void MiniPage::stopSweep() {
-    ui->timedProgressBar->stop();
+
 }
 void MiniPage::updateTotalProgress(int percent) {
-    ui->progressBar->setValue(percent);
+    ui->progressLabel->setText(QString("%1%").arg(percent));
 }
 void MiniPage::finishMeasurement() {
-    ui->progressBar->setValue(100);
-    ui->progressBar->setVisible(false);
-    ui->timedProgressBar->setVisible(false);
+    ui->progressLabel->clear();
     ui->standardGuiButton->setEnabled(true);
 }
 

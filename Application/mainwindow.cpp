@@ -26,6 +26,7 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
     QMainWindow(parent),
     ui(new ::Ui::MainWindow),
     _vna(vna), _keys(keys),
+    _miniPage(NULL),
     _isMeasuring(false),
     _guiState(GuiState::Configuration)
 {
@@ -69,27 +70,19 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
     connect(ui->progress, SIGNAL(cancelClicked()),
             this, SLOT(cancelMeasurement()));
 
-    // Mini Gui
-    connect(ui->mini, SIGNAL(standardGuiClicked()),
-            this, SLOT(standardGuiMode()));
-    connect(ui->mini, SIGNAL(closeClicked()),
-            this, SLOT(close()));
-    connect(ui->mini, SIGNAL(measureAndPlotClicked()),
-            this, SLOT(startMeasurement()));
-
     _exportPath.setKey(&_keys, EXPORT_PATH_KEY);
     if (_exportPath.isEmpty())
         _exportPath.setPath(QDir::homePath());
 
     loadKeys();
+    _vna.local();
 }
-
 MainWindow::~MainWindow() {
     _vna.isError();
     _vna.clearStatus();
 
     if (_guiState == GuiState::Mini) {
-        _keys.set(MINI_GEOMETRY_KEY, geometry());
+        _keys.set(MINI_GEOMETRY_KEY, _miniPage->geometry());
     }
     else if (!_miniGeometry.isNull()) {
         _keys.set(MINI_GEOMETRY_KEY, _miniGeometry);
@@ -105,9 +98,28 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
+void MainWindow::setMiniPage(MiniPage *page) {
+    _miniPage = page;
+    connect(_miniPage, SIGNAL(animationFinished()),
+            this, SLOT(miniAnimatedMoveFinished()));
+    connect(_miniPage, SIGNAL(exportClicked()),
+            this, SLOT(exportData()));
+    connect(_miniPage, SIGNAL(standardGuiClicked()),
+            this, SLOT(standardGuiMode()));
+    connect(_miniPage, SIGNAL(closeClicked()),
+            this, SLOT(close()));
+    connect(_miniPage, SIGNAL(measureAndPlotClicked()),
+            this, SLOT(startMeasurement()));
+}
+
 bool MainWindow::askCancelMeasurement() {
+    QWidget *parent;
+    if (_guiState == GuiState::Mini)
+        parent = _miniPage;
+    else
+        parent = this;
     QMessageBox::StandardButton button
-            = QMessageBox::question(this,
+            = QMessageBox::question(parent,
                                     "Abort Measurement?",
                                     "Measurements are running.\nAbort?");
     return button == QMessageBox::Yes;
@@ -115,6 +127,7 @@ bool MainWindow::askCancelMeasurement() {
 
 void MainWindow::closeEvent(QCloseEvent *event) {
     if (!_isMeasuring) {
+        _miniPage->close();
         QMainWindow::closeEvent(event);
         return;
     }
@@ -179,12 +192,12 @@ void MainWindow::cancelMeasurement() {
 }
 void MainWindow::measurementFinished() {
     _isMeasuring = false;
+    _vna.local();
 
     if (_guiState == GuiState::Progress) {
         // Maximized
         disconnectProgressPage();
         showConfiguration();
-        ui->configureTabs->setCurrentWidget(ui->tracesTab);
     }
     else {
         finishMiniGuiMeasurement();
@@ -193,7 +206,10 @@ void MainWindow::measurementFinished() {
     if (_thread->isError()) {
         showMessage(_thread->errorMessage());
         _thread.reset();
-        shake();
+        if (_guiState == GuiState::Configuration) {
+            ui->configureTabs->setCurrentWidget(ui->settingsTab);
+            shake();
+        }
         return;
     }
 
@@ -202,8 +218,10 @@ void MainWindow::measurementFinished() {
     if (_guiState == GuiState::Mini) {
         processTraces();
     }
+    else {
+        ui->configureTabs->setCurrentWidget(ui->tracesTab);
+    }
     showResults();
-    _vna.local();
 }
 
 void MainWindow::exportData() {
@@ -250,24 +268,28 @@ void MainWindow::processTraces() {
 void MainWindow::showMessage(const QString &message) {
     ui->settings->errorLabel()->showMessage(message);
     ui->traces->errorLabel()->showMessage(message);
-    ui->mini->errorLabel()->showMessage(message);
+    if (_guiState == GuiState::Mini)
+        _miniPage->showError(message);
 }
 void MainWindow::showMessage(const QString &message, Qt::GlobalColor color) {
     ui->settings->errorLabel()->showMessage(message, color);
     ui->traces->errorLabel()->showMessage(message, color);
-    ui->mini->errorLabel()->showMessage(message, color);
+    if (_guiState == GuiState::Mini)
+        _miniPage->showError(message);
 }
 
 void MainWindow::shake() {
-    QPropertyAnimation *animation = new QPropertyAnimation(this, "geometry");
     QRect _geometry = geometry();
     _geometry.moveRight(_geometry.right() + 10);
-    animation->setStartValue(_geometry);
-    animation->setEndValue(geometry());
-    animation->setDuration(500);
+
     QEasingCurve curve(QEasingCurve::OutElastic);
     curve.setAmplitude(2);
     curve.setPeriod(0.3);
+
+    QPropertyAnimation *animation = new QPropertyAnimation(this, "geometry");
+    animation->setStartValue(_geometry);
+    animation->setEndValue(geometry());
+    animation->setDuration(500);
     animation->setEasingCurve(curve);
     animation->start();
 }
@@ -278,9 +300,13 @@ void MainWindow::miniGuiMode() {
 void MainWindow::standardGuiMode() {
     showConfiguration();
 }
-void MainWindow::restoreSizePolicy() {
-    setMinimumSize(0, 0);
-    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+void MainWindow::miniAnimatedMoveFinished() {
+    if (_guiState == GuiState::Mini)
+        return;
+
+    // Show main window
+    _miniPage->hide();
+    this->show();
 }
 
 MeasureThread *MainWindow::createThread() {
@@ -324,22 +350,30 @@ void MainWindow::loadKeys() {
 //    return rect;
 //}
 void MainWindow::showConfiguration() {
-    if (_guiState == GuiState::Mini) {
-        _miniGeometry = geometry();
-        _keys.set(MINI_GEOMETRY_KEY, _miniGeometry);
-    }
+    const GuiState previousState = _guiState;
 
     _guiState = GuiState::Configuration;
     ui->pages->setCurrentWidget(ui->configurePage);
+    if (previousState != GuiState::Mini)
+        return;
 
-    QPropertyAnimation *animation = new QPropertyAnimation(this, "geometry");
-    animation->setDuration(100);
-    animation->setEasingCurve(QEasingCurve::OutSine);
-    animation->setStartValue(geometry());
-    animation->setEndValue(_configureGeometry);
-    connect(animation, SIGNAL(finished()),
-            this, SLOT(restoreSizePolicy()));
-    animation->start();
+    // Transition from Mini
+    _miniGeometry = _miniPage->geometry();
+    _keys.set(MINI_GEOMETRY_KEY, _miniGeometry);
+
+    QPoint center = geometry().center();
+
+    const int newWidth = 54;
+    const int newHeight = 231;
+
+    // Calculate mini centered on MainWindow
+    QRect centerMini;
+    centerMini.setTop(center.y() - newHeight/2);
+    centerMini.setBottom(center.y() + int(newHeight/2) + 1);
+    centerMini.setLeft(center.x() - newWidth/2);
+    centerMini.setRight(center.x() + newWidth/2);
+
+    _miniPage->animateMove(centerMini.x(), centerMini.y());
 }
 
 void MainWindow::prepareProgressPage() {
@@ -377,49 +411,48 @@ void MainWindow::showMiniGui() {
     _configureGeometry = geometry();
     _keys.set(STANDARD_GEOMETRY_KEY, _configureGeometry);
 
-    const int newWidth = 300;
-    const int newHeight = 150;
+    QPoint center = geometry().center();
 
+    const int newWidth = 54;
+    const int newHeight = 231;
+
+    // Calculate mini centered on MainWindow
+    QRect centerMini;
+    centerMini.setTop(center.y() - newHeight/2);
+    centerMini.setBottom(center.y() + int(newHeight/2) + 1);
+    centerMini.setLeft(center.x() - newWidth/2);
+    centerMini.setRight(center.x() + newWidth/2);
+
+    // Mini destination
     if (_miniGeometry.isNull()) {
-        QPoint center = geometry().center();
-        _miniGeometry.setTop(center.y() - newHeight/2);
-        _miniGeometry.setBottom(center.y() + newHeight/2);
-        _miniGeometry.setLeft(center.x() - newWidth/2);
-        _miniGeometry.setRight(center.x() + newWidth/2);
+        _miniGeometry = centerMini;
     }
 
     _guiState = GuiState::Mini;
-    ui->pages->setCurrentWidget(ui->miniPage);
-
-    setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-    setMinimumSize(newWidth, newHeight);
-
-    QPropertyAnimation *animation = new QPropertyAnimation(this, "geometry");
-    animation->setDuration(100);
-    animation->setEasingCurve(QEasingCurve::OutSine);
-    animation->setStartValue(geometry());
-    animation->setEndValue(_miniGeometry);
-    animation->start();
+    this->hide();
+    _miniPage->setGeometry(centerMini);
+    _miniPage->show();
+    if (centerMini != _miniGeometry) {
+        _miniPage->animateMove(_miniGeometry.x(), _miniGeometry.y());
+    }
 }
 void MainWindow::prepareMiniGuiForMeasurement() {
-    ui->mini->startMeasurement();
-
+    _miniPage->startMeasurement();
     connect(_thread.data(), SIGNAL(startingSweep(QString,uint)),
-            ui->mini, SLOT(startSweep(QString,uint)));
+            _miniPage, SLOT(startSweep(QString,uint)));
     connect(_thread.data(), SIGNAL(finishedSweep()),
-            ui->mini, SLOT(stopSweep()));
+            _miniPage, SLOT(stopSweep()));
     connect(_thread.data(), SIGNAL(progress(int)),
-            ui->mini, SLOT(updateTotalProgress(int)));
+            _miniPage, SLOT(updateTotalProgress(int)));
 }
 void MainWindow::finishMiniGuiMeasurement() {
     disconnect(_thread.data(), SIGNAL(startingSweep(QString,uint)),
-            ui->mini, SLOT(startSweep(QString,uint)));
+            _miniPage, SLOT(startSweep(QString,uint)));
     disconnect(_thread.data(), SIGNAL(finishedSweep()),
-            ui->mini, SLOT(stopSweep()));
+            _miniPage, SLOT(stopSweep()));
     disconnect(_thread.data(), SIGNAL(progress(int)),
-            ui->mini, SLOT(updateTotalProgress(int)));
-
-    ui->mini->finishMeasurement();
+            _miniPage, SLOT(updateTotalProgress(int)));
+    _miniPage->finishMeasurement();
 }
 
 void MainWindow::showResults() {
@@ -429,12 +462,12 @@ void MainWindow::showResults() {
     ui->traces->setPowers(_results->pin_dBm());
     ui->traces->enableExportAndPlot();
 
-    ui->mini->enableExport();
+    _miniPage->enableExport();
 }
 void MainWindow::clearResults() {
     ui->settings->disableExport();
     ui->traces->disableExportAndPlot();
-    ui->mini->disableExport();
+    _miniPage->disableExport();
 
     _results.reset();
 }

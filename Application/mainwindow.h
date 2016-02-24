@@ -6,6 +6,7 @@
 #include "MeasurementSettings.h"
 #include "MeasurementData.h"
 #include "MeasureThread.h"
+#include "MiniPage.h"
 
 // RsaToolbox
 #include <Keys.h>
@@ -35,6 +36,8 @@ public:
         Mini
     };
 
+    void setMiniPage(MiniPage *page);
+
 protected:
     bool askCancelMeasurement();
     virtual void closeEvent(QCloseEvent *event);
@@ -53,7 +56,7 @@ private slots:
 
     void miniGuiMode();
     void standardGuiMode();
-    void restoreSizePolicy();
+    void miniAnimatedMoveFinished();
 
 private:
     Ui::MainWindow *ui;
@@ -76,6 +79,8 @@ private:
     // Gui
     bool _isMeasuring;
     GuiState _guiState;
+    MiniPage *_miniPage;
+
 
     QRect _configureGeometry;
     QRect _miniGeometry;

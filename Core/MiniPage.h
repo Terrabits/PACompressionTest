@@ -21,15 +21,20 @@ public:
     explicit MiniPage(QWidget *parent = 0);
     ~MiniPage();
 
-    RsaToolbox::ErrorLabel *errorLabel();
-
 signals:
     void exportClicked();
     void standardGuiClicked();
     void closeClicked();
     void measureAndPlotClicked();
 
+    void animationFinished();
+
 public slots:
+    void drag(int x, int y);
+    void animateMove(int x, int y);
+
+    void showError(const QString &message);
+
     void startMeasurement();
     void startSweep(const QString &caption, uint time_ms);
     void stopSweep();

@@ -269,8 +269,8 @@ void MainWindow::processTraces() {
         }
         ProcessTrace(&(traces[i]), _results.data(), &_vna, diagram);
     }
-    _vna.local();
 
+    _vna.local();
     ui->traces->saveKeys();
 }
 

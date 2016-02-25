@@ -22,16 +22,8 @@ FrequencySweep::~FrequencySweep()
 }
 
 void FrequencySweep::run() {
-    QString msg;
-    if (!_settings.isValid(*_vna, msg)) {
-        setError(msg);
-        _vna->settings().displayOn();
+    if (!prepareVna())
         return;
-    }
-
-    _vna->isError();
-    _vna->clearStatus();
-    _vna->settings().displayOff();
 
     emit progress(0);
 
@@ -57,18 +49,13 @@ void FrequencySweep::run() {
 
     const bool shouldFlipPorts = outputPort < inputPort;
 
-    freezeChannels();
-    _vna->settings().rfOutputPowerOn();
-
     // Setup channel
-    _vna->channel(channel).select();
-    uint c = _vna->createChannel();
-    _vna->channel(c).setFrequencies(sweptFreq_Hz);
-    sweptFreq_Hz = _vna->channel(c).segmentedSweep().frequencies_Hz();
+    _vna->channel(channel).setFrequencies(sweptFreq_Hz);
+    sweptFreq_Hz = _vna->channel(channel).segmentedSweep().frequencies_Hz();
     _results->frequencies_Hz() = sweptFreq_Hz;
 
     // Setup a1 trace
-    QString a1Trace = _vna->createTrace(c);
+    QString a1Trace = _vna->createTrace(channel);
     _vna->trace(a1Trace).setWaveQuantity(WaveQuantity::a, inputPort);
 
     // First point
@@ -77,27 +64,25 @@ void FrequencySweep::run() {
     _results->pin_dBm() << power_dBm;
 
     if (isInterruptionRequested()) {
-        setError("*Measurement cancelled");
         _results->clearAllData();
-        _vna->deleteChannel(c);
-        _vna->settings().displayOn();
+        setError("*Measurement cancelled");
+        restoreVna();
         return;
     }
 
     // Perform first sweep
-    VnaSegmentedSweep sweep = _vna->channel(c).segmentedSweep();
+    VnaSegmentedSweep sweep = _vna->channel(channel).segmentedSweep();
     sweep.setPower(power_dBm);
-    _vna->channel(c).manualSweepOn();
+    _vna->channel(channel).manualSweepOn();
 
     emit startingSweep(QString("Sweep %1").arg(iPower+1), sweep.sweepTime_ms());
     NetworkData data = sweep.measure(outputPort, inputPort);
     if (data.points() == 0) {
         // Sweep unsuccessful
         emit finishedSweep();
-        setError("*Could not perform sweep.");
         _results->clearAllData();
-        _vna->deleteChannel(c);
-        _vna->settings().displayOn();
+        setError("*Could not perform sweep.");
+        restoreVna();
         return;
     }
     _results->data() << data;
@@ -131,10 +116,9 @@ void FrequencySweep::run() {
         _results->pin_dBm() << power_dBm;
 
         if (isInterruptionRequested()) {
-            setError("*Measurement cancelled");
             _results->clearAllData();
-            _vna->deleteChannel(c);
-            _vna->settings().displayOn();
+            setError("*Measurement cancelled");
+            restoreVna();
             return;
         }
 
@@ -145,10 +129,9 @@ void FrequencySweep::run() {
         if (data.points() == 0) {
             // Sweep unsuccessful
             emit finishedSweep();
-            setError("*Could not perform sweep.");
             _results->clearAllData();
-            _vna->deleteChannel(c);
-            _vna->settings().displayOn();
+            setError("*Could not perform sweep.");
+            restoreVna();
             return;
         }
         _results->data() << data;
@@ -223,14 +206,7 @@ void FrequencySweep::run() {
     }
 
     emit progress(100);
-
-    _vna->deleteChannel(c);
-    if (_settings.isRfOffPostCondition()) {
-        _vna->settings().powerReductionBetweenSweepsOn();
-    }
-    else {
-        unfreezeChannels();
-    }
+    restoreVna();
 
     // Check if any compression points not found
     if (isCompression.count(false) > 0) {

@@ -33,6 +33,8 @@ void MeasureThread::setAppInfo(const QString &name, const QString &version) {
 }
 void MeasureThread::setVna(Vna *vna) {
     _vna = vna;
+    _undo.setVna(_vna);
+//    _undo.setRecallOnDestruction(true);
 }
 void MeasureThread::setSettings(const MeasurementSettings &settings) {
     _settings = settings;
@@ -85,19 +87,31 @@ void MeasureThread::flipPorts(QVector<NetworkData> &data) {
     }
 }
 
-void MeasureThread::freezeChannels() {
-    _channels = _vna->channels();
-    _isContinuous.resize(_channels.size());
-    for (int i = 0; i < _channels.size(); i++) {
-        const uint c = _channels[i];
-        _isContinuous[i] = _vna->channel(c).isContinuousSweep();
-        _vna->channel(c).manualSweepOn();
+bool MeasureThread::prepareVna() {
+    QString msg;
+    if (!_settings.isValid(*_vna, msg)) {
+        setError(msg);
+        _vna->settings().displayOn();
+        return false;
     }
+
+    _undo.save();
+    QVector<uint> channels = _vna->channels();
+    channels.removeAt(channels.indexOf(_settings.channel()));
+    _vna->deleteChannels(channels);
+
+    _vna->isError();
+    _vna->clearStatus();
+    _vna->settings().displayOff();
+    return true;
 }
-void MeasureThread::unfreezeChannels() {
-    for (int i = 0; i < _channels.size(); i++) {
-        const uint c = _channels[i];
-        if (_isContinuous[i])
-            _vna->channel(c).continuousSweepOn();
+void MeasureThread::restoreVna() {
+    _undo.recall();
+    if (_settings.isRfOffPostCondition()) {
+        foreach(uint c, _vna->channels()) {
+            _vna->channel(c).manualSweepOn();
+        }
+        _vna->settings().powerReductionBetweenSweepsOn();
     }
+    _vna->local();
 }

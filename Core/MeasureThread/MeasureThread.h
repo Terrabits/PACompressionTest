@@ -6,8 +6,9 @@
 #include "MeasurementData.h"
 
 // RsaToolbox
-#include "Definitions.h"
-#include "Vna.h"
+#include <Definitions.h>
+#include <Vna.h>
+#include <VnaUndo.h>
 
 // QCustomPlot
 #include <qcustomplot.h>
@@ -42,20 +43,23 @@ signals:
     void progress(int percent);
 
 protected:
-    QString _appName;
-    QString _appVersion;
-    RsaToolbox::Vna *_vna;
-    MeasurementSettings _settings;
 
     // Overwrite this:
     // virtual void run();
 
-    bool _isError;
-    QString _error;
+
+    QString _appName;
+    QString _appVersion;
+    MeasurementSettings _settings;
 
     // Initialized in start();
     QScopedPointer<MeasurementData> _results;
 
+    RsaToolbox::Vna *_vna;
+    RsaToolbox::VnaUndo _undo;
+
+    bool _isError;
+    QString _error;
     void clearError();
     void setError(QString message = QString());
 
@@ -63,8 +67,8 @@ protected:
     static void flipPorts(RsaToolbox::NetworkData &data);
     static void flipPorts(QVector<RsaToolbox::NetworkData> &data);
 
-    void freezeChannels();
-    void unfreezeChannels();
+    bool prepareVna();
+    void restoreVna();
 
 private:
     QVector<uint> _channels;

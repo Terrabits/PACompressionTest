@@ -273,25 +273,34 @@ void TraceSettingsModel::setTraces(const QVector<TraceSettings> &traces) {
 
 void TraceSettingsModel::validateAllTraces() {
     beginResetModel();
+    bool isFixed = false;
     for (int i = 0; i < _traces.size(); i++) {
-        fixTraceSettings(i);
+        isFixed = isFixed || fixTraceSettings(i);
     }
     endResetModel();
+
+    if (isFixed)
+        emit inputError("*Rounded at value(s) per current setup.");
 }
 
-void TraceSettingsModel::fixTraceSettings(int row) {
+bool TraceSettingsModel::fixTraceSettings(int row) {
+    bool isFixed = false;
     TraceSettings &t(_traces[row]);
     if (!t.isValidName()) {
         t.name = "trace_name";
+        isFixed = true;
     }
     if (!t.isValidYParameter()) {
         t.yParameter = "Gain";
+        isFixed = true;
     }
     if (!t.isValidXParameter()) {
         t.xParameter = t.possibleXParameters().first();
+        isFixed = true;
     }
     if (!t.isValidAtParameter()) {
         t.atParameter = t.possibleAtParameters().first();
+        isFixed = true;
     }
 
     const double previousAtValue = t.atValue;
@@ -302,9 +311,11 @@ void TraceSettingsModel::fixTraceSettings(int row) {
     }
     if (!t.isValidAtValue()) {
         t.atValue = 0;
+        isFixed = true;
     }
 
     if (previousAtValue != t.atValue) {
-        emit inputError("*Rounded at value(s) per current setup.");
+        isFixed = true;
     }
+    return isFixed;
 }

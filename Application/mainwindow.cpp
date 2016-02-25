@@ -238,9 +238,9 @@ void MainWindow::exportData() {
         _exportPath.setFromFilePath(filename);
 
         // DEBUGGING PURPOSES
-        filename.remove(".zip", Qt::CaseInsensitive);
-        filename += ".dat";
-        _results->save(filename);
+//        filename.remove(".zip", Qt::CaseInsensitive);
+//        filename += ".dat";
+//        _results->save(filename);
 
         showMessage("Export Sucessful!", Qt::darkGreen);
     }
@@ -283,8 +283,12 @@ void MainWindow::showMessage(const QString &message) {
 void MainWindow::showMessage(const QString &message, Qt::GlobalColor color) {
     ui->settings->errorLabel()->showMessage(message, color);
     ui->traces->errorLabel()->showMessage(message, color);
-    if (_guiState == GuiState::Mini)
-        _miniPage->showError(message);
+    if (_guiState == GuiState::Mini) {
+        if (color == Qt::darkGreen)
+            _miniPage->showInfo(message);
+        else
+            _miniPage->showError(message);
+    }
 }
 
 void MainWindow::shake() {

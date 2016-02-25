@@ -57,7 +57,7 @@ private:
     QVector<TraceSettings> _traces;
 
     void validateAllTraces();
-    void fixTraceSettings(int row);
+    bool fixTraceSettings(int row);
 };
 
 #endif // TRACESETTINGSMODEL_H

@@ -113,5 +113,6 @@ void MeasureThread::restoreVna() {
         }
         _vna->settings().powerReductionBetweenSweepsOn();
     }
+    _vna->channel(_settings.channel()).startSweep();
     _vna->local();
 }

@@ -95,6 +95,9 @@ private:
     QVector<RsaToolbox::QRowVector> _measuredPin_dBm;
     QVector<RsaToolbox::NetworkData> _data;
 
+    // Non-interpolated
+    bool sParameterVsPin_uninterpolated(double frequency_Hz, uint outputPort, uint inputPort, RsaToolbox::QRowVector &pin_dBm, RsaToolbox::ComplexRowVector &sParameter);
+
     // Header
     QString generateApplicationHeader() const;
     QString generateCopyright() const;

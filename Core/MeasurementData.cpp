@@ -103,18 +103,8 @@ bool MeasurementData::sParameterVsPin(double frequency_Hz, uint outputPort, uint
     sParameter.clear();
 
     QRowVector measuredPin_dBm;
-    for (int i = 0; i < _pin_dBm.size(); i++) {
-        const int fIndex = _data[i].x().indexOf(frequency_Hz);
-        if (fIndex == -1) {
-            continue;
-        }
-
-        measuredPin_dBm << _measuredPin_dBm[i][fIndex];
-        sParameter.push_back(_data[i].y()[fIndex][outputPort-1][inputPort-1]);
-    }
-    if (measuredPin_dBm.isEmpty()) {
+    if (!sParameterVsPin_uninterpolated(frequency_Hz, outputPort, inputPort, measuredPin_dBm, sParameter))
         return false;
-    }
 
     // Reinterpolate using measured Pin (a1)
     const double start_dBm = measuredPin_dBm.first();
@@ -134,7 +124,7 @@ bool MeasurementData::sParameterVsPout(double frequency_Hz, uint outputPort, uin
 
     QRowVector pin_dBm;
     ComplexRowVector s21;
-    if (!sParameterVsPin(frequency_Hz, 2, 1, pin_dBm, s21))
+    if (!sParameterVsPin_uninterpolated(frequency_Hz, 2, 1, pin_dBm, s21))
         return false;
 
     QRowVector initialPout_dBm = add(pin_dBm, toDb(s21));
@@ -142,14 +132,16 @@ bool MeasurementData::sParameterVsPout(double frequency_Hz, uint outputPort, uin
         sParameter = s21;
     }
     else {
-        if (!sParameterVsPin(frequency_Hz, outputPort, inputPort, pin_dBm, sParameter))
+        if (!sParameterVsPin_uninterpolated(frequency_Hz, outputPort, inputPort, pin_dBm, sParameter))
             return false;
     }
 
     // Reinterpolate onto square grid vs Pout
+    const uint factor = 10;
+    uint points = initialPout_dBm.size();
+    points = factor * points - factor + 1;
     const double start_dBm = initialPout_dBm.first();
     const double stop_dBm = max(initialPout_dBm);
-    uint points = initialPout_dBm.size();
     pout_dBm = linearSpacing(start_dBm, stop_dBm, points);
     sParameter = linearInterpolateMagPhase(initialPout_dBm, sParameter, pout_dBm);
 
@@ -314,6 +306,26 @@ bool MeasurementData::save(QString filename) {
     return true;
 }
 
+bool MeasurementData::sParameterVsPin_uninterpolated(double frequency_Hz, uint outputPort, uint inputPort, QRowVector &pin_dBm, ComplexRowVector &sParameter) {
+    pin_dBm.clear();
+    sParameter.clear();
+
+    for (int i = 0; i < _pin_dBm.size(); i++) {
+        const int fIndex = _data[i].x().indexOf(frequency_Hz);
+        if (fIndex == -1) {
+            continue;
+        }
+
+        pin_dBm << _measuredPin_dBm[i][fIndex];
+        sParameter.push_back(_data[i].y()[fIndex][outputPort-1][inputPort-1]);
+    }
+
+    if (pin_dBm.isEmpty())
+        return false;
+    else
+        return true;
+}
+
 // Header
 void MeasurementData::createExportFileHeader(Vna &vna) {
     _header.clear();
@@ -398,7 +410,7 @@ QString MeasurementData::generatePulsedRfInfo(Vna &vna) const {
         stream << "Yes" << endl;
         stream << "! Pulse Width:   " << formatValue(vna.channel(c).pulseGenerator().pulseWidth_s(), 3, Units::Seconds) << endl;
         stream << "! Period:        " << formatValue(vna.channel(c).pulseGenerator().period_s(), 3, Units::Seconds) << endl;
-        stream << "! Trigger delay: " << formatValue(vna.channel(c).trigger().delay_ms(), 3, Units::Seconds) << endl;
+        stream << "! Trigger delay: " << formatValue(vna.channel(c).trigger().delay_s(), 3, Units::Seconds) << endl;
         stream << "!" << endl;
     }
     else {

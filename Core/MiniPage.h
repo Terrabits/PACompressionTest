@@ -34,6 +34,7 @@ public slots:
     void animateMove(int x, int y);
 
     void showError(const QString &message);
+    void showInfo(const QString &message);
 
     void startMeasurement();
     void startSweep(const QString &caption, uint time_ms);

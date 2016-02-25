@@ -18,6 +18,7 @@ MiniPage::MiniPage(QWidget *parent) :
     ui(new ::Ui::MiniPage)
 {
     ui->setupUi(this);
+    setWindowTitle(APP_NAME + " " + APP_VERSION);
     setWindowFlags(windowFlags() | Qt::FramelessWindowHint | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint);
 
     ui->progressLabel->clear();
@@ -61,6 +62,9 @@ void MiniPage::animateMove(int x, int y) {
 
 void MiniPage::showError(const QString &message) {
     QMessageBox::critical(this, APP_NAME, message);
+}
+void MiniPage::showInfo(const QString &message) {
+    QMessageBox::information(this, APP_NAME, message);
 }
 
 void MiniPage::startMeasurement() {

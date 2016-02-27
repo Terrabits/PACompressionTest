@@ -1,0 +1,1 @@
+mklink /d /j ..\build-PACompressionTest-Desktop_Qt_5_2_1_MSVC2010_32bit-Release\release ..\build-PACompressionTest-Desktop_Qt_5_2_1_MSVC2010_32bit-Release\Application\release

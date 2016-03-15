@@ -56,7 +56,6 @@ protected:
     QScopedPointer<MeasurementData> _results;
 
     RsaToolbox::Vna *_vna;
-    RsaToolbox::VnaUndo _undo;
 
     bool _isError;
     QString _error;
@@ -67,12 +66,12 @@ protected:
     static void flipPorts(RsaToolbox::NetworkData &data);
     static void flipPorts(QVector<RsaToolbox::NetworkData> &data);
 
+    uint _measurementChannel;
     bool prepareVna();
     void restoreVna();
 
 private:
-    QVector<uint> _channels;
-    QBitArray _isContinuous;
+    QVector<uint> _continuousChannels;
 };
 
 

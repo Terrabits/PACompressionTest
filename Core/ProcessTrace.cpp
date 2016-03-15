@@ -37,7 +37,21 @@ ProcessTrace::~ProcessTrace() {
 }
 
 bool ProcessTrace::isPreexistingTrace() {
-    return _vna->isTrace(_memoryTraceName);
+    const bool isChannel = _vna->channelId(_channelName) != 0;
+    const bool isDataTrace = _vna->isTrace(_dataTraceName);
+    const bool isMemoryTrace = _vna->isTrace(_memoryTraceName);
+    if (!isChannel || !isDataTrace || !isMemoryTrace) {
+        if (isChannel)
+            _vna->deleteChannel(_vna->channelId(_channelName));
+        if (_vna->isTrace(_dataTraceName))
+            _vna->deleteTrace(_dataTraceName);
+        if (_vna->isTrace(_memoryTraceName))
+            _vna->deleteTrace(_memoryTraceName);
+        return false;
+    }
+    else {
+        return true;
+    }
 }
 
 ComplexRowVector ProcessTrace::toComplex_dBm(QRowVector values_dBm) {
@@ -280,12 +294,12 @@ void ProcessTrace::updateTrace() {
         if (_settings->isYPin()) {
             _vna->trace(_dataTraceName).setWaveQuantity(WaveQuantity::a, inputPort);
             _vna->trace(_dataTraceName).toMemory(_memoryTraceName);
-            _vna->trace(_memoryTraceName).setWaveQuantity(WaveQuantity::a, inputPort);
+//            _vna->trace(_memoryTraceName).setWaveQuantity(WaveQuantity::a, inputPort);
         }
         else /*if (_settings->isYPout())*/ {
             _vna->trace(_dataTraceName).setWaveQuantity(WaveQuantity::b, outputPort);
             _vna->trace(_dataTraceName).toMemory(_memoryTraceName);
-            _vna->trace(_memoryTraceName).setWaveQuantity(WaveQuantity::b, outputPort);
+//            _vna->trace(_memoryTraceName).setWaveQuantity(WaveQuantity::b, outputPort);
         }
 
         if (!_vna->properties().isZvaFamily()) {
@@ -299,7 +313,7 @@ void ProcessTrace::updateTrace() {
         _vna->trace(_dataTraceName).setNetworkParameter(NetworkParameter::S, outputPort, inputPort);
         _vna->trace(_dataTraceName).setFormat(TraceFormat::UnwrappedPhase);
         _vna->trace(_dataTraceName).toMemory(_memoryTraceName);
-        _vna->trace(_memoryTraceName).setFormat(TraceFormat::UnwrappedPhase);
+//        _vna->trace(_memoryTraceName).setFormat(TraceFormat::UnwrappedPhase);
 
         if (!_vna->properties().isZvaFamily()) {
             _vna->trace(_memoryTraceName).write(_y_formatted);
@@ -312,22 +326,22 @@ void ProcessTrace::updateTrace() {
         if (_settings->isYS11Trace()) {
             _vna->trace(_dataTraceName).setNetworkParameter(NetworkParameter::S, inputPort, inputPort);
             _vna->trace(_dataTraceName).toMemory(_memoryTraceName);
-            _vna->trace(_memoryTraceName).setNetworkParameter(NetworkParameter::S, inputPort, inputPort);
+//            _vna->trace(_memoryTraceName).setNetworkParameter(NetworkParameter::S, inputPort, inputPort);
         }
         else if (_settings->isYS22Trace()) {
             _vna->trace(_dataTraceName).setNetworkParameter(NetworkParameter::S, outputPort, outputPort);
             _vna->trace(_dataTraceName).toMemory(_memoryTraceName);
-            _vna->trace(_memoryTraceName).setNetworkParameter(NetworkParameter::S, outputPort, outputPort);
+//            _vna->trace(_memoryTraceName).setNetworkParameter(NetworkParameter::S, outputPort, outputPort);
         }
         else if (_settings->isYS21Trace()) {
             _vna->trace(_dataTraceName).setNetworkParameter(NetworkParameter::S, outputPort, inputPort);
             _vna->trace(_dataTraceName).toMemory(_memoryTraceName);
-            _vna->trace(_memoryTraceName).setNetworkParameter(NetworkParameter::S, outputPort, inputPort);
+//            _vna->trace(_memoryTraceName).setNetworkParameter(NetworkParameter::S, outputPort, inputPort);
         }
         else if (_settings->isYS12Trace()) {
             _vna->trace(_dataTraceName).setNetworkParameter(NetworkParameter::S, inputPort, outputPort);
             _vna->trace(_dataTraceName).toMemory(_memoryTraceName);
-            _vna->trace(_memoryTraceName).setNetworkParameter(NetworkParameter::S, inputPort, outputPort);
+//            _vna->trace(_memoryTraceName).setNetworkParameter(NetworkParameter::S, inputPort, outputPort);
         }
 
         trace.write(_y_complex);

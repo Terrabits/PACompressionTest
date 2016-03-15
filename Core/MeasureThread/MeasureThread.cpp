@@ -33,8 +33,6 @@ void MeasureThread::setAppInfo(const QString &name, const QString &version) {
 }
 void MeasureThread::setVna(Vna *vna) {
     _vna = vna;
-    _undo.setVna(_vna);
-//    _undo.setRecallOnDestruction(true);
 }
 void MeasureThread::setSettings(const MeasurementSettings &settings) {
     _settings = settings;
@@ -91,28 +89,37 @@ bool MeasureThread::prepareVna() {
     QString msg;
     if (!_settings.isValid(*_vna, msg)) {
         setError(msg);
-        _vna->settings().displayOn();
+        _vna->local();
         return false;
     }
 
-    _undo.save();
-    QVector<uint> channels = _vna->channels();
-    channels.removeAt(channels.indexOf(_settings.channel()));
-    _vna->deleteChannels(channels);
+    // Set RF Off post-measurement condition
+    _vna->settings().powerReductionBetweenSweepsOn(_settings.isRfOffPostCondition());
 
+    // Stop all channels
+    _continuousChannels.clear();
+    foreach(uint c, _vna->channels()) {
+        if (_vna->channel(c).isContinuousSweep())
+            _continuousChannels << c;
+        _vna->channel(c).manualSweepOn();
+    }
+
+    // Copy reference channel
+    _vna->channel(_settings.channel()).select();
+    _measurementChannel = _vna->createChannel();
+
+    // Clear errors
     _vna->isError();
     _vna->clearStatus();
-    _vna->settings().displayOff();
     return true;
 }
 void MeasureThread::restoreVna() {
-    _undo.recall();
-    if (_settings.isRfOffPostCondition()) {
-        foreach(uint c, _vna->channels()) {
-            _vna->channel(c).manualSweepOn();
-        }
-        _vna->settings().powerReductionBetweenSweepsOn();
+    _vna->deleteChannel(_measurementChannel);
+
+    if (!_settings.isRfOffPostCondition()) {
+        foreach(uint c, _continuousChannels)
+            _vna->channel(c).continuousSweepOn();
     }
-    _vna->channel(_settings.channel()).startSweep();
+    _continuousChannels.clear();
     _vna->local();
 }

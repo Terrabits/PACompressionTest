@@ -43,7 +43,7 @@ void FrequencySweep::run() {
     const bool isGainExpansion = _settings.isGainExpansion();
 
     // Channel, ports
-    const uint channel = _settings.channel();
+    const uint channel = _measurementChannel;
     const uint outputPort = _settings.outputPort();
     const uint inputPort = _settings.inputPort();
 

@@ -1,0 +1,12 @@
+
+0. Set up Spec An in zero span mode to view ZVA power output over time from port 1
+1. Preset instrument
+2. Make sure System Config (hard key) -> System Config (soft key) -> Power (tab) -> "Power Reduction at sweep end" is checked
+3. Recall 'spikey.zvx' from Recall hard key (Narrow frequency sweep ~2.11 GHz, 20 dBm output power, manual sweep mode)
+4. Start sweep (Sweep (hard key) -> Restart (soft key))
+5. Observe power output on Spec An (should sweep briefly, then turn off)
+6. Make some change to the setup (e.g. Add an extra channel + diagram + trace) to force the set file recall to work
+7. Recall 'spikey.zvx'
+8. Observer power output on Spec An. Will be constantly 20 dBm
+9. Sweep -> Restart
+10. Observer power output turn off after sweep finishes

@@ -14,7 +14,7 @@ using namespace RsaToolbox;
 HeaderTest::HeaderTest(QObject *parent) :
     QObject(parent),
     _sourceDir(SOURCE_DIR),
-    _ipAddress("192.168.35.13")
+    _ipAddress("192.168.35.13::5025")
 {
 
 }
@@ -23,7 +23,7 @@ HeaderTest::~HeaderTest() {
 }
 
 void HeaderTest::pulseSettings() {
-    Vna vna(ConnectionType::TCPIP_CONNECTION, _ipAddress);
+    Vna vna(ConnectionType::VisaTcpSocketConnection, _ipAddress);
     QVERIFY(vna.isConnected());
     QVERIFY(!vna.idString().isEmpty());
     Log log(_sourceDir.filePath("HeaderTest_Log.txt"),

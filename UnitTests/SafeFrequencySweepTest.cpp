@@ -36,7 +36,7 @@ void SafeFrequencySweepTest::cleanup() {
 }
 
 void SafeFrequencySweepTest::sweep() {
-    Vna vna(ConnectionType::TCPIP_CONNECTION, "127.0.0.1");
+    Vna vna(ConnectionType::VisaTcpSocketConnection, "127.0.0.1::5025");
     QVERIFY(vna.isConnected());
     QVERIFY(!vna.idString().isEmpty());
 

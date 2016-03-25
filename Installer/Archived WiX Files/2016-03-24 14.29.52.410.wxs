@@ -1,44 +1,3 @@
-RSA Create Installer Version 1.2
-(C) 2014 Rohde & Schwarz America
-
-Thu Mar 24 18:54:43 2016
-
-Application Name:    R&S PA Compression Test
-Version:             2.2
-Manufacturer:        Rohde & Schwarz
-Author:              Nick Lalic
-Description:         Measure the compression point of a Power Amplifier
-Manufacturer Folder: Rohde-Schwarz
-Installation Folder: PA Compression Test
-Start Menu Folder:   R&S PA Compression Test
-Add About Link?      true
-Executable:          C:\Users\lalic\Documents\Qt\build-PACompressionTest-Desktop_Qt_5_2_1_MSVC2010_32bit-Release\release\PACompressionTest.exe
-Instrument Shortcut: PA Compression
-Msvc Runtime:        C:\Program Files (x86)\Rohde-Schwarz\RSA Create Installer\Msvc2010_32
-Qt Runtime:          C:\Qt\5.2.1\msvc2010\bin
-Create Installer:    C:\Program Files (x86)\Rohde-Schwarz\RSA Create Installer
-
-Upgrade Code:        699b0972-99de-4286-9686-b8cea86158b9
-Product Guid:        9DA06FAC-ED67-4240-AD5C-3DC0944B29ED
-Executable Guid:     42030E18-106E-418F-83C2-6789A021C38F
-Licenses Guid:       BB705A8B-DED9-441D-A22A-C3C8BA4A37A8
-Msvc Runtime Guid:   6FA58174-9229-443F-9E42-176210062316
-Qt Runtime Guid:     FD489977-D30D-40F8-A045-2B8D721A410A
-Qt Platform Guid:    F008B9B6-617C-46B3-B5F0-C129F5DE491B
-Logs/Settings Guid:  F09D2FFC-2684-42E5-886D-3D56A29A4EB8
-Shortcuts Guid:      7D465234-74A8-4B04-9E36-BE92F29273D6
-RsVisa Guid:         4A3D57AC-7D1D-4BC9-8E21-286AAA5C1AB2
-QCustomPlots Guid:   61AF818D-ACBE-403D-9D37-06A2AF746F70
-QuaZIP Guid:         9F318FA7-4A0E-4099-8B0B-3CFEBEC77BE3
-
-Wxs Template:        RsaToolbox DirectX with About Link 1.0
-Template exists?     true
-Wxs File:            Product.wxs
-Installer:           C:\Users\lalic\Documents\Qt\PACompressionTest\Installer\R&S PA Compression Test 2.2.msi
-Add Version?         true
-WiX Tools:           C:\Program Files (x86)\WiX Toolset v3.9\bin
-
-WXS FILE:            
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Rsa Create Installer Template                 -->
 <!-- Name: RsaToolbox DirectX with About Link      -->
@@ -48,8 +7,8 @@ WXS FILE:
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
-	<Product Id="9DA06FAC-ED67-4240-AD5C-3DC0944B29ED" Name="R&amp;S PA Compression Test" Language="1033"
-    Version="2.2" Manufacturer="Rohde &amp; Schwarz"
+	<Product Id="B619C506-2CED-4F5B-9745-764B19439166" Name="R&amp;S PA Compression Test" Language="1033"
+    Version="2.1.7" Manufacturer="Rohde &amp; Schwarz"
     UpgradeCode="699b0972-99de-4286-9686-b8cea86158b9">
 		
 		<Package InstallerVersion="200"
@@ -121,7 +80,7 @@ WXS FILE:
   <Fragment>
     <!-- Application files -->
     <Icon Id="Rs.ico" SourceFile="C:\Program Files (x86)\Rohde-Schwarz\RSA Create Installer/Icons/Rs.ico" />
-    <Component Id="ExecutableComponent" Guid="42030E18-106E-418F-83C2-6789A021C38F"
+    <Component Id="ExecutableComponent" Guid="74EFA3E8-1FD5-484E-BDDC-3E41E5BB79E3"
       Directory="INSTALLFOLDER">
       <File Id="AppExecutable" Name="R&amp;S PA Compression Test.exe"
         Source="C:\Users\lalic\Documents\Qt\build-PACompressionTest-Desktop_Qt_5_2_1_MSVC2010_32bit-Release\release\PACompressionTest.exe" KeyPath="yes">
@@ -131,7 +90,7 @@ WXS FILE:
           Directory="ZVAExternalToolsFolder" Advertise="yes" Icon="Rs.ico" />
       </File>
     </Component>
-    <Component Id="Licenses" Guid="BB705A8B-DED9-441D-A22A-C3C8BA4A37A8" Directory="LicensesFolder">
+    <Component Id="Licenses" Guid="A7F3F67F-79A4-48CC-96DD-A0B523D8519F" Directory="LicensesFolder">
       <File Id="RsaLicense"
         Name="R&amp;S Terms and Conditions for Royalty-Free Products.txt"
         Source="C:\Program Files (x86)\Rohde-Schwarz\RSA Create Installer\Licenses\R&amp;S Terms and Conditions for Royalty-Free Products.txt"
@@ -152,31 +111,31 @@ WXS FILE:
         Name="ZLib Copyright and Terms and Conditions.txt"
         Source="C:\Program Files (x86)\Rohde-Schwarz\RSA Create Installer\Licenses\ZLib Copyright and Terms and Conditions.txt" />
     </Component>
-    <Component Id="RsVisa" Guid="4A3D57AC-7D1D-4BC9-8E21-286AAA5C1AB2"
+    <Component Id="RsVisa" Guid="282841FE-8CE9-4B0B-9CEA-A966981E187B"
       Directory="INSTALLFOLDER">
       <File Id="RsVisa32.dll" Name="RsVisa32.dll"
         Source="..\RsaToolbox\Bus\Visa\RsVisa32.dll" KeyPath="yes" />
     </Component>
-    <Component Id="QCustomPlots" Guid="61AF818D-ACBE-403D-9D37-06A2AF746F70"
+    <Component Id="QCustomPlots" Guid="E33AF020-3AC2-4B51-951D-5E20E6C8F431"
       Directory="INSTALLFOLDER">
     	<File Id="qcustomplot.dll" Name="qcustomplot.dll"
         Source="..\RsaToolbox\QCustomPlot\qcustomplot.dll" KeyPath="yes" />
     </Component>
-    <Component Id="QuaZip" Guid="9F318FA7-4A0E-4099-8B0B-3CFEBEC77BE3"
+    <Component Id="QuaZip" Guid="DC2C90DA-5BF8-4540-9197-A5F746B5DF88"
       Directory="INSTALLFOLDER">
       <File Id="quazip.dll" Name="quazip.dll"
         Source="..\RsaToolbox\QuaZIP\quazip.dll" KeyPath="yes" />
       <File Id="zlib1.dll" Name="zlib1.dll"
         Source="..\RsaToolbox\QuaZIP\ZLib\zlib1.dll" />
     </Component>
-    <Component Id="MsvcRuntime" Guid="6FA58174-9229-443F-9E42-176210062316"
+    <Component Id="MsvcRuntime" Guid="C86CC027-28DB-4F7D-AD51-099927071B4A"
       Directory="INSTALLFOLDER">
       <File Id="msvcr100.dll" Name="msvcr100.dll"
         Source="C:\Program Files (x86)\Rohde-Schwarz\RSA Create Installer\Msvc2010_32\msvcr100.dll" KeyPath="yes" />
       <File Id="msvcp100.dll" Name="msvcp100.dll"
         Source="C:\Program Files (x86)\Rohde-Schwarz\RSA Create Installer\Msvc2010_32\msvcp100.dll" />
     </Component>
-    <Component Id="QtRuntime" Guid="FD489977-D30D-40F8-A045-2B8D721A410A"
+    <Component Id="QtRuntime" Guid="B0E92774-B066-4D74-A131-B45A2F3221A1"
       Directory="INSTALLFOLDER">
       <File Id="Qt5Core.dll" Name="Qt5Core.dll"
         Source="C:\Qt\5.2.1\msvc2010\bin\Qt5Core.dll" KeyPath="yes" />
@@ -201,12 +160,12 @@ WXS FILE:
       <File Id="icuuc51.dll" Name="icuuc51.dll"
         Source="C:\Qt\5.2.1\msvc2010\bin\icuuc51.dll" />
     </Component>
-    <Component Id="QtPlatformPlugin" Guid="F008B9B6-617C-46B3-B5F0-C129F5DE491B"
+    <Component Id="QtPlatformPlugin" Guid="A8ECCD81-AEF6-4C42-9281-E40E5037011B"
       Directory="PlatformsFolder">
       <File Id="qwindows.dll" Name="qwindows.dll"
         Source="C:\Qt\5.2.1\msvc2010\bin\..\plugins\platforms\qwindows.dll" KeyPath="yes" />
     </Component>
-    <Component Id="LogsAndSettings" Guid="F09D2FFC-2684-42E5-886D-3D56A29A4EB8"
+    <Component Id="LogsAndSettings" Guid="ED101C3A-C8B3-4B45-A771-5F1934768452"
       Directory="MyAppDataFolder" KeyPath="yes">
       <CreateFolder Directory="SettingsFolder" />
       <RemoveFile Id="PurgeLogs"
@@ -217,7 +176,7 @@ WXS FILE:
       <RemoveFolder Id="RemoveSettingsFolder"
       Directory="SettingsFolder" On="uninstall" />
     </Component>
-    <Component Id="ShortcutsComponent" Guid="7D465234-74A8-4B04-9E36-BE92F29273D6"
+    <Component Id="ShortcutsComponent" Guid="5A74566D-34D4-4129-B7FD-382191584543"
       Directory="ApplicationStartMenuFolder">
       <RegistryKey Root="HKCU"
         Key="Software\Rohde-Schwarz\R&amp;S PA Compression Test\Uninstall">
@@ -246,18 +205,3 @@ WXS FILE:
     </Component>
   </Fragment>
 </Wix>
-
-COMPILER:
-Generating C:\Users\lalic\Documents\Qt\PACompressionTest\Installer\__temp.wixobj
-Windows Installer XML Toolset Compiler version 3.9.1006.0
-Copyright (c) Outercurve Foundation. All rights reserved.
-
-Product.wxs
-
-LINKER:
-Generating C:\Users\lalic\Documents\Qt\PACompressionTest\Installer\R&S PA Compression Test 2.2.msi
-Windows Installer XML Toolset Linker version 3.9.1006.0
-Copyright (c) Outercurve Foundation. All rights reserved.
-
-
-Installer Created!

@@ -56,7 +56,7 @@ void FrequencySweep::run() {
 
     // Setup a1 trace
     QString a1Trace = _vna->createTrace(channel);
-    _vna->trace(a1Trace).setWaveQuantity(WaveQuantity::a, inputPort);
+    _vna->trace(a1Trace).setWaveQuantity(WaveQuantity::a, inputPort, inputPort);
 
     // First point
     uint iPower = 0;

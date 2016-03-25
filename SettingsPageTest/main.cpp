@@ -39,9 +39,12 @@ int main(int argc, char *argv[])
     page.setKeys(&keys);
     page.loadKeys();
     page.show();
-
     int result = app.exec();
 
+    MeasurementSettings settings = page.settings();
+    qDebug() << "acceptable?  " << page.hasAcceptableInput();
+    qDebug() << "Output Port: " << settings.outputPort();
+    qDebug() << "Input Port:  " << settings.inputPort();
     if (page.hasAcceptableInput())
         page.saveKeys();
 

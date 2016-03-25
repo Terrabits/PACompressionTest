@@ -82,6 +82,7 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
 MainWindow::~MainWindow() {
     _vna.isError();
     _vna.clearStatus();
+    _vna.local();
 
     if (_guiState == GuiState::Mini) {
         _keys.set(MINI_GEOMETRY_KEY, _miniPage->geometry());

@@ -269,10 +269,10 @@ void ProcessTrace::createTrace() {
         _vna->trace(_dataTraceName).setNetworkParameter(NetworkParameter::S, inputPort, outputPort);
     }
     else if (_settings->isYPin()) {
-        _vna->trace(_dataTraceName).setWaveQuantity(WaveQuantity::a, inputPort);
+        _vna->trace(_dataTraceName).setWaveQuantity(WaveQuantity::a, inputPort, inputPort);
     }
     else if (_settings->isYPout()) {
-        _vna->trace(_dataTraceName).setWaveQuantity(WaveQuantity::b, outputPort);
+        _vna->trace(_dataTraceName).setWaveQuantity(WaveQuantity::b, outputPort, inputPort);
     }
     else /*if (_settings->isYAmPm())*/ {
         _vna->trace(_dataTraceName).setNetworkParameter(NetworkParameter::S, outputPort, inputPort);
@@ -292,12 +292,12 @@ void ProcessTrace::updateTrace() {
     VnaTrace trace = _vna->trace(_memoryTraceName);
     if (_settings->isYPower()) {
         if (_settings->isYPin()) {
-            _vna->trace(_dataTraceName).setWaveQuantity(WaveQuantity::a, inputPort);
+            _vna->trace(_dataTraceName).setWaveQuantity(WaveQuantity::a, inputPort, inputPort);
             _vna->trace(_dataTraceName).toMemory(_memoryTraceName);
 //            _vna->trace(_memoryTraceName).setWaveQuantity(WaveQuantity::a, inputPort);
         }
         else /*if (_settings->isYPout())*/ {
-            _vna->trace(_dataTraceName).setWaveQuantity(WaveQuantity::b, outputPort);
+            _vna->trace(_dataTraceName).setWaveQuantity(WaveQuantity::b, outputPort, inputPort);
             _vna->trace(_dataTraceName).toMemory(_memoryTraceName);
 //            _vna->trace(_memoryTraceName).setWaveQuantity(WaveQuantity::b, outputPort);
         }

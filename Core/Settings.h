@@ -10,7 +10,7 @@
 
 // Application settings
 const QString APP_NAME = "R&S PA Compression Test";
-const QString APP_VERSION = "2.1.7";
+const QString APP_VERSION = "2.2";
 const QString MANUFACTURER_FOLDER = "Rohde-Schwarz";
 const QString APP_FOLDER = "PA Compression Test";
 const QString APP_DESCRIPTION = "Measure the compression point of a Power Amplifier";

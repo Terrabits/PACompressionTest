@@ -6,7 +6,7 @@ Requirements
 
 1. Microsoft Visual C++ 2010
 2. Qt 5.2.1 for MSVC 2010 32-bit  
-   Note: Choose the DirectX, NOT OpenGL
+   Note: Choose DirectX, NOT OpenGL
 3. Windows Installer XML 3.9+
 
 Instructions

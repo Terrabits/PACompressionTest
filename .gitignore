@@ -1,1 +1,19 @@
-RsaToolbox/
+# Recommended build location
+build/
+
+# Local project configuration settings
+*.pro.user
+
+# Windows build products
+*.lib
+*.exe
+*.dll
+*.pdb
+*.exp
+*.manifest
+*.rc
+*.res
+*.ilk
+
+# Installers
+*.msi

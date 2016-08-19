@@ -21,7 +21,7 @@ HEADERS     += Settings.h \
                SettingsPage.h \
                ProgressPage.h \
                MiniPage.h \
-    DragWidget.h
+               DragWidget.h
 INCLUDEPATH += $$PWD
 SOURCES     += MeasurementData.cpp \
                MeasurementSettings.cpp \
@@ -29,12 +29,11 @@ SOURCES     += MeasurementData.cpp \
                SettingsPage.cpp \
                ProgressPage.cpp \
                MiniPage.cpp \
-    DragWidget.cpp
+               DragWidget.cpp
 FORMS       += SettingsPage.ui \
                ProgressPage.ui \
                MiniPage.ui
 RESOURCES   += CoreResources.qrc
-OTHER_FILES += ../Documentation/GCA.csv
 
 DEFINES     += SOURCE_DIR=\\\"$$PWD/\\\"
 CONFIG(debug, debug|release):DEFINES += DEBUG_MODE

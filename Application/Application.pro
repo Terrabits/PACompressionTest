@@ -13,7 +13,7 @@
 #-------------------------------------------------
 
 
-QT      += core gui widgets #printsupport
+QT      += core gui widgets
 
 TARGET = PACompressionTest
 TEMPLATE = app

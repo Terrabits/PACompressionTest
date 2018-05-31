@@ -8,7 +8,9 @@ QT       += core gui widgets
 TARGET = PlotUiTest
 TEMPLATE = app
 
-include(../../Core/core.pri)
+include($$PWD/../../lib/lib.pri)
+include($$PWD/../../Core/core.pri)
+
 HEADERS     += mainwindow.h
 SOURCES     += main.cpp \
                mainwindow.cpp

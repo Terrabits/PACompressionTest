@@ -7,7 +7,8 @@ CONFIG    -= app_bundle
 CONFIG    += console \
              testcase
 
-include(../../Core/core.pri)
+include($$PWD/../../lib/lib.pri)
+include($$PWD/../../Core/core.pri)
 HEADERS     += SafeFrequencySweepTest.h \
                SpeedTrackerTest.h \
                TraceSettingsTest.h \
@@ -23,5 +24,3 @@ SOURCES     += main.cpp \
                HeaderTest.cpp
 
 DEFINES   += SOURCE_DIR=\\\"$$PWD/\\\"
-
-

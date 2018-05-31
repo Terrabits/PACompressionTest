@@ -5,5 +5,7 @@ CONFIG   += ordered
 SUBDIRS  += CoreTest         \
             SettingsPageTest \
             PlotUiTest       \
-            MiniPageTest
-
+            MiniPageTest \
+            rsatoolboxtest \
+            quaziptest \
+            qcustomplottest

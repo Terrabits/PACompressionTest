@@ -1,15 +1,15 @@
 #-------------------------------------------------
-# 
+#
 # Project  : PACompressionTest
 # App name : R&S PA Compression Test
-# 
-# 
+#
+#
 # RsaToolbox Application
 # Template : Rsa App
 #            Version ?
-# 
+#
 # (C) Rohde & Schwarz (North) America
-# 
+#
 #-------------------------------------------------
 
 
@@ -18,7 +18,8 @@ QT      += core gui widgets
 TARGET = PACompressionTest
 TEMPLATE = app
 
-include(../Core/core.pri)
+include($$PWD/../lib/lib.pri)
+include($$PWD/../Core/core.pri)
 HEADERS     += mainwindow.h
 INCLUDEPATH += $$PWD
 SOURCES     += main.cpp \
@@ -31,4 +32,3 @@ win32:      RC_FILE = VS2010Resources.rc
 
 DEFINES += SOURCE_DIR=\\\"$$PWD\\\"
 CONFIG(debug, debug|release):DEFINES += DEBUG_MODE
-

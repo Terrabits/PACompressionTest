@@ -1,9 +1,4 @@
-
-
 QT          += core gui widgets
-
-include($$PWD/../RsaToolbox/rsatoolbox.pri)
-include($$PWD/../RsaToolbox/QuaZip/quazip.pri)
 
 INCLUDEPATH += $$PWD \
                $$PWD/Traces \

@@ -1,7 +1,5 @@
-# Recommended build location
 build/
-
-# Local project configuration settings
+lib/
 *.pro.user
 
 # Windows build products

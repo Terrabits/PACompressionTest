@@ -1,4 +1,4 @@
-#include "HeaderTest.h"
+﻿#include "HeaderTest.h"
 
 
 // RsaToolbox
@@ -35,7 +35,6 @@ void HeaderTest::pulseSettings() {
 
     qDebug() << "ZVAX-TRM? " << vna.isExtensionUnit();
     qDebug() << "Pulse modulator on path 1? " << vna.channel().extensionUnit().isPulseModulatorOn(1);
-    qDebug() << "Delay: " << vna.channel().pulseGenerator().delay_s() << " seconds";
     qDebug() << "Delay: " << vna.channel().pulseGenerator().pulseWidth_s() << " seconds";
     qDebug() << "Delay: " << vna.channel().pulseGenerator().period_s() << " seconds";
 

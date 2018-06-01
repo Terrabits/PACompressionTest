@@ -44,7 +44,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="configurePage">
        <layout class="QGridLayout" name="gridLayout_2">
@@ -69,6 +69,73 @@
            <layout class="QGridLayout" name="gridLayout">
             <item row="0" column="0">
              <widget class="SettingsPage" name="settings" native="true"/>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="efficiencyTab">
+           <attribute name="title">
+            <string>Efficiency</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <item>
+             <widget class="QLabel" name="calculationLabel">
+              <property name="text">
+               <string>Efficiency Calculation:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QWidget" name="widget" native="true">
+              <layout class="QVBoxLayout" name="verticalLayout">
+               <item>
+                <widget class="QRadioButton" name="pae">
+                 <property name="text">
+                  <string>Power Added Efficiency (PAE)</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QRadioButton" name="de">
+                 <property name="text">
+                  <string>Drain Efficiency (DE)</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="stagesLabel">
+              <property name="text">
+               <string>Stages (DMMs):</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="dmm::StageListWidget" name="stages" native="true">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>100</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </widget>
@@ -119,6 +186,12 @@
    <class>ProgressPage</class>
    <extends>QWidget</extends>
    <header>ProgressPage.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>dmm::StageListWidget</class>
+   <extends>QWidget</extends>
+   <header>dmm/stagelistwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

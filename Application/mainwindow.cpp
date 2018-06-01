@@ -1,4 +1,4 @@
-
+﻿
 
 // Project
 #include "mainwindow.h"
@@ -55,6 +55,8 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
     connect(ui->settings, SIGNAL(measureClicked()),
             this, SLOT(startMeasurement()));
 
+    // Efficiency
+    ui->stages->setKeys(&keys);
 
     // Traces
     connect(ui->traces, SIGNAL(inputError(QString)),

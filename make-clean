@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+source __FILE__
+ROOT="$($__FILE__)"
+
+rm -rf "$ROOT/build/"

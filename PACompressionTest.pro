@@ -1,6 +1,5 @@
 TEMPLATE  = subdirs
 CONFIG   += ordered
-SUBDIRS  += lib         \
-            Core        \
+SUBDIRS  += Core        \
             Test        \
             Application

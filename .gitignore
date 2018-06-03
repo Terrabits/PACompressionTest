@@ -2,16 +2,3 @@ build/
 lib/
 *.pro.user
 
-# Windows build products
-*.lib
-*.exe
-*.dll
-*.pdb
-*.exp
-*.manifest
-*.rc
-*.res
-*.ilk
-
-# Installers
-*.msi

@@ -1,9 +1,12 @@
-#ifndef MEASUREMENTDATA_H
+﻿#ifndef MEASUREMENTDATA_H
 #define MEASUREMENTDATA_H
 
 
 // Project
 #include "MeasurementSettings.h"
+
+// Dmm
+#include <Dmm/stageresult.h>
 
 // RsaToolbox
 #include <Definitions.h>
@@ -40,10 +43,13 @@ public:
     RsaToolbox::QRowVector &maxGain_dB();
     RsaToolbox::ComplexMatrix3D &sParametersAtMaxGain();
     RsaToolbox::QRowVector &powerOutAtMaxGain_dBm();
+
     RsaToolbox::QRowVector &powerInAtCompression_dBm();
     RsaToolbox::QRowVector &gainAtCompression_dB();
     RsaToolbox::ComplexMatrix3D &sParametersAtCompression();
     RsaToolbox::QRowVector &powerOutAtCompression_dBm();
+    QVector<RsaToolbox::QRowVector> &dcPowerAtCompression_W();
+    QVector<RsaToolbox::QRowVector> &dcCurrentAtCompression_A();
 
     bool sParameterVsPin(double frequency_Hz, uint outputPort, uint inputPort, RsaToolbox::QRowVector &pin_dBm, RsaToolbox::ComplexRowVector &sParameter);
     bool sParameterVsPout(double frequency_Hz, uint outputPort, uint inputPort, RsaToolbox::QRowVector &pout_dBm, RsaToolbox::ComplexRowVector &sParameter);
@@ -63,6 +69,7 @@ public:
     // data[power]->y()[freq][outputPort-1][inputPort-1]
     // where inputPort, outputPort => [1,2]
     QVector<RsaToolbox::NetworkData> &data();
+    QVector<QVector<dmm::StageResult>> &dmmData();
 
     void clearAllData();
 
@@ -91,9 +98,12 @@ private:
     RsaToolbox::QRowVector _gainAtCompression_dB;
     RsaToolbox::ComplexMatrix3D _sParametersAtCompression;
     RsaToolbox::QRowVector _powerOutAtCompression_dBm;
+    QVector<RsaToolbox::QRowVector> _dcCurrentAtCompression_A;
+    QVector<RsaToolbox::QRowVector> _dcPowerAtCompression_W;
 
     QVector<RsaToolbox::QRowVector> _measuredPin_dBm;
     QVector<RsaToolbox::NetworkData> _data;
+    QVector<QVector<dmm::StageResult>> _dmmData;
 
     // Non-interpolated
     bool sParameterVsPin_uninterpolated(double frequency_Hz, uint outputPort, uint inputPort, RsaToolbox::QRowVector &pin_dBm, RsaToolbox::ComplexRowVector &sParameter);

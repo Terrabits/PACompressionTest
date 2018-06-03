@@ -1,4 +1,4 @@
-#include "SafeFrequencySweepTest.h"
+﻿#include "SafeFrequencySweepTest.h"
 
 
 // Project
@@ -36,14 +36,12 @@ void SafeFrequencySweepTest::cleanup() {
 }
 
 void SafeFrequencySweepTest::sweep() {
-    Vna vna(ConnectionType::VisaTcpSocketConnection, "127.0.0.1::5025");
-    QVERIFY(vna.isConnected());
-    QVERIFY(!vna.idString().isEmpty());
-
-    QScopedPointer<Log> log(new Log(_sourceDir.filePath("SafeFrequencySweepTest_Log.txt"),
-            "PA Compression Test", "0"));
-    QVERIFY(log->isOpen());
-    log->printHeader();
+    Vna vna(ConnectionType::VisaTcpSocketConnection, _ipAddress);
+    QVERIFY(vna.isOpen      ());
+    QVERIFY(vna.isResponding());
+    vna.startLog(_sourceDir.filePath("SafeFrequencySweepTest_Log.txt"),
+                 "PA Compression Test Test", "0.0");
+    QVERIFY(vna.isLogging());
 
     QThread logThread;
     log->moveToThread(&logThread);
@@ -56,8 +54,8 @@ void SafeFrequencySweepTest::sweep() {
 
     MeasurementSettings settings;
     settings.setStartFrequency(1.0E9);
-    settings.setStopFrequency(2.0E9);
-    settings.setFrequencyPoints(101); // step: 10 MHz
+    settings.setStopFrequency (2.0E9);
+    settings.setFrequencyPoints(101 ); // step: 10 MHz
     settings.setIfBw(1.0E3);
 
     settings.setStartPower(-20);

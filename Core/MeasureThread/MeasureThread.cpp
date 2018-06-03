@@ -1,6 +1,7 @@
-#include <QDebug>
+﻿#include <QDebug>
 
 #include "MeasureThread.h"
+#include "Settings.h"
 
 // RsaToolbox
 #include <General.h>
@@ -8,10 +9,13 @@
 #include <NetworkTraceData.h>
 
 // C++ std lib
+#include <algorithm>
+#include <cassert>
 #include <complex>
 
 // Qt
 #include <QApplication>
+#include <QDir>
 #include <QMessageBox>
 
 using namespace RsaToolbox;
@@ -20,7 +24,7 @@ using namespace RsaToolbox;
 MeasureThread::MeasureThread(QObject *parent)
     : QThread(parent)
 {
-
+    _dmms.setLogPath(dataDir.filePath("logs"));
 }
 MeasureThread::~MeasureThread()
 {
@@ -30,12 +34,18 @@ MeasureThread::~MeasureThread()
 void MeasureThread::setAppInfo(const QString &name, const QString &version) {
     _appName = name;
     _appVersion = version;
+    _dmms.setApplication(name, version);
 }
 void MeasureThread::setVna(Vna *vna) {
     _vna = vna;
 }
 void MeasureThread::setSettings(const MeasurementSettings &settings) {
     _settings = settings;
+}
+
+void MeasureThread::setDmmStages(const QVector<dmm::StageSettings> &stages, double delay_s) {
+    _dmms.setStages(stages);
+    _dmms.setTriggerDelay(delay_s);
 }
 
 bool MeasureThread::isError() const {
@@ -60,6 +70,14 @@ void MeasureThread::start(Priority priority) {
     _results->setTimeToNow();
     _results->setSettings(_settings);
     _results->createExportFileHeader(*_vna);
+    if (_dmms.hasStages()) {
+        if (!_dmms.hasAcceptableInput(_error) || !_dmms.isConnected(_error)) {
+            emit startingSweep("", 1);
+            emit finishedSweep();
+            return;
+        }
+        _dmms.setPorts(sourcesInChannel(), _settings.inputPort());
+    }
     QThread::start(priority);
 }
 MeasurementData *MeasureThread::takeResults() {
@@ -85,6 +103,37 @@ void MeasureThread::flipPorts(QVector<NetworkData> &data) {
     }
 }
 
+QVector<uint> MeasureThread::sourcesInChannel() {
+    QVector<uint> ports;
+
+    VnaChannel ch = _vna->channel(_measurementChannel);
+    foreach (const QString name, ch.traces()) {
+        // Todo: Handle other scenarios:
+        // - additional trace types?
+        // - balanced ports?
+        VnaTrace trc = _vna->trace(name);
+        if (trc.isWaveQuantity()) {
+
+        }
+        else if (trc.isWaveRatio()) {
+
+        }
+        else if (trc.isNetworkParameter()) {
+            NetworkParameter param;
+            uint inputPort;
+            uint outputPort;
+            trc.networkParameter(param, outputPort, inputPort);
+            if (!ports.contains(inputPort)) {
+                ports << inputPort;
+            }
+        }
+        else {
+            assert(false);
+        }
+    }
+    std::sort(ports.begin(), ports.end());
+    return ports;
+}
 bool MeasureThread::prepareVna() {
     QString msg;
     if (!_settings.isValid(*_vna, msg)) {

@@ -1,12 +1,16 @@
-#include "SafeFrequencySweep.h"
+﻿#include "SafeFrequencySweep.h"
 
+
+#include <Dmm/stageresult.h>
 
 // RsaToolbox
 #include <General.h>
+#include <GenericBus.h>
 using namespace RsaToolbox;
 
 // Qt
 #include <QDebug>
+#include <QScopedPointer>
 
 
 SafeFrequencySweep::SafeFrequencySweep(QObject *parent) :
@@ -75,6 +79,10 @@ void SafeFrequencySweep::run() {
     sweep.setPower(power_dBm);
     _vna->channel(channel).manualSweepOn();
     emit startingSweep(QString("Sweep %1").arg(iPower+1), sweep.sweepTime_ms());
+    if (_dmms.hasStages()) {
+        _dmms.setSweepPoints(sweptFreq_Hz.size());
+        _dmms.start();
+    }
     NetworkData data = sweep.measure(outputPort, inputPort);
     if (data.points() == 0) {
         // Sweep unsuccessful
@@ -84,32 +92,51 @@ void SafeFrequencySweep::run() {
         restoreVna();
         return;
     }
+    QVector<dmm::StageResult> dmmData = _dmms.readResults();
+    for (int i = 0; i < dmmData.size(); i++) {
+        if (dmmData[i].isEmpty()) {
+            emit finishedSweep();
+            _results->clearAllData();
+            QString error = "*Could not read DMM \'%1\'";
+            error = error.arg(_dmms.stages()[i].name);
+            setError(error);
+            restoreVna();
+            return;
+        }
+    }
     _results->data() << data;
+    _results->dmmData() << dmmData;
     QRowVector measuredPin_dBm;
     _vna->trace(a1Trace).y(measuredPin_dBm);
     _results->measuredPin_dBm() << measuredPin_dBm;
     emit finishedSweep();
 
-    if (shouldFlipPorts)
+    if (shouldFlipPorts) {
         flipPorts(_results->data()[iPower]);
+    }
 
-    _results->powerInAtMaxGain_dBm() = measuredPin_dBm;
-    _results->maxGain_dB() = _results->data()[iPower].y_dB(2, 1);
-    _results->sParametersAtMaxGain() = _results->data()[iPower].y();
+    _results->powerInAtMaxGain_dBm()  = measuredPin_dBm;
+    _results->maxGain_dB()            = _results->data()[iPower].y_dB(2, 1);
+    _results->sParametersAtMaxGain()  = _results->data()[iPower].y();
     _results->powerOutAtMaxGain_dBm() = add(_results->powerInAtMaxGain_dBm(), _results->maxGain_dB());
 
-    _results->powerInAtCompression_dBm() = _results->powerInAtMaxGain_dBm();
-    _results->gainAtCompression_dB() = _results->maxGain_dB();
-    _results->sParametersAtCompression() = _results->sParametersAtMaxGain();
+    _results->powerInAtCompression_dBm()  = _results->powerInAtMaxGain_dBm();
+    _results->gainAtCompression_dB()      = _results->maxGain_dB();
+    _results->sParametersAtCompression()  = _results->sParametersAtMaxGain();
     _results->powerOutAtCompression_dBm() = _results->powerOutAtMaxGain_dBm();
+    for (int i = 0; i < dmmData.size(); i++) {
+        _results->dcPowerAtCompression_W  () << dmmData[i].power_W  ();
+        _results->dcCurrentAtCompression_A() << dmmData[i].current_A();
+    }
 
     emit progress(int((100.0 * (iPower+1))/powerPoints));
     emit plotMaxGain(_results->frequencies_Hz(), _results->maxGain_dB());
     emit plotPinAtCompression(_results->frequencies_Hz(), _results->powerInAtCompression_dBm());
 
     for (iPower = 1; iPower < powerPoints; iPower++) {
-        if (sweptFreq_Hz.isEmpty())
+        if (sweptFreq_Hz.isEmpty()) {
             break;
+        }
 
         power_dBm = pin_dBm[iPower];
         _results->pin_dBm() << power_dBm;
@@ -123,22 +150,40 @@ void SafeFrequencySweep::run() {
 
         emit startingSweep(QString("Sweep %1").arg(iPower+1), sweep.sweepTime_ms());
         sweep.setPower(power_dBm);
+        if (_dmms.hasStages()) {
+            _dmms.setSweepPoints(sweptFreq_Hz.size());
+            _dmms.start();
+        }
         data = sweep.measure(outputPort, inputPort);
         if (data.points() == 0) {
             // Sweep unsuccessful
             emit finishedSweep();
             _results->clearAllData();
-            setError("*Could not perform sweep.");
+            setError("*Could not read data from sweep");
             restoreVna();
             return;
         }
+        dmmData = _dmms.readResults();
+        for (int i = 0; i < dmmData.size(); i++) {
+            if (dmmData[i].isEmpty()) {
+                emit finishedSweep();
+                _results->clearAllData();
+                QString error = "*Could not read DMM \'%1\'";
+                error = error.arg(_dmms.stages()[i].name);
+                setError(error);
+                restoreVna();
+                return;
+            }
+        }
         _results->data() << data;
+        _results->dmmData() << dmmData;
         _vna->trace(a1Trace).y(measuredPin_dBm);
         _results->measuredPin_dBm() << measuredPin_dBm;
         emit finishedSweep();
 
-        if (shouldFlipPorts)
+        if (shouldFlipPorts) {
             flipPorts(_results->data()[iPower]);
+        }
 
 //        const double previousPower_dBm = powers_dBm[iPower-1];
         QRowVector previousMeasuredPowers_dBm = _results->measuredPin_dBm()[iPower-1]; // NEW
@@ -178,14 +223,30 @@ void SafeFrequencySweep::run() {
             const double compressedGain_dB = maxGain_dB - compressionLevel_dB;
             if (gain_dB <= compressedGain_dB) {
                 const double pinCompression_dBm
-                        = linearInterpolateX(previousMeasuredPower_dBm, previousGain_dB, // i-1
-                                             measuredPower_dBm,         gain_dB, // i
-                                                                compressedGain_dB); // Desired Y value
+                        = linearInterpolateX(previousMeasuredPower_dBm, previousGain_dB,    // i-1
+                                             measuredPower_dBm,         gain_dB,            // i
+                                                                        compressedGain_dB); // at y=compressed gain
 
-                _results->powerInAtCompression_dBm()[iTotalFreq] = pinCompression_dBm;
-                _results->gainAtCompression_dB()[iTotalFreq] = compressedGain_dB;
-                _results->sParametersAtCompression()[iTotalFreq] = linearInterpolateYMagPhase(previousMeasuredPower_dBm, previousSParam, measuredPower_dBm, sParam, pinCompression_dBm);
+                _results->powerInAtCompression_dBm ()[iTotalFreq] = pinCompression_dBm;
+                _results->gainAtCompression_dB     ()[iTotalFreq] = compressedGain_dB;
+                _results->sParametersAtCompression ()[iTotalFreq] = linearInterpolateYMagPhase(previousMeasuredPower_dBm, previousSParam, measuredPower_dBm, sParam, pinCompression_dBm);
                 _results->powerOutAtCompression_dBm()[iTotalFreq] = pinCompression_dBm + compressedGain_dB;
+
+                // Efficiency at compression
+                for (int i = 0; i < dmmData.size(); i++) {
+                    // power
+                    const double dcPower_W         = dmmData[i].power_W()[iCurrentFreq];
+                    const double previousDcPower_W = _results->dmmData()[i][iPower-1].power_W()[iPrevFreq];
+                    _results->dcPowerAtCompression_W()[i][iTotalFreq] = linearInterpolateY(previousMeasuredPower_dBm, previousDcPower_W, // i-1
+                                                                                           measuredPower_dBm,         dcPower_W,         // i
+                                                                                           pinCompression_dBm);                          // at x=compression
+                    // current
+                    const double dcCurrent_A = dmmData[i].current_A()[iCurrentFreq];
+                    const double previousDcCurrent_A = _results->dmmData()[i][iPower-1].current_A()[iPrevFreq];
+                    _results->dcCurrentAtCompression_A()[i][iTotalFreq] = linearInterpolateY(previousMeasuredPower_dBm, previousDcCurrent_A, // i-1
+                                                                                             measuredPower_dBm,         dcCurrent_A,         // i
+                                                                                             pinCompression_dBm);                            // at x=compression
+                }
 
                 sweptFreq_Hz.removeAt(iCurrentFreq);
                 measuredPin_dBm.removeAt(iCurrentFreq);

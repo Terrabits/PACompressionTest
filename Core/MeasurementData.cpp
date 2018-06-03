@@ -1,4 +1,4 @@
-#include "MeasurementData.h"
+﻿#include "MeasurementData.h"
 
 
 //RsaToolbox
@@ -81,6 +81,12 @@ ComplexMatrix3D &MeasurementData::sParametersAtCompression() {
 }
 QRowVector &MeasurementData::powerOutAtCompression_dBm() {
     return _powerOutAtCompression_dBm;
+}
+QVector<QRowVector> &MeasurementData::dcPowerAtCompression_W() {
+    return _dcPowerAtCompression_W;
+}
+QVector<QRowVector> &MeasurementData::dcCurrentAtCompression_A() {
+    return _dcCurrentAtCompression_A;
 }
 
 ComplexRowVector MeasurementData::sParameterAtCompression(uint outputPort, uint inputPort) {
@@ -227,7 +233,9 @@ QVector<QRowVector> &MeasurementData::measuredPin_dBm() {
 QVector<NetworkData> &MeasurementData::data() {
     return _data;
 }
-
+QVector<QVector<dmm::StageResult>> &MeasurementData::dmmData() {
+    return _dmmData;
+}
 void MeasurementData::clearAllData() {
     _frequencies_Hz.clear();
     _pin_dBm.clear();
@@ -239,8 +247,10 @@ void MeasurementData::clearAllData() {
     _powerInAtCompression_dBm.clear();
     _gainAtCompression_dB.clear();
     _powerOutAtCompression_dBm.clear();
+    _dcPowerAtCompression_W.clear();
 
     _data.clear();
+    _dmmData.clear();
 }
 
 bool MeasurementData::open(QString filename) {

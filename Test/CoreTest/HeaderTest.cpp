@@ -24,22 +24,17 @@ HeaderTest::~HeaderTest() {
 
 void HeaderTest::pulseSettings() {
     Vna vna(ConnectionType::VisaTcpSocketConnection, _ipAddress);
-    QVERIFY(vna.isConnected());
-    QVERIFY(!vna.idString().isEmpty());
-    Log log(_sourceDir.filePath("HeaderTest_Log.txt"),
-            "PA Compression Test", "0");
-    QVERIFY(log.isOpen());
-    log.printHeader();
-    vna.useLog(&log);
-    vna.printInfo();
+    QVERIFY(vna.isOpen      ());
+    QVERIFY(vna.isResponding());
+    vna.startLog(_sourceDir.filePath("HeaderTest_Log.txt"),
+                 "PA Compression Test Test", "0.0");
+    QVERIFY(vna.isLogging());
 
-    qDebug() << "ZVAX-TRM? " << vna.isExtensionUnit();
-    qDebug() << "Pulse modulator on path 1? " << vna.channel().extensionUnit().isPulseModulatorOn(1);
-    qDebug() << "Delay: " << vna.channel().pulseGenerator().pulseWidth_s() << " seconds";
-    qDebug() << "Delay: " << vna.channel().pulseGenerator().period_s() << " seconds";
+    vna.isExtensionUnit();
+    vna.channel().extensionUnit ().isPulseModulatorOn(1);
+    vna.channel().pulseGenerator().pulseWidth_s();
+    vna.channel().pulseGenerator().period_s    ();
 
-    QStringList errors;
-    vna.errors(errors);
-    qDebug() << "Errors: " << errors;
+    vna.isErrors();
     vna.clearStatus();
 }

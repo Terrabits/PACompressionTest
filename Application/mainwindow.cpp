@@ -10,6 +10,9 @@
 
 #include "ProcessTrace.h"
 
+// Dmms
+#include <dmm/dmmcontroller.h>
+
 // RsaToolbox
 using namespace RsaToolbox;
 
@@ -159,14 +162,19 @@ void MainWindow::startMeasurement() {
             ui->configureTabs->setCurrentWidget(ui->settingsTab);
             showConfiguration();
         }
-        else {
-            shake();
-        }
+        shake();
         return;
     }
-
     _settings = ui->settings->settings();
     ui->settings->saveKeys();
+
+    // Dmms
+    QString msg;
+    if (!ui->stages->stages().isEmpty() && !ui->stages->hasAcceptableInput(msg)) {
+        showMessage(msg, Qt::GlobalColor::red);
+        shake();
+        return;
+    }
 
     _isMeasuring = true;
     clearResults();
@@ -176,6 +184,7 @@ void MainWindow::startMeasurement() {
     _thread->setAppInfo(APP_NAME, APP_VERSION);
     _thread->setVna(&_vna);
     _thread->setSettings(_settings);
+    _thread->setDmmStages(ui->stages->stages(), ui->stages->delay_s());
 
     if (_guiState == GuiState::Configuration) {
         // Maximized

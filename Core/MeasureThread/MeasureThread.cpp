@@ -24,7 +24,9 @@ using namespace RsaToolbox;
 MeasureThread::MeasureThread(QObject *parent)
     : QThread(parent)
 {
+    dataDir.mkpath("logs");
     _dmms.setLogPath(dataDir.filePath("logs"));
+
 }
 MeasureThread::~MeasureThread()
 {

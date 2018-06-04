@@ -4,6 +4,7 @@
 // Project
 #include "MeasurementSettings.h"
 #include "SafeFrequencySweep.h"
+#include "Settings.h"
 
 // RsaToolbox
 #include <Log.h>
@@ -36,19 +37,12 @@ void SafeFrequencySweepTest::cleanup() {
 }
 
 void SafeFrequencySweepTest::sweep() {
-    Vna vna(ConnectionType::VisaTcpSocketConnection, _ipAddress);
+    Vna vna(CONNECTION_TYPE, INSTRUMENT_ADDRESS);
     QVERIFY(vna.isOpen      ());
     QVERIFY(vna.isResponding());
     vna.startLog(_sourceDir.filePath("SafeFrequencySweepTest_Log.txt"),
                  "PA Compression Test Test", "0.0");
     QVERIFY(vna.isLogging());
-
-    QThread logThread;
-    log->moveToThread(&logThread);
-    logThread.start();
-
-    vna.useLog(log.data());
-    vna.printInfo();
 
     vna.preset();
 
@@ -138,12 +132,6 @@ void SafeFrequencySweepTest::sweep() {
     QVERIFY(_sourceDir.exists("Results.zip"));
     QVERIFY(generatePlot(results.data(), _sourceDir.filePath("Plot.png")));
     QVERIFY(_sourceDir.exists("Plot.png"));
-
-    // Delete log
-    log->deleteLater();
-    log.take();
-    logThread.quit();
-    logThread.wait();
 }
 
 bool SafeFrequencySweepTest::generatePlot(MeasurementData *results, const QString &filename) {

@@ -20,7 +20,8 @@ HEADERS     += Settings.h \
                SettingsPage.h \
                ProgressPage.h \
                MiniPage.h \
-               DragWidget.h
+               DragWidget.h \
+    tocomplex.h
 INCLUDEPATH += $$PWD
 SOURCES     += MeasurementData.cpp \
                MeasurementSettings.cpp \

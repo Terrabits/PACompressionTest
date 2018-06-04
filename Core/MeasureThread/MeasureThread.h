@@ -36,7 +36,7 @@ public:
 
     bool isError() const;
     QString errorMessage() const;
-    void start(Priority priority = InheritPriority);
+    bool start(Priority priority = InheritPriority);
     MeasurementData *takeResults();
 
 signals:
@@ -47,6 +47,7 @@ signals:
     void finishedSweep();
 
     void progress(int percent);
+    void error(QString msg);
 
 protected:
 

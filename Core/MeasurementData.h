@@ -7,6 +7,7 @@
 
 // Dmm
 #include <Dmm/stageresult.h>
+#include <Dmm/stagesettings.h>
 
 // RsaToolbox
 #include <Definitions.h>
@@ -30,6 +31,9 @@ public:
 
     MeasurementSettings settings() const;
     void setSettings(const MeasurementSettings &settings);
+
+    QVector<dmm::StageSettings> dmmSettings() const;
+    void setDmmSettings(const QVector<dmm::StageSettings> &settings);
 
     void createExportFileHeader(RsaToolbox::Vna &vna);
 
@@ -86,6 +90,7 @@ private:
     QString _header;
 
     MeasurementSettings _settings;
+    QVector<dmm::StageSettings> _dmmSettings;
 
     RsaToolbox::QRowVector _frequencies_Hz;
     RsaToolbox::QRowVector _pin_dBm;

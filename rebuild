@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+source __FILE__
+ROOT="$($__FILE__)"
+QT="$ROOT/.."
+
+rebuild-rsatoolbox && "$QT/Dmm/rebuild" && "$ROOT/make-clean" && "$ROOT/make"

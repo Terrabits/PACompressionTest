@@ -45,6 +45,13 @@ void MeasurementData::setSettings(const MeasurementSettings &settings) {
     _settings = settings;
 }
 
+QVector<dmm::StageSettings> MeasurementData::dmmSettings() const {
+    return _dmmSettings;
+}
+void MeasurementData::setDmmSettings(const QVector<dmm::StageSettings> &settings) {
+    _dmmSettings = settings;
+}
+
 uint MeasurementData::frequencyPoints() const {
     return _frequencies_Hz.size();
 }

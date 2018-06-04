@@ -3,6 +3,7 @@
 // Project
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "tocomplex.h"
 
 #include "Settings.h"
 #include "FrequencySweep.h"
@@ -197,12 +198,16 @@ void MainWindow::startMeasurement() {
 
     connect(_thread.data(), SIGNAL(finished()),
             this, SLOT(measurementFinished()));
-
-    _thread->start();
+    connect(_thread.data(), SIGNAL(error(QString)),
+            this, SLOT(measurementFinished()));
+    if (!_thread->start()) {
+        measurementFinished();
+    }
 }
 void MainWindow::cancelMeasurement() {
-    if (askCancelMeasurement())
+    if (askCancelMeasurement()) {
         _thread->requestInterruption();
+    }
 }
 void MainWindow::measurementFinished() {
     _isMeasuring = false;
@@ -280,6 +285,35 @@ void MainWindow::processTraces() {
             diagram++;
         }
         ProcessTrace(&(traces[i]), _results.data(), &_vna, diagram);
+    }
+
+    // Todo: seriously clean this up...
+    //
+    for (int i = 0; i < _results->dcCurrentAtCompression_A().size(); i++) {
+        dmm::StageSettings dmmSettings = _results->dmmSettings()[i];
+
+        // Create S11 trace
+        TraceSettings trcSettings;
+        trcSettings.name = dmmSettings.name + "_A";
+        trcSettings.yParameter  = "S11";
+        trcSettings.xParameter  = "Frequency";
+        trcSettings.atParameter = "Compression";
+        // Create S11 trace
+        if (_vna.isDiagram(diagram) && _vna.diagram(diagram).traces().size() >= 20) {
+            diagram++;
+        }
+        ProcessTrace(&trcSettings, _results.data(), &_vna, diagram);
+
+        // Overwrite with current at compression
+        VnaTrace trc = _vna.trace(trcSettings.name);
+        //const uint points = _results->settings().frequencyPoints();
+        const uint output = _results->settings().outputPort();
+        const uint input  = _results->settings().inputPort();
+        QString parameter = "PAE%1%2";
+        parameter = parameter.arg(output).arg(input);
+        trc.setParameter(parameter);
+        // Todo: This is 100% likely to be wrong!
+        trc.write(toComplex(_results->dcCurrentAtCompression_A()[i]));
     }
 
     _vna.local();

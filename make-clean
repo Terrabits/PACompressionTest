@@ -3,4 +3,4 @@
 source __FILE__
 ROOT="$($__FILE__)"
 
-rm -rf "$ROOT/build/"
+rm -rf "$ROOT/build"

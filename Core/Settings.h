@@ -1,4 +1,4 @@
-#ifndef SETTINGS_H
+﻿#ifndef SETTINGS_H
 #define SETTINGS_H
 
 
@@ -29,8 +29,8 @@ const QString KEY_PATH = dataDir.filePath("Settings");
 // Connection settings
 const RsaToolbox::ConnectionType CONNECTION_TYPE = RsaToolbox::ConnectionType::VisaTcpSocketConnection;
 #ifdef DEBUG_MODE
-//const QString INSTRUMENT_ADDRESS = "127.0.0.1::5025";
-const QString INSTRUMENT_ADDRESS = "192.168.1.106::5025";
+const QString INSTRUMENT_ADDRESS = "127.0.0.1::5025";
+//const QString INSTRUMENT_ADDRESS = "192.168.1.106::5025";
 #else
 const QString INSTRUMENT_ADDRESS = "127.0.0.1::5025";
 #endif

@@ -1,4 +1,4 @@
-
+﻿
 
 // RsaPaCompressionTest
 #include "Settings.h"
@@ -15,24 +15,20 @@ using namespace RsaToolbox;
 #include <QMessageBox>
 
 
-bool isNoConnection(Vna &vna);
-bool isUnknownModel(Vna &vna);
+bool isConnected(Vna &vna);
+bool isKnownModel(Vna &vna);
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    Log log(LOG_FILENAME, APP_NAME, APP_VERSION);
-    log.printHeader();
-
     Vna vna(CONNECTION_TYPE, INSTRUMENT_ADDRESS);
-    vna.useLog(&log);
-    vna.printInfo();
+    vna.startLog(LOG_FILENAME, APP_NAME, APP_VERSION);
+    if (!isConnected(vna) || !isKnownModel(vna)) {
+        return 1;
+    }
 
     Keys keys(KEY_PATH);
-
-    if (isNoConnection(vna) || isUnknownModel(vna))
-            return(0);
 
     SettingsPage page;
     page.setVna(&vna);
@@ -45,15 +41,17 @@ int main(int argc, char *argv[])
     qDebug() << "acceptable?  " << page.hasAcceptableInput();
     qDebug() << "Output Port: " << settings.outputPort();
     qDebug() << "Input Port:  " << settings.inputPort();
-    if (page.hasAcceptableInput())
+    if (page.hasAcceptableInput()) {
         page.saveKeys();
+    }
 
     return result;
 }
 
-bool isNoConnection(Vna &vna) {
-    if (vna.isConnected() && !vna.idString().isEmpty())
-        return false;
+bool isConnected(Vna &vna) {
+    if (vna.isOpen() && vna.isResponding()) {
+        return true;
+    }
 
     QString msg = "Instrument not found.\n";
     msg += "Please run this application on the instrument.";
@@ -61,11 +59,12 @@ bool isNoConnection(Vna &vna) {
                           APP_NAME,
                           msg);
     vna.print(msg);
-    return true;
+    return false;
 }
-bool isUnknownModel(Vna &vna) {
-    if (vna.properties().isKnownModel())
-        return false;
+bool isKnownModel(Vna &vna) {
+    if (vna.properties().isKnownModel()) {
+        return true;
+    }
 
     QString msg = "Instrument not recognized.\n";
     msg += "Please use %1 with a Rohde & Schwarz VNA";
@@ -74,6 +73,6 @@ bool isUnknownModel(Vna &vna) {
                           APP_NAME,
                           msg);
     vna.print(msg);
-    return true;
+    return false;
 }
 

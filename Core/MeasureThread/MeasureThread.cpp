@@ -63,22 +63,26 @@ void MeasureThread::setError(QString message) {
     _error = message;
 }
 
-void MeasureThread::start(Priority priority) {
+bool MeasureThread::start(Priority priority) {
     clearError();
+    if (_dmms.hasStages()) {
+        if (!_dmms.hasAcceptableInput(_error) || !_dmms.isConnected(_error)) {
+            _isError = true;
+            return false;
+        }
+    }
+
+    // Starting measurement
+    _dmms.setPorts(sourcesInChannel(), _settings.inputPort());
     _results.reset(new MeasurementData());
     _results->setAppInfo(_appName, _appVersion);
     _results->setTimeToNow();
     _results->setSettings(_settings);
+    _results->setDmmSettings(_dmms.stages());
     _results->createExportFileHeader(*_vna);
-    if (_dmms.hasStages()) {
-        if (!_dmms.hasAcceptableInput(_error) || !_dmms.isConnected(_error)) {
-            emit startingSweep("", 1);
-            emit finishedSweep();
-            return;
-        }
-        _dmms.setPorts(sourcesInChannel(), _settings.inputPort());
-    }
+    _vna->moveToThread(this);
     QThread::start(priority);
+    return true;
 }
 MeasurementData *MeasureThread::takeResults() {
     return _results.take();

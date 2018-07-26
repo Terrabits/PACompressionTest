@@ -9,7 +9,7 @@ public:
 
   double freq_Hz
   double power_dBm
-  RsaToolbox::QMatrix2D s;
+  RsaToolbox::ComplexMatrix2D s;
 
   uint ports() const;
 

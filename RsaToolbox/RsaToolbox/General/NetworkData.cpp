@@ -247,8 +247,8 @@ void NetworkData::write(QDataStream &stream) const {
     stream << quint32(_points);
 
     stream << _x;
-    stream << _xUnits;
-    stream << _xPrefix;
+    stream << qint32(_xUnits);
+    stream << qint32(_xPrefix);
     stream << _y;
 }
 QDataStream& operator<<(QDataStream &stream, const NetworkData &data) {
@@ -281,7 +281,3 @@ QDataStream& operator>>(QDataStream &stream, NetworkData &data) {
     data.read(stream);
     return stream;
 }
-
-
-
-

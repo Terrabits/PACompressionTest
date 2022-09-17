@@ -2,9 +2,9 @@
 
 INCLUDEPATH += $$PWD
 DEPENDPATH  += $$PWD
+LIBS        += -L$$PWD
 win32 {
-    LIBS += -l$$PWD/zdll
-    LIBS += -L$$PWD
+    LIBS += -lzlib
 }
 macx {
     # requires Homebrew zlib

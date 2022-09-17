@@ -8,7 +8,10 @@ QT       += core gui widgets
 TARGET = MiniPageTest
 TEMPLATE = app
 
-include(../../Core/core.pri)
+include($$PWD/../../Core/core.pri)
+include($$PWD/../../RsaToolbox/rsatoolbox.pri)
+include($$PWD/../../RsaToolbox/QuaZIP/quazip.pri)
+
 SOURCES     += main.cpp
 
 DEFINES     += SOURCE_DIR=\\\"$$PWD\\\"

@@ -394,20 +394,20 @@ T min(std::vector<T> vector, T &minimum, int &index) {
 
 
 // Using templates:
-template <class T>
-QDataStream& operator<<(QDataStream &stream, const T &t) {
-    static_assert(std::is_enum<T>::value, "Template type is not enum.");
-    stream << qint32(t);
-    return stream;
-}
-template <class T>
-QDataStream& operator>>(QDataStream &stream, T &t) {
-    static_assert(std::is_enum<T>::value, "Template type is not enum.");
-    qint32 value;
-    stream >> value;
-    t = T(value);
-    return stream;
-}
+//template <class T>
+//QDataStream& operator<<(QDataStream &stream, const T &t) {
+//    static_assert(std::is_enum<T>::value, "Template type is not enum.");
+//    stream << qint32(t);
+//    return stream;
+//}
+//template <class T>
+//QDataStream& operator>>(QDataStream &stream, T &t) {
+//    static_assert(std::is_enum<T>::value, "Template type is not enum.");
+//    qint32 value;
+//    stream >> value;
+//    t = T(value);
+//    return stream;
+//}
 
 template <class T>
 QTextStream& operator<<(QTextStream &stream, const T &t) {

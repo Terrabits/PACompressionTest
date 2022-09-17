@@ -8,7 +8,10 @@ QT       += core gui widgets
 TARGET = PlotUiTest
 TEMPLATE = app
 
-include(../../Core/core.pri)
+include($$PWD/../../Core/core.pri)
+include($$PWD/../../RsaToolbox/rsatoolbox.pri)
+include($$PWD/../../RsaToolbox/QuaZIP/quazip.pri)
+
 SOURCES     += main.cpp
 OTHER_FILES += DEBUG_LOGFILE.txt
 

@@ -8,6 +8,9 @@ using namespace RsaToolbox;
 // Qt
 #include <QDebug>
 
+// std lib
+#include <cmath>
+
 
 TimedProgressBar::TimedProgressBar(QWidget *parent) :
     QWidget(parent),

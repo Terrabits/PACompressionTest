@@ -42,34 +42,24 @@ INCLUDEPATH += $$PWD/RsaToolbox \
                $$PWD/RsaToolbox/Test/SpeedTracker \
                $$PWD/RsaToolbox/Server \
                $$PWD/QCustomPlot
-               
+
+LIBS += -L$$PWD/RsaToolbox \
+        -L$$PWD/QCustomPlot
+
+CONFIG(debug, release|debug) {
+    LIBS += -lRsaToolboxd
+    LIBS += -lqcustomplotd
+}
+else {
+    LIBS += -lRsaToolbox
+    LIBS += -lqcustomplot
+}
 
 win32 {
-    # C++11 enum class warnings:
-    QMAKE_CXXFLAGS += /wd4482
-
     LIBS += -L$$PWD/Bus/Visa # RsVisa
-    LIBS += -L$$PWD
-    LIBS += -L$$PWD/QCustomPlot/
-    CONFIG(debug, release|debug) {
-        LIBS += -l$$PWD/RsaToolbox/RsaToolboxd
-        LIBS += -l$$PWD/QCustomPlot/qcustomplotd
-    }
-    else {
-        LIBS += -l$$PWD/RsaToolbox/RsaToolbox
-        LIBS += -l$$PWD/QCustomPlot/qcustomplot
-    }
 }
 macx {
     QMAKE_CXXFLAGS += -std=c++11 -stdlib=libc++
     QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.7
     LIBS += -stdlib=libc++
-    LIBS += -L$$PWD/RsaToolbox \
-            -L$$PWD/QCustomPlot
-    CONFIG(debug, release|debug) {
-        LIBS += $$PWD/RsaToolbox/libRsaToolboxd.a
-    }
-    else {
-        LIBS += $$PWD/RsaToolbox/libRsaToolbox.a
-    }
 }

@@ -4,9 +4,8 @@ PA Compression Test
 Requirements
 ------------
 
-1. Microsoft Visual C++ 2010
-2. Qt 5.2.1 for MSVC 2010 32-bit  
-   Note: Choose DirectX, NOT OpenGL
+1. MinGW 64-bit 8.1.0
+2. Qt 5.15.2
 3. Windows Installer XML 3.9+
 
 Instructions

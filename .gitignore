@@ -2,7 +2,7 @@
 build/
 
 # Local project configuration settings
-*.pro.user
+*.txt.user*
 
 # Windows build products
 *.lib

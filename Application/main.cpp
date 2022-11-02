@@ -27,7 +27,6 @@ int main(int argc, char *argv[])
 {
     // init boost log
     init_logging(level, main_log_filename);
-
     LOG(info) << "R&S PA Compression Test 2.2";
 
     LOG(info) << "Creating Qt Application";

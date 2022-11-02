@@ -373,25 +373,40 @@ ComplexRowVector Vna::queryComplexVector(QString scpi, uint bufferSize_B, uint t
  * \sa Vna::isError(QStringList &errors)
  */
 bool Vna::isError() {
-    QList<int> codes;
+    QList<int>  codes;
     QStringList messages;
-    if (errors(codes, messages)) {
-        QString text = "SCPI Errors:\n";
-        for (int i = 0; i < messages.size(); i++) {
-            QString format = "%1: %2\n";
-            text += format.arg(codes[i]).arg(messages[i]);
-        }
-        text += "\n";
-        emit print(text);
-        return true;
+    if (!errors(codes, messages)) {
+      // no scpi errors
+      return false;
     }
-    else {
-        return false;
+
+    // scpi errors occurred
+
+    // print scpi error count
+    const int errorCount = messages.size();
+    QString countMessage = "%1 scpi error(s) occurred";
+    countMessage         = message.arg(errorCount);
+    const QByteArray countData = countMessage.toUtf8();
+    LOG(error) << countData.constData();
+
+    // print each scpi error
+    for (int i = 0; i < messages.size(); i++) {
+      const int     code    = codes[i];
+      const QString message = messages[i];
+      QString errorMessage  = "(%1) %2";
+      errorMessage = errorMessage.arg(code);
+      errorMessage = errorMessage.arg(message);
+      const QByteArray errorData = errorMessage.toUtf8();
+      LOG(error) << errorData.constData();
     }
+
+    // scpi errors occurred
+    return true;
+
 }
 
 bool Vna::nextError(int &code, QString &message) {
-    code = 0;
+    code    = 0;
     message = "";
 
     QString result = query(":SYST:ERR?\n").trimmed();
@@ -1033,19 +1048,19 @@ VnaCalKit &Vna::calKit(NameLabel nameLabel) {
 // Calibration
 void Vna::multiChannelCalibrationOn(bool isOn) {
     if (properties().isZvaFamily()) {
-        if (isOn)
-            emit print("Note:\nMulti-channel calibration enabled by default on ZVA.\n\n");
-        else
-            emit print("Note:\nCannot disable multi-channel calibration on ZVA.\n\n");
-
+        if (isOn) {
+          LOG(warning) << "ZVA multi-channel calibration is always on; it cannot be turned on or off";
+        }
+        else {
+          // TODO: raise error
+          LOG(error) << "ZVA cannot disable multi-channel calibration";
+        }
         return;
     }
 
-    QString scpi;
-    if (isOn)
-        scpi = ":CORR:COLL:CHAN:MCTY 1\n";
-    else
-        scpi = ":CORR:COLL:CHAN:MCTY 0\n";
+    const QString scpi = isOn?
+        ":CORR:COLL:CHAN:MCTY 1\n"
+      : ":CORR:COLL:CHAN:MCTY 0\n";
     write(scpi);
 }
 void Vna::multiChannelCalibrationOff(bool isOff) {

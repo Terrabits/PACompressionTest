@@ -8,8 +8,9 @@
 namespace RsaToolbox {
 
 namespace Ui {
-class WizardButtons;
+  class WizardButtons;
 }
+
 class WizardButtons : public QWidget
 {
     Q_OBJECT

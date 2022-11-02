@@ -26,6 +26,10 @@ const QString LOG_FILENAME = dataDir.filePath("R&S PA Compression Test Log.txt")
 const QString KEY_PATH = dataDir.filePath("Settings");
 #endif
 
+// main.log
+const QString    MAIN_LOG_FILENAME_QSTR = dataDir.filePath("main.log");
+const QByteArray MAIN_LOG_FILENAME_QBA  = MAIN_LOG_FILENAME_QSTR.toUtf8();
+
 // Connection settings
 const RsaToolbox::ConnectionType CONNECTION_TYPE = RsaToolbox::ConnectionType::VisaTcpSocketConnection;
 #ifdef DEBUG_MODE
@@ -61,4 +65,3 @@ const QString STANDARD_GEOMETRY_KEY      = "STANDARD_GEOMETRY";
 const QString MINI_GEOMETRY_KEY          = "MINI_GEOMETRY_KEY";
 const QString EXPORT_PATH_KEY            = "EXPORT_PATH";
 #endif
-

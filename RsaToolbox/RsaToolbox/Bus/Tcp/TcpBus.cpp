@@ -1,12 +1,8 @@
-
-
-
-// RsaToolbox
 #include "TcpBus.h"
 using namespace RsaToolbox;
 
-// C++
-#include <cstdio>
+// logging
+#include "logging.hpp"
 
 // Qt
 #include <QTextStream>
@@ -14,54 +10,15 @@ using namespace RsaToolbox;
 #include <QDataStream>
 #include <QDebug>
 
+// C++
+#include <cstdio>
 
-/*!
- * \class RsaToolbox::TcpBus
- * \ingroup BusGroup
- * \brief Connects to an intrument via Tcp socket
- * over Ethernet or WiFi.
- *
- * \b Warning: \c %TcpBus relies on \c QTcpSocket,
- * which has well-documented, long-standing
- * reliability issues on Windows platforms. If you
- * are deploying to Windows, consider using
- * \c VisaBus instead. Mac OS X, Linux, iOS and
- * Android should work well.
- *
- * \note \c %TcpBus only supports \c TCPIP_CONNECTION
- * methods
- */
-
-/*!
- * \brief Default constructor
- *
- * \note \c %TcpBus instances created with the
- * default constructor are not connected to
- * an instrument
- *
- * \param parent Optional parent \c QObject
- * \sa GenericBus::GenericBus
- */
 TcpBus::TcpBus(QObject *parent)
     : GenericBus(parent)
 {
     _blockSize = 0;
 }
 
-/*!
- * \brief Constructs \c %TcpBus and attempts to connect
- * to an instrument
- *
- * Connection status should be checked with
- * \c isOpen or \c isClosed.
- *
- * \param type Connection type
- * \param address Instrument address
- * \param bufferSize_B Size of internal buffer, in bytes
- * \param timeout_ms Time out time, in milliseconds
- * \param parent Optional parent \c QObject
- * \sa GenericBus::GenericBus
- */
 TcpBus::TcpBus(ConnectionType type, QString address,
                uint bufferSize_B, uint timeout_ms,
                QObject *parent)
@@ -77,38 +34,17 @@ TcpBus::TcpBus(ConnectionType type, QString address,
     _tcp.waitForConnected(timeout_ms);
 }
 
-/*!
- * \brief Destructor
- */
+
 TcpBus::~TcpBus() {
     _tcp.close();
 }
 
-/*!
- * \brief Returns status of connection
- * \return \c true if connected
- * \sa GenericBus::isOpen
- */
 bool TcpBus::isOpen() const {
     return _tcp.isValid();
 }
 
-/*!
- * \brief Tcp does not have a locking mechanism.
- *
- * This method does nothing and returns false.
- *
- * You may consider using another bus implementation,
- * such as \c VisaBus, that offers this feature.
- * It is also possible to use this along with an
- * external access control, such as
- * a \c QMutex or \c QReadWriteLock instance.
- *
- * \return \c false
- * \sa VisaBus::lock, VisaBus::unlock
- */
 bool TcpBus::lock() {
-    emit print("Cannot lock instrument via TcpBus.");
+    LOG(warning) << "Cannot lock instrument via TcpBus";
     return false;
 }
 
@@ -127,7 +63,7 @@ bool TcpBus::lock() {
  * \sa VisaBus::lock, VisaBus::unlock
  */
 bool TcpBus::unlock() {
-    emit print("Cannot unlock instrument via TcpBus.");
+    LOG(warning) << "Cannot unlock instrument via TcpBus";
     return false;
 }
 
@@ -150,7 +86,7 @@ bool TcpBus::unlock() {
  * \sa VisaBus::local, VisaBus::remote
  */
 bool TcpBus::local() {
-    emit print("Cannot put instrument into local mode via TcpBus.");
+    LOG(warning) << "Cannot put instrument into local mode via TcpBus.";
     return false;
 }
 
@@ -173,7 +109,7 @@ bool TcpBus::local() {
  * \sa VisaBus::local, VisaBus::remote
  */
 bool TcpBus::remote() {
-    emit print("Cannot put instrument into remote mode via TcpBus.");
+    LOG(warning) << "Cannot put instrument into remote mode via TcpBus";
     return false;
 }
 
@@ -222,7 +158,7 @@ bool TcpBus::read(char *buffer, uint bufferSize_B) {
     while (_tcp.bytesAvailable() <= 0) {
         if (!_tcp.waitForReadyRead(timeout_ms())) {
             printRead(buffer, 0);
-            emit print("QTcpSocket::waitForReadyRead returned false\n\n");
+            LOG(error) << "QTcpSocket::waitForReadyRead returned false";
             emit error();
             return false;
         }
@@ -231,7 +167,7 @@ bool TcpBus::read(char *buffer, uint bufferSize_B) {
     if (_blockSize == -1) {
         nullTerminate(buffer, bufferSize_B, 0);
         printRead(buffer, 0);
-        emit print("QTcpSocket::read returned -1\n\n");
+        LOG(error) << "QTcpSocket::read returned -1";
         emit error();
         return false;
     }
@@ -289,12 +225,12 @@ bool TcpBus::binaryWrite(QByteArray data) {
     printWrite(data);
 
     if (_blockSize == -1) {
-        emit print("QTcpSocket::write returned -1\n\n");
+        LOG(error) << "QTcpSocket::write returned -1";
         emit error();
         return false;
     }
     else if (!isWritten) {
-        emit print("QTcpSocket::waitForBytesWritten returned false\n\n");
+        LOG(error) << "QTcpSocket::waitForBytesWritten returned false";
         emit error();
         return false;
     }
@@ -323,5 +259,3 @@ QString TcpBus::stateString() const {
         return "UNKNOWN";
     }
 }
-
-

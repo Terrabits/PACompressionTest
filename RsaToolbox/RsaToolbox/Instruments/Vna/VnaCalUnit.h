@@ -16,7 +16,7 @@ class Vna;
 
 class VnaCalUnit : public QObject
 {
-private: Q_OBJECT
+  Q_OBJECT
 
 public:
     explicit VnaCalUnit(QObject *parent = 0);
@@ -68,7 +68,7 @@ private:
     bool isFullyInitialized() const;
 
     void select();
-    
+
 };
 }
 

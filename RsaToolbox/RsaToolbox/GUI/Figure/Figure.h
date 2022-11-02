@@ -13,11 +13,12 @@
 #include <QDialog>
 #include <QGridLayout>
 
-namespace Ui {
-class Figure;
-}
 
 namespace RsaToolbox {
+
+namespace Ui {
+  class Figure;
+}
 
 class Figure : public QDialog
 {

@@ -19,7 +19,7 @@
 namespace RsaToolbox {
 
 class VisaBus : public GenericBus {
-private: Q_OBJECT
+  Q_OBJECT
 
 public:
     explicit VisaBus(QObject *parent = 0);
@@ -99,5 +99,3 @@ private:
 
 
 #endif
-
-

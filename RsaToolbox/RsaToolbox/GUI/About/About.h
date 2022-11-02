@@ -7,12 +7,15 @@
 #include <QDir>
 
 
+
+
 namespace RsaToolbox {
 
-
 namespace Ui {
-class About;
+  class About;
 }
+
+
 class About : public QDialog
 {
     Q_OBJECT

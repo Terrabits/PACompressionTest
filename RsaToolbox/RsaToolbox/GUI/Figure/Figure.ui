@@ -1,9 +1,6 @@
 <ui version="4.0">
- <author/>
- <comment/>
- <exportmacro/>
- <class>Figure</class>
- <widget name="Figure" class="QWidget">
+ <class>RsaToolbox::Figure</class>
+ <widget name="RsaToolbox::Figure" class="QWidget">
   <property name="geometry">
    <rect>
     <x>0</x>

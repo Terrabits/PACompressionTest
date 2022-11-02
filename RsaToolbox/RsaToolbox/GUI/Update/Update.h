@@ -20,10 +20,10 @@
 
 namespace RsaToolbox {
 
-
 namespace Ui {
-class Update;
+  class Update;
 }
+
 class Update : public QWidget
 {
     Q_OBJECT

@@ -17,7 +17,7 @@ class VnaChannel;
 
 class VnaTrigger : QObject
 {
-private: Q_OBJECT
+  Q_OBJECT
 
 public:
 
@@ -49,9 +49,9 @@ private:
     QScopedPointer<Vna> placeholder;
     QScopedPointer<VnaChannel> _channel;
     uint _channelIndex;
-    
+
     bool isFullyInitialized() const;
-    
+
 };
 }
 

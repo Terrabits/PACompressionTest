@@ -12,8 +12,9 @@
 namespace RsaToolbox {
 
 namespace Ui {
-class GetSnpFile;
+  class GetSnpFile;
 }
+
 class GetSnpFile : public QWidget
 {
     Q_OBJECT

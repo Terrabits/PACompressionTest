@@ -1,65 +1,17 @@
-
-
-// RsaToolbox includes
 #include "VisaBus.h"
 using namespace RsaToolbox;
 
-// C/C++
-#include <cstdio>
+// logging
+#include "logging.hpp"
 
 // Qt
 #include <QDebug>
 #include <QByteArray>
 
+// C/C++
+#include <cstdio>
 
-/*!
- * \class RsaToolbox::VisaBus
- * \ingroup BusGroup
- * \brief Establishes a connection with an instrument via the NI-VISA bus
- *
- * \c VisaBus deploys with an internal
- * VISA-compatible library. However, it is
- * recommended that VISA be installed on the host
- * system for full VISA support. \c %VisaBus
- * will dynamically load such a VISA installation,
- * if present.
- *
- * \c static method \c isVisaInstalled is provided to
- * test for a VISA installation.
- *
- * Example use:
- \code
-   #include <VisaBus.h>
-   using namespace RsaToolbox;
 
-   // ...
-
-   VisaBus bus(TCPIP_CONNECTION, "192.168.0.100");
-   if (bus.isClosed()) {
-       // Handle instrument not connected
-       // ...
-   }
-
-   QString idString = bus.query("*IDN?");
-   // Rohde & Schwarz typical VNA response:
-   // "Rohde-Schwarz,<VNA_MODEL>-<PORTS>Port,<SERIAL_NO>,<FIRMWARE_VERSION>";
-
-   // ...
- \endcode
- *
- * \sa GenericBus, TcpBus
- */
-
-/*!
- * \brief Default constructor; constructs empty VisaBus instance.
- *
- * This constructor is provided as a convenience in situations
- * where a default constructor is required, for example when
- * VisaBus is a property in a class. Care should be taken to
- * eventually reconstruct VisaBus with a connection to an instrument.
- *
- * \param parent
- */
 VisaBus::VisaBus(QObject *parent)
     :GenericBus(parent)
 {
@@ -256,18 +208,25 @@ QString VisaBus::status() const {
  * \sa VisaBus::unlock()
  */
 bool VisaBus::lock() {
-    _status = _viLock(_instrument, VI_EXCLUSIVE_LOCK, ViUInt32(timeout_ms()), VI_NULL, VI_NULL);
-    bool isLocked = !isError();
-    if (isLocked)
-        emit print("Instrument locked\n" + status() + "\n");
-    else {
-        if (visa_library.fileName().contains(RSVISA32, Qt::CaseInsensitive))
-            emit print("RsVisa does not implement locking mechanism!\n" + status() + "\n");
-        else
-            emit print("Could not lock instrument\n" + status() + "\n");
-    }
+  _status = _viLock(_instrument, VI_EXCLUSIVE_LOCK, ViUInt32(timeout_ms()), VI_NULL, VI_NULL);
+  bool isLocked = !isError();
 
-    return isLocked;
+  if (!isLocked) {
+    const bool isRsVisa = visa_library.fileName().contains(RSVISA32, Qt::CaseInsensitive);
+      if (isRsVisa) {
+        // warning
+        log(warning) << "RsVisa does not implement locking mechanism";
+      }
+      else {
+        // error
+        log(error) << "could not lock instrument";
+        return false;
+      }
+  }
+
+  // success
+  LOG(debug) << "instrument locked";
+  return isLocked;
 }
 /*!
  * \brief Unlocks the instrument, making it available for remote access by
@@ -291,16 +250,22 @@ bool VisaBus::lock() {
 bool VisaBus::unlock() {
     _status = _viUnlock(_instrument);
     bool isUnlocked = _status >= VI_SUCCESS;
-    if (isUnlocked)
-        emit print("Instrument unlocked\n" + status() + "\n");
-    else {
-        if (visa_library.fileName().contains(RSVISA32, Qt::CaseInsensitive))
-            emit print("RsVisa does not implement unlocking mechanism!\n" + status() + "\n");
-        else
-            emit print("Could not unlock instrument\n" + status() + "\n");
+    if (!isUnlocked) {
+      const bool isRsVisa = visa_library.fileName().contains(RSVISA32, Qt::CaseInsensitive);
+      if (isRsVisa) {
+        // warning
+        log(warning) << "RsVisa does not implement unlocking";
+      }
+      else {
+        // error
+        log(error) << "could not unlock instrument";
+        return false;
+      }
     }
 
-    return(isUnlocked);
+    // success
+    LOG(debug) << "instrument locked";
+    return true;
 }
 /*!
  * \brief Places the instrument in local mode
@@ -322,9 +287,9 @@ bool VisaBus::unlock() {
 bool VisaBus::local() {
     bool isLocal = write("@LOC\n");
     if (isLocal)
-        emit print("Instrument in local mode\n\n");
+        LOG() << "Instrument in local mode\n\n";
     else
-        emit print("Could not put instrument into local mode\n\n");
+        LOG() << "Could not put instrument into local mode\n\n";
 
     return(isLocal);
 }
@@ -351,12 +316,15 @@ bool VisaBus::local() {
  */
 bool VisaBus::remote() {
     bool isRemote = write("@REM\n");
-    if (isRemote)
-        emit print("Instrument in remote mode\n\n");
-    else
-        emit print("Could not put instrument into remote mode\n\n");
+    if (!isRemote) {
+      // error
+      LOG(error) << "Could not put instrument into remote mode";
+      return false;
+    }
 
-    return(isRemote);
+    // success
+    LOG(debug) << "instrument in remote mode";
+    return true;
 }
 
 void VisaBus::getFuncters() {
@@ -488,5 +456,3 @@ void VisaBus::setDisconnected() {
     _resourceManager = VI_NULL;
     _instrument = VI_NULL;
 }
-
-

@@ -4,7 +4,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    About w;
+    RsaToolbox::About w;
     w.setAppName("About Window Test");
     w.setVersion("1.0");
     w.setDescription("This application tests the About window");

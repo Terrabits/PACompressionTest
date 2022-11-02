@@ -3,11 +3,13 @@
 
 #include <QWidget>
 
+
 namespace RsaToolbox {
 
 namespace Ui {
-class BreadCrumbs;
+  class BreadCrumbs;
 }
+
 class BreadCrumbs : public QWidget
 {
     Q_OBJECT

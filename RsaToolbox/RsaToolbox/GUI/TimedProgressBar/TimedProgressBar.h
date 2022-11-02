@@ -7,9 +7,8 @@
 
 namespace RsaToolbox {
 
-
 namespace Ui {
-class TimedProgressBar;
+  class TimedProgressBar;
 }
 
 class TimedProgressBar : public QWidget

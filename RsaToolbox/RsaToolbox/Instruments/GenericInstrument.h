@@ -5,7 +5,6 @@
 // RsaToolbox
 #include "Definitions.h"
 #include "GenericBus.h"
-#include "Log.h"
 
 // Qt
 #include <QObject>
@@ -29,22 +28,9 @@ public:
     bool isConnected() const;
     bool isDisconnected() const;
 
-    bool isLogOpen() const;
-    bool isLogConnected() const;
-    bool isLogDisconnected() const;
-
     bool isRohdeSchwarz();
     QString idString();
     QString optionsString();
-
-    Log* log();
-    void useLog(Log *log);
-    void disconnectLog();
-
-    void print(QString text);
-    void printLine(QString text = "");
-    void printInfo();
-    virtual void printInfo(QString &info);
 
     GenericBus* takeBus();
     void resetBus();
@@ -84,10 +70,6 @@ public slots:
 
 private:
     QScopedPointer<GenericBus> _bus;
-    Log *_log;
-    Log _tempLog;
-
-    void connectLog();
 };
 }
 

@@ -1,0 +1,13 @@
+HeaderTest.cpp
+HeaderTest.h
+MeasureDataTest.cpp
+MeasureDataTest.h
+ProcessTraceTest.cpp
+ProcessTraceTest.h
+SafeFrequencySweepTest.cpp
+SafeFrequencySweepTest.h
+SpeedTrackerTest.cpp
+SpeedTrackerTest.h
+TraceSettingsTest.cpp
+TraceSettingsTest.h
+main.cpp

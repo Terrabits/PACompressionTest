@@ -13,14 +13,15 @@
 
 namespace RsaToolbox {
 
+namespace Ui {
+  class Wizard;
+}
+
 class BreadCrumbs;
 class WizardButtons;
 class WizardPage;
 typedef QList<WizardPage*> WizardPages;
 
-namespace Ui {
-class Wizard;
-}
 class Wizard : public QWidget
 {
     Q_OBJECT

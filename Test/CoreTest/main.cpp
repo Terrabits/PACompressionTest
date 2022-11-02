@@ -1,6 +1,3 @@
-
-
-// Tests
 #include "HeaderTest.h"
 #include "TraceSettingsTest.h"
 #include "SpeedTrackerTest.h"
@@ -8,10 +5,16 @@
 #include "MeasureDataTest.h"
 #include "ProcessTraceTest.h"
 
+// logging
+#include "logging.hpp"
+
 // RsaToolbox
 #include <General.h>
 #include <TestRunner.h>
 using namespace RsaToolbox;
+
+// Core
+#include "Settings.h"
 
 // Qt
 #include <QtTest>
@@ -19,6 +22,7 @@ using namespace RsaToolbox;
 
 
 int main() {
+    init_logging(boost::log::trivial::warning, MAIN_LOG_FILENAME_QBA.constData());
     TestRunner testRunner;
 //    testRunner.addTest(new HeaderTest);
 //    testRunner.addTest(new TraceSettingsTest);

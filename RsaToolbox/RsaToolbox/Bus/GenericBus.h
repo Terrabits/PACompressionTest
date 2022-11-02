@@ -72,7 +72,6 @@ public slots:
 
 signals:
     void error() const;
-    void print(QString text) const;
 
 protected:
     static const int MAX_PRINT = 100;
@@ -97,5 +96,3 @@ Q_DECLARE_METATYPE(RsaToolbox::ConnectionType)
 
 
 #endif
-
-

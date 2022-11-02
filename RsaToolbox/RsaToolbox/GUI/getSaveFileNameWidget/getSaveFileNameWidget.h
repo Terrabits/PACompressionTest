@@ -8,11 +8,13 @@
 // Qt
 #include <QWidget>
 
+
 namespace RsaToolbox {
 
 namespace Ui {
-class getSaveFileNameWidget;
+  class getSaveFileNameWidget;
 }
+
 class getSaveFileNameWidget : public QWidget
 {
     Q_OBJECT

@@ -16,7 +16,7 @@ class Vna;
 
 class VnaSet : QObject
 {
-private: Q_OBJECT
+  Q_OBJECT
 
 public:
     explicit VnaSet(QObject *parent = 0);
@@ -34,9 +34,9 @@ private:
     QScopedPointer<Vna> placeholder;
 
     QString _name;
-    
+
     bool isFullyInitialized() const;
-    
+
 };
 }
 

@@ -1,18 +1,18 @@
-
-
-
-// RsaToolbox
 #include "NoBus.h"
 using namespace RsaToolbox;
 
-// C++
-#include <cstdio>
+// logging
+#include "logging.hpp"
 
 // Qt
 #include <QTextStream>
 #include <QByteArray>
 #include <QDataStream>
 #include <QDebug>
+
+// std lib
+#include <cstdio>
+
 
 
 NoBus::NoBus(QObject *parent)
@@ -35,22 +35,22 @@ bool NoBus::isOpen() const {
 }
 
 bool NoBus::lock() {
-    emit print("Cannot lock instrument via NoBus.");
+    LOG(warning) << "Cannot lock instrument via NoBus";
     return false;
 }
 bool NoBus::unlock() {
-    emit print("Cannot unlock instrument via NoBus.");
+    LOG(warning) << "Cannot unlock instrument via NoBus";
     return false;
 }
 bool NoBus::local() {
-    emit print("Cannot put instrument into local mode via NoBus.");
+    LOG(warning) << "Cannot put instrument into local mode via NoBus.";
     return false;
 }
 bool NoBus::remote() {
-    emit print("Cannot put instrument into remote mode via NoBus.");
+    LOG(warning) << "Cannot put instrument into remote mode via NoBus.";
     return false;
 }
- 
+
 QString NoBus::status() const {
     QString text;
     QTextStream stream(&text);
@@ -78,6 +78,3 @@ bool NoBus::binaryWrite(QByteArray data) {
     printWrite(data);
     return false;
 }
-
-
-

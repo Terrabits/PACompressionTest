@@ -8,39 +8,10 @@
 #include "NoBus.h"
 using namespace RsaToolbox;
 
-/*!
- * \defgroup InstrumentGroup Instrument
- * Rohde \& Schwarz instrument driver
- * classes
- */
- 
- /*!
-  * \defgroup GenericInstrumentGroup GenericInstrument
-  * \ingroup InstrumentGroup
-  */
 
-/*!
- * \class RsaToolbox::GenericInstrument
- * \ingroup GenericInstrumentGroup
- * \brief The %GenericInstrument class serves as a base class for all instruments.
- *
- * %GenericInstrument provides basic functionality. It can manage an instrument
- * connection via a GenericBus subclass, it can connect to a Log, it can read,
- * write and query, and it implements a subset of the required SCPI commands
- * (such as *RST).
- *
- * This functionality can be extended to a specific instrument by subclassing
- * %GenericInstrument and building on it.
- */
-
-/*!
- * \brief Default constructor
- * \param parent Optional parent QObject
- */
 GenericInstrument::GenericInstrument(QObject *parent) :
     QObject(parent)
 {
-    _log = &_tempLog;
     resetBus();
 }
 /*!
@@ -51,7 +22,6 @@ GenericInstrument::GenericInstrument(QObject *parent) :
 GenericInstrument::GenericInstrument(GenericBus *bus, QObject *parent) :
     QObject(parent)
 {
-    _log = &_tempLog;
     resetBus(bus);
     _bus->setBufferSize(500);
     _bus->setTimeout(1000);
@@ -71,66 +41,35 @@ GenericInstrument::GenericInstrument(GenericBus *bus, QObject *parent) :
 GenericInstrument::GenericInstrument(ConnectionType type, QString address, QObject *parent) :
     QObject(parent)
 {
-    _log = &_tempLog;
     resetBus(type, address);
 }
 
-/*!
- * \brief Disconnects from instrument, if applicable,
- * and resets the instrument bus
- *
- * Because no bus connection is present, log is
- * also disconnected, if applicable.
- * \sa resetBus(GenericBus *bus)
- */
+
 void GenericInstrument::resetBus() {
     bool emitSignal = isConnected();
-    Log *temp = _log;
-    disconnectLog();
     _bus.reset(new NoBus());
     QObject::connect(_bus.data(), SIGNAL(error()), this, SIGNAL(busError()));
-    _log = temp;
     if (emitSignal)
         emit disconnected();
 }
-/*!
- * \brief Connects this object to the instrument connected
- * via \c bus.
- *
- * If a previous connection exists, it is destroyed. Ownership
- * of \c bus is relinquished to this method (see
- * QScopedPointer::reset() and QScopedPointer::take()).
- *
- * \param bus Bus connection to take ownership of
- * \sa resetBus()
- */
+
 void GenericInstrument::resetBus(GenericBus *bus) {
     resetBus();
     _bus.reset(bus);
     QObject::connect(_bus.data(), SIGNAL(error()), this, SIGNAL(busError()));
     if (isConnected()) {
-        connectLog();
-        if (isLogConnected())
-            printInfo();
         emit connected();
     }
 }
-/*!
- * \brief Connects to the instrument \c type :: \c address
- * with the timeout time \c timeout_ms
- *
- * This method defaults to VisaBus. Please make sure
- * VISA is installed on the target system.
- * \param type The type of connection (e.g. TCPIP or GPIB)
- * \param address Address of the instrument (e.g. "127.0.0.1")
- */
+
+
 void GenericInstrument::resetBus(ConnectionType type, QString address) {
 #ifdef Q_OS_WIN32
     resetBus(new VisaBus(type, address));
 #else
     if (VisaBus::isVisaInstalled())
         resetBus(new VisaBus(type, address));
-    else if (type == ConnectionType::TCPIP_CONNECTION)
+    else if (type == ConnectionType::TcpSocketConnection)
         resetBus(new TcpBus(type, address));
     else
         resetBus(new NoBus());
@@ -154,120 +93,6 @@ bool GenericInstrument::isDisconnected() const {
     return(!isConnected());
 }
 
-bool GenericInstrument::isLogOpen() const {
-    return _log->isOpen();
-}
-/*!
- * \brief Checks if log is in use
- *
- * \note A %GenericBus object that is not connected
- * to an instrument is also not connected to
- * a log. If a valid log has been registered via
- * %useLog(), it will be (re)connected after a valid
- * instrument connection is made.
- *
- * \return \c true if this object is connected
- * to a log, \c false otherwise
- */
-bool GenericInstrument::isLogConnected() const {
-    return(isLogOpen() && isConnected());
-}
-/*!
- * \brief Returns disconect status of log
- * \return \c true if no log is connected,
- * \c false otherwise
- */
-bool GenericInstrument::isLogDisconnected() const {
-    return(!isLogConnected());
-}
-/*!
- * \brief Returns a pointer to the current log
- * \return \c Log pointer if a log is connected,
- * \c NULL otherwise
- */
-Log* GenericInstrument::log() {
-    if (_log != &_tempLog)
-        return(_log);
-    else
-        return(NULL);
-}
-/*!
- * \brief Connects %GenericInstrument to a log
- *
- * If %GenericInstrument is not connected to an
- * instrument at the time, the %log pointer will
- * connect after an instrument connection is made
- * (see resetBus(GenericBus *bus).
- *
- * \param log Pointer to log to use
- */
-void GenericInstrument::useLog(Log *log) {
-    disconnectLog();
-    if (log->isOpen()) {
-        _log = log;
-        connectLog();
-    }
-}
-/*!
- * \brief Disconnects from the current log,
- * if applicable
- *
- * If no log is currently registered, this
- * method has no effect.
- * \sa useLog()
- */
-void GenericInstrument::disconnectLog() {
-    if (isLogConnected()) {
-        QObject::disconnect(_bus.data(), SIGNAL(print(QString)),
-                            _log, SLOT(print(QString)));
-    }
-    _log = &_tempLog;
-}
-void GenericInstrument::connectLog() {
-    if (isLogOpen() && isConnected()) {
-        QObject::connect(_bus.data(), SIGNAL(print(QString)),
-                         _log, SLOT(print(QString)));
-    }
-}
-
-void GenericInstrument::print(QString text) {
-    *_log << text;
-}
-void GenericInstrument::printLine(QString text) {
-    *_log << text << endl;
-}
-void GenericInstrument::printInfo() {
-    if (!_log->isOpen())
-        return;
-
-    Log *tempLog = _log;
-    disconnectLog();
-
-    QString info;
-    printInfo(info);
-    tempLog->print(info);
-
-    useLog(tempLog);
-}
-void GenericInstrument::printInfo(QString &info) {
-    QTextStream stream(&info);
-    stream << "INSTRUMENT INFO" << endl;
-    stream << "Connection: " << toString(_bus->connectionType()) << endl;
-    stream << "Address:    " << _bus->address() << endl;
-    if (isConnected()) {
-        if (isRohdeSchwarz())
-            stream << "Make:       Rohde & Schwarz" << endl;
-        else
-            stream << "Make:       Unknown" << endl;
-        stream << "Id string:  " << idString() << endl;
-    }
-    else {
-        stream << "Error:      Instrument not found!" << endl;
-    }
-    stream << endl << endl;
-    stream.flush();
-}
-
 /*!
  * \brief Passes ownership of the current instrument
  * connection to callee.
@@ -284,7 +109,6 @@ void GenericInstrument::printInfo(QString &info) {
  * \sa bus()
  */
 GenericBus* GenericInstrument::takeBus() {
-    disconnectLog();
     return(_bus.take());
     disconnected();
 }
@@ -337,29 +161,8 @@ bool GenericInstrument::read(char *buffer, uint bufferSize_B, uint timeout_ms) {
     return(success);
 }
 
-/*!
- * \brief Reads data from the instrument into \c buffer
- *
- * The action and result is printed to a log file, if connected.
- *
- * It is important to property set the \c bufferSize of \c buffer.
- * If more than \c bufferSize bytes are waiting to be read
- * by the instrument, an error may result and/or subsequent
- * calls to \c %read() may be necessary.
- *
- * It is also important to make sure that the instrument
- * is expecting to be read; calling %read() without having
- * any data to be read will result in an instrument error.
- *
- * \note Make sure that a valid instrument connection is
- * present before calling this method, otherwise
- * unintended behavior may result.
- *
- * \param bufferSize_B Buffer for read
- * \param timeout_ms Time until timeout, in milliseconds
- * \return \c true if successful, \c false otherwise
- * \sa write(), query(), isConnected(), useLog()
- */
+
+
 QString GenericInstrument::read(uint bufferSize_B, uint timeout_ms) {
     uint previousBufferSize = _bus->bufferSize_B();
     uint previousTimeout = _bus->timeout_ms();
@@ -373,44 +176,10 @@ QString GenericInstrument::read(uint bufferSize_B, uint timeout_ms) {
     return(result);
 }
 
-/*!
- * \brief Writes \c scpiCommand to the instrument
- *
- * The action and result is printed to a log file, if connected.
- *
- * See query() for SCPI commands that elicit a response
- * from the instrument; query() can handle both the read
- * and write in one method call.
- *
- * \note Make sure that a valid instrument connection is
- * present before calling this method, otherwise
- * unintended behavior may result.
- * \param scpiCommand Command to be written to the instrument
- * \sa read(), query(), isConnected(), useLog()
- */
 void GenericInstrument::write(QString scpiCommand) {
     _bus->write(scpiCommand);
 }
-/*!
- * \brief Writes \c scpiCommand to the instrument, then
- * immediately reads the result to \c buffer
- *
- * This method is provided for convenience: it calls
- * write() and then read(), then returns the result. See
- * write() and read() for more information.
- *
- * The action and result is printed to a log file, if connected.
- *
- *\note Make sure that a valid instrument connection is
- * present before calling this method, otherwise
- * unintended behavior may result.
- *
- * \param scpiCommand Command to be written to the instrument
- * \param bufferSize_B Buffer for data to be read into
- * \param timeout_ms Time until timeout, in milliseconds
- * \return
- * \sa write(), read(), isConnected(), useLog()
- */
+
 QString GenericInstrument::query(QString scpiCommand, uint bufferSize_B, uint timeout_ms) {
     uint previousBufferSize = _bus->bufferSize_B();
     uint previousTimeout = _bus->timeout_ms();

@@ -3,15 +3,15 @@
 
 #include <QWidget>
 #include <QItemSelectionModel>
-//#include <QtDesigner/QDesignerExportWidget>
 
 
 namespace RsaToolbox {
 
 namespace Ui {
-class ListPanel;
+  class ListPanel;
 }
-class /*QDESIGNER_WIDGET_EXPORT*/ ListPanel : public QWidget
+
+class ListPanel : public QWidget
 {
     Q_OBJECT
 

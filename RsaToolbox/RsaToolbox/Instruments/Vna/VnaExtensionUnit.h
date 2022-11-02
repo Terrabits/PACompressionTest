@@ -19,7 +19,7 @@ class VnaChannel;
 
 class VnaExtensionUnit : QObject
 {
-private: Q_OBJECT
+  Q_OBJECT
 
 public:
     explicit VnaExtensionUnit(QObject *parent = 0);
@@ -43,9 +43,9 @@ private:
     QScopedPointer<Vna> placeholder;
     QScopedPointer<VnaChannel> _channel;
     uint _channelIndex;
-    
+
     bool isFullyInitialized() const;
-    
+
 };
 }
 

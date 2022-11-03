@@ -1,5 +1,7 @@
+/artifacts
+
 # Recommended build location
-build/
+/build
 
 # Local project configuration settings
 *.txt.user*

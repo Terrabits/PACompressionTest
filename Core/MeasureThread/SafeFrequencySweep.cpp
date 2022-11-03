@@ -1,5 +1,7 @@
 #include "SafeFrequencySweep.h"
 
+// logging
+#include "logging.hpp"
 
 // RsaToolbox
 #include <General.h>
@@ -21,10 +23,17 @@ SafeFrequencySweep::~SafeFrequencySweep()
 }
 
 void SafeFrequencySweep::run() {
-    if (!prepareVna())
-        return;
+    LOG(info) << "starting SafeFrequencySweep";
+    LOG(info) << "initializing vna";
+    if (!prepareVna()) {
+      LOG(error) << "vna initialization failed";
+      return;
+    }
+
 
     emit progress(0);
+
+    LOG(info) << "initializing for measurement";
 
     // Frequency
     const double start_Hz = _settings.startFrequency_Hz();
@@ -49,24 +58,25 @@ void SafeFrequencySweep::run() {
     const bool shouldFlipPorts = outputPort < inputPort;
 
 
-    // Setup channel
+    LOG(info) << "configuring VNA channels";
     _vna->channel(channel).setFrequencies(sweptFreq_Hz);
     sweptFreq_Hz = _vna->channel(channel).segmentedSweep().frequencies_Hz(); // <------- Will this fix the index problem?
     _results->frequencies_Hz() = sweptFreq_Hz;
 
-    // Setup a1 trace
+    LOG(info) << "configure VNA traces";
     QString a1Trace = _vna->createTrace(channel);
     _vna->trace(a1Trace).setWaveQuantity(WaveQuantity::a, inputPort, inputPort);
 
     // Handle interrupt
     if (isInterruptionRequested()) {
+        LOG(info) << "interrupt requested";
         _results->clearAllData();
         setError("*Measurement cancelled");
         restoreVna();
         return;
     }
 
-    // First sweep
+    LOG(info) << "performing first sweep";
     uint iPower = 0;
     double power_dBm = pin_dBm[iPower];
     _results->pin_dBm() << power_dBm;
@@ -76,14 +86,23 @@ void SafeFrequencySweep::run() {
     _vna->channel(channel).manualSweepOn();
     emit startingSweep(QString("Sweep %1").arg(iPower+1), sweep.sweepTime_ms());
     NetworkData data = sweep.measure(outputPort, inputPort);
+    if (data.empty()) {
+      LOG(error) << "first sweep failed";
+      return;
+    }
+
+    LOG(info) << "first sweep complete";
+
     if (data.points() == 0) {
-        // Sweep unsuccessful
+        LOG(error) << "sweep failed";
         emit finishedSweep();
         _results->clearAllData();
         setError("*Could not perform sweep.");
         restoreVna();
         return;
     }
+
+    LOG(info) << "processing first sweep";
     _results->data() << data;
     QRowVector measuredPin_dBm;
     _vna->trace(a1Trace).y(measuredPin_dBm);
@@ -111,27 +130,51 @@ void SafeFrequencySweep::run() {
         if (sweptFreq_Hz.isEmpty())
             break;
 
+        // log sweep
+        QString message;
+        message  = "performing sweep %1";
+        message  = message.arg(iPower + 1);
+        QByteArray bytes;
+        bytes    = message.toUtf8();
+        LOG(info) << bytes.constData();
+
         power_dBm = pin_dBm[iPower];
         _results->pin_dBm() << power_dBm;
 
         if (isInterruptionRequested()) {
+            LOG(info) << "interrupt requested";
             _results->clearAllData();
             setError("*Measurement cancelled");
             restoreVna();
             return;
         }
 
+        // perform sweep
         emit startingSweep(QString("Sweep %1").arg(iPower+1), sweep.sweepTime_ms());
         sweep.setPower(power_dBm);
         data = sweep.measure(outputPort, inputPort);
+
+        // log sweep complete
+        message = "completed sweep %1";
+        message = message.arg(iPower + 1);
+        bytes   = message.toUtf8();
+        LOG(info) << bytes.constData();
+
         if (data.points() == 0) {
-            // Sweep unsuccessful
+            LOG(error) << "sweep failed";
             emit finishedSweep();
             _results->clearAllData();
             setError("*Could not perform sweep.");
             restoreVna();
             return;
         }
+
+        // log data processing
+        message = "processing sweep %1 data";
+        message = message.arg(iPower + 1);
+        bytes   = message.toUtf8();
+        LOG(info) << bytes.constData();
+
         _results->data() << data;
         _vna->trace(a1Trace).y(measuredPin_dBm);
         _results->measuredPin_dBm() << measuredPin_dBm;
@@ -195,7 +238,7 @@ void SafeFrequencySweep::run() {
                 iCurrentFreq--;
             }
             else {
-                // Compression not found
+                LOG(warning) << "compression not found";
                 // Update progress plot with *closest* (current) value
                 _results->powerInAtCompression_dBm()[iTotalFreq] = measuredPower_dBm;
                 _results->gainAtCompression_dB()[iTotalFreq] = gain_dB;
@@ -212,11 +255,24 @@ void SafeFrequencySweep::run() {
     emit progress(100);
     restoreVna();
 
+    LOG(info) << "sweeps complete";
+    LOG(info) << "processing data";
+
     // Check if any compression points not found
     if (!sweptFreq_Hz.isEmpty()) {
-        QString msg = "*Could not find compression point for %1";
-        msg = msg.arg(formatValue(sweptFreq_Hz.first(), 3, Units::Hertz));
-        setError(msg);
+      const QString freqStr = formatValue(sweptFreq_Hz.first(), 3, Units::Hertz);
+
+      // log error
+      QString message;
+      message = "compression not found for %1";
+      message = message.arg(freqStr);
+      QByteArray bytes;
+      bytes   = message.toUtf8();
+      LOG(error) << bytes.constData();
+
+      // show error
+      message = "*Could not find compression point for %1";
+      message = message.arg(freqStr);
+      setError(message);
     }
 }
-

@@ -453,7 +453,15 @@ void GenericInstrument::wait() {
  * \sa pause(uint timeout_ms), GenericBus::timeout_ms()
  */
 bool GenericInstrument::pause() {
-    return _bus->query("*OPC?\n").toUInt() == 1;
+  QString response = _bus->query("*OPC?\n");
+  bool    ok       = false;
+  int     value    = response.toInt(&ok);
+  if (!ok) {
+    // bad or no response
+    return false;
+  }
+
+  return value == 1;
 }
 
 /*!

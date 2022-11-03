@@ -1,5 +1,7 @@
 #include "FrequencySweep.h"
 
+// logging
+#include "logging.hpp"
 
 // RsaToolbox
 #include <General.h>
@@ -7,7 +9,6 @@ using namespace RsaToolbox;
 
 // Qt
 #include <QBitArray>
-#include <QDebug>
 
 
 FrequencySweep::FrequencySweep(QObject *parent)
@@ -22,10 +23,16 @@ FrequencySweep::~FrequencySweep()
 }
 
 void FrequencySweep::run() {
-    if (!prepareVna())
-        return;
+    LOG(info) << "starting SafeFrequencySweep";
+    LOG(info) << "initializing vna";
+    if (!prepareVna()) {
+      LOG(error) << "vna initialization failed";
+      return;
+    }
 
     emit progress(0);
+
+    LOG(info) << "initializing for measurement";
 
     // Frequency
     const double start_Hz = _settings.startFrequency_Hz();
@@ -49,45 +56,50 @@ void FrequencySweep::run() {
 
     const bool shouldFlipPorts = outputPort < inputPort;
 
-    // Setup channel
+    LOG(info) << "configuring VNA channels";
     _vna->channel(channel).setFrequencies(sweptFreq_Hz);
     sweptFreq_Hz = _vna->channel(channel).segmentedSweep().frequencies_Hz();
     _results->frequencies_Hz() = sweptFreq_Hz;
 
-    // Setup a1 trace
+    LOG(info) << "configuring VNA traces";
     QString a1Trace = _vna->createTrace(channel);
     _vna->trace(a1Trace).setWaveQuantity(WaveQuantity::a, inputPort, inputPort);
 
-    // First point
-    uint iPower = 0;
-    double power_dBm = pin_dBm[iPower];
-    _results->pin_dBm() << power_dBm;
-
+    // handle interrupt
     if (isInterruptionRequested()) {
+        LOG(info) << "interrupt requested";
         _results->clearAllData();
         setError("*Measurement cancelled");
         restoreVna();
         return;
     }
 
+    LOG(info) << "performing first sweep";
+    uint iPower = 0;
+    double power_dBm = pin_dBm[iPower];
+    _results->pin_dBm() << power_dBm;
+
     // Perform first sweep
     VnaSegmentedSweep sweep = _vna->channel(channel).segmentedSweep();
     sweep.setPower(power_dBm);
     _vna->channel(channel).manualSweepOn();
-
     emit startingSweep(QString("Sweep %1").arg(iPower+1), sweep.sweepTime_ms());
     NetworkData data = sweep.measure(outputPort, inputPort);
-    if (data.points() == 0) {
-        // Sweep unsuccessful
+
+    LOG(info) << "first sweep complete";
+
+    if (data.empty()) {
+        LOG(error) << "first sweep failed";
         emit finishedSweep();
         _results->clearAllData();
         setError("*Could not perform sweep.");
         restoreVna();
         return;
     }
-    _results->data() << data;
 
-    // Get measured Pin (dBm)
+
+    LOG(info) << "processing first sweep";
+    _results->data() << data;
     QRowVector measuredPin_dBm;
     _vna->trace(a1Trace).y(measuredPin_dBm);
     _results->measuredPin_dBm() << measuredPin_dBm;
@@ -116,27 +128,49 @@ void FrequencySweep::run() {
         _results->pin_dBm() << power_dBm;
 
         if (isInterruptionRequested()) {
+          LOG(info) << "interrupt requested";
             _results->clearAllData();
             setError("*Measurement cancelled");
             restoreVna();
             return;
         }
 
+        // log start sweep
+        QString message;
+        message = "starting sweep %1";
+        message = message.arg(iPower + 1);
+        QByteArray bytes;
+        bytes = message.toUtf8();
+        LOG(info) << bytes.constData();
+
         // Perform sweep
         emit startingSweep(QString("Sweep %1").arg(iPower+1), sweep.sweepTime_ms());
         sweep.setPower(power_dBm);
         data = sweep.measure(outputPort, inputPort);
-        if (data.points() == 0) {
-            // Sweep unsuccessful
+
+        // log completed sweep
+        message = "completed sweep %1";
+        message = message.arg(iPower + 1);
+        bytes   = message.toUtf8();
+        LOG(info) << bytes.constData();
+
+        if (data.empty()) {
+            LOG(error) << "sweep failed";
             emit finishedSweep();
             _results->clearAllData();
             setError("*Could not perform sweep.");
             restoreVna();
             return;
         }
-        _results->data() << data;
+
+        // log data processing
+        message = "processing sweep %1 data";
+        message = message.arg(iPower + 1);
+        bytes   = message.toUtf8();
+        LOG(info) << bytes.constData();
 
         // Get measured Pin (dBm)
+        _results->data() << data;
         _vna->trace(a1Trace).y(measuredPin_dBm);
         _results->measuredPin_dBm() << measuredPin_dBm;
         emit finishedSweep();
@@ -191,7 +225,7 @@ void FrequencySweep::run() {
                     isCompression[iFreq] = true;
                 }
                 else {
-                    // Compression not found
+                    LOG(warning) << "compression not found";
                     // Update progress plot with *closest* (current) value
                     _results->powerInAtCompression_dBm()[iFreq] = measuredPower_dBm;
                     _results->gainAtCompression_dB()[iFreq] = gain_dB;
@@ -208,17 +242,33 @@ void FrequencySweep::run() {
     emit progress(100);
     restoreVna();
 
+    LOG(info) << "sweeps complete";
+    LOG(info) << "processing data";
+
     // Check if any compression points not found
     if (isCompression.count(false) > 0) {
-        int iFailure = 0;
-        for (int i = 0; i < isCompression.size(); i++) {
-            if (!isCompression[i]) {
-                iFailure = i;
-                break;
-            }
-        }
-        QString msg = "*Could not find compression point for %1";
-        msg = msg.arg(formatValue(sweptFreq_Hz[iFailure], 3, Units::Hertz));
-        setError(msg);
+      // find first failure
+      int iFailure = 0;
+      for (int i = 0; i < isCompression.size(); i++) {
+          if (!isCompression[i]) {
+              iFailure = i;
+              break;
+          }
+      }
+
+      const QString freqStr = formatValue(sweptFreq_Hz[iFailure], 3, Units::Hertz);
+
+      // log error
+      QString message;
+      message = "compression not found for %1";
+      message = message.arg(freqStr);
+      QByteArray bytes;
+      bytes   = message.toUtf8();
+      LOG(error) << bytes.constData();
+
+      // show error
+      message = "*Could not find compression point for %1";
+      message = message.arg(freqStr);
+      setError(message);
     }
 }

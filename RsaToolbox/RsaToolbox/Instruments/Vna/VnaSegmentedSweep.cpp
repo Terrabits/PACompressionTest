@@ -1,14 +1,11 @@
-#include <QDebug>
-
-// RsaToolbox includes
 #include "General.h"
 #include "VnaSegmentedSweep.h"
 #include "VnaChannel.h"
 #include "Vna.h"
 using namespace RsaToolbox;
 
-// Qt includes
-// #include <Qt>
+// logging
+#include "logging.hpp"
 
 /*!
  * \class RsaToolbox::VnaSegmentedSweep
@@ -149,25 +146,37 @@ void VnaSegmentedSweep::clearSParameterGroup() {
     _channel->linearSweep().clearSParameterGroup();
 }
 ComplexMatrix3D VnaSegmentedSweep::readSParameterGroup() {
-    QString scpi = ":CALC%1:DATA:SGR? SDAT\n";
-    scpi = scpi.arg(_channelIndex);
-
-    ComplexMatrix3D sParameters;
+    // get ports, points
     uint ports = sParameterGroup().size();
     uint points = this->points();
-    if (ports <= 0)
-        return sParameters;
-    uint bufferSize = dataBufferSize(ports, points);
+    if (ports <= 0) {
+      return ComplexMatrix3D();
+    }
 
+    // set manual sweep
     bool isContinuousSweep = _channel->isContinuousSweep();
-    if (isContinuousSweep)
-        _channel->manualSweepOn();
+    if (isContinuousSweep) {
+      _channel->manualSweepOn();
+    }
+
     const uint timeout_ms = sweepTime_ms() * _channel->sweepCount();
     _channel->startSweep();
-    _vna->pause(timeout_ms);
+    if (!_vna->pause(timeout_ms)) {
+      LOG(error) << "timeout occurred";
+      return ComplexMatrix3D();
+    }
+
+    // get results
+    QString scpi    = ":CALC%1:DATA:SGR? SDAT\n";
+    scpi            = scpi.arg(_channelIndex);
+    uint bufferSize = dataBufferSize(ports, points);
     ComplexRowVector data = _vna->queryComplexVector(scpi, bufferSize);
-    if (isContinuousSweep)
-        _channel->continuousSweepOn();
+
+    // restore continuous sweep?
+    if (isContinuousSweep) {
+      _channel->continuousSweepOn();
+    }
+
     return toComplexMatrix3D(data, points, ports, ports);
 }
 
@@ -202,18 +211,31 @@ NetworkData VnaSegmentedSweep::measure(uint port1, uint port2, uint port3, uint 
     return measure(ports);
 }
 NetworkData VnaSegmentedSweep::measure(QVector<uint> ports) {
-    NetworkData network;
+    if (ports.size() <= 0) {
+      return NetworkData();
+    }
 
-    if (ports.size() <= 0)
-        return network;
-    if (_channel->isCwSweep() || _channel->isTimeSweep())
-        return network;
+    if (_channel->isCwSweep() || _channel->isTimeSweep()) {
+      return NetworkData();
+    }
 
+    // sweep
     setSParameterGroup(ports);
+    ComplexMatrix3D data = readSParameterGroup();
+    if (data.empty()) {
+      LOG(error) << "measurement failed";
+      return NetworkData();
+    }
+
+    // x-axis
+    auto freq = frequencies_Hz();
+
+    // return network
+    NetworkData network;
     network.setParameter(NetworkParameter::S);
     network.setReferenceImpedance(50);
     network.setXUnits(Units::Hertz);
-    network.setData(frequencies_Hz(), readSParameterGroup());
+    network.setData(freq, data);
     return network;
 }
 

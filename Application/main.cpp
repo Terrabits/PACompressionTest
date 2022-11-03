@@ -27,7 +27,15 @@ int main(int argc, char *argv[])
 {
     // init boost log
     init_logging(level, main_log_filename);
-    LOG(info) << "R&S PA Compression Test 2.2";
+
+    // log app, version
+    QString message;
+    message = "%1 %2";
+    message = message.arg(APP_ NAME);
+    message = message.arg(APP_VERSION);
+    QByteArray bytes;
+    bytes = message.toUtf8();
+    LOG(info) << message;
 
     LOG(info) << "Creating Qt Application";
     QApplication app(argc, argv);

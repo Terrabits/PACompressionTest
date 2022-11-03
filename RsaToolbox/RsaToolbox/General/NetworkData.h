@@ -25,6 +25,8 @@ public:
     NetworkData();
     NetworkData(const NetworkData &other);
 
+    bool empty() const;
+
     bool isSParameter() const;
     bool isYParameter() const;
     bool isZParameter() const;
@@ -96,6 +98,3 @@ Q_DECLARE_METATYPE(RsaToolbox::NetworkData)
 
 
 #endif // NETWORK_DATA_H
-
-
-

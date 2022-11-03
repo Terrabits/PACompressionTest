@@ -30,7 +30,7 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
     _isMeasuring(false),
     _guiState(GuiState::Configuration)
 {
-  LOG(trace) << "entering MainWindow() constructor";
+  LOG(info) << "constructing MainWindow";
   ui->setupUi(this);
 
   QString title = "Compression Test " + APP_VERSION;
@@ -81,6 +81,7 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
   _vna.local();
 }
 MainWindow::~MainWindow() {
+    LOG(info) << "deconstructing MainWindow";
     _vna.isError();
     _vna.clearStatus();
     _vna.local();
@@ -103,6 +104,7 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::setMiniPage(MiniPage *page) {
+    LOG(info) << "settings mini page";
     _miniPage = page;
     connect(_miniPage, SIGNAL(animationFinished()),
             this, SLOT(miniAnimatedMoveFinished()));
@@ -117,6 +119,7 @@ void MainWindow::setMiniPage(MiniPage *page) {
 }
 
 bool MainWindow::askCancelMeasurement() {
+    LOG(info) << "ask for user input: cancel measurement?";
     QWidget *parent;
     if (_guiState == GuiState::Mini)
         parent = _miniPage;
@@ -130,6 +133,7 @@ bool MainWindow::askCancelMeasurement() {
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
+    LOG(info) << "MainWindow closing";
     if (!_isMeasuring) {
         _miniPage->close();
         QMainWindow::closeEvent(event);
@@ -143,17 +147,11 @@ void MainWindow::closeEvent(QCloseEvent *event) {
     }
 }
 
-// Private slots:
-//void MainWindow::on_cancel_clicked() {
-//    if (!_isMeasuring) {
-//        close();
-//    }
-//    else {
 
-//    }
-//}
 void MainWindow::startMeasurement() {
+    LOG(info) << "starting measurement";
     if (!ui->settings->hasAcceptableInput()) {
+        LOG(info) << "cannot start: input is unacceptable";
         if (_guiState != GuiState::Configuration) {
             ui->configureTabs->setCurrentWidget(ui->settingsTab);
             showConfiguration();
@@ -164,9 +162,11 @@ void MainWindow::startMeasurement() {
         return;
     }
 
+    LOG(info) << "loading settings";
     _settings = ui->settings->settings();
     ui->settings->saveKeys();
 
+    LOG(info) << "initializing for measurement";
     _isMeasuring = true;
     clearResults();
     _results.reset();
@@ -188,6 +188,7 @@ void MainWindow::startMeasurement() {
     connect(_thread.data(), SIGNAL(finished()),
             this, SLOT(measurementFinished()));
 
+    LOG(info) << "starting measurement thread";
     _thread->start();
 }
 void MainWindow::cancelMeasurement() {

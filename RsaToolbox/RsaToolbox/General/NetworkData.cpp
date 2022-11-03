@@ -40,6 +40,10 @@ NetworkData::NetworkData(const NetworkData &other) {
     _y = other._y;
 }
 
+bool NetworkData::empty() const {
+  return _points == 0;
+}
+
 bool NetworkData::isSParameter() const {
     return(_parameter == NetworkParameter::S);
 }

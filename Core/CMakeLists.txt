@@ -16,6 +16,10 @@ add_compile_definitions(SOURCE_DIR="${CMAKE_SOURCE_DIR}")
 # no warnings
 add_compile_options(-w)
 
+# conan config
+include(${CMAKE_BINARY_DIR}/../../conanbuildinfo.cmake)
+conan_basic_setup(Logging)
+
 # packages
 find_package(Qt5 REQUIRED COMPONENTS Widgets)
 
@@ -71,6 +75,7 @@ target_include_directories(Core PUBLIC SpeedTracker)
 target_include_directories(Core PUBLIC Traces)
 
 # linking
-target_link_libraries(Core PUBLIC Qt5::Widgets)
+target_link_libraries(Core PUBLIC Logging)
 target_link_libraries(Core PUBLIC RsaToolbox)
 target_link_libraries(Core PUBLIC QuaZip::QuaZip)
+target_link_libraries(Core PUBLIC Qt5::Widgets)

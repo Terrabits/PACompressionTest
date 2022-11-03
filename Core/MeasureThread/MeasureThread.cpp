@@ -1,20 +1,20 @@
-#include <QDebug>
-
 #include "MeasureThread.h"
+
+// logging
+#include "logging.hpp"
 
 // RsaToolbox
 #include <General.h>
 #include <NetworkData.h>
 #include <NetworkTraceData.h>
-
-// C++ std lib
-#include <complex>
+using namespace RsaToolbox;
 
 // Qt
 #include <QApplication>
 #include <QMessageBox>
 
-using namespace RsaToolbox;
+// C++ std lib
+#include <complex>
 
 
 MeasureThread::MeasureThread(QObject *parent)
@@ -54,6 +54,7 @@ void MeasureThread::setError(QString message) {
 }
 
 void MeasureThread::start(Priority priority) {
+    LOG(info) << "starting measurement";
     clearError();
     _results.reset(new MeasurementData());
     _results->setAppInfo(_appName, _appVersion);

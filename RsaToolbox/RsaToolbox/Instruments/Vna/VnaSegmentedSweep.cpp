@@ -159,7 +159,7 @@ ComplexMatrix3D VnaSegmentedSweep::readSParameterGroup() {
       _channel->manualSweepOn();
     }
 
-    const uint timeout_ms = sweepTime_ms() * _channel->sweepCount();
+    const uint timeout_ms = 5 * sweepTime_ms() * _channel->sweepCount() + 5000;
     _channel->startSweep();
     if (!_vna->pause(timeout_ms)) {
       LOG(error) << "timeout occurred";

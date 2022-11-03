@@ -169,6 +169,24 @@ QRowVector VnaProperties::ifBandwidthMantissa_Hz() {
                        << 500
                        << 700;
     }
+    else if (model() == VnaProperties::Model::Zna) {
+        mantissaValues << 1
+                       << 2
+                       << 5
+                       << 7
+                       << 10
+                       << 15
+                       << 20
+                       << 30
+                       << 50
+                       << 70
+                       << 100
+                       << 150
+                       << 200
+                       << 300
+                       << 500
+                       << 700;
+    }
     return(mantissaValues);
 }
 QRowVector VnaProperties::ifBandwidthMantissa_KHz() {
@@ -185,6 +203,26 @@ QRowVector VnaProperties::ifBandwidthMantissa_KHz() {
                        << 500;
     }
     else if (isZvaFamily()) {
+        mantissaValues << 1
+                       << 1.5
+                       << 2
+                       << 3
+                       << 5
+                       << 7
+                       << 10
+                       << 15
+                       << 20
+                       << 30
+                       << 50
+                       << 70
+                       << 100
+                       << 150
+                       << 200
+                       << 300
+                       << 500
+                       << 700;
+    }
+    else if (model() == VnaProperties::Model::Zna) {
         mantissaValues << 1
                        << 1.5
                        << 2
@@ -226,6 +264,10 @@ QRowVector VnaProperties::ifBandwidthMantissa_MHz() {
                        << 7
                        << 10;
     }
+    else if (model() == VnaProperties::Model::Zna) {
+      mantissaValues << 1
+                     << 1.5;
+  }
     return(mantissaValues);
 }
 QRowVector VnaProperties::ifBandwidthValues_Hz() {
@@ -241,6 +283,9 @@ double VnaProperties::minimumPower_dBm() {
         return(-150.0);
     else if (isZnbFamily())
         return(-40.0);
+    else if (model() == VnaProperties::Model::Zna) {
+        return -150.0;
+    }
     else
         return(-40.0);
 }
@@ -249,6 +294,9 @@ double VnaProperties::maximumPower_dBm() {
         return(100.0);
     else if (isZnbFamily())
         return(10.0);
+    else if (model() == VnaProperties::Model::Zna) {
+      return 100.0;
+    }
     else
         return(10.0);
 }

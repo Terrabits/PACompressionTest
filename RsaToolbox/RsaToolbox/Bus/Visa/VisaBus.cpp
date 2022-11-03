@@ -215,11 +215,11 @@ bool VisaBus::lock() {
     const bool isRsVisa = visa_library.fileName().contains(RSVISA32, Qt::CaseInsensitive);
       if (isRsVisa) {
         // warning
-        log(warning) << "RsVisa does not implement locking mechanism";
+        LOG(warning) << "RsVisa does not implement locking mechanism";
       }
       else {
         // error
-        log(error) << "could not lock instrument";
+        LOG(error) << "could not lock instrument";
         return false;
       }
   }
@@ -254,11 +254,11 @@ bool VisaBus::unlock() {
       const bool isRsVisa = visa_library.fileName().contains(RSVISA32, Qt::CaseInsensitive);
       if (isRsVisa) {
         // warning
-        log(warning) << "RsVisa does not implement unlocking";
+        LOG(warning) << "RsVisa does not implement unlocking";
       }
       else {
         // error
-        log(error) << "could not unlock instrument";
+        LOG(error) << "could not unlock instrument";
         return false;
       }
     }
@@ -287,9 +287,9 @@ bool VisaBus::unlock() {
 bool VisaBus::local() {
     bool isLocal = write("@LOC\n");
     if (isLocal)
-        LOG() << "Instrument in local mode\n\n";
+        LOG(info) << "Instrument in local mode";
     else
-        LOG() << "Could not put instrument into local mode\n\n";
+        LOG(error) << "could not put instrument into local mode";
 
     return(isLocal);
 }

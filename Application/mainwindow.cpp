@@ -1,17 +1,17 @@
-
-
-// Project
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "Settings.h"
-#include "FrequencySweep.h"
-#include "SafeFrequencySweep.h"
-
-#include "ProcessTrace.h"
+// logging
+#include "logging.hpp"
 
 // RsaToolbox
 using namespace RsaToolbox;
+
+// core
+#include "Settings.h"
+#include "FrequencySweep.h"
+#include "SafeFrequencySweep.h"
+#include "ProcessTrace.h"
 
 // Qt
 #include <QDir>
@@ -22,7 +22,7 @@ using namespace RsaToolbox;
 #include <QPropertyAnimation>
 
 
-MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) : 
+MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
     QMainWindow(parent),
     ui(new ::Ui::MainWindow),
     _vna(vna), _keys(keys),
@@ -30,54 +30,55 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
     _isMeasuring(false),
     _guiState(GuiState::Configuration)
 {
-    ui->setupUi(this);
-    QString title = "Compression Test " + APP_VERSION;
-    setWindowTitle(title);
+  LOG(trace) << "entering MainWindow() constructor";
+  ui->setupUi(this);
 
-    qRegisterMetaType<RsaToolbox::QRowVector>("RsaToolbox::QRowVector");
+  QString title = "Compression Test " + APP_VERSION;
+  setWindowTitle(title);
 
-    ui->settings->setVna(&vna);
-    ui->settings->setKeys(&keys);
+  qRegisterMetaType<RsaToolbox::QRowVector>("RsaToolbox::QRowVector");
 
-    ui->traces->setKeys(&keys);
+  ui->settings->setVna (&vna);
+  ui->settings->setKeys(&keys);
+  ui->traces  ->setKeys(&keys);
 
-    // Show settings initially
-    ui->pages->setCurrentWidget(ui->configurePage);
-    ui->configureTabs->setCurrentWidget(ui->settingsTab);
+  // Show settings initially
+  ui->pages->setCurrentWidget(ui->configurePage);
+  ui->configureTabs->setCurrentWidget(ui->settingsTab);
 
-    // Settings
-    connect(ui->settings, SIGNAL(exportClicked()),
-            this, SLOT(exportData()));
-    connect(ui->settings, SIGNAL(miniGuiClicked()),
-            this, SLOT(miniGuiMode()));
-    connect(ui->settings, SIGNAL(closeClicked()),
-            this, SLOT(close()));
-    connect(ui->settings, SIGNAL(measureClicked()),
-            this, SLOT(startMeasurement()));
+  // Settings
+  connect(ui->settings, SIGNAL(exportClicked()),
+          this, SLOT(exportData()));
+  connect(ui->settings, SIGNAL(miniGuiClicked()),
+          this, SLOT(miniGuiMode()));
+  connect(ui->settings, SIGNAL(closeClicked()),
+          this, SLOT(close()));
+  connect(ui->settings, SIGNAL(measureClicked()),
+          this, SLOT(startMeasurement()));
 
 
-    // Traces
-    connect(ui->traces, SIGNAL(inputError(QString)),
-            this, SLOT(showMessage(QString)));
-    connect(ui->traces, SIGNAL(exportClicked()),
-            this, SLOT(exportData()));
-    connect(ui->traces, SIGNAL(miniGuiClicked()),
-            this, SLOT(miniGuiMode()));
-    connect(ui->traces, SIGNAL(plotClicked()),
-            this, SLOT(processTraces()));
-    connect(ui->traces, SIGNAL(closeClicked()),
-            this, SLOT(close()));
+  // Traces
+  connect(ui->traces, SIGNAL(inputError(QString)),
+          this, SLOT(showMessage(QString)));
+  connect(ui->traces, SIGNAL(exportClicked()),
+          this, SLOT(exportData()));
+  connect(ui->traces, SIGNAL(miniGuiClicked()),
+          this, SLOT(miniGuiMode()));
+  connect(ui->traces, SIGNAL(plotClicked()),
+          this, SLOT(processTraces()));
+  connect(ui->traces, SIGNAL(closeClicked()),
+          this, SLOT(close()));
 
-    // Progress
-    connect(ui->progress, SIGNAL(cancelClicked()),
-            this, SLOT(cancelMeasurement()));
+  // Progress
+  connect(ui->progress, SIGNAL(cancelClicked()),
+          this, SLOT(cancelMeasurement()));
 
-    _exportPath.setKey(&_keys, EXPORT_PATH_KEY);
-    if (_exportPath.isEmpty())
-        _exportPath.setPath(QDir::homePath());
+  _exportPath.setKey(&_keys, EXPORT_PATH_KEY);
+  if (_exportPath.isEmpty())
+      _exportPath.setPath(QDir::homePath());
 
-    loadKeys();
-    _vna.local();
+  loadKeys();
+  _vna.local();
 }
 MainWindow::~MainWindow() {
     _vna.isError();

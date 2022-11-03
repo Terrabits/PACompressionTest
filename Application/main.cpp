@@ -38,8 +38,6 @@ int main(int argc, char *argv[])
 
     LOG(info) << "Connecting to VNA";
     Vna vna(CONNECTION_TYPE, INSTRUMENT_ADDRESS);
-    vna.useLog(&log);
-    vna.printInfo();
 
     LOG(info) << "Loading application settings";
     Keys keys(KEY_PATH);

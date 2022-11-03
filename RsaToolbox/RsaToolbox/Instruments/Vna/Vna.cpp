@@ -7,6 +7,9 @@
 #include "VnaScpi.h"
 using namespace RsaToolbox;
 
+// logging
+#include "logging.hpp"
+
 // Qt
 #include <QUuid>
 #include <QDebug>
@@ -175,69 +178,6 @@ Vna::Vna(ConnectionType type, QString address, QObject *parent)
     //
 }
 
-/*!
- * \brief Prints instrument info to the log file
- *
- * Below is an example result of a call
- * to \c printInfo() with a ZNB connected:
-    <tt>VNA INSTRUMENT INFO
-Connection:       TCPIP
-Address:          192.168.0.1
-Make:             Rohde & Schwarz
-Model:            ZNB
-Serial No:        12345678901234
-Firmware Version: 1.93.2.45
-Min Frequency:    9.0 KHz
-Max Frequency:    8.5 GHz
-Number of Ports:  4
-Options:          ZNB-K2
-                  ZNB-K4
-                  ZNB-K14
-                  ZNB-K17
-                  ZNB-K19
-                  ZNB8-B24
-                  ZNB8-B31
-                  ZNB8-B32
-                  ZNB8-B33
-                  ZNB8-B34
-                  ZNB-B81
-                  ZNB-B2
-                  ZN-B12</tt>
- * \sa Vna::useLog()
- */
-void Vna::printInfo(QString &info) {
-    QTextStream stream(&info);
-    stream << "VNA INSTRUMENT INFO" << endl;
-    if (isConnected()) {
-        if (_properties.isKnownModel()) {
-            stream << "Connection:       " << toString(connectionType()) << endl;
-            stream << "Address:          " << address() << endl;
-            stream << "Make:             Rohde & Schwarz" << endl;
-            stream << "Model:            " << toString(_properties.model()) << endl;
-            stream << "Serial No:        " << _properties.serialNumber() << endl;
-            stream << "Firmware Version: " << _properties.firmwareVersion() << endl;
-            stream << "Min Frequency:    " << formatValue(_properties.minimumFrequency_Hz(), 1, Units::Hertz) << endl;
-            stream << "Max Frequency:    " << formatValue(_properties.maximumFrequency_Hz(), 1, Units::Hertz) << endl;
-            stream << "Number of Ports:  " << _properties.physicalPorts() << endl;
-            if (!optionsString().isEmpty()) {
-                stream << "Options:          ";
-                stream << toString(_properties.optionsList(), "\n                  ");
-                stream << endl;
-            }
-        }
-        else {
-            stream << "Make: Unknown" << endl;
-            stream << "*IDN?\n  " << idString() << endl << endl << endl;
-        }
-    }
-    else {
-        stream << "Instrument not found" << endl;
-        stream << "Connection:       " << toString(connectionType()) << endl;
-        stream << "Address:          " << address() << endl << endl << endl;
-    }
-    stream << endl << endl;
-    stream.flush();
-}
 
 /*!
  * \brief Reads a \c QRowVector of data from the instrument
@@ -385,7 +325,7 @@ bool Vna::isError() {
     // print scpi error count
     const int errorCount = messages.size();
     QString countMessage = "%1 scpi error(s) occurred";
-    countMessage         = message.arg(errorCount);
+    countMessage         = countMessage.arg(errorCount);
     const QByteArray countData = countMessage.toUtf8();
     LOG(error) << countData.constData();
 

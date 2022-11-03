@@ -1,12 +1,14 @@
 #include "VnaCalibrate.h"
 
-
-// RsaToolbox includes
+// RsaToolbox
 #include "General.h"
 #include "Vna.h"
 #include "VnaChannel.h"
 #include "VnaScpi.h"
 using namespace RsaToolbox;
+
+// logging
+#include "logging.hpp"
 
 // Qt includes
 #include <QDebug>
@@ -20,8 +22,10 @@ using namespace RsaToolbox;
  * is used to perform calibration.
  */
 
+
 // Static init:
 uint VnaCalibrate::_timeout_ms = 10 * 60 * 1000; // 10 min
+
 
 VnaCalibrate::VnaCalibrate(QObject *parent) :
     QObject(parent)
@@ -198,16 +202,18 @@ void VnaCalibrate::start(QString calibrationName,
                           QVector<uint> ports)
 {
     if (_vna->properties().isZvaFamily() && !VnaScpi::isZvaFamilyCompatible(type)) {
-        QString msg = "Error: Calibration type \'%1\' not available on ZVA-family instrument\n\n";
-        msg = msg.arg(VnaScpi::toString(type));
-        _vna->print(msg);
-        // return; // ?
+        QString msg = "calibration type \'%1\' not available on ZVA-family instruments";
+        msg         = msg.arg(VnaScpi::toString(type));
+        QByteArray data = msg.toUtf8();
+        LOG(error) << data.constData();
+        // TODO: throw error
     }
     else if (_vna->properties().isZnbFamily() && !VnaScpi::isZnbFamilyCompatible(type)) {
-        QString msg = "Error: Calibration type \'%1\' not available on ZNB-family instrument\n\n";
-        msg = msg.arg(VnaScpi::toString(type));
-        _vna->print(msg);
-        // return; // ?
+        QString msg = "calibration type \'%1\' not available on ZNB-family instrument\n\n";
+        msg         = msg.arg(VnaScpi::toString(type));
+        QByteArray data = msg.toUtf8();
+        LOG(error) << data.constData();
+        // TODO: throw error
     }
 
     // Note: Cannot ask for sweep type (and therefore sweep time)
@@ -448,7 +454,7 @@ bool VnaCalibrate::isFullyInitialized() const {
 }
 bool VnaCalibrate::isMissingZvaCommand() {
     if (_vna->properties().isZvaFamily() && !_isChannelSpecific) {
-        _vna->print("ZVA firmware does not support calibrating all channels at once.\n\n");
+        LOG(warning) << "ZVA firmware does not support calibrating all channels at once";
         return true;
     }
 

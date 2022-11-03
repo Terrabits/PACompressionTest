@@ -1,12 +1,12 @@
-
-
-// RsaToolbox includes
 #include "General.h"
 #include "IndexName.h"
 #include "Vna.h"
 #include "VnaChannel.h"
 #include "VnaScpi.h"
 using namespace RsaToolbox;
+
+// logging
+#include "logging.hpp"
 
 // Qt includes
 #include <QDebug>
@@ -102,9 +102,8 @@ void VnaChannel::setNumberOfSweeps(uint sweeps) {
 }
 bool VnaChannel::isSweepOn() {
     if (_vna->properties().isZvaFamily()) {
-        if (_vna->isLogConnected())
-            *_vna->log() << "WARNING: isSweepOn() not available on ZVA-family instrument.\n\n";
-        return(true);
+      LOG(warning) << "isSweepOn() not available on ZVA-family instrument";
+      return(true);
     }
 
     QString scpi = ":CONF:CHAN%1:MEAS?\n";
@@ -116,8 +115,7 @@ bool VnaChannel::isSweepOff() {
 }
 void VnaChannel::sweepOn(bool isOn) {
     if (_vna->properties().isZvaFamily()) {
-        if (_vna->isLogConnected())
-            *_vna->log() << "WARNING: sweepOn() not available on ZVA-family instrument.\n\n";
+        LOG(warning) << "sweepOn() not available on ZVA-family instrument";
         return;
     }
 

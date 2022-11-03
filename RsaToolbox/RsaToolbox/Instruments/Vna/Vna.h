@@ -35,9 +35,6 @@ public:
     Vna(GenericBus *bus, QObject *parent = 0);
     Vna(ConnectionType type, QString address, QObject *parent = 0);
 
-    using GenericInstrument::printInfo;
-    virtual void printInfo(QString &info);
-
     QRowVector readVector(uint bufferSize_B = 5000, uint timeout_ms = 1000);
     ComplexRowVector readComplexVector(uint bufferSize_B = 5000, uint timeout_ms = 1000);
     QRowVector queryVector(QString scpi, uint bufferSize_B = 5000, uint timeout_ms = 1000);

@@ -1,8 +1,9 @@
-
-
 #include "VnaFileSystem.h"
 #include "Vna.h"
 using namespace RsaToolbox;
+
+// logging
+#include "logging.hpp"
 
 // Qt
 #include <QFileInfo>
@@ -419,10 +420,12 @@ void VnaFileSystem::dir(quint64 &totalFileSize_B, quint64 &freeSpace_B,
         }
     }
 
-    if (isError && _vna->isLogConnected()) {
-        _vna->log()->print(QString()
+    if (isError) {
+        QString message = QString()
                            + "This MMEM:DIR? call may have failed because one of the files\n"
                            + "in the directory contains a \',\' in the file name. This is a\n"
-                           + "limitation of the SCPI command, which happens to use comma separators.\n\n");
+                           + "limitation of the SCPI command, which happens to use comma separators";
+        QByteArray data = message.toUtf8();
+        LOG(error) << data.constData();
     }
 }

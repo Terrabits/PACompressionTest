@@ -1,10 +1,10 @@
-
-
-// RsaToolbox includes
 #include "VnaCalKit.h"
 #include "Vna.h"
 #include "VnaScpi.h"
 using namespace RsaToolbox;
+
+// logging
+#include "logging.hpp"
 
 // Qt
 #include <QDebug>
@@ -433,7 +433,7 @@ QVector<VnaCalStandard> VnaCalKit::standards() {
 }
 void VnaCalKit::addStandard(VnaCalStandard standard) {
     if (standard.type() == VnaCalStandard::Type::Isolation) {
-        _vna->print("There is an error in the ZNB firmware for the Isolation standard SCPI command\n\n");
+        LOG(warning) << "there is an error in the ZNB firmware for the Isolation standard SCPI command";
         return;
     }
 

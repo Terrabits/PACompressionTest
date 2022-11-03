@@ -8,6 +8,9 @@
 #include "VnaScpi.h"
 using namespace RsaToolbox;
 
+// logging
+#include "logging.hpp"
+
 // Qt
 #include <Qt>
 #include <QtGui/QColor>
@@ -507,19 +510,11 @@ QVector<uint> VnaTrace::markers() {
     return(markers);
 }
 void VnaTrace::createMarker(uint index) {
-//    if (index <= 0 || index > 10) {
-//            _vna->print("ERROR: Cannot create marker "
-//                        + QVariant(index).toString() + "\n"
-//                        + "Marker indexes must be 1-10\n\n");
-//            return;
-//        }
-
-        select();
-
-        QString scpi = ":CALC%1:MARK%2 1\n";
-        scpi = scpi.arg(channel());
-        scpi = scpi.arg(index);
-        _vna->write(scpi);
+      select();
+      QString scpi = ":CALC%1:MARK%2 1\n";
+      scpi = scpi.arg(channel());
+      scpi = scpi.arg(index);
+      _vna->write(scpi);
 }
 uint VnaTrace::createMarker() {
     for (int i = 1; i <= 10; i++) {
@@ -530,22 +525,11 @@ uint VnaTrace::createMarker() {
     }
 
     // Else: all markers are used
-    _vna->print(QString()
-                + "ERROR: Cannot create new marker.\n"
-                + "The maximum of 10 markers has been reached\n\n");
+    LOG(error) << "cannot create new marker: the maximum of 10 markers has been reached";
     return(0);
 }
 void VnaTrace::deleteMarker(uint index) {
-//    if (index <= 0 || index > 10) {
-//            vna->log->print(QString()
-//                            + "ERROR: Cannot delete marker "
-//                            + QVariant(index).toString() + "\n"
-//                            + "Marker indexes must be 1-10\n\n");
-//            return;
-//        }
-
     select();
-
     QString scpi = ":CALC%1:MARK%2 0\n";
     scpi = scpi.arg(channel());
     scpi = scpi.arg(index);

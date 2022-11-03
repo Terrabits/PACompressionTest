@@ -15,6 +15,10 @@ add_compile_definitions(SOURCE_DIR="${CMAKE_SOURCE_DIR}")
 # no warnings
 add_compile_options(-w)
 
+# conan config
+include(${CMAKE_BINARY_DIR}/../../conanbuildinfo.cmake)
+conan_basic_setup(Logging)
+
 # packages
 find_package(Qt5 REQUIRED COMPONENTS Widgets Network PrintSupport Test)
 
@@ -207,8 +211,10 @@ set(PROJECT_SOURCES
 add_library(RsaToolbox STATIC ${PROJECT_SOURCES})
 
 # linking
-target_link_libraries(RsaToolbox PUBLIC Qt5::Widgets Qt5::Network Qt5::PrintSupport Qt5::Test)
+target_link_libraries(RsaToolbox PUBLIC Logging)
 target_link_libraries(RsaToolbox PUBLIC qcustomplot)
+target_link_libraries(RsaToolbox PUBLIC Qt5::Widgets Qt5::Network Qt5::PrintSupport Qt5::Test)
+
 
 # includes
 target_include_directories(RsaToolbox PUBLIC Bus)

@@ -6,6 +6,9 @@
 #include "Vna.h"
 using namespace RsaToolbox;
 
+// logging
+#include "logging.hpp"
+
 /*!
  * \class RsaToolbox::VnaSettings
  * \ingroup VnaGroup
@@ -37,9 +40,7 @@ VnaSettings::~VnaSettings() {
 
 void VnaSettings::setIdString(QString idString) {
     if (_vna->properties().isZvaFamily()) {
-        if (_vna->isLogConnected())
-            *_vna->log()
-                << "WARNING: setIdString() not available on ZVA-family instrument.\n\n";
+        LOG(warning) << "set id string is not available on ZVA-family instrument.\n\n";
         return;
     }
 
@@ -49,19 +50,15 @@ void VnaSettings::setIdString(QString idString) {
 }
 void VnaSettings::resetIdString() {
     if (_vna->properties().isZvaFamily()) {
-        if (_vna->isLogConnected())
-            *_vna->log()
-                << "WARNING: resetIdString() not available on ZVA-family instrument.\n\n";
-        return;
+      LOG(warning) << "resetIdString() not available on ZVA-family instrument";
+      return;
     }
 
     _vna->write(":SYST:IDEN:FACT\n");
 }
 void VnaSettings::setOptionsString(QString options) {
     if (_vna->properties().isZvaFamily()) {
-        if (_vna->isLogConnected())
-            *_vna->log()
-                << "WARNING: setOptionsString() not available on ZVA-family instrument.\n\n";
+        LOG(warning) << "setOptionsString() not available on ZVA-family instrument";
         return;
     }
 
@@ -71,9 +68,7 @@ void VnaSettings::setOptionsString(QString options) {
 }
 void VnaSettings::resetOptionsString() {
     if (_vna->properties().isZvaFamily()) {
-        if (_vna->isLogConnected())
-            *_vna->log()
-                << "WARNING: resetOptionsString() not available on ZVA-family instrument.\n\n";
+        LOG(warning) << "resetOptionsString() not available on ZVA-family instrument";
         return;
     }
 
@@ -283,8 +278,7 @@ void VnaSettings::mapUserPresetToRst(bool isMapped) {
 
 bool VnaSettings::isCalibrationPresetOn() {
     if (_vna->properties().isZvaFamily()) {
-        *_vna->log()
-                << "WARNING: setCalibrationPreset() not available on ZVA-family instrument.\n\n";
+        LOG(warning) << "setCalibrationPreset() not available on ZVA-family instrument";
         return(false);
     }
 
@@ -298,8 +292,7 @@ void VnaSettings::calibrationPresetOff() {
 }
 QString VnaSettings::calibrationPreset() {
     if (_vna->properties().isZvaFamily()) {
-        *_vna->log()
-                << "WARNING: setCalibrationPreset() not available on ZVA-family instrument.\n\n";
+        LOG(warning) << "setCalibrationPreset() not available on ZVA-family instrument";
         return(QString());
     }
 
@@ -307,8 +300,7 @@ QString VnaSettings::calibrationPreset() {
 }
 void VnaSettings::setCalibrationPreset(QString calibrationFilePath) {
     if (_vna->properties().isZvaFamily()) {
-        *_vna->log()
-                << "WARNING: setCalibrationPreset() not available on ZVA-family instrument.\n\n";
+        LOG(warning) << "setCalibrationPreset() not available on ZVA-family instrument";
         return;
     }
 
@@ -420,8 +412,7 @@ void VnaSettings::rfOutputPowerOff(bool isOff) {
 
 bool VnaSettings::isDynamicIfBandwidthOn() {
     if (_vna->properties().isZnbFamily()) {
-        *_vna->log()
-                << "WARNING: isDynamicIfBandwidthOn() not available on ZNB-family instrument.\n\n";
+        LOG(warning) << "isDynamicIfBandwidthOn() not available on ZNB-family instrument";
         return(false);
     }
 
@@ -432,7 +423,7 @@ bool VnaSettings::isDynamicIfBandwidthOff() {
 }
 void VnaSettings::dynamicIfBandwidthOn(bool isOn) {
     if (_vna->properties().isZnbFamily()) {
-        *_vna->log() << "WARNING: dynamicIfBandwidthOn() not available on ZNB-family instrument.\n\n";
+        LOG(warning) << "dynamicIfBandwidthOn() not available on ZNB-family instrument";
         return;
     }
 

@@ -12,6 +12,6 @@ void init_logging(boost::log::trivial::severity_level level, const char* filenam
     boost::log::keywords::file_name  = filename,
     boost::log::keywords::auto_flush = true,
     boost::log::keywords::filter     = boost::log::trivial::severity >= level,
-    boost::log::keywords::format     = "%TimeStamp% - %Severity% - %FUNCTION% - %Message% - %FILE%(%LINE%)"
+    boost::log::keywords::format     = "%TimeStamp% - %Severity% - %Message% - %FUNCTION% - %FILE%(%LINE%)"
   );
 }

@@ -1,11 +1,11 @@
-
-
-// RsaToolbox
 #include "General.h"
 #include "IndexName.h"
 #include "VnaDiagram.h"
 #include "Vna.h"
 using namespace RsaToolbox;
+
+// logging
+#include "logging.hpp"
 
 // Qt
 #include <QDebug>
@@ -138,8 +138,7 @@ void VnaDiagram::normalSize() {
 }
 
 void VnaDiagram::autoscale() {
-    qDebug() << "ERROR: VnaDiagram::autoscale not written...";
-    _vna->print("SCPI Error: VnaDiagram::autoscale not written...\n\n");
+    LOG(warning) << "VnaDiagram::autoscale is not implemented";
 }
 void VnaDiagram::setYAxisMinimum(double min) {
     QStringList traces = this->traces();

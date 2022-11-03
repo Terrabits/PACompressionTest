@@ -4,7 +4,6 @@
 //RsaToolbox
 #include <General.h>
 #include <Touchstone.h>
-#include <Log.h>
 using namespace RsaToolbox;
 
 // Qt

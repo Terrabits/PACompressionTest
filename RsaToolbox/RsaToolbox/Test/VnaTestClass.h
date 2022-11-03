@@ -5,7 +5,6 @@
 // RsaToolbox
 #include "TestClass.h"
 #include "Vna.h"
-#include "Log.h"
 
 // Qt
 #include <QScopedPointer>
@@ -24,10 +23,6 @@ public:
 protected:
     QString _applicationName;
     QString _version;
-
-    QDir _logDir;
-    QStringList _logFilenames;
-    QScopedPointer<Log> _log;
 
     ConnectionType _connectionType;
     QString _address;

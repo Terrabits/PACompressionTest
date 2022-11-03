@@ -8,6 +8,9 @@
 #include "VnaScpi.h"
 using namespace RsaToolbox;
 
+// logging
+#include "logging.hpp"
+
 // Qt includes
 #include <QDebug>
 
@@ -227,11 +230,11 @@ void VnaTimeDomain::resolutionEnhancementOff() {
     setResolutionEnhancement(1.0);
 }
 void VnaTimeDomain::setResolutionEnhancement(double factor) {
-    if (factor < 1 || factor > 10)
-        _vna->printLine("Warning: Resolution Enhancement Factor must be 1-10, inclusive.");
+    if (factor < 1 || factor > 10) {
+      LOG(warning) << "Resolution Enhancement Factor must be a number 1-10";
+    }
 
     _trace->select();
-
     QString scpi = ":CALC%1:TRAN:TIME:RES:EFAC %2\n";
     scpi = scpi.arg(_trace->channel());
     scpi = scpi.arg(formatDouble(factor, 1));

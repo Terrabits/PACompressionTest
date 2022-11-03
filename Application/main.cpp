@@ -31,11 +31,11 @@ int main(int argc, char *argv[])
     // log app, version
     QString message;
     message = "%1 %2";
-    message = message.arg(APP_ NAME);
+    message = message.arg(APP_NAME);
     message = message.arg(APP_VERSION);
     QByteArray bytes;
     bytes = message.toUtf8();
-    LOG(info) << message;
+    LOG(info) << bytes.constData();
 
     LOG(info) << "Creating Qt Application";
     QApplication app(argc, argv);

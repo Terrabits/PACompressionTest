@@ -66,6 +66,9 @@ VnaProperties::Model VnaProperties::model() {
         return Model::Znd;
     if (model.contains("ZNP"))
         return Model::Znp;
+    if (model.contains("ZNA")) {
+      return Model::Zna;
+    }
 
     return Model::Unknown;
 }
@@ -380,6 +383,8 @@ QString RsaToolbox::toString(VnaProperties::Model model) {
         return(QString("ZNC"));
     case VnaProperties::Model::Znp:
         return(QString("ZNP"));
+    case VnaProperties::Model::Zna:
+        return QString("ZNA");
     default:
         return(QString("UNKNOWN"));
     }
@@ -396,6 +401,8 @@ QString RsaToolbox::toSetFileExtension(VnaProperties::Model model) {
     case VnaProperties::Model::Znbt:
     case VnaProperties::Model::Znc:
     case VnaProperties::Model::Znp:
+    case VnaProperties::Model::Zna:
+        // TODO: handle XML set files
         return(QString(".znx"));
     default:
         // UNKNOWN_MODEL

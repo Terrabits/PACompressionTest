@@ -23,16 +23,17 @@ class VnaProperties : public QObject
 public:
 
     enum /*class*/ Model {
-        Zva = 0,
-        Zvb = 1,
-        Zvh = 2,
-        Zvl = 3,
-        Zvt = 4,
-        Znb = 10,
+        Zva  = 0,
+        Zvb  = 1,
+        Zvh  = 2,
+        Zvl  = 3,
+        Zvt  = 4,
+        Znb  = 10,
         Znbt = 11,
-        Znc = 12,
-        Znd = 13,
-        Znp = 14,
+        Znc  = 12,
+        Znd  = 13,
+        Znp  = 14,
+        Zna  = 15,
         Unknown = 1000
     };
 
@@ -77,7 +78,7 @@ public:
 
     void operator=(VnaProperties const &other);
 
-private:    
+private:
     Vna *_vna;
     QScopedPointer<Vna> _placeholder;
 

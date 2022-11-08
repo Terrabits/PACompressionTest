@@ -69,7 +69,7 @@
       <Directory Id="ZnbExternalTools"/>
       <Directory Id="ZvaExternalTools"/>
       <Directory Id="WINDOWSVOLUME">
-        <Directory Id="ProgramFilesFolder">
+        <Directory Id="ProgramFiles64Folder">
           <Directory Id="CompanyFilesFolder" Name="Rohde-Schwarz">
             <Directory Id="INSTALLFOLDER" Name="PA Compression Test">
               <Directory Id="Platforms" Name="Platforms"/>

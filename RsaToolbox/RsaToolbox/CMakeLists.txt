@@ -32,9 +32,6 @@ set(PROJECT_SOURCES
       Bus/Tcp/TcpBus.h
       Bus/Visa/VisaBus.cpp
       Bus/Visa/VisaBus.h
-      Bus/Visa/visa.h
-      Bus/Visa/visatype.h
-      Bus/Visa/vpptype.h
       GUI/About/About.cpp
       GUI/About/About.h
       GUI/About/About.ui
@@ -215,12 +212,12 @@ target_link_libraries(RsaToolbox PUBLIC Logging)
 target_link_libraries(RsaToolbox PUBLIC qcustomplot)
 target_link_libraries(RsaToolbox PUBLIC Qt5::Widgets Qt5::Network Qt5::PrintSupport Qt5::Test)
 
-
 # includes
 target_include_directories(RsaToolbox PUBLIC Bus)
 target_include_directories(RsaToolbox PUBLIC Bus/No)
 target_include_directories(RsaToolbox PUBLIC Bus/Tcp)
 target_include_directories(RsaToolbox PUBLIC Bus/Visa)
+target_include_directories(RsaToolbox PUBLIC Bus/Visa/RsVisa)
 target_include_directories(RsaToolbox PUBLIC GUI/About)
 target_include_directories(RsaToolbox PUBLIC GUI/ConnectButton)
 target_include_directories(RsaToolbox PUBLIC GUI/ConnectionTypeComboBox)

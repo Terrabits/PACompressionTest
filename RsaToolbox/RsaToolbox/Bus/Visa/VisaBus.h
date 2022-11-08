@@ -4,10 +4,8 @@
 // RsaToolbox:
 #include "GenericBus.h"
 
-// NI-VISA
-#include "visa.h"
-#define VISA32 "visa32"
-#define RSVISA32 "RsVisa32"
+// R&S VISA
+#include "RsVisa/visa.h"
 
 // Qt
 #include <QObject>
@@ -65,7 +63,7 @@ private:
     typedef ViStatus (_VI_FUNC *_unlockFuncter)(ViSession);
     typedef ViStatus (_VI_FUNC *_closeFuncter)(ViObject);
 
-    // Visa32 interface
+    // Visa interface
     QLibrary visa_library;
     _statusDescFuncter _viStatusDesc;
     _openDefaultRmFuncter _viOpenDefaultRM;

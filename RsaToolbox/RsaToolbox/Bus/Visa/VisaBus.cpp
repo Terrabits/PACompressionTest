@@ -12,6 +12,11 @@ using namespace RsaToolbox;
 #include <cstdio>
 
 
+// constants
+const char* VISA64   = "visa64";
+const char* RSVISA64 = "RsVisa64";
+
+
 VisaBus::VisaBus(QObject *parent)
     :GenericBus(parent)
 {
@@ -44,14 +49,14 @@ VisaBus::VisaBus(ConnectionType connectionType, QString address,
     if (resource.isEmpty())
         return;
 
-    if (!connectVisa(VISA32, resource))
-        connectVisa(RSVISA32, resource);
+    if (!connectVisa(VISA64, resource))
+        connectVisa(RSVISA64, resource);
     else if (query("*IDN?\n").isEmpty()) {
         _viClose(_instrument);
         _viClose(_resourceManager);
         setDisconnected();
         visa_library.unload();
-        connectVisa(RSVISA32, resource);
+        connectVisa(RSVISA64, resource);
     }
 }
 
@@ -80,7 +85,7 @@ VisaBus::~VisaBus() {
  * \sa RsibBus
  */
 bool VisaBus::isVisaInstalled() {
-    return QLibrary(VISA32).load();
+    return QLibrary(VISA64).load();
 }
 
 /*!
@@ -212,7 +217,7 @@ bool VisaBus::lock() {
   bool isLocked = !isError();
 
   if (!isLocked) {
-    const bool isRsVisa = visa_library.fileName().contains(RSVISA32, Qt::CaseInsensitive);
+    const bool isRsVisa = visa_library.fileName().contains(RSVISA64, Qt::CaseInsensitive);
       if (isRsVisa) {
         // warning
         LOG(warning) << "RsVisa does not implement locking mechanism";
@@ -251,7 +256,7 @@ bool VisaBus::unlock() {
     _status = _viUnlock(_instrument);
     bool isUnlocked = _status >= VI_SUCCESS;
     if (!isUnlocked) {
-      const bool isRsVisa = visa_library.fileName().contains(RSVISA32, Qt::CaseInsensitive);
+      const bool isRsVisa = visa_library.fileName().contains(RSVISA64, Qt::CaseInsensitive);
       if (isRsVisa) {
         // warning
         LOG(warning) << "RsVisa does not implement unlocking";

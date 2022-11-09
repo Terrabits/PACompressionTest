@@ -10,6 +10,7 @@
     UpgradeCode="699b0972-99de-4286-9686-b8cea86158b9"
   >
     <Package
+      Platform="x64"
       InstallerVersion="200"
       Compressed="yes"
       InstallScope="perMachine"

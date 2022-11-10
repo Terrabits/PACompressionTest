@@ -41,7 +41,7 @@ if(win32)
 endif()
 
 # build executable
-add_executable(PACompressionTest ${PROJECT_SOURCES})
+add_executable(PACompressionTest WIN32 ${PROJECT_SOURCES})
 
 # includes
 target_include_directories(PACompressionTest PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

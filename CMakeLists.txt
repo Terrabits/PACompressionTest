@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(PACompressionTest VERSION 2.2.0 LANGUAGES CXX)
+project(PACompressionTest VERSION 2.3.0 LANGUAGES CXX)
 
 
 add_subdirectory(RsaToolbox)

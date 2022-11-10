@@ -93,64 +93,64 @@
 
   <!-- Component Definitions -->
   <Fragment>
-    <Component Id="License" Guid="*" Directory="INSTALLFOLDER">
+    <Component Id="License" Guid="*" Directory="INSTALLFOLDER" Win64="yes">
       <File Source="ProgramFiles\Rohde-Schwarz\PA Compression Test\LICENSE.txt" KeyPath="yes"/>
     </Component>
-    <Component Id="libgccsseh1" Guid="*" Directory="INSTALLFOLDER">
+    <Component Id="libgccsseh1" Guid="*" Directory="INSTALLFOLDER" Win64="yes">
       <File Source="ProgramFiles\Rohde-Schwarz\PA Compression Test\libgcc_s_seh-1.dll" KeyPath="yes"/>
     </Component>
-    <Component Id="libstdcpp6" Guid="*" Directory="INSTALLFOLDER">
+    <Component Id="libstdcpp6" Guid="*" Directory="INSTALLFOLDER" Win64="yes">
       <File Source="ProgramFiles\Rohde-Schwarz\PA Compression Test\libstdc++-6.dll" KeyPath="yes"/>
     </Component>
-    <Component Id="libwinpthread1" Guid="*" Directory="INSTALLFOLDER">
+    <Component Id="libwinpthread1" Guid="*" Directory="INSTALLFOLDER" Win64="yes">
       <File Source="ProgramFiles\Rohde-Schwarz\PA Compression Test\libwinpthread-1.dll" KeyPath="yes"/>
     </Component>
-    <Component Id="opengl32sw" Guid="*" Directory="INSTALLFOLDER">
+    <Component Id="opengl32sw" Guid="*" Directory="INSTALLFOLDER" Win64="yes">
       <File Source="ProgramFiles\Rohde-Schwarz\PA Compression Test\opengl32sw.dll" KeyPath="yes"/>
     </Component>
-    <Component Id="qwindows" Guid="*" Directory="Platforms">
+    <Component Id="qwindows" Guid="*" Directory="Platforms" Win64="yes">
       <File Source="ProgramFiles\Rohde-Schwarz\PA Compression Test\Platforms\qwindows.dll" KeyPath="yes"/>
     </Component>
-    <Component Id="d3dcompiler47" Guid="*" Directory="INSTALLFOLDER">
+    <Component Id="d3dcompiler47" Guid="*" Directory="INSTALLFOLDER" Win64="yes">
       <File Source="ProgramFiles\Rohde-Schwarz\PA Compression Test\d3dcompiler_47.dll" KeyPath="yes"/>
     </Component>
-    <Component Id="libEGL" Guid="*" Directory="INSTALLFOLDER">
+    <Component Id="libEGL" Guid="*" Directory="INSTALLFOLDER" Win64="yes">
       <File Source="ProgramFiles\Rohde-Schwarz\PA Compression Test\libEGL.dll" KeyPath="yes"/>
     </Component>
-    <Component Id="libGLESv2" Guid="*" Directory="INSTALLFOLDER">
+    <Component Id="libGLESv2" Guid="*" Directory="INSTALLFOLDER" Win64="yes">
       <File Source="ProgramFiles\Rohde-Schwarz\PA Compression Test\libGLESv2.dll" KeyPath="yes"/>
     </Component>
-    <Component Id="Qt5Core" Guid="*" Directory="INSTALLFOLDER">
+    <Component Id="Qt5Core" Guid="*" Directory="INSTALLFOLDER" Win64="yes">
       <File Source="ProgramFiles\Rohde-Schwarz\PA Compression Test\Qt5Core.dll" KeyPath="yes"/>
     </Component>
-    <Component Id="Qt5Gui" Guid="*" Directory="INSTALLFOLDER">
+    <Component Id="Qt5Gui" Guid="*" Directory="INSTALLFOLDER" Win64="yes">
       <File Source="ProgramFiles\Rohde-Schwarz\PA Compression Test\Qt5Gui.dll" KeyPath="yes"/>
     </Component>
-    <Component Id="Qt5PrintSupport" Guid="*" Directory="INSTALLFOLDER">
+    <Component Id="Qt5PrintSupport" Guid="*" Directory="INSTALLFOLDER" Win64="yes">
       <File Source="ProgramFiles\Rohde-Schwarz\PA Compression Test\Qt5PrintSupport.dll" KeyPath="yes"/>
     </Component>
-    <Component Id="Qt5Network" Guid="*" Directory="INSTALLFOLDER">
+    <Component Id="Qt5Network" Guid="*" Directory="INSTALLFOLDER" Win64="yes">
       <File Source="ProgramFiles\Rohde-Schwarz\PA Compression Test\Qt5Network.dll" KeyPath="yes"/>
     </Component>
-    <Component Id="Qt5Test" Guid="*" Directory="INSTALLFOLDER">
+    <Component Id="Qt5Test" Guid="*" Directory="INSTALLFOLDER" Win64="yes">
       <File Source="ProgramFiles\Rohde-Schwarz\PA Compression Test\Qt5Test.dll" KeyPath="yes"/>
     </Component>
-    <Component Id="Qt5Widgets" Guid="*" Directory="INSTALLFOLDER">
+    <Component Id="Qt5Widgets" Guid="*" Directory="INSTALLFOLDER" Win64="yes">
       <File Source="ProgramFiles\Rohde-Schwarz\PA Compression Test\Qt5Widgets.dll" KeyPath="yes"/>
     </Component>
-    <Component Id="libqcustomplot" Guid="*" Directory="INSTALLFOLDER">
+    <Component Id="libqcustomplot" Guid="*" Directory="INSTALLFOLDER" Win64="yes">
       <File Source="ProgramFiles\Rohde-Schwarz\PA Compression Test\libqcustomplot.dll" KeyPath="yes"/>
     </Component>
-    <Component Id="libquazip1qt5" Guid="*" Directory="INSTALLFOLDER">
+    <Component Id="libquazip1qt5" Guid="*" Directory="INSTALLFOLDER" Win64="yes">
       <File Source="ProgramFiles\Rohde-Schwarz\PA Compression Test\libquazip1-qt5.dll" KeyPath="yes"/>
     </Component>
-    <Component Id="RsVisa64" Guid="*" Directory="INSTALLFOLDER">
+    <Component Id="RsVisa64" Guid="*" Directory="INSTALLFOLDER" Win64="yes">
       <File Source="ProgramFiles\Rohde-Schwarz\PA Compression Test\RsVisa64.dll" KeyPath="yes"/>
     </Component>
-    <Component Id="Executable" Guid="*" Directory="INSTALLFOLDER">
+    <Component Id="Executable" Guid="*" Directory="INSTALLFOLDER" Win64="yes">
       <File Name="R&amp;S PA Compression Test.exe" Source="ProgramFiles\Rohde-Schwarz\PA Compression Test\PACompressionTest.exe" KeyPath="yes"/>
     </Component>
-    <Component Id="SettingsFolder" Guid="*" Directory="MyAppDataFolder">
+    <Component Id="SettingsFolder" Guid="*" Directory="MyAppDataFolder" Win64="yes">
       <RegistryKey Root="HKCU" Key="Software\Rohde-Schwarz\PA Compression Test\SettingsFolder">
         <RegistryValue Value="[MyAppDataFolder]\Settings" Type="string" KeyPath="yes"/>
       </RegistryKey>
@@ -161,20 +161,20 @@
       <RemoveFolder Id="RemoveMyAppDataFolder" On="uninstall"/>
     </Component>
     <!-- External Tools -->
-    <Component Id="ZnbShortcut" Guid="*" Directory="ZnbExternalTools">
+    <Component Id="ZnbShortcut" Guid="*" Directory="ZnbExternalTools" Win64="yes">
       <RegistryKey Root="HKCU" Key="Software\Rohde-Schwarz\PA Compression Test\ZnbExternalTools">
         <RegistryValue Value="C:\Users\Public\Documents\Rohde-Schwarz\Vna\External Tools\PA Compression Test.lnk" Type="string" KeyPath="yes"/>
       </RegistryKey>
       <Shortcut Id="ZnbShortcutId" Name="PA Compression" Icon="icon.ico" WorkingDirectory="INSTALLFOLDER" Target="[INSTALLFOLDER]\R&amp;S PA Compression Test.exe"/>
     </Component>
-    <Component Id="ZvaShortcut" Guid="*" Directory="ZvaExternalTools">
+    <Component Id="ZvaShortcut" Guid="*" Directory="ZvaExternalTools" Win64="yes">
       <RegistryKey Root="HKCU" Key="Software\Rohde-Schwarz\PA Compression Test\ZvaExternalTools">
         <RegistryValue Value="C:\Rohde&amp;Schwarz\Nwa\External Tools\PA Compression Test.lnk" Type="string" KeyPath="yes"/>
       </RegistryKey>
       <Shortcut Id="ZvaShortcutId" Name="PA Compression" Icon="icon.ico" WorkingDirectory="INSTALLFOLDER" Target="[INSTALLFOLDER]\R&amp;S PA Compression Test.exe"/>
     </Component>
     <!-- Start menu -->
-    <Component Id="StartShortcuts" Guid="*" Directory="StartFolder">
+    <Component Id="StartShortcuts" Guid="*" Directory="StartFolder" Win64="yes">
       <RegistryKey Root="HKCU" Key="Software\Rohde-Schwarz\PA Compression Test\StartShortcuts">
         <RegistryValue Value="[StartMenu]\R&amp;S PA Compression Test\*" Type="string" KeyPath="yes"/>
       </RegistryKey>

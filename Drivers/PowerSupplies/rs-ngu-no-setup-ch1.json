@@ -1,0 +1,5 @@
+{
+  "preset":     false,
+  "setup scpi": [],
+  "query power scpi": "MEAS:POW? (@1)"
+}

@@ -4,14 +4,14 @@
 
 // PA Compression Test
 #include "MeasurementData.h"
+#include "PowerSupply.h"
+
 
 // RsaToolbox
 #include <Definitions.h>
 #include <Vna.h>
 #include <VnaUndo.h>
 
-// QCustomPlot
-#include <qcustomplot.h>
 
 // Qt
 #include <QThread>
@@ -26,6 +26,7 @@ public:
 
     void setAppInfo(const QString &name, const QString &version);
     void setVna(RsaToolbox::Vna *vna);
+    void setPowerSupply(PowerSupply *powerSupply);
     void setSettings(const MeasurementSettings &settings);
 
     bool isError() const;
@@ -56,6 +57,7 @@ protected:
     QScopedPointer<MeasurementData> _results;
 
     RsaToolbox::Vna *_vna;
+    PowerSupply *_powerSupply;
 
     bool _isError;
     QString _error;
@@ -69,6 +71,8 @@ protected:
     uint _measurementChannel;
     bool prepareVna();
     void restoreVna();
+
+    bool preparePowerSupply();
 
 private:
     QVector<uint> _continuousChannels;

@@ -18,22 +18,35 @@ using namespace RsaToolbox;
 
 
 MeasureThread::MeasureThread(QObject *parent)
-    : QThread(parent)
+    : QThread(parent),
+    _vna(nullptr),
+    _powerSupply(nullptr)
 {
-
+    // noop
 }
+
+
 MeasureThread::~MeasureThread()
 {
-
+    // noop
 }
 
 void MeasureThread::setAppInfo(const QString &name, const QString &version) {
     _appName = name;
     _appVersion = version;
 }
+
+
 void MeasureThread::setVna(Vna *vna) {
     _vna = vna;
 }
+
+
+void MeasureThread::setPowerSupply(PowerSupply *powerSupply) {
+    _powerSupply = powerSupply;
+}
+
+
 void MeasureThread::setSettings(const MeasurementSettings &settings) {
     _settings = settings;
 }
@@ -123,4 +136,14 @@ void MeasureThread::restoreVna() {
     }
     _continuousChannels.clear();
     _vna->local();
+}
+
+
+void MeasureThread::preparePowerSupply() {
+  // is power supply?
+  if (!_powerSupply) {
+    return;
+  }
+
+  _powerSupply->setup();
 }

@@ -24,6 +24,12 @@ FrequencySweep::~FrequencySweep()
 
 void FrequencySweep::run() {
     LOG(info) << "starting SafeFrequencySweep";
+
+    if (_powerSupply) {
+        LOG(info) << "initializing power supply";
+        preparePowerSupply();
+    }
+
     LOG(info) << "initializing vna";
     if (!prepareVna()) {
       LOG(error) << "vna initialization failed";

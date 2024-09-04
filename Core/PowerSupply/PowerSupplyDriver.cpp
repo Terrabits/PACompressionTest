@@ -159,20 +159,41 @@ bool PowerSupplyDriver::open(const QString &filename) {
         _openError = "invalid preset value";
         return false;
     }
+
     if (!json.value("setup scpi").isArray()) {
         _openError = "invalid setup scpi array";
         return false;
     }
-    if (!json.value("query power scpi").isString()) {
-        _openError = "invalid set points scpi";
+
+    foreach (const QJsonValue &value, json.value("setup scpi").toArray()) {
+      if (!value.isString()) {
+        _openError = "invalid setup scpi array";
+        return false;
+      }
+    }
+
+    if (!json.value("query voltage scpi").isString()) {
+        _openError = "invalid query voltage scpi";
+        return false;
+    }
+
+    if (!json.value("query current scpi").isString()) {
+        _openError = "invalid query current scpi";
         return false;
     }
 
 
     // Get values
-    preset            = json.value("preset").toBool();
-    setupScpi         = json.value("setup scpi").toVariant().toStringList();
-    queryPowerScpi    = json["set points scpi"].toString();
+    preset           = json.value("preset").toBool();
+    setupScpi        = json.value("setup scpi").toVariant().toStringList();
+    queryVoltageScpi = json["query voltage scpi"].toString().trimmed();
+    queryCurrentScpi = json["query current scpi"].toString().trimmed();
+
+
+    // trim setup scpi
+    for (int i = 0; i < setupScpi.size(); i++) {
+      setupScpi[i] = setupScpi[i].trimmed();
+    }
 
 
     // success
@@ -182,10 +203,11 @@ bool PowerSupplyDriver::open(const QString &filename) {
 
 
 void PowerSupplyDriver::copy(const PowerSupplyDriver &other) {
-    _filename      = other._filename;
-    _isOpen        = other._isOpen;
-    _openError     = other._openError;
-    preset         = other.preset;
-    setupScpi      = other.setupScpi;
-    queryPowerScpi = other.queryPowerScpi;
+    _filename        = other._filename;
+    _isOpen          = other._isOpen;
+    _openError       = other._openError;
+    preset           = other.preset;
+    setupScpi        = other.setupScpi;
+    queryVoltageScpi = other.queryVoltageScpi;
+    queryCurrentScpi = other.queryCurrentScpi;
 }

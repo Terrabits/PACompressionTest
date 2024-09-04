@@ -32,7 +32,8 @@ public:
 
     // functionality
     void setup();
-    double power_W();
+    double voltage_V();
+    double current_A();
 
 
     // errors

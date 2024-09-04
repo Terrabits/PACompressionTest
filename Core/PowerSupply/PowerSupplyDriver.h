@@ -25,7 +25,8 @@ public:
 
     bool        preset;
     QStringList setupScpi;
-    QString     queryPowerScpi;
+    QString     queryVoltageScpi;
+    QString     queryCurrentScpi;
 
 
     void operator=(const PowerSupplyDriver &other);

@@ -22,12 +22,17 @@ void PowerSupply::setup() {
 
   // setup scpi
   foreach (const QString &scpi, driver.setupScpi) {
-    write(scpi.trimmed());
+    write(scpi);
   }
   pause();
 }
 
 
-double PowerSupply::power_W() {
-  return query(driver.queryPowerScpi).trimmed().toDouble();
+double PowerSupply::voltage_V() {
+  return query(driver.queryVoltageScpi).trimmed().toDouble();
+}
+
+
+double PowerSupply::current_A() {
+  return query(driver.queryCurrentScpi).trimmed().toDouble();
 }

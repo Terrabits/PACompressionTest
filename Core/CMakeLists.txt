@@ -31,6 +31,10 @@ set(PROJECT_SOURCES
       MeasureThread/MeasureThread.h
       MeasureThread/SafeFrequencySweep.cpp
       MeasureThread/SafeFrequencySweep.h
+      PowerSupply/PowerSupply.cpp
+      PowerSupply/PowerSupply.h
+      PowerSupply/PowerSupplyDriver.cpp
+      PowerSupply/PowerSupplyDriver.h
       SpeedTracker/SpeedTracker.cpp
       SpeedTracker/SpeedTracker.h
       SpeedTracker/SpeedTrackerChild.cpp

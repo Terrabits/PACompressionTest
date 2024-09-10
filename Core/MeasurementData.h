@@ -36,14 +36,22 @@ public:
     uint powerPoints() const;
     RsaToolbox::QRowVector &pin_dBm();
 
+    // max gain
     RsaToolbox::QRowVector &powerInAtMaxGain_dBm();
     RsaToolbox::QRowVector &maxGain_dB();
     RsaToolbox::ComplexMatrix3D &sParametersAtMaxGain();
     RsaToolbox::QRowVector &powerOutAtMaxGain_dBm();
+    RsaToolbox::QRowVector currentAtMaxGain_A;
+    RsaToolbox::QRowVector voltageAtMaxGain_V;
+
+
+    // compression
     RsaToolbox::QRowVector &powerInAtCompression_dBm();
     RsaToolbox::QRowVector &gainAtCompression_dB();
     RsaToolbox::ComplexMatrix3D &sParametersAtCompression();
     RsaToolbox::QRowVector &powerOutAtCompression_dBm();
+    RsaToolbox::QRowVector currentAtCompression_A;
+    RsaToolbox::QRowVector voltageAtCompression_V;
 
     bool sParameterVsPin(double frequency_Hz, uint outputPort, uint inputPort, RsaToolbox::QRowVector &pin_dBm, RsaToolbox::ComplexRowVector &sParameter);
     bool sParameterVsPout(double frequency_Hz, uint outputPort, uint inputPort, RsaToolbox::QRowVector &pout_dBm, RsaToolbox::ComplexRowVector &sParameter);
@@ -63,6 +71,13 @@ public:
     // data[power]->y()[freq][outputPort-1][inputPort-1]
     // where inputPort, outputPort => [1,2]
     QVector<RsaToolbox::NetworkData> &data();
+
+
+    // PAE/DE
+    // parameter[power][freq]
+    RsaToolbox::QMatrix2D current_A;
+    RsaToolbox::QMatrix2D voltage_V;
+
 
     void clearAllData();
 

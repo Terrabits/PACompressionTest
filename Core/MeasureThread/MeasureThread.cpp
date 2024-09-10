@@ -139,11 +139,12 @@ void MeasureThread::restoreVna() {
 }
 
 
-void MeasureThread::preparePowerSupply() {
+bool MeasureThread::preparePowerSupply() {
   // is power supply?
   if (!_powerSupply) {
-    return;
+    return false;
   }
 
   _powerSupply->setup();
+  return true;
 }

@@ -63,9 +63,17 @@ void FrequencySweep::run() {
     const bool shouldFlipPorts = outputPort < inputPort;
 
     LOG(info) << "configuring VNA channels";
-    _vna->channel(channel).setFrequencies(sweptFreq_Hz);
-    sweptFreq_Hz = _vna->channel(channel).segmentedSweep().frequencies_Hz();
+
+    // set frequencies
+    VnaChannel vnaChannel = _vna->channel(channel);
+    vnaChannel.setFrequencies(sweptFreq_Hz);
+    sweptFreq_Hz = vnaChannel.segmentedSweep().frequencies_Hz();
     _results->frequencies_Hz() = sweptFreq_Hz;
+
+    // setup sweep control
+    vnaChannel.manualSweepOn();
+    vnaChannel.setSweepCount(1);
+
 
     LOG(info) << "configuring VNA traces";
     QString a1Trace = _vna->createTrace(channel);
@@ -86,14 +94,18 @@ void FrequencySweep::run() {
     _results->pin_dBm() << power_dBm;
 
     // Perform first sweep
-    VnaSegmentedSweep sweep = _vna->channel(channel).segmentedSweep();
+    VnaSegmentedSweep sweep = vnaChannel.segmentedSweep();
     sweep.setPower(power_dBm);
-    _vna->channel(channel).manualSweepOn();
     emit startingSweep(QString("Sweep %1").arg(iPower+1), sweep.sweepTime_ms());
+
+    // measure first frequency point
+    QRowVector x;
+    ComplexMatrix3D y;
+    QRowVector measuredPin_dBm;
+    QRowVector current_A;
+    QRowVector voltage_V;
+    vnaChannel.setFrequencies(sweptFreq_Hz.mid(0, 1));
     NetworkData data = sweep.measure(outputPort, inputPort);
-
-    LOG(info) << "first sweep complete";
-
     if (data.empty()) {
         LOG(error) << "first sweep failed";
         emit finishedSweep();
@@ -102,27 +114,65 @@ void FrequencySweep::run() {
         restoreVna();
         return;
     }
+    QRowVector p;
+    _vna->trace(a1Trace).y(p);
+    x = data.x();
+    y = data.y();
+    measuredPin_dBm << p[0];
+    current_A << _powerSupply->current_A();
+    voltage_V << _powerSupply->voltage_V();
+
+    // measure remaining frequency points
+    for (uint iFreq = 1; iFreq < freqPoints; iFreq++) {
+      vnaChannel.setFrequencies(sweptFreq_Hz.mid(iFreq, 1));
+      data = sweep.measure(outputPort, inputPort);
+      if (data.empty()) {
+          LOG(error) << "first sweep failed";
+          emit finishedSweep();
+          _results->clearAllData();
+          setError("*Could not perform sweep.");
+          restoreVna();
+          return;
+      }
+      _vna->trace(a1Trace).y(p);
+      x << data.x()[0];
+      y.push_back(data.y()[0]);
+      measuredPin_dBm << p[0];
+      current_A << _powerSupply->current_A();
+      voltage_V << _powerSupply->voltage_V();
+    }
+
+    // first sweep complete
+    LOG(info) << "first sweep complete";
+    data.setData(x, y);
 
 
     LOG(info) << "processing first sweep";
     _results->data() << data;
-    QRowVector measuredPin_dBm;
-    _vna->trace(a1Trace).y(measuredPin_dBm);
     _results->measuredPin_dBm() << measuredPin_dBm;
+    _results->current_A << current_A;
+    _results->voltage_V << voltage_V;
     emit finishedSweep();
 
-    if (shouldFlipPorts)
+    if (shouldFlipPorts) {
         flipPorts(_results->data()[iPower]);
+    }
 
+    // first sweep is max gain... so far
     _results->powerInAtMaxGain_dBm() = measuredPin_dBm;
     _results->maxGain_dB() = _results->data()[iPower].y_dB(2, 1);
     _results->sParametersAtMaxGain() = _results->data()[iPower].y();
     _results->powerOutAtMaxGain_dBm() = add(_results->powerInAtMaxGain_dBm(), _results->maxGain_dB());
+    _results->currentAtMaxGain_A = current_A;
+    _results->voltageAtMaxGain_V = voltage_V;
 
+    // first sweep is compression?... so far?
     _results->powerInAtCompression_dBm() = _results->powerInAtMaxGain_dBm();
     _results->gainAtCompression_dB() = _results->maxGain_dB();
     _results->sParametersAtCompression() = _results->sParametersAtMaxGain();
     _results->powerOutAtCompression_dBm() = _results->powerOutAtMaxGain_dBm();
+    _results->currentAtCompression_A = current_A;
+    _results->voltageAtCompression_V = voltage_V;
 
     emit progress(int((100.0 * (iPower+1))/powerPoints));
     emit plotMaxGain(_results->frequencies_Hz(), _results->maxGain_dB());
@@ -149,17 +199,19 @@ void FrequencySweep::run() {
         bytes = message.toUtf8();
         LOG(info) << bytes.constData();
 
-        // Perform sweep
+        // start sweep; set power
         emit startingSweep(QString("Sweep %1").arg(iPower+1), sweep.sweepTime_ms());
         sweep.setPower(power_dBm);
+
+
+        // measure first frequency point
+        x.clear();
+        y.clear();
+        measuredPin_dBm.clear();
+        current_A.clear();
+        voltage_V.clear();
+        vnaChannel.setFrequencies(sweptFreq_Hz.mid(0, 1));
         data = sweep.measure(outputPort, inputPort);
-
-        // log completed sweep
-        message = "completed sweep %1";
-        message = message.arg(iPower + 1);
-        bytes   = message.toUtf8();
-        LOG(info) << bytes.constData();
-
         if (data.empty()) {
             LOG(error) << "sweep failed";
             emit finishedSweep();
@@ -168,6 +220,42 @@ void FrequencySweep::run() {
             restoreVna();
             return;
         }
+        _vna->trace(a1Trace).y(p);
+        x = data.x();
+        y = data.y();
+        measuredPin_dBm << p[0];
+        current_A << _powerSupply->current_A();
+        voltage_V << _powerSupply->voltage_V();
+
+
+        // measure remaining frequency points
+        for (uint iFreq = 1; iFreq < freqPoints; iFreq++) {
+          vnaChannel.setFrequencies(sweptFreq_Hz.mid(iFreq, 1));
+          data = sweep.measure(outputPort, inputPort);
+          if (data.empty()) {
+              LOG(error) << "first sweep failed";
+              emit finishedSweep();
+              _results->clearAllData();
+              setError("*Could not perform sweep.");
+              restoreVna();
+              return;
+          }
+          _vna->trace(a1Trace).y(p);
+          x << data.x()[0];
+          y.push_back(data.y()[0]);
+          measuredPin_dBm << p[0];
+          current_A << _powerSupply->current_A();
+          voltage_V << _powerSupply->voltage_V();
+        }
+
+        // sweep complete
+        data.setData(x, y);
+
+        // log completed sweep
+        message = "completed sweep %1";
+        message = message.arg(iPower + 1);
+        bytes   = message.toUtf8();
+        LOG(info) << bytes.constData();
 
         // log data processing
         message = "processing sweep %1 data";
@@ -177,12 +265,14 @@ void FrequencySweep::run() {
 
         // Get measured Pin (dBm)
         _results->data() << data;
-        _vna->trace(a1Trace).y(measuredPin_dBm);
         _results->measuredPin_dBm() << measuredPin_dBm;
+        _results->current_A << current_A;
+        _results->voltage_V << voltage_V;
         emit finishedSweep();
 
-        if (shouldFlipPorts)
+        if (shouldFlipPorts) {
             flipPorts(_results->data()[iPower]);
+        }
 
 //        const double previousPower_dBm = powers_dBm[iPower-1];
         QRowVector previousMeasuredPowers_dBm = _results->measuredPin_dBm()[iPower-1];
@@ -209,6 +299,8 @@ void FrequencySweep::run() {
                     _results->maxGain_dB()[iFreq] = gain_dB;
                     _results->sParametersAtMaxGain()[iFreq] = sParam;
                     _results->powerOutAtMaxGain_dBm()[iFreq] = measuredPower_dBm + gain_dB;
+                    _results->currentAtMaxGain_A[iFreq] = current_A[iFreq];
+                    _results->voltageAtMaxGain_V[iFreq] = voltage_V[iFreq];
                     isCompression[iFreq] = false;
                 }
             }
@@ -228,6 +320,8 @@ void FrequencySweep::run() {
                     _results->gainAtCompression_dB()[iFreq] = compressedGain_dB;
                     _results->sParametersAtCompression()[iFreq] = linearInterpolateYMagPhase(previousMeasuredPower_dBm, previousSParam, measuredPower_dBm, sParam, pinCompression_dBm);
                     _results->powerOutAtCompression_dBm()[iFreq] = pinCompression_dBm + compressedGain_dB;
+                    _results->currentAtCompression_A[iFreq] = current_A[iFreq];
+                    _results->voltageAtCompression_V[iFreq] = voltage_V[iFreq];
                     isCompression[iFreq] = true;
                 }
                 else {

@@ -16,6 +16,7 @@ using namespace RsaToolbox;
 // Qt
 #include <QDir>
 #include <QApplication>
+#include <QCloseEvent>
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QRect>

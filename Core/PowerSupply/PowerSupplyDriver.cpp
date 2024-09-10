@@ -58,8 +58,13 @@ bool PowerSupplyDriver::isValid(QString &errorMessage) const {
         return false;
     }
 
-    if (query.trimmed().isEmpty()) {
-      errorMessage = "query power scpi not found";
+    if (queryVoltageScpi.trimmed().isEmpty()) {
+      errorMessage = "query voltage scpi not found";
+      return false;
+    }
+
+    if (queryCurrentScpi.trimmed().isEmpty()) {
+      errorMessage = "query current scpi not found";
       return false;
     }
 
@@ -94,7 +99,8 @@ void PowerSupplyDriver::init() {
 void PowerSupplyDriver::clearKeys() {
     preset = false;
     setupScpi.clear();
-    query.clear();
+    queryVoltageScpi.clear();
+    queryCurrentScpi.clear();
 }
 
 
@@ -143,7 +149,8 @@ bool PowerSupplyDriver::open(const QString &filename) {
     QStringList keys;
     keys << "preset"
          << "setup scpi"
-         << "query power scpi";
+         << "query voltage scpi"
+         << "query current scpi";
 
     foreach (const QString &key, keys) {
         if (!json.contains(key)) {

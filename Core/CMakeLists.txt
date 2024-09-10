@@ -17,7 +17,7 @@ add_compile_definitions(SOURCE_DIR="${CMAKE_SOURCE_DIR}")
 add_compile_options(-w)
 
 # conan config
-include(${CMAKE_BINARY_DIR}/../../conanbuildinfo.cmake)
+include(${CMAKE_BINARY_DIR}/../conanbuildinfo.cmake)
 conan_basic_setup(Logging)
 
 # packages
@@ -75,6 +75,7 @@ add_library(Core STATIC ${PROJECT_SOURCES})
 # includes
 target_include_directories(Core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(Core PUBLIC MeasureThread)
+target_include_directories(Core PUBLIC PowerSupply)
 target_include_directories(Core PUBLIC SpeedTracker)
 target_include_directories(Core PUBLIC Traces)
 

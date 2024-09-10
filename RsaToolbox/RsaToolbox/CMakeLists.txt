@@ -16,7 +16,7 @@ add_compile_definitions(SOURCE_DIR="${CMAKE_SOURCE_DIR}")
 add_compile_options(-w)
 
 # conan config
-include(${CMAKE_BINARY_DIR}/../../conanbuildinfo.cmake)
+include(${CMAKE_BINARY_DIR}/../conanbuildinfo.cmake)
 conan_basic_setup(Logging)
 
 # packages

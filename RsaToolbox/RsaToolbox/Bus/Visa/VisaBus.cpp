@@ -26,6 +26,44 @@ VisaBus::VisaBus(QObject *parent)
 /*!
  * \brief Constructor for a VisaBus instance that is connected to an instrument.
  *
+ * This constructor attempts to connect to the instrument at \c resource.
+ * VisaBus::isOpen() and VisaBus::isClosed() test for successful
+ * connection to an instrument.
+ *
+ * \param resource
+ * \param bufferSize_B
+ * \param timeout_ms
+ * \param parent
+ */
+VisaBus::VisaBus(QString resource,
+                 uint bufferSize_B, uint timeout_ms,
+                 QObject *parent)
+    : GenericBus(parent)
+{
+    setDisconnected();
+
+    // no resource?
+    if (resource.trimmed().isEmpty()) {
+        return;
+    }
+
+    // connect via system visa
+    if (!connectVisa(VISA64, resource)) {
+        connectVisa(RSVISA64, resource);
+    }
+    else if (query("*IDN?\n").isEmpty()) {
+        _viClose(_instrument);
+        _viClose(_resourceManager);
+        setDisconnected();
+        visa_library.unload();
+        connectVisa(RSVISA64, resource);
+    }
+}
+
+
+/*!
+ * \brief Constructor for a VisaBus instance that is connected to an instrument.
+ *
  * This constructor attempts to connect to the instrument at \c address via the
  * \c connectionType interface. VisaBus::isOpen() and VisaBus::isClosed() test
  * for successful connection to an instrument.
@@ -59,6 +97,7 @@ VisaBus::VisaBus(ConnectionType connectionType, QString address,
         connectVisa(RSVISA64, resource);
     }
 }
+
 
 /*!
  * \brief Destructor.
@@ -181,7 +220,7 @@ bool VisaBus::binaryWrite(QByteArray scpi) {
 }
 
 QString VisaBus::status() const {
-    const int bufferSize = 500;
+    const int bufferSize = 5000;
     char buffer[bufferSize];
     _viStatusDesc(_instrument, _status, buffer);
 
@@ -356,7 +395,7 @@ bool VisaBus::connectVisa(const QString &dll, const QString &resource) {
 
     getFuncters();
 
-    char buffer[500];
+    char buffer[5000];
     _status = _viOpenDefaultRM(&_resourceManager);
     _viStatusDesc(_resourceManager, _status, buffer);
     if (_status != VI_SUCCESS) {

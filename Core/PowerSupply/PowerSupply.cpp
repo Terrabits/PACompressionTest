@@ -1,15 +1,17 @@
 #include "PowerSupply.h"
 
 
+// RsaToolbox
+#include "VisaBus.h"
+
+
 PowerSupply::PowerSupply(
-  RsaToolbox::ConnectionType type,
-  QString address,
+  QString resource,
   QString driverFilename
 ) :
-  GenericInstrument(type, address),
   driver(driverFilename)
 {
-  // noop
+  resetBus(new RsaToolbox::VisaBus(resource));
 }
 
 

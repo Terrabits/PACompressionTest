@@ -22,7 +22,10 @@ class VisaBus : public GenericBus {
 public:
     explicit VisaBus(QObject *parent = 0);
     VisaBus(ConnectionType connectionType, QString address,
-            uint bufferSize_B = 500, uint timeout_ms = 1000,
+            uint bufferSize_B = 5000, uint timeout_ms = 5000,
+            QObject *parent = 0);
+    VisaBus(QString resource,
+            uint bufferSize_B = 5000, uint timeout_ms = 5000,
             QObject *parent = 0);
     ~VisaBus();
 

@@ -36,7 +36,7 @@ class GenericBus : public QObject {
 public:
     explicit GenericBus(QObject *parent = 0);
     GenericBus(ConnectionType connectionType, QString address,
-               uint bufferSize_B = 500, uint timeout_ms = 1000,
+               uint bufferSize_B = 5000, uint timeout_ms = 5000,
                QObject *parent = 0);
 
     virtual bool isOpen() const = 0;

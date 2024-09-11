@@ -23,7 +23,8 @@ MeasurementSettings::MeasurementSettings() :
     _isRfOffPostCondition(false),
     _channel(1),
     _outputPort(2),
-    _inputPort(1)
+    _inputPort(1),
+    isPAEOn(false)
 {
 
 }
@@ -248,6 +249,21 @@ bool MeasurementSettings::isValid(Vna &vna, QString &errorMessage) const {
         return false;
     }
 
+
+    // pae, power supply
+    if (isPAEOn) {
+      if (powerSupplyVisaResource.trimmed().isEmpty()) {
+        errorMessage = "*Enter power supply visa resource string";
+        return false;
+      }
+
+      if (powerSupplyDriverFilePath.trimmed().isEmpty()) {
+        errorMessage = "*Enter power supply driver file";
+        return false;
+      }
+    }
+
+
     // No errors
     errorMessage.clear();
     return true;
@@ -268,6 +284,9 @@ void MeasurementSettings::reset() {
     _channel = 1;
     _outputPort = 2;
     _inputPort = 1;
+    isPAEOn = false;
+    powerSupplyVisaResource.clear();
+    powerSupplyDriverFilePath.clear();
 }
 
 bool MeasurementSettings::printInfo(QString filename) const {
@@ -321,6 +340,15 @@ void MeasurementSettings::printInfo(QTextStream &s) const {
       << (_isRfOffPostCondition ? "RF Off" : "None")
       << "\n";
     s << "\n";
+    s << "is PAE On:           "
+      << (isPAEOn ? "Yes" : "No")
+      << "\n";
+    s << "Power supply VISA resource: "
+      << powerSupplyVisaResource
+      << "\n";
+    s << "Power supply driver: "
+      << powerSupplyDriverFilePath
+      << "\n";
     s.flush();
 }
 QString MeasurementSettings::printInfo() const {
@@ -334,6 +362,7 @@ QDataStream &operator>>(QDataStream &stream, MeasurementSettings &settings) {
     bool _bool;
     quint32 _uint;
     double _double;
+    QString _string;
 
     stream >> _double;
     settings.setStartFrequency(_double);
@@ -365,7 +394,12 @@ QDataStream &operator>>(QDataStream &stream, MeasurementSettings &settings) {
     settings.setInputPort(_uint);
     stream >> _uint;
     settings.setSweepType(MeasurementSettings::SweepType(_uint));
-
+    stream >> _bool;
+    settings.isPAEOn = _bool;
+    stream >> _string;
+    settings.powerSupplyVisaResource = _string;
+    stream >> _string;
+    settings.powerSupplyDriverFilePath = _string;
     return stream;
 }
 QDataStream &operator<<(QDataStream &stream, const MeasurementSettings &settings) {
@@ -383,7 +417,9 @@ QDataStream &operator<<(QDataStream &stream, const MeasurementSettings &settings
            << quint32(settings.channel())
            << quint32(settings.outputPort())
            << quint32(settings.inputPort())
-           << quint32(settings.sweepType());
-
+           << quint32(settings.sweepType())
+           << settings.isPAEOn
+           << settings.powerSupplyVisaResource
+           << settings.powerSupplyDriverFilePath;
     return stream;
 }

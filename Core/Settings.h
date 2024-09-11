@@ -20,10 +20,12 @@ const QString CONTACT_INFO = "<html><head/><body><p>Nick Lalic<br/>VNA Software 
 const QDir dataDir(SOURCE_DIR);
 const QString LOG_FILENAME = dataDir.filePath("DEBUG_LOGFILE.txt");
 const QString KEY_PATH = dataDir.filePath("Keys");
+const QString DRIVER_PATH = dataDir.filePath("Drivers");
 #else
 const QDir dataDir(RsaToolbox::GetAppDataPath(MANUFACTURER_FOLDER, APP_FOLDER));
 const QString LOG_FILENAME = dataDir.filePath("R&S PA Compression Test Log.txt");
 const QString KEY_PATH = dataDir.filePath("Settings");
+const QString DRIVER_PATH = dataDir.filePath("Drivers");
 #endif
 
 // main.log
@@ -58,6 +60,10 @@ const QString CHANNEL_KEY                = "CHANNEL";
 const QString OUTPUT_PORT_KEY            = "OUTPUT_PORT";
 const QString INPUT_PORT_KEY             = "INPUT_PORT";
 const QString SWEEP_TYPE_KEY             = "SWEEP_TYPE";
+
+const QString PAE_ON_KEY                 = "PAE_ON";
+const QString POWER_SUPPLY_RESOURCE_KEY  = "POWER_SUPPLY_RESOURCE";
+const QString POWER_SUPPLY_DRIVER_KEY    = "POWER_SUPPLY_DRIVER";
 
 const QString TRACES_KEY                 = "TRACES";
 

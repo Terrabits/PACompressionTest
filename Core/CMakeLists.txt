@@ -58,6 +58,9 @@ set(PROJECT_SOURCES
       MiniPage.cpp
       MiniPage.h
       MiniPage.ui
+      PowerSupplyPage.cpp
+      PowerSupplyPage.h
+      PowerSupplyPage.ui
       ProcessTrace.cpp
       ProcessTrace.h
       ProgressPage.cpp

@@ -44,7 +44,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="configurePage">
        <layout class="QGridLayout" name="gridLayout_2">
@@ -54,7 +54,7 @@
         <item row="1" column="0">
          <widget class="QTabWidget" name="configureTabs">
           <property name="tabShape">
-           <enum>QTabWidget::Rounded</enum>
+           <enum>QTabWidget::TabShape::Rounded</enum>
           </property>
           <property name="currentIndex">
            <number>1</number>
@@ -69,6 +69,16 @@
            <layout class="QGridLayout" name="gridLayout">
             <item row="0" column="0">
              <widget class="SettingsPage" name="settings" native="true"/>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="powerSupplyTab">
+           <attribute name="title">
+            <string>PAE</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_5">
+            <item row="0" column="0">
+             <widget class="PowerSupplyPage" name="powerSupply" native="true"/>
             </item>
            </layout>
           </widget>
@@ -119,6 +129,12 @@
    <class>ProgressPage</class>
    <extends>QWidget</extends>
    <header>ProgressPage.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PowerSupplyPage</class>
+   <extends>QWidget</extends>
+   <header>PowerSupplyPage.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

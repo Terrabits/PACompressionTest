@@ -26,7 +26,6 @@ public:
 
     void setAppInfo(const QString &name, const QString &version);
     void setVna(RsaToolbox::Vna *vna);
-    void setPowerSupply(PowerSupply *powerSupply);
     void setSettings(const MeasurementSettings &settings);
 
     bool isError() const;
@@ -57,7 +56,7 @@ protected:
     QScopedPointer<MeasurementData> _results;
 
     RsaToolbox::Vna *_vna;
-    PowerSupply *_powerSupply;
+    QScopedPointer<PowerSupply> _powerSupply;
 
     bool _isError;
     QString _error;
@@ -72,10 +71,12 @@ protected:
     bool prepareVna();
     void restoreVna();
 
+    void connectPowerSupply();
     bool preparePowerSupply();
 
 private:
     QVector<uint> _continuousChannels;
+    
 };
 
 

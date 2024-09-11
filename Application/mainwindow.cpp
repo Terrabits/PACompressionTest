@@ -41,6 +41,7 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
 
   ui->settings->setVna (&vna);
   ui->settings->setKeys(&keys);
+  ui->powerSupply->setKeys(&keys);
   ui->traces  ->setKeys(&keys);
 
   // Show settings initially
@@ -55,6 +56,19 @@ MainWindow::MainWindow(Vna &vna, Keys &keys, QWidget *parent) :
   connect(ui->settings, SIGNAL(closeClicked()),
           this, SLOT(close()));
   connect(ui->settings, SIGNAL(measureClicked()),
+          this, SLOT(startMeasurement()));
+
+
+  // power supply
+  connect(ui->powerSupply, SIGNAL(inputError(QString)),
+          this, SLOT(showMessage(QString)));
+  connect(ui->powerSupply, SIGNAL(exportClicked()),
+          this, SLOT(exportData()));
+  connect(ui->powerSupply, SIGNAL(miniGuiClicked()),
+          this, SLOT(miniGuiMode()));
+  connect(ui->powerSupply, SIGNAL(closeClicked()),
+          this, SLOT(close()));
+  connect(ui->powerSupply, SIGNAL(measureClicked()),
           this, SLOT(startMeasurement()));
 
 
@@ -163,9 +177,26 @@ void MainWindow::startMeasurement() {
         return;
     }
 
+    if (!ui->powerSupply->hasAcceptableInput()) {
+        LOG(info) << "cannot start: power supply is unacceptable";
+        if (_guiState != GuiState::Configuration) {
+            ui->configureTabs->setCurrentWidget(ui->powerSupplyTab);
+            showConfiguration();
+        }
+        else {
+            shake();
+        }
+        return;
+    }
+
     LOG(info) << "loading settings";
     _settings = ui->settings->settings();
     ui->settings->saveKeys();
+
+    _settings.isPAEOn = ui->powerSupply->isPAEOn();
+    _settings.powerSupplyVisaResource = ui->powerSupply->visaResource();
+    _settings.powerSupplyDriverFilePath = ui->powerSupply->driverFilePath();
+    ui->powerSupply->saveKeys();
 
     LOG(info) << "initializing for measurement";
     _isMeasuring = true;
@@ -280,18 +311,23 @@ void MainWindow::processTraces() {
 
 void MainWindow::showMessage(const QString &message) {
     ui->settings->errorLabel()->showMessage(message);
+    ui->powerSupply->errorLabel()->showMessage(message);
     ui->traces->errorLabel()->showMessage(message);
-    if (_guiState == GuiState::Mini)
+    if (_guiState == GuiState::Mini) {
         _miniPage->showError(message);
+    }
 }
 void MainWindow::showMessage(const QString &message, Qt::GlobalColor color) {
     ui->settings->errorLabel()->showMessage(message, color);
+    ui->powerSupply->errorLabel()->showMessage(message, color);
     ui->traces->errorLabel()->showMessage(message, color);
     if (_guiState == GuiState::Mini) {
-        if (color == Qt::darkGreen)
+        if (color == Qt::darkGreen) {
             _miniPage->showInfo(message);
-        else
+        }
+        else {
             _miniPage->showError(message);
+        }
     }
 }
 
@@ -340,6 +376,7 @@ MeasureThread *MainWindow::createThread() {
 
 void MainWindow::loadKeys() {
     ui->settings->loadKeys();
+    ui->powerSupply->loadKeys();
     ui->traces->loadKeys();
 
     // MainWindow geometry
@@ -474,7 +511,7 @@ void MainWindow::finishMiniGuiMeasurement() {
 
 void MainWindow::showResults() {
     ui->settings->enableExport();
-
+    ui->powerSupply->enableExport();
     ui->traces->setFrequencies(_results->frequencies_Hz());
     ui->traces->setPowers(_results->pin_dBm());
     ui->traces->enableExportAndPlot();
@@ -483,6 +520,7 @@ void MainWindow::showResults() {
 }
 void MainWindow::clearResults() {
     ui->settings->disableExport();
+    ui->powerSupply->disableExport();
     ui->traces->disableExportAndPlot();
     _miniPage->disableExport();
 

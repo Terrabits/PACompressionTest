@@ -21,8 +21,7 @@ class PowerSupply : public RsaToolbox::GenericInstrument
 public:
 
     PowerSupply(
-      RsaToolbox::ConnectionType type,
-      QString address,
+      QString resource,
       QString driverFilename
     );
 
@@ -34,10 +33,6 @@ public:
     void setup();
     double voltage_V();
     double current_A();
-
-
-    // errors
-    QStringList errors();
 
 };
 

@@ -42,8 +42,8 @@ GenericBus::GenericBus(ConnectionType connectionType,
 {
     _connectionType = connectionType;
     _address = address;
-    _timeout_ms = ((timeout_ms   > 0) ? timeout_ms   : 1000);
-    (bufferSize_B > 0) ? setBufferSize(bufferSize_B) : setBufferSize(500);
+    _timeout_ms = ((timeout_ms   > 0) ? timeout_ms   : 5000);
+    (bufferSize_B > 0) ? setBufferSize(bufferSize_B) : setBufferSize(5000);
 }
 
 bool GenericBus::isClosed() const {
@@ -80,8 +80,9 @@ uint GenericBus::timeout_ms() const {
 
 
 void GenericBus::setTimeout(uint time_ms) {
-    if (time_ms > 0)
+    if (time_ms > 0) {
         _timeout_ms = time_ms;
+    }
 }
 
 QString GenericBus::read() {

@@ -18,7 +18,7 @@ class TcpBus : public GenericBus {
 public:
     explicit TcpBus(QObject *parent = 0);
     TcpBus(ConnectionType type, QString address,
-           uint bufferSize_B = 500, uint timeout_ms = 1000,
+           uint bufferSize_B = 5000, uint timeout_ms = 5000,
            QObject *parent = 0);
     ~TcpBus();
 

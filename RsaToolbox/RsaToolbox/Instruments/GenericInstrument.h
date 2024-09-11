@@ -37,16 +37,16 @@ public:
     void resetBus(GenericBus* bus);
     void resetBus(ConnectionType type, QString address);
 
-    bool read(char *buffer, uint bufferSize_B, uint timeout_ms = 1000);
-    QString read(uint bufferSize_B = 500, uint timeout_ms = 1000);
+    bool read(char *buffer, uint bufferSize_B, uint timeout_ms = 5000);
+    QString read(uint bufferSize_B = 5000, uint timeout_ms = 5000);
     void write(QString scpiCommand);
-    QString query(QString scpiCommand, uint bufferSize_B = 500, uint timeout_ms = 1000);
+    QString query(QString scpiCommand, uint bufferSize_B = 5000, uint timeout_ms = 5000);
 
-    bool binaryRead(char *buffer, uint bufferSize_B, uint &bytesRead, uint timeout_ms = 1000);
-    QByteArray binaryRead(uint bufferSize_B = 500, uint timeout_ms = 1000);
+    bool binaryRead(char *buffer, uint bufferSize_B, uint &bytesRead, uint timeout_ms = 5000);
+    QByteArray binaryRead(uint bufferSize_B = 5000, uint timeout_ms = 5000);
     void binaryWrite(QByteArray scpiCommand);
     QByteArray binaryQuery(QByteArray scpiCommand,
-                           uint bufferSize_B = 500, uint timeout_ms = 1000);
+                           uint bufferSize_B = 5000, uint timeout_ms = 5000);
 
     void wait();
     bool pause();

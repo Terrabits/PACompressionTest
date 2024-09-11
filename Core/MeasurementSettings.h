@@ -60,6 +60,10 @@ public:
     SweepType sweepType() const;
     void setSweepType(SweepType type);
 
+    bool isPAEOn;
+    QString powerSupplyVisaResource;
+    QString powerSupplyDriverFilePath;
+
     bool isValid(RsaToolbox::Vna &vna) const;
     bool isValid(RsaToolbox::Vna &vna, QString &errorMessage) const;
 

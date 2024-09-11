@@ -49,7 +49,7 @@ signals:
     void closeClicked();
     void plotClicked();
 
-    void inputError(const QString &message);
+    void inputError(QString message);
     void tracesChanged();
 
 public slots:

@@ -42,11 +42,6 @@ void MeasureThread::setVna(Vna *vna) {
 }
 
 
-void MeasureThread::setPowerSupply(PowerSupply *powerSupply) {
-    _powerSupply = powerSupply;
-}
-
-
 void MeasureThread::setSettings(const MeasurementSettings &settings) {
     _settings = settings;
 }
@@ -136,6 +131,22 @@ void MeasureThread::restoreVna() {
     }
     _continuousChannels.clear();
     _vna->local();
+}
+
+
+void MeasureThread::connectPowerSupply() {
+  _powerSupply.reset();
+
+  // is power supply?
+  if (!_settings.isPAEOn) {
+    return;
+  }
+
+  // connect to power supply
+  _powerSupply.reset(new PowerSupply(
+    _settings.powerSupplyVisaResource,
+    _settings.powerSupplyDriverFilePath
+  ));
 }
 
 

@@ -25,6 +25,30 @@ FrequencySweep::~FrequencySweep()
 void FrequencySweep::run() {
     LOG(info) << "starting SafeFrequencySweep";
 
+    // connect to power supply?
+    // TODO: uncomment
+    // connectPowerSupply();
+    // if (_powerSupply && _powerSupply->idString().trimmed().isEmpty()) {
+    //   LOG(error) << "could not connect to power supply";
+    //   _results->clearAllData();
+    //   setError("*Could not connect to power supply");
+    //   restoreVna();
+    //   return;
+    // }
+
+    // power supply driver is valid?
+    // TODO: uncomment
+    // QString message;
+    // if (_powerSupply && !_powerSupply->driver.isValid(message)) {
+    //   LOG(error) << "power supply driver is invalid";
+    //   _results->clearAllData();
+    //   message = QString("*Power supply driver %1").arg(message);
+    //   setError(message);
+    //   restoreVna();
+    //   return;
+    // }
+
+    // initialize power supply?
     if (_powerSupply) {
         LOG(info) << "initializing power supply";
         preparePowerSupply();
@@ -88,7 +112,7 @@ void FrequencySweep::run() {
         return;
     }
 
-    LOG(info) << "performing first sweep";
+    LOG(info) << "performing first point of first sweep";
     uint iPower = 0;
     double power_dBm = pin_dBm[iPower];
     _results->pin_dBm() << power_dBm;
@@ -107,28 +131,45 @@ void FrequencySweep::run() {
     vnaChannel.setFrequencies(sweptFreq_Hz.mid(0, 1));
     NetworkData data = sweep.measure(outputPort, inputPort);
     if (data.empty()) {
-        LOG(error) << "first sweep failed";
-        emit finishedSweep();
+        LOG(error) << "first point of first sweep failed";
+        // emit finishedSweep();
         _results->clearAllData();
         setError("*Could not perform sweep.");
         restoreVna();
         return;
     }
+    LOG(info) << "querying a-wave data";
     QRowVector p;
     _vna->trace(a1Trace).y(p);
+
+    LOG(info) << "saving first point of first sweep";
     x = data.x();
     y = data.y();
     measuredPin_dBm << p[0];
-    current_A << _powerSupply->current_A();
-    voltage_V << _powerSupply->voltage_V();
+    if (_powerSupply) {
+      current_A << _powerSupply->current_A();
+      voltage_V << _powerSupply->voltage_V();
+    }
+    LOG(info) << "first point of first sweep complete";
 
     // measure remaining frequency points
     for (uint iFreq = 1; iFreq < freqPoints; iFreq++) {
+
+      // handle interrupt
+      if (isInterruptionRequested()) {
+          LOG(info) << "interrupt requested";
+          _results->clearAllData();
+          setError("*Measurement cancelled");
+          restoreVna();
+          return;
+      }
+
+      LOG(info) << "measuring next point of first sweep";
       vnaChannel.setFrequencies(sweptFreq_Hz.mid(iFreq, 1));
       data = sweep.measure(outputPort, inputPort);
       if (data.empty()) {
           LOG(error) << "first sweep failed";
-          emit finishedSweep();
+          // emit finishedSweep();
           _results->clearAllData();
           setError("*Could not perform sweep.");
           restoreVna();
@@ -138,8 +179,10 @@ void FrequencySweep::run() {
       x << data.x()[0];
       y.push_back(data.y()[0]);
       measuredPin_dBm << p[0];
-      current_A << _powerSupply->current_A();
-      voltage_V << _powerSupply->voltage_V();
+      if (_powerSupply) {
+        current_A << _powerSupply->current_A();
+        voltage_V << _powerSupply->voltage_V();
+      }
     }
 
     // first sweep complete
@@ -214,7 +257,7 @@ void FrequencySweep::run() {
         data = sweep.measure(outputPort, inputPort);
         if (data.empty()) {
             LOG(error) << "sweep failed";
-            emit finishedSweep();
+            // emit finishedSweep();
             _results->clearAllData();
             setError("*Could not perform sweep.");
             restoreVna();
@@ -224,17 +267,29 @@ void FrequencySweep::run() {
         x = data.x();
         y = data.y();
         measuredPin_dBm << p[0];
-        current_A << _powerSupply->current_A();
-        voltage_V << _powerSupply->voltage_V();
+        if (_powerSupply) {
+          current_A << _powerSupply->current_A();
+          voltage_V << _powerSupply->voltage_V();
+        }
 
 
         // measure remaining frequency points
         for (uint iFreq = 1; iFreq < freqPoints; iFreq++) {
+
+          // handle interrupt
+          if (isInterruptionRequested()) {
+              LOG(info) << "interrupt requested";
+              _results->clearAllData();
+              setError("*Measurement cancelled");
+              restoreVna();
+              return;
+          }
+
           vnaChannel.setFrequencies(sweptFreq_Hz.mid(iFreq, 1));
           data = sweep.measure(outputPort, inputPort);
           if (data.empty()) {
               LOG(error) << "first sweep failed";
-              emit finishedSweep();
+              // emit finishedSweep();
               _results->clearAllData();
               setError("*Could not perform sweep.");
               restoreVna();
@@ -244,8 +299,10 @@ void FrequencySweep::run() {
           x << data.x()[0];
           y.push_back(data.y()[0]);
           measuredPin_dBm << p[0];
-          current_A << _powerSupply->current_A();
-          voltage_V << _powerSupply->voltage_V();
+          if (_powerSupply) {
+            current_A << _powerSupply->current_A();
+            voltage_V << _powerSupply->voltage_V();
+          }
         }
 
         // sweep complete
@@ -299,8 +356,10 @@ void FrequencySweep::run() {
                     _results->maxGain_dB()[iFreq] = gain_dB;
                     _results->sParametersAtMaxGain()[iFreq] = sParam;
                     _results->powerOutAtMaxGain_dBm()[iFreq] = measuredPower_dBm + gain_dB;
-                    _results->currentAtMaxGain_A[iFreq] = current_A[iFreq];
-                    _results->voltageAtMaxGain_V[iFreq] = voltage_V[iFreq];
+                    if (_powerSupply) {
+                      _results->currentAtMaxGain_A[iFreq] = current_A[iFreq];
+                      _results->voltageAtMaxGain_V[iFreq] = voltage_V[iFreq];
+                    }
                     isCompression[iFreq] = false;
                 }
             }
@@ -320,8 +379,10 @@ void FrequencySweep::run() {
                     _results->gainAtCompression_dB()[iFreq] = compressedGain_dB;
                     _results->sParametersAtCompression()[iFreq] = linearInterpolateYMagPhase(previousMeasuredPower_dBm, previousSParam, measuredPower_dBm, sParam, pinCompression_dBm);
                     _results->powerOutAtCompression_dBm()[iFreq] = pinCompression_dBm + compressedGain_dB;
-                    _results->currentAtCompression_A[iFreq] = current_A[iFreq];
-                    _results->voltageAtCompression_V[iFreq] = voltage_V[iFreq];
+                    if (_powerSupply) {
+                      _results->currentAtCompression_A[iFreq] = current_A[iFreq];
+                      _results->voltageAtCompression_V[iFreq] = voltage_V[iFreq];
+                    }
                     isCompression[iFreq] = true;
                 }
                 else {

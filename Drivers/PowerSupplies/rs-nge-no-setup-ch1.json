@@ -1,7 +1,7 @@
 {
   "preset":     false,
   "setup scpi": [
-    "INST OUTP1"
+    "INST:SEL OUTP1"
   ],
   "query voltage scpi": "MEAS:VOLT?",
   "query current scpi": "MEAS:CURR?"

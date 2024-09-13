@@ -51,6 +51,8 @@ set(PROJECT_SOURCES
       CoreResources.qrc
       DragWidget.cpp
       DragWidget.h
+      Helpers.cpp
+      Helpers.h
       MeasurementData.cpp
       MeasurementData.h
       MeasurementSettings.cpp

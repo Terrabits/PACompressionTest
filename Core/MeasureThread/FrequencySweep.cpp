@@ -26,15 +26,14 @@ void FrequencySweep::run() {
     LOG(info) << "starting SafeFrequencySweep";
 
     // connect to power supply?
-    // TODO: uncomment
-    // connectPowerSupply();
-    // if (_powerSupply && _powerSupply->idString().trimmed().isEmpty()) {
-    //   LOG(error) << "could not connect to power supply";
-    //   _results->clearAllData();
-    //   setError("*Could not connect to power supply");
-    //   restoreVna();
-    //   return;
-    // }
+    connectPowerSupply();
+    if (_powerSupply && _powerSupply->idString().trimmed().isEmpty()) {
+      LOG(error) << "could not connect to power supply";
+      _results->clearAllData();
+      setError("*Could not connect to power supply");
+      restoreVna();
+      return;
+    }
 
     // power supply driver is valid?
     // TODO: uncomment

@@ -5,11 +5,8 @@
 #include "VisaBus.h"
 
 
-PowerSupply::PowerSupply(
-  QString resource,
-  QString driverFilename
-) :
-  driver(driverFilename)
+PowerSupply::PowerSupply(QString resource, QString driverFilename)
+  : driver(driverFilename)
 {
   resetBus(new RsaToolbox::VisaBus(resource));
 }

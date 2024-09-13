@@ -75,6 +75,11 @@ public:
     void setAdmittance(BalancedPort outputPort, BalancedPort inputPort);
     // void measure(ImpedanceTraceData &data);
 
+
+    // pae
+    void setPAEParameter(uint outputPort, uint inputPort);
+
+
     bool isTimeDomain();
     bool isNotTimeDomain();
     VnaTimeDomain &timeDomain();
@@ -134,7 +139,7 @@ private:
     QScopedPointer<VnaLimits> _limits;
     QScopedPointer<VnaMath> _math;
     QScopedPointer<VnaTimeDomain> _timeDomain;
-    
+
     bool isFullyInitialized() const;
 
     // Scpi

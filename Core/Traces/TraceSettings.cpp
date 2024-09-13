@@ -21,10 +21,12 @@ TraceSettings::TraceSettings() :
     generateNameFromSettings();
 }
 
+
 TraceSettings::~TraceSettings()
 {
 
 }
+
 
 bool TraceSettings::isValid() {
     return isValidName()
@@ -33,28 +35,36 @@ bool TraceSettings::isValid() {
             && isValidAtParameter();
 }
 
+
 // Name
 bool TraceSettings::isValidName() {
     this->name = name.trimmed();
     return !name.isEmpty() && name.contains(nameRegex);
 }
+
+
 void TraceSettings::generateNameFromSettings() {
     QString _name = "%1_at_%2";
     _name = _name.arg(yParameter);
     _name = _name.arg(atParameter);
 
+
+    // add at value?
     if (isAtValue()) {
+
         _name += "_";
+
         if (isAtFrequency()) {
             _name += formatValue(atValue, 3, Units::Hertz);
         }
-        else {
+        else if (isAtPin()) {
             _name += formatDouble(atValue, 3);
             _name += "_dBm";
         }
     }
 
-    // Clean up
+
+    // Clean up incompatible characters
     _name.replace(" ", "_");
     _name.replace("-", "neg");
     _name.replace(".", "_");
@@ -81,6 +91,27 @@ bool TraceSettings::isYPout() const {
     return yParameter.compare("Pout", Qt::CaseInsensitive) == 0;
 }
 
+
+bool TraceSettings::isYCurrent() const {
+  return yParameter.compare("Current", Qt::CaseInsensitive);
+}
+
+
+bool TraceSettings::isYVoltage() const {
+  return yParameter.compare("Voltage", Qt::CaseInsensitive);
+}
+
+
+bool TraceSettings::isYPowerAddedEfficiency() const {
+  return yParameter.compare("Power Added Efficiency", Qt::CaseInsensitive);
+}
+
+
+bool TraceSettings::isYDrainEfficiency() const {
+  return yParameter.compare("Drain Efficiency", Qt::CaseInsensitive);
+}
+
+
 bool TraceSettings::isYSParameter() const {
     return isYReflection() || isYInsertion();
 }
@@ -93,21 +124,60 @@ bool TraceSettings::isYInsertion() const {
 bool TraceSettings::isYPower() const {
     return isYPin() || isYPout();
 }
+
+
 bool TraceSettings::isYAmPm() const {
     return yParameter.compare("AMPM", Qt::CaseInsensitive) == 0;
 }
+
+
+bool TraceSettings::isYPaeRelated() const {
+
+    if (isYVoltage()) {
+        return true;
+    }
+
+
+    if (isYCurrent()) {
+        return true;
+    }
+
+
+    if (isYPowerAddedEfficiency()) {
+        return true;
+    }
+
+
+    if (isYDrainEfficiency()) {
+        return true;
+    }
+
+
+    // not pae related
+    return false;
+}
+
+
 bool TraceSettings::isValidYParameter() const {
     return possibleYParameters().contains(yParameter, Qt::CaseInsensitive);
 }
-QStringList TraceSettings::possibleYParameters() const {
+QStringList TraceSettings::possibleYParameters(bool isPae) const {
     QStringList list;
     list << "S11"
          << "S21"
          << "S12"
          << "S22"
-         << "Pin"
+         << "Pin" // TODO: valid?
          << "Pout"
          << "AMPM";
+
+    if (isPae) {
+      list << "Current"
+           << "Voltage"
+           << "Power Added Efficiency"
+           << "Drain Efficiency";
+    }
+
     return list;
 }
 
@@ -127,18 +197,60 @@ bool TraceSettings::isXPout() const {
 bool TraceSettings::isValidXParameter() const {
     return possibleXParameters().contains(xParameter, Qt::CaseInsensitive);
 }
+
+
 QStringList TraceSettings::possibleXParameters() const {
     QStringList list;
-    if (!isValidYParameter())
+
+
+    // y valid?
+    if (!isValidYParameter()) {
         return list;
-    if (!isYAmPm())
+    }
+
+
+    // y is s parameter?
+    if (isYSParameter()) {
+      list << "Frequency"
+           << "Pin"
+           << "Pout";
+      return list;
+    }
+
+
+    // y ampm?
+    if (isYAmPm()) {
+        list << "Pin"
+             << "Pout";
+        return list;
+    }
+
+
+    // y pout?
+    if (isYPout()) {
+        list << "Frequency"
+             << "Pin";
+        return list;
+    }
+
+
+    // y pin?
+    if (isYPin()) {
         list << "Frequency";
-    if (!isYPin()) {
-        list << "Pin";
+        return list;
     }
-    if (isYSParameter() || isYAmPm()) {
-        list << "Pout";
+
+
+    // voltage, current, pae, de?
+    if (isYPaeRelated()) {
+        list << "Frequency"
+             << "Pin"
+             << "Pout";
+        return list;
     }
+
+
+    // this should never happen...
     return list;
 }
 
@@ -158,102 +270,222 @@ bool TraceSettings::isAtMaximumGain() const {
 bool TraceSettings::isValidAtParameter() const {
     return possibleAtParameters().contains(atParameter, Qt::CaseInsensitive);
 }
+
+
 QStringList TraceSettings::possibleAtParameters() const {
     QStringList list;
-    if (!isValidYParameter() || !isValidXParameter())
+
+    // y, x valid?
+    if (!isValidYParameter() || !isValidXParameter()) {
         return list;
+    }
+
+
+    // y s parameter?
     if (isYSParameter()) {
-        if (isXPin()) {
-            // y: SParam
-            // x: Pin
-            list << "Frequency";
-        }
-        else if (isXPout()) {
-            // y: SParam
-            // x: Pout
-            list << "Frequency";
-        }
-        else {
+
+        if (isXFrequency()) {
             // y: SParam
             // x: Frequency
-            list << "Pin"
-//                 << "Pout"
-                 << "Compression"
-                 << "Maximum Gain";
+            list << "Compression"
+                 << "Maximum Gain"
+                 << "Pin";
+            return list;
         }
+
+
+        if (isXPower()) {
+            // y: SParam
+            // x: Pin, pout
+            list << "Frequency";
+            return list;
+        }
+
+
+        // this should never happen...
+        return list;
     }
-    else if (isYAmPm()) {
+
+
+    // y is ampm?
+    if (isYAmPm()) {
+
+        // x must be power
+        if (!isXPower()) {
+            return list;
+        }
+
+
         // y: AMPM
         // x: Pin, Pout
         list << "Frequency";
-    }
-    else {
-        // Y is power
-        if (isYPin()) {
-            // y: Pin
-            // x: Frequency (default)
-            list << "Compression"
-                 << "Maximum Gain";
-        }
-        else {
-            if (isXFrequency()) {
-                // y: Pout
-                // x: Frequency
-                 list << "Pin"
-                      << "Compression"
-                      << "Maximum Gain";
-            }
-            else {
-                // y: Pout
-                // x: Pin
-                list << "Frequency";
-            }
-        }
+        return list;
     }
 
+    // y is Pin?
+    if (isYPin()) {
+
+        // x must be frequency
+        if (!isXFrequency()) {
+            return list;
+        }
+
+
+        // y: Pin
+        // x: Frequency
+        list << "Compression"
+             << "Maximum Gain";
+        return list;
+    }
+
+
+    // y is Pout
+    if (isYPout()) {
+
+
+        if (isXFrequency()) {
+            // y: Pout
+            // x: Frequency
+             list << "Pin"
+                  << "Compression"
+                  << "Maximum Gain";
+            return list;
+        }
+
+
+        if (isXPin()) {
+            // y: Pout
+            // x: Pin
+            list << "Frequency";
+            return list;
+        }
+
+        // this should never happen...
+        return list;
+    }
+
+
+    // y is current, voltage, pae, de?
+    if (isYPaeRelated()) {
+
+        if (isXFrequency()) {
+            // y: pae-related
+            // x: frequency
+            list << "Compression"
+                 << "Maximum Gain"
+                 << "Pin";
+            return list;
+        }
+
+
+        if (isXPower()) {
+            // y: pae-related
+            // x: pin, pout
+            list << "Frequency";
+            return list;
+        }
+
+
+        // this should never happen...
+        return list;
+    }
+
+
+    // this should never happen...
     return list;
 }
 
+
 bool TraceSettings::isAtValue() const {
-    if (!isValidAtParameter())
+
+    if (!isValidAtParameter()) {
         return false;
-    if (isAtFrequency() || isAtPin())
+    }
+
+
+    if (isAtFrequency() || isAtPin()) {
         return true;
-    else
-        return false;
+    }
+
+    // default
+    return false;
 }
+
+
 bool TraceSettings::isValidAtValue() const {
-    if (!isValidYParameter()
-            || !isValidXParameter()
-            || !isValidAtParameter())
+
+    // valid y?
+    if (!isValidYParameter()) {
+          return false;
+    }
+
+
+    // valid x?
+    if (!isValidXParameter()) {
         return false;
+    }
 
-    if (isAtFrequency())
+
+    // valid at parameter?
+    if (!isValidAtParameter()) {
+        return false;
+    }
+
+
+    // validate frequency?
+    if (isAtFrequency()) {
         return atValue >= 0;
+    }
 
-    // Else
+
+    // power in dBm; assume valid
     return true;
 }
+
+
 void TraceSettings::roundAtValue(RsaToolbox::QRowVector values) {
+
+    // check bounds
+
+    // at value should be first value?
     if (atValue <= values.first()) {
         atValue = values.first();
         return;
     }
+
+
+    // at value should be last value?
     if (atValue >= values.last()) {
         atValue = values.last();
         return;
     }
 
-    int i = 0;
-    while (atValue > values[i] && i < values.size() - 1) {
-        i++;
+
+    // find index of value greater than at value
+    int highIndex;
+    for (highIndex = 0; highIndex < values.size(); highIndex++) {
+        if (atValue > values[highIndex]) {
+            break;
+        }
     }
 
-    if (abs(atValue - values[i]) < abs(atValue - values[i-1]))
-        atValue = values[i];
-    else
-        atValue = values[i-1];
+
+    // low index, value
+    const int    lowIndex  = highIndex - 1;
+    const double lowValue  = values[lowIndex];
+    const double lowDiff   = atValue - lowValue;
+
+
+    // high value
+    const double highValue = values[highIndex];
+    const double highDiff  = highValue - atValue;
+
+
+    // closest value
+    const int closestValueIndex = highDiff < lowDiff ? highIndex : lowIndex;
+    atValue = values[closestValueIndex];
 }
+
 
 bool operator==(const TraceSettings &trace1, const TraceSettings &trace2) {
     if (trace1.name != trace2.name)
@@ -270,6 +502,7 @@ bool operator==(const TraceSettings &trace1, const TraceSettings &trace2) {
     return true;
 }
 
+
 QDataStream &operator<<(QDataStream &stream, const TraceSettings &settings) {
     stream << settings.name;
     stream << settings.yParameter;
@@ -278,6 +511,8 @@ QDataStream &operator<<(QDataStream &stream, const TraceSettings &settings) {
     stream << settings.atValue;
     return stream;
 }
+
+
 QDataStream &operator>>(QDataStream &stream, TraceSettings &settings) {
     stream >> settings.name;
     stream >> settings.yParameter;
@@ -286,4 +521,3 @@ QDataStream &operator>>(QDataStream &stream, TraceSettings &settings) {
     stream >> settings.atValue;
     return stream;
 }
-

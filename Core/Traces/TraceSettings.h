@@ -21,7 +21,7 @@ public:
 
     bool isValid();
     QString name;
-    QString yParameter; // S11, S21, S12, S22, Pin, Pout, AMPM
+    QString yParameter; // S11, S21, S12, S22, Pin, Pout, AMPM, Current, Voltage, Power Added Efficiency, Drain Efficiency
     QString xParameter; // Frequency, Pin, Pout
     QString atParameter; // Frequency, Pin, Compression, Maximum Gain
     double atValue; // if atParameter != Compression or Maximum Gain
@@ -37,14 +37,19 @@ public:
     bool isYS12Trace() const;
     bool isYPin() const;
     bool isYPout() const;
+    bool isYCurrent() const;
+    bool isYVoltage() const;
+    bool isYPowerAddedEfficiency() const;
+    bool isYDrainEfficiency() const;
 
     bool isYSParameter() const;
     bool isYReflection() const;
     bool isYInsertion() const;
     bool isYPower() const;
     bool isYAmPm() const;
+    bool isYPaeRelated() const;
     bool isValidYParameter() const;
-    QStringList possibleYParameters() const;
+    QStringList possibleYParameters(bool isPae = true) const; // TODO
 
     // X Parameter
     bool isXFrequency() const;
@@ -66,6 +71,7 @@ public:
     bool isValidAtValue() const;
     void roundAtValue(RsaToolbox::QRowVector values);
 };
+
 
 bool operator==(const TraceSettings &trace1, const TraceSettings &trace2);
 QDataStream &operator<<(QDataStream &stream, const TraceSettings &settings);

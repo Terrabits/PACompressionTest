@@ -317,6 +317,39 @@ void VnaTrace::setAdmittance(BalancedPort outputPort, BalancedPort inputPort) {
     _vna->write(scpi);
 }
 
+
+void VnaTrace::setPAEParameter(uint outputPort, uint inputPort) {
+
+  // create port strings
+  QString outputPortString = QString("%1").arg(outputPort);
+  QString inputPortString  = QString("%1").arg(inputPort);
+
+
+  // add zeros to input port string?
+  const int outputDigits = outputPortString.size();
+  const int inputDigits  = inputPortString.size();
+  if (outputDigits > inputDigits) {
+      const int diff = outputDigits - inputDigits;
+      inputPortString = inputPortString + QString(diff, QChar('0'));
+  }
+
+
+  // add zeros to output port string?
+  if (inputDigits > outputDigits) {
+      const int diff = inputDigits - outputDigits;
+      outputPortString = outputPortString + QString(diff, QChar('0'));
+  }
+
+  // set pae parameter
+  QString scpi = ":CALC%1:PAR:MEAS \'%2\',\'PAE%3%4\'\n";
+  scpi = scpi.arg(channel());
+  scpi = scpi.arg(_name);
+  scpi = scpi.arg(outputPortString);
+  scpi = scpi.arg(inputPortString);
+  _vna->write(scpi);
+}
+
+
 TraceFormat VnaTrace::format() {
     select();
     QString scpi = ":CALC%1:FORM?\n";
@@ -443,44 +476,63 @@ void VnaTrace::toMemory(QString name) {
     scpi = scpi.arg(this->name());
     _vna->write(scpi);
 }
-void VnaTrace::write(QRowVector data) {
-    // FOR SOME REASON YOU JUST CANNOT
-    // WRITE FORMATTED (REAL) DATA TO
-    // A MEMORY TRACE.
-    // "FUNCTION NOT AVAILABLE"!
-    QString scpi = ":CALC%1:DATA FDAT,";
-    scpi = scpi.arg(channel());
 
+
+void VnaTrace::write(QRowVector data) {
+    // set binary data transfer
     _vna->settings().setRead64BitBinaryFormat();
     _vna->settings().setLittleEndian();
+
     select();
-    _vna->binaryWrite(scpi.toUtf8()
-                      + toBlockDataFormat(data) + "\n");
+
+    // write scpi, data
+    QString scpi = ":CALC%1:DATA FDAT,";
+    scpi = scpi.arg(channel());
+    _vna->binaryWrite(scpi.toUtf8() + toBlockDataFormat(data) + "\n");
     _vna->wait();
 }
+
+
 void VnaTrace::write(QRowVector frequencies_Hz, QRowVector data) {
+    select();
+
+    // set frequencies
     uint i = channel();
     _vna->channel(i).setFrequencies(frequencies_Hz);
+
+    // write data
     write(data);
 }
 void VnaTrace::write(ComplexRowVector data) {
-    QString scpi = ":CALC%1:DATA SDAT, ";
-    scpi = scpi.arg(channel());
-
-    if (_vna->properties().isZvaFamily())
+    if (_vna->properties().isZvaFamily()) {
         _vna->settings().displayOn();
-    select();
+    }
+
+    // set binary data transfer
     _vna->settings().setRead64BitBinaryFormat();
     _vna->settings().setLittleEndian();
-    _vna->binaryWrite(scpi.toUtf8()
-                      + toBlockDataFormat(data) + "\n");
+
+    select();
+
+    // write scpi, data
+    QString scpi = ":CALC%1:DATA SDAT,";
+    scpi = scpi.arg(channel());
+    _vna->binaryWrite(scpi.toUtf8() + toBlockDataFormat(data) + "\n");
     _vna->wait();
 }
+
+
 void VnaTrace::write(QRowVector frequencies_Hz, ComplexRowVector data) {
+    select();
+
+    // set frequencies
     uint i = channel();
     _vna->channel(i).setFrequencies(frequencies_Hz);
+
+    // write data
     write(data);
 }
+
 
 // Marker
 bool VnaTrace::isMarker(uint index) {

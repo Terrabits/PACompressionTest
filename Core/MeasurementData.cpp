@@ -197,8 +197,9 @@ bool MeasurementData::amPmVsPin(double frequency_Hz, QRowVector &pin_dBm, QRowVe
     amPm_deg.clear();
 
     ComplexRowVector s21;
-    if (!sParameterVsPin(frequency_Hz, 2, 1, pin_dBm, s21))
+    if (!sParameterVsPin(frequency_Hz, 2, 1, pin_dBm, s21)) {
         return false;
+    }
 
     amPm_deg = angle_deg(s21);
     amPm_deg = unwrap(amPm_deg, 360.0);

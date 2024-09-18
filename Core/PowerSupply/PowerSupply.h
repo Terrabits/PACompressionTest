@@ -29,6 +29,10 @@ public:
     PowerSupplyDriver driver;
 
 
+    // mock edit
+    QString idString();
+
+
     // functionality
     void setup();
     double voltage_V();

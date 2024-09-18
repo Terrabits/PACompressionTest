@@ -467,6 +467,7 @@ bool MeasurementData::exportToZip(QString filename) {
     QString touchstoneFolder = "Touchstone Files";
     QString compressionCsvFile = "Compression.csv";
     QString dataCsvFile = "Data.csv";
+    QString powerSupplyFile = "PowerSupply.csv";
     QFileInfo fileInfo(filename);
     QDir dir(fileInfo.absolutePath());
 
@@ -485,6 +486,12 @@ bool MeasurementData::exportToZip(QString filename) {
     if (!exportDataCsv(dataCsvFile)) {
         dir.removeRecursively();
         return false;
+    }
+
+    powerSupplyFile = dir.filePath(powerSupplyFile);
+    if (!exportPowerSupply(powerSupplyFile)) {
+      dir.removeRecursively();
+      return false;
     }
 
     if (!dir.mkdir(touchstoneFolder)) {
@@ -642,6 +649,53 @@ bool MeasurementData::exportTouchstone(QString path) {
     }
     return true;
 }
+
+
+bool MeasurementData::exportPowerSupply(QString path) {
+  const int FIELD_WIDTH = 26;
+
+  if (!path.endsWith(".csv", Qt::CaseInsensitive)) {
+      path += ".csv";
+  }
+
+  QFile file(path);
+  if (!file.open(QFile::WriteOnly)) {
+      return false;
+  }
+
+  QTextStream s(&file);
+  s << _header;
+
+  s.setFieldAlignment(QTextStream::AlignLeft);
+  s.setFieldWidth(FIELD_WIDTH);
+
+
+  // header
+  s << "! pin_dBm,";
+  s << "freq_Hz,";
+  s << "voltage_V";
+  s.setFieldWidth(0);
+  s << "current_A";
+  s << "\n";
+
+
+  // TODO: handle safe sweep mode?
+  for (int iPower = 0; iPower < _pin_dBm.size(); iPower++) {
+    for (int iFreq = 0; iFreq < _frequencies_Hz.size(); iFreq++) {
+      s.setFieldWidth(FIELD_WIDTH);
+      s << toScientificNotationWithComma(_pin_dBm[iPower]);
+      s << toScientificNotationWithComma(_frequencies_Hz[iFreq]);
+      s << toScientificNotationWithComma(voltage_V[iPower][iFreq]);
+      s.setFieldWidth(0);
+      s << toScientificNotation(current_A[iPower][iFreq]);
+      if (iPower != _pin_dBm.size() || iFreq != _frequencies_Hz.size()) {
+        s << "\n";
+      }
+    }
+  }
+  return true;
+}
+
 
 QString MeasurementData::toScientificNotation(const double value) {
     QString result;

@@ -125,6 +125,7 @@ private:
     bool exportCompressionCsv(QString path);
     bool exportDataCsv(QString path);
     bool exportTouchstone(QString path);
+    bool exportPowerSupply(QString path);
 
     QString toScientificNotation(const double value);
     QString toScientificNotationWithComma(const double value);

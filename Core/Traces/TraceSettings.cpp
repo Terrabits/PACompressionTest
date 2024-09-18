@@ -93,22 +93,22 @@ bool TraceSettings::isYPout() const {
 
 
 bool TraceSettings::isYCurrent() const {
-  return yParameter.compare("Current", Qt::CaseInsensitive);
+  return yParameter.compare("Current", Qt::CaseInsensitive) == 0;
 }
 
 
 bool TraceSettings::isYVoltage() const {
-  return yParameter.compare("Voltage", Qt::CaseInsensitive);
+  return yParameter.compare("Voltage", Qt::CaseInsensitive) == 0;
 }
 
 
 bool TraceSettings::isYPowerAddedEfficiency() const {
-  return yParameter.compare("Power Added Efficiency", Qt::CaseInsensitive);
+  return yParameter.compare("Power Added Efficiency", Qt::CaseInsensitive) == 0;
 }
 
 
 bool TraceSettings::isYDrainEfficiency() const {
-  return yParameter.compare("Drain Efficiency", Qt::CaseInsensitive);
+  return yParameter.compare("Drain Efficiency", Qt::CaseInsensitive) == 0;
 }
 
 

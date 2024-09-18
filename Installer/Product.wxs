@@ -5,7 +5,7 @@
     Id="*"
     Language="1033"
     Name="R&amp;S PA Compression Test"
-    Version="2.3.0"
+    Version="2.99.0"
     Manufacturer="Rohde &amp; Schwarz"
     UpgradeCode="699b0972-99de-4286-9686-b8cea86158b9"
   >
@@ -55,6 +55,8 @@
       <ComponentRef Id="RsVisa64"        />
       <ComponentRef Id="Executable"      />
       <ComponentRef Id="SettingsFolder"  />
+      <ComponentRef Id="NgeDriver"       />
+      <ComponentRef Id="NguDriver"       />
       <ComponentRef Id="ZnbShortcut"     />
       <ComponentRef Id="ZvaShortcut"     />
       <ComponentRef Id="StartShortcuts"  />
@@ -84,6 +86,9 @@
           <Directory Id="CompanyDataFolder" Name="Rohde-Schwarz">
             <Directory Id="MyAppDataFolder" Name="PA Compression Test">
               <Directory Id="Settings" Name="Settings"/>
+              <Directory Id="Drivers"  Name="Drivers">
+                <Directory Id="PowerSupplies" Name="PowerSupplies" />
+              </Directory>
             </Directory>
           </Directory>
         </Directory>
@@ -156,9 +161,15 @@
       </RegistryKey>
       <CreateFolder Directory="Settings"/>
       <RemoveFile Id="RemoveSettings" Directory="Settings" Name="*.*" On="uninstall"/>
-      <RemoveFile Id="RemoveLogs" Name="*.*" On="uninstall"/>
       <RemoveFolder Id="RemoveSettingsFolder" Directory="Settings" On="uninstall"/>
-      <RemoveFolder Id="RemoveMyAppDataFolder" On="uninstall"/>
+      <!-- <RemoveFile Id="RemoveLogs" Name="*.*" On="uninstall"/> -->
+      <!-- <RemoveFolder Id="RemoveMyAppDataFolder" On="uninstall"/> -->
+    </Component>
+    <Component Id="NgeDriver" Guid="*" Directory="PowerSupplies">
+      <File Name="rs-nge-no-setup-ch1.json" Source="Drivers\PowerSupplies\rs-nge-no-setup-ch1.json" KeyPath="yes" />
+    </Component>
+    <Component Id="NguDriver" Guid="*" Directory="PowerSupplies">
+      <File Name="rs-ngu-no-setup-ch1.json" Source="Drivers\PowerSupplies\rs-ngu-no-setup-ch1.json" KeyPath="yes" />
     </Component>
     <!-- External Tools -->
     <Component Id="ZnbShortcut" Guid="*" Directory="ZnbExternalTools" Win64="yes">

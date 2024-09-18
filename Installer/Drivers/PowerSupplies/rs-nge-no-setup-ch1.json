@@ -1,0 +1,8 @@
+{
+  "preset":     false,
+  "setup scpi": [
+    "INST:SEL OUTP1"
+  ],
+  "query voltage scpi": "MEAS:VOLT?",
+  "query current scpi": "MEAS:CURR?"
+}

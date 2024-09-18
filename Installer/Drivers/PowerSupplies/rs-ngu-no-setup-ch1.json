@@ -1,0 +1,6 @@
+{
+  "preset":     false,
+  "setup scpi": [],
+  "query voltage scpi": "MEAS:VOLT? (@1)",
+  "query current scpi": "MEAS:CURR? (@1)"
+}

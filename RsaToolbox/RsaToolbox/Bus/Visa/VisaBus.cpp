@@ -38,7 +38,9 @@ VisaBus::VisaBus(QObject *parent)
 VisaBus::VisaBus(QString resource,
                  uint bufferSize_B, uint timeout_ms,
                  QObject *parent)
-    : GenericBus(parent)
+    : GenericBus(ConnectionType::VisaTcpConnection, resource,
+                 bufferSize_B, timeout_ms,
+                 parent)
 {
     setDisconnected();
 
